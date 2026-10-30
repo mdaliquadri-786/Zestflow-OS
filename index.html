@@ -2,12 +2,12 @@
   <html lang="en">
   <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-GofP8IXCRskjww6C/nBssZKCm8Te2hwaytzVOUpG2C8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Yx+fn7qVaBPNzBhfi2/0k+c4OLJdQEMl6GroRPBmYHI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -80,8 +80,19 @@
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:var(--line-3);border-radius:999px;border:2px solid transparent;background-clip:padding-box;transition:background .2s ease}
   ::-webkit-scrollbar-thumb:hover{background:var(--muted);border:2px solid transparent;background-clip:padding-box}
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    box-sizing: border-box;
+  }
   body{
     margin:0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
     background:var(--bg);
     color:var(--text);
     font:14px/1.55 var(--ui);
@@ -89,7 +100,9 @@
     -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
     font-feature-settings:"cv02","cv03","cv04","cv11";
-    overflow-x:hidden;
+    overflow-x:hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
   }
   h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.015em}
   button,input,select,textarea{font:inherit;color:inherit}
@@ -650,36 +663,97 @@
   .ph{color:#b0b5c0;font-weight:500}
   #printRoot{display:none}
 
-  /* Mobile Bottom Navigation */
-  .mob-nav{
-    display:none;
-    position:fixed;
-    bottom:0;
-    inset-inline:0;
-    z-index:40;
-    background:rgba(15,17,22,.95);
-    backdrop-filter:blur(12px);
-    border-top:1px solid var(--line-2);
-    padding:6px 8px;
-    grid-template-columns:repeat(5,1fr);
-    gap:4px;
+  /* Mobile Bottom Navigation - Universal Touch Architecture */
+  .mob-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.06);
+    padding: 6px 8px calc(8px + env(safe-area-inset-bottom, 12px)) 8px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
   }
-  .mob-nav button{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-    padding:6px 2px;
-    border:0;
-    border-radius:8px;
-    background:transparent;
-    color:var(--muted);
-    font-size:12px;
-    font-weight:500;
-    cursor:pointer;
+  html[data-theme="dark"] .mob-nav {
+    background: rgba(13, 17, 26, 0.94);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
   }
-  .mob-nav button[aria-current="page"]{color:var(--gold);background:var(--surface-2)}
+  .mob-nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 2px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html[data-theme="dark"] .mob-nav button {
+    color: #94a3b8;
+  }
+  .mob-nav button svg.i {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    transition: transform 0.18s ease;
+  }
+  .mob-nav button:active {
+    transform: scale(0.92);
+  }
+  body.layout-invowise .mob-nav button[aria-current="page"] {
+    color: #ff5733 !important;
+    background: rgba(255, 87, 51, 0.08) !important;
+    font-weight: 700;
+  }
+  html[data-theme="dark"] body.layout-invowise .mob-nav button[aria-current="page"] {
+    color: #ff7a5c !important;
+    background: rgba(255, 87, 51, 0.16) !important;
+  }
+  body.layout-cashfund .mob-nav button[aria-current="page"] {
+    color: #0284c7 !important;
+    background: rgba(2, 132, 199, 0.08) !important;
+    font-weight: 700;
+  }
+  html[data-theme="dark"] body.layout-cashfund .mob-nav button[aria-current="page"] {
+    color: #38bdf8 !important;
+    background: rgba(2, 132, 199, 0.16) !important;
+  }
+  .mob-nav button#mnav-new {
+    background: #ff5733;
+    color: #ffffff !important;
+    border-radius: 99px;
+    padding: 6px 4px;
+    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.35);
+    margin: 0 4px;
+    font-weight: 700;
+  }
+  body.layout-cashfund .mob-nav button#mnav-new {
+    background: #0284c7;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  }
+  .mob-nav button#mnav-new svg.i {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
+  }
 
   /* Dialogs & Toasts with Smooth Spring Animations */
   dialog{background:var(--surface);color:var(--text);border:1px solid var(--line-2);border-radius:14px;padding:0;max-width:calc(100vw - 32px);box-shadow:0 30px 80px rgba(0,0,0,.65);z-index:100000002}
@@ -715,15 +789,50 @@
   @media (max-width:900px){
     .shell{grid-template-columns:minmax(0,1fr)}
     .sidebar{display:none}
-    .mob-nav{display:grid}
+    .mob-nav{display:grid !important}
     .bento-kpis{grid-template-columns:1fr 1fr}
-    .wrap{padding:22px 16px 96px}
-    #toasts{bottom:76px;inset-inline-end:16px}
-    .mobile-preview-fab{display:inline-flex!important;position:fixed!important;bottom:84px!important;inset-inline-end:20px!important;z-index:9999!important;box-shadow:0 8px 24px rgba(0,0,0,0.45)!important;border-radius:99px!important;padding:10px 18px!important;font-weight:700!important}
+    .wrap{padding:16px 14px calc(108px + env(safe-area-inset-bottom, 16px)) !important}
+    body.layout-invowise .shell,
+    body.layout-cashfund .shell,
+    .shell,
+    #app,
+    .cashfund-main-canvas {
+      padding-bottom: calc(108px + env(safe-area-inset-bottom, 16px)) !important;
+      box-sizing: border-box !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+    }
+    #toasts{
+      top: calc(14px + env(safe-area-inset-top, 0px)) !important;
+      bottom: auto !important;
+      right: 14px !important;
+      left: 14px !important;
+      width: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      z-index: 100000010 !important;
+    }
+    .mobile-preview-fab{display:inline-flex!important;position:fixed!important;bottom:calc(76px + env(safe-area-inset-bottom, 12px))!important;inset-inline-end:16px!important;z-index:9999!important;box-shadow:0 8px 24px rgba(0,0,0,0.45)!important;border-radius:99px!important;padding:10px 18px!important;font-weight:700!important}
+    #appleCursorDot,
+    #appleCursorRing {
+      display: none !important;
+    }
+    * {
+      cursor: auto !important;
+    }
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+    dialog {
+      max-width: calc(100vw - 20px) !important;
+      width: calc(100vw - 20px) !important;
+      max-height: calc(100dvh - 36px) !important;
+    }
   }
   @media (max-width:600px){
-    .bento-kpis{grid-template-columns:1fr}
-    .g2,.g3{grid-template-columns:1fr}
+    .bento-kpis{grid-template-columns:1fr !important}
+    .g2,.g3{grid-template-columns:1fr !important}
     .inv-row{
       grid-template-columns:1fr auto;
       grid-template-areas:"no st" "cl am" "dt dt";
@@ -1414,9 +1523,11 @@
     color: #f8fafc !important;
   }
 
-  body.layout-invowise .sidebar,
-  body.layout-invowise .mob-nav {
+  body.layout-invowise .sidebar {
     display: none !important;
+  }
+  body.layout-invowise .mob-nav {
+    display: none;
   }
 
   body.layout-invowise .shell {
@@ -1469,6 +1580,102 @@
     width: 100%;
     box-sizing: border-box;
     gap: 16px;
+  }
+
+  @media (min-width: 901px) {
+    .invo-top-row {
+      display: contents !important;
+    }
+    .invo-brand {
+      order: 1 !important;
+      margin-right: 20px !important;
+    }
+    .invo-pill-menu {
+      order: 2 !important;
+      margin-right: auto !important;
+    }
+    .invo-top-right {
+      order: 3 !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .invo-top-nav {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      width: 100% !important;
+      padding: 8px 0 16px 0 !important;
+      background: transparent !important;
+    }
+    .invo-top-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      gap: 8px !important;
+    }
+    .invo-brand {
+      order: unset !important;
+      margin-right: 0 !important;
+      flex-shrink: 0 !important;
+    }
+    .invo-brand-name {
+      font-size: 18px !important;
+    }
+    .invo-top-right {
+      order: unset !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      flex-shrink: 0 !important;
+    }
+    .invo-search-wrap {
+      width: clamp(100px, 26vw, 140px) !important;
+      padding: 6px 10px !important;
+      height: 34px !important;
+      border-radius: 99px !important;
+    }
+    .invo-search-wrap input {
+      font-size: 13px !important;
+    }
+    .invo-search-wrap kbd {
+      display: none !important;
+    }
+    .invo-icon-btn {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 14px !important;
+    }
+    .invo-user-avatar {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 12px !important;
+    }
+    .invo-pill-menu {
+      order: unset !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      -webkit-overflow-scrolling: touch !important;
+      scrollbar-width: none !important;
+      padding: 2px 2px 6px 2px !important;
+    }
+    .invo-pill-menu::-webkit-scrollbar {
+      display: none !important;
+    }
+    .invo-pill {
+      padding: 6px 14px !important;
+      font-size: 13px !important;
+      height: 34px !important;
+      border-radius: 99px !important;
+      flex-shrink: 0 !important;
+    }
   }
 
   .invo-top-left {
@@ -1930,11 +2137,16 @@
     .invo-col-1 { grid-column: span 2; }
   }
   @media (max-width: 768px) {
-    .invo-bento-grid { grid-template-columns: 1fr; }
-    .invo-col-1 { grid-column: span 1; }
-    .invo-top-nav { border-radius: 20px; flex-direction: column; gap: 14px; }
-    .invo-pill-menu { flex-wrap: wrap; justify-content: center; }
-    body.layout-invowise .shell { padding: 14px !important; }
+    .invo-bento-grid { grid-template-columns: 1fr !important; }
+    .invo-col-1 { grid-column: span 1 !important; }
+    body.layout-invowise .shell { padding: 12px 14px calc(108px + env(safe-area-inset-bottom, 16px)) 14px !important; }
+    .invo-hero-row { flex-direction: column !important; align-items: stretch !important; gap: 14px !important; }
+    .invo-greeting { font-size: 22px !important; }
+    .invo-hero-metrics { display: grid !important; grid-template-columns: 1fr !important; gap: 10px !important; width: 100% !important; }
+    .invo-metric-card { width: 100% !important; padding: 12px 16px !important; }
+    .invo-toolbar-row { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+    .invo-table-header { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+    .invo-table-filters { width: 100% !important; justify-content: flex-start !important; overflow-x: auto !important; flex-wrap: nowrap !important; padding-bottom: 4px !important; }
   }
 
   /* Card Styling */
@@ -3322,7 +3534,7 @@
     width: 100%;
   }
   @media (max-width: 768px) {
-    .cashfund-main-canvas { padding: 18px 14px 40px; }
+    .cashfund-main-canvas { padding: 14px 14px calc(108px + env(safe-area-inset-bottom, 16px)) 14px !important; }
   }
 
   /* Top 3 KPI Cards Row */
@@ -6533,38 +6745,38 @@
     const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
     const curPage = ui.currentPage;
     return '<header class="invo-top-nav">' +
-      '<div class="invo-top-left">' +
+      '<div class="invo-top-row">' +
         '<div class="invo-brand" data-act="nav" data-page="dashboard" title="ZestFlow OS">' +
           '<svg class="invo-brand-asterisk" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff5733" stroke-width="2.8" stroke-linecap="round" style="flex-shrink:0"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg>' +
           '<span class="invo-brand-name">ZestFlow</span>' +
         '</div>' +
-        '<nav class="invo-pill-menu">' +
-          '<button type="button" class="invo-pill ' + (curPage==='dashboard'?'active':'') + '" data-act="nav" data-page="dashboard">Overview</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='payment'?'active':'') + '" data-act="nav" data-page="payment">Payment</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='invoices'?'active':'') + '" data-act="nav" data-page="invoices">Invoice</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='clients'?'active':'') + '" data-act="nav" data-page="clients">Clients</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='settings'?'active':'') + '" data-act="nav" data-page="settings">Report</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='email'?'active':'') + '" data-act="nav" data-page="email">Email</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">Instructions</button>' +
-          '<button type="button" class="invo-pill ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">About Us</button>' +
-        '</nav>' +
-      '</div>' +
-      '<div class="invo-top-right">' +
-        '<div class="invo-search-wrap">' +
-          '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
-          '<input type="text" id="qInvo" placeholder="Search" value="' + esc(ui.q||'') + '" data-act="search-cash">' +
-          '<kbd>⌘ F</kbd>' +
+        '<div class="invo-top-right">' +
+          '<div class="invo-search-wrap">' +
+            '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
+            '<input type="text" id="qInvo" placeholder="Search" value="' + esc(ui.q||'') + '" data-act="search-cash">' +
+            '<kbd>⌘ F</kbd>' +
+          '</div>' +
+          '<button type="button" class="invo-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)">⌨️</button>' +
+          '<button type="button" class="invo-icon-btn" data-act="reopen-onboarding" title="Setup &amp; Architecture Selection">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
+          '</button>' +
+          '<button type="button" class="invo-icon-btn has-dot" data-act="nav" data-page="email" title="Reminders &amp; Email">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' +
+            '<span class="notif-dot"></span>' +
+          '</button>' +
+          '<div class="invo-user-avatar" data-act="nav" data-page="settings" title="Account Settings: ' + esc(biz) + '">' + esc(userInit) + '</div>' +
         '</div>' +
-        '<button type="button" class="invo-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)">⌨️</button>' +
-        '<button type="button" class="invo-icon-btn" data-act="reopen-onboarding" title="Setup &amp; Architecture Selection">' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
-        '</button>' +
-        '<button type="button" class="invo-icon-btn has-dot" data-act="nav" data-page="email" title="Reminders &amp; Email">' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' +
-          '<span class="notif-dot"></span>' +
-        '</button>' +
-        '<div class="invo-user-avatar" data-act="nav" data-page="settings" title="Account Settings: ' + esc(biz) + '">' + esc(userInit) + '</div>' +
       '</div>' +
+      '<nav class="invo-pill-menu">' +
+        '<button type="button" class="invo-pill ' + (curPage==='dashboard'?'active':'') + '" data-act="nav" data-page="dashboard">Overview</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='payment'?'active':'') + '" data-act="nav" data-page="payment">Payment</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='invoices'?'active':'') + '" data-act="nav" data-page="invoices">Invoice</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='clients'?'active':'') + '" data-act="nav" data-page="clients">Clients</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='settings'?'active':'') + '" data-act="nav" data-page="settings">Report</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='email'?'active':'') + '" data-act="nav" data-page="email">Email</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">Instructions</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">About Us</button>' +
+      '</nav>' +
     '</header>';
   }
 
@@ -9524,6 +9736,7 @@
 
   (function initAppleCursor(){
     if (typeof document === 'undefined') return;
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     const dot = document.getElementById('appleCursorDot');
     const ring = document.getElementById('appleCursorRing');
     if (!dot || !ring) return;
