@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gEqomhqKRRG9t0ZtJdcmAkEVsCRtrAkL7CUGrywWTq0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TMgR2bYNNnLk6SnH+5Wek7lP8nFTykxvqhDtArepd0E='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -3995,6 +3995,20 @@
   function persistSoon(){clearTimeout(saveTimer);saveTimer=setTimeout(persist,250)}
   function showBanner(){
     const parts=[];
+    const guideDismissed = typeof localStorage !== 'undefined' ? localStorage.getItem('zf_guide_dismissed') : null;
+    const authUser = typeof localStorage !== 'undefined' ? localStorage.getItem('zf_auth_user') : null;
+    if(authUser && !guideDismissed){
+      parts.push('<div class="banner" style="background:linear-gradient(90deg,rgba(2,132,199,0.18),rgba(245,158,11,0.15));border:1px solid rgba(2,132,199,0.35);color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 18px;border-radius:12px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.15);flex-wrap:wrap">' +
+        '<div style="display:flex;align-items:center;gap:10px;font-size:12.5px">' +
+          '<span style="font-size:18px">📘</span>' +
+          '<span><strong>New to ZestFlow OS or invoicing software?</strong> Read our non-technical visual guide for effortless &amp; productive usage.</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          '<button type="button" class="btn sm primary" data-act="nav" data-page="instructions" style="background:#0284c7;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:11.5px;padding:6px 14px;cursor:pointer">Read Instructions →</button>' +
+          '<button type="button" class="btn sm ghost" data-act="dismiss-guide-banner" style="padding:5px 8px;border-radius:8px;font-size:13px;cursor:pointer" title="Dismiss notification">✕</button>' +
+        '</div>' +
+      '</div>');
+    }
     if(!storageOK){
       parts.push('<div class="banner">Saving is off in this browser mode, so your invoices will be lost when you close this tab. Use Settings → Export backup often.</div>');
     }
@@ -5331,6 +5345,14 @@
       app.innerHTML=settingsHTML();
       fillSig();
       document.title='Settings · ZestFlow';
+    }else if(ui.currentPage==='instructions'){
+      ed=null;
+      app.innerHTML=instructionsPageHTML();
+      document.title='User Guide & Instructions · ZestFlow OS';
+    }else if(ui.currentPage==='about'){
+      ed=null;
+      app.innerHTML=aboutPageHTML();
+      document.title='About Us & Developer · ZestFlow OS';
     }else{
       ed=null;
       ui.currentPage='dashboard';
@@ -5572,6 +5594,18 @@
       '<button type="button" class="cash-nav-item" data-act="reopen-onboarding">' +
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
         '<span>Setup &amp; Layout</span>' +
+      '</button>' +
+    '</div>' +
+
+    '<div class="cash-nav-sec">' +
+      '<div class="cash-nav-title">GUIDE &amp; ABOUT</div>' +
+      '<button type="button" class="cash-nav-item ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' +
+        '<span>Instructions</span>' +
+      '</button>' +
+      '<button type="button" class="cash-nav-item ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+        '<span>About Us</span>' +
       '</button>' +
     '</div>' +
 
@@ -5989,6 +6023,8 @@
           '<button type="button" class="invo-pill ' + (curPage==='clients'?'active':'') + '" data-act="nav" data-page="clients">Clients</button>' +
           '<button type="button" class="invo-pill ' + (curPage==='settings'?'active':'') + '" data-act="nav" data-page="settings">Report</button>' +
           '<button type="button" class="invo-pill ' + (curPage==='email'?'active':'') + '" data-act="nav" data-page="email">Email</button>' +
+          '<button type="button" class="invo-pill ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">Instructions</button>' +
+          '<button type="button" class="invo-pill ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">About Us</button>' +
         '</nav>' +
       '</div>' +
       '<div class="invo-top-right">' +
@@ -7126,6 +7162,279 @@
 
   /* ---------- PAGE 5: SETTINGS ---------- */
   function sv(path){return esc(getPath(S.settings,path))}
+  function instructionsPageHTML(){
+    return `<div class="instructions-page" style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+      <div class="page-h">
+        <div class="page-h-title">
+          <h1 style="display:flex;align-items:center;gap:10px"><span>📘</span> ZestFlow OS — User Guide &amp; Master Operating Manual</h1>
+          <p>Everything you need to know to create invoices, reconcile cashflow, track clients, and receive payments easily — zero technical skills required!</p>
+        </div>
+        <div class="page-h-acts">
+          <button type="button" class="btn" data-act="nav" data-page="about">About Us &amp; Developer →</button>
+          <button type="button" class="btn primary" data-act="nav-new"><span>+ Create Invoice</span></button>
+        </div>
+      </div>
+
+      <!-- Quick Start in 3 Easy Steps -->
+      <section class="card" style="background:linear-gradient(135deg,rgba(2,132,199,0.06),rgba(245,158,11,0.04));border-color:rgba(2,132,199,0.2)">
+        <h2 style="display:flex;align-items:center;gap:8px;font-size:17px;color:var(--text);margin-top:0">
+          <span>⚡</span> Quick Start: How to Create Your First Client Invoice in 60 Seconds
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:14px">
+          <div style="background:var(--surface-2);padding:18px;border-radius:12px;border:1px solid var(--line-2)">
+            <div style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#0284c7;color:#fff;font-weight:800;font-size:13px;margin-bottom:10px">1</div>
+            <strong style="display:block;font-size:14px;color:var(--text);margin-bottom:4px">Click "+ Create Invoice"</strong>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">Click the orange or blue "+ Create Invoice" button from anywhere in the app to open the live split-screen Invoice Editor.</p>
+          </div>
+          <div style="background:var(--surface-2);padding:18px;border-radius:12px;border:1px solid var(--line-2)">
+            <div style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#0284c7;color:#fff;font-weight:800;font-size:13px;margin-bottom:10px">2</div>
+            <strong style="display:block;font-size:14px;color:var(--text);margin-bottom:4px">Fill Client &amp; Line Items</strong>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">Type your client's name, email, item descriptions, quantities, and rates. The live A4 paper preview on the right updates instantly in real time!</p>
+          </div>
+          <div style="background:var(--surface-2);padding:18px;border-radius:12px;border:1px solid var(--line-2)">
+            <div style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#0284c7;color:#fff;font-weight:800;font-size:13px;margin-bottom:10px">3</div>
+            <strong style="display:block;font-size:14px;color:var(--text);margin-bottom:4px">Print, Share or WhatsApp</strong>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">Click <strong>Print / Save PDF</strong> to generate an official print-perfect A4 invoice, or tap <strong>💬 WhatsApp</strong> to deliver an instant payment link directly to your client's phone.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detailed Breakdown of Every Page & Tab -->
+      <section class="card">
+        <h2 style="font-size:17px;color:var(--text);margin-top:0;border-bottom:1px solid var(--line);padding-bottom:12px">
+          🧭 Complete Tour: What Every Page &amp; Tab Contains
+        </h2>
+        <div style="display:flex;flex-direction:column;gap:18px;margin-top:16px">
+          <div style="border-left:4px solid #f59e0b;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>📊</span> 1. Dashboard / Overview
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              Your financial headquarters. Shows live Bento KPI cards (Paid, Due, and Overdue Invoices), real month-over-month revenue growth, currency selectors (USD, INR, EUR, GBP, AED, SAR, etc.), the interactive Invoices table with 1-click status cycling, receivables ageing breakdown (Current, 1-30d, 31-60d, 61-90+ days), and quick reminder dispatchers.
+            </p>
+          </div>
+
+          <div style="border-left:4px solid #0284c7;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>🧾</span> 2. Invoices / Split-View
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              A master ledger list of every invoice you've ever created. Allows filtering by status (All, Sent, Due, Paid, Overdue, Void), instant search by client name or invoice number, and opening the Inspector pane to view local audit activity logs, duplicate invoices, or record partial payments.
+            </p>
+          </div>
+
+          <div style="border-left:4px solid #10b981;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>💳</span> 3. Payment Center
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              Dedicated ledger tracking incoming revenue and settlements. Record partial payments, bank transfers, credit notes, refunds, and cash settlements. Every recorded payment automatically updates invoice balances and status badges without manual calculations.
+            </p>
+          </div>
+
+          <div style="border-left:4px solid #8b5cf6;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>👥</span> 4. Clients Directory
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              Zero manual setup required! As soon as you type a client on any invoice, ZestFlow OS automatically aggregates their total lifetime billing, outstanding unpaid balances, address, and contact details into a clean customer profile.
+            </p>
+          </div>
+
+          <div style="border-left:4px solid #ec4899;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>✉️</span> 5. Email &amp; Reminders
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              A built-in automated reminder engine that generates polite, firm, or formal payment collection messages in the exact language of the invoice (English, Arabic, Urdu, Telugu). Dispatches via your default mail client, webhooks, or WhatsApp in 1 click.
+            </p>
+          </div>
+
+          <div style="border-left:4px solid #64748b;padding-left:16px">
+            <h3 style="font-size:15px;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px">
+              <span>⚙️</span> 6. Settings &amp; Reports
+            </h3>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin:0">
+              Customize your business identity: company name, address, tax IDs (GSTIN, TRN, VAT), digital signature pad, brand logo, preferred currency, UPI ID (for Indian QR payments), ZATCA E-Invoice toggle (Saudi Arabia QR), theme customization (Dark Obsidian vs Daylight), and custom A4 paper accent color.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Power Features & Non-Technical FAQs -->
+      <section class="card">
+        <h2 style="font-size:17px;color:var(--text);margin-top:0;border-bottom:1px solid var(--line);padding-bottom:12px">
+          💡 Power Features Made Simple (Questions &amp; Answers)
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px;margin-top:16px">
+          <div style="background:var(--surface-2);padding:16px;border-radius:12px;border:1px solid var(--line-2)">
+            <strong style="color:#0284c7;font-size:13.5px;display:block;margin-bottom:6px">❓ Where is my invoice data stored?</strong>
+            <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.5">100% inside your browser's private offline vault (localStorage &amp; IndexedDB). No third-party server ever reads your client lists, prices, or bank account numbers. It even works completely offline without internet!</p>
+          </div>
+          <div style="background:var(--surface-2);padding:16px;border-radius:12px;border:1px solid var(--line-2)">
+            <strong style="color:#10b981;font-size:13.5px;display:block;margin-bottom:6px">❓ How does India GST split work?</strong>
+            <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.5">Set Tax Regime to "GST (India)" in Settings. When your business state matches your client's place of supply (e.g. Telangana to Telangana), ZestFlow splits tax 50/50 into CGST + SGST. For inter-state clients (e.g. Telangana to Maharashtra), it allocates 100% to IGST automatically.</p>
+          </div>
+          <div style="background:var(--surface-2);padding:16px;border-radius:12px;border:1px solid var(--line-2)">
+            <strong style="color:#f59e0b;font-size:13.5px;display:block;margin-bottom:6px">❓ What are UPI &amp; ZATCA QR codes?</strong>
+            <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.5">For India (INR), adding your UPI ID generates a dynamic vector QR code that customers scan with GPay/PhonePe to pay the exact outstanding amount. For Saudi Arabia / KSA, ZestFlow produces standard TLV Base64 QR codes compliant with official ZATCA e-invoicing laws.</p>
+          </div>
+          <div style="background:var(--surface-2);padding:16px;border-radius:12px;border:1px solid var(--line-2)">
+            <strong style="color:#8b5cf6;font-size:13.5px;display:block;margin-bottom:6px">❓ Can I switch between Invowise &amp; CashFund?</strong>
+            <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.5">Yes! Open <strong>Settings</strong>, locate "Interface Architecture", and toggle between <strong>Invowise</strong> (Warm Amber &amp; Bento Matrix) and <strong>CashFund</strong> (Fintech Navy &amp; Flowing Wave Chart) anytime. Your data stays completely intact.</p>
+          </div>
+        </div>
+      </section>
+    </div>`;
+  }
+
+  function aboutPageHTML(){
+    return `<div class="about-page" style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+      <div class="page-h">
+        <div class="page-h-title">
+          <h1 style="display:flex;align-items:center;gap:10px"><span>💎</span> About ZestFlow OS &amp; The Developer</h1>
+          <p>The story, design philosophy, competitive advantages, and the visionary engineer behind the next-generation global invoicing operating system.</p>
+        </div>
+        <div class="page-h-acts">
+          <button type="button" class="btn" data-act="nav" data-page="instructions">← Read Operating Guide</button>
+          <button type="button" class="btn primary" data-act="nav" data-page="dashboard">Launch Dashboard</button>
+        </div>
+      </div>
+
+      <!-- Hero Card: What is ZestFlow OS -->
+      <section class="card" style="background:linear-gradient(135deg,#090d16 0%,#111827 100%);color:#f8fafc;border:1px solid rgba(255,255,255,0.12);padding:32px">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#0284c7,#0369a1);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(2,132,199,0.4)">
+            <span style="font-size:24px;font-weight:900;color:#fff">Z</span>
+          </div>
+          <div>
+            <h2 style="font-size:24px;font-weight:800;margin:0;letter-spacing:-0.02em;color:#fff">ZestFlow OS v2</h2>
+            <span style="font-size:13px;color:#94a3b8">The Sovereign Zero-Backend Financial Operating System</span>
+          </div>
+        </div>
+        <p style="font-size:14.5px;line-height:1.65;color:#cbd5e1;margin:0 0 16px;max-width:850px">
+          ZestFlow OS was created to break the monopoly of sluggish, subscription-bloated SaaS invoicing systems like Zoho Invoice, Stripe Invoicing, and FreshBooks. Built from the ground up as a pure-client sovereign application, ZestFlow provides enterprise-grade financial precision, dual modern UI architectures, multilingual typography (Arabic, Urdu, Telugu &amp; English), dynamic vector QR generation, and instantaneous offline vaults without ever charging recurring monthly fees or holding user data hostage.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600">🛡️ 100% Offline Vault Privacy</span>
+          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600">⚡ 100/100 Torture Benchmark Passed</span>
+          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600">🌍 4 Native Global Languages + RTL</span>
+          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600">🇮🇳 GST Place of Supply Matrix</span>
+          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600">🇸🇦 ZATCA E-Invoice Compliant</span>
+        </div>
+      </section>
+
+      <!-- Competitive Matrix Table: Why ZestFlow Tops Global Competitors -->
+      <section class="card">
+        <h2 style="font-size:17px;color:var(--text);margin-top:0;border-bottom:1px solid var(--line);padding-bottom:12px">
+          🏆 Global Comparison: Why ZestFlow OS Tops Legacy SaaS Leaders
+        </h2>
+        <div style="overflow-x:auto;margin-top:14px">
+          <table class="invo-tbl" style="width:100%;font-size:12.5px;border-collapse:collapse">
+            <thead>
+              <tr style="background:var(--surface-2)">
+                <th style="padding:10px 14px;text-align:left">Feature / Capability</th>
+                <th style="padding:10px 14px;text-align:center;color:#0284c7;font-weight:800;background:rgba(2,132,199,0.08)">ZestFlow OS v2</th>
+                <th style="padding:10px 14px;text-align:center">Zoho Invoice</th>
+                <th style="padding:10px 14px;text-align:center">FreshBooks</th>
+                <th style="padding:10px 14px;text-align:center">Stripe Invoicing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px 14px"><strong>Hosting &amp; Data Privacy</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ 100% Browser Local / Sovereign</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Cloud Server Lock-in</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Cloud Server Lock-in</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Proprietary Cloud Lock-in</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px"><strong>Monthly Cost &amp; Paywalls</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Free Forever (Zero Subscription)</td>
+                <td style="padding:10px 14px;text-align:center;color:#f59e0b">Freemium Limits</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">\$19 - \$60 / mo</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">0.4% - 0.8% per invoice fee</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px"><strong>Multilingual Naskh/Nastaliq RTL</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Arabic, Urdu, Telugu &amp; English</td>
+                <td style="padding:10px 14px;text-align:center;color:#f59e0b">Basic Arabic Only</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">No Urdu / Telugu</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Limited Localization</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px"><strong>Instant UPI &amp; ZATCA QR Vector Engines</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Pure-JS Embedded Vector Generator</td>
+                <td style="padding:10px 14px;text-align:center;color:#f59e0b">Requires Add-ons</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">No ZATCA / UPI</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">No Indian UPI Intent</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px"><strong>Dual UI Architectures</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Invowise Amber &amp; CashFund Wave</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Single Generic Theme</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Single Fixed Layout</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Rigid Minimalist View</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 14px"><strong>Amount in Words Engine</strong></td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Indian Lakhs/Paise &amp; Global Cents</td>
+                <td style="padding:10px 14px;text-align:center;color:#f59e0b">Config Dependent</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Not Available</td>
+                <td style="padding:10px 14px;text-align:center;color:#ef4444">Not Available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section: About The Developer (Mohammed Ali Quadri) -->
+      <section class="card" style="background:var(--surface);border:1px solid var(--line-2);padding:28px">
+        <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
+          <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(2,132,199,0.35);flex-shrink:0">
+            MA
+          </div>
+          <div style="flex:1;min-width:280px">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+              <h2 style="font-size:22px;font-weight:800;color:var(--text);margin:0">Mohammed Ali Quadri</h2>
+              <span style="background:rgba(2,132,199,0.1);color:#0284c7;border:1px solid rgba(2,132,199,0.25);padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700">CodeWithAli · Principal Architect</span>
+            </div>
+            <span style="font-size:13px;color:#f59e0b;font-weight:600;display:block;margin-bottom:14px">Software Architect · AI Systems Pioneer · Full-Stack Visionary</span>
+            <p style="font-size:13.5px;line-height:1.7;color:var(--text);margin:0 0 14px">
+              <strong>Mohammed Ali Quadri</strong> is a relentless software engineer and product visionary known for his obsessive eye for pixel perfection, uncompromising code quality, and deep mathematical precision. Working under the banner of <strong>CodeWithAli</strong>, Ali brings a rare combination of high-velocity autonomous agent orchestration, deep architectural intuition, and rigorous verification discipline.
+            </p>
+            <p style="font-size:13.5px;line-height:1.7;color:var(--muted);margin:0 0 14px">
+              Ali's engineering philosophy is anchored in sovereignty: software must respect the user's privacy, operate instantaneously without unnecessary network bloat, and perform flawlessly under extreme industrial torture tests. Whether designing complex financial minor-unit arithmetic, multi-lingual Arabic/Urdu typography engines, vector QR generators, or responsive dual-layout interfaces, Ali's standard is always <strong>zero-regression absolute excellence</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:20px;border-top:1px solid var(--line-2);padding-top:20px">
+          <div style="background:var(--surface-2);padding:14px;border-radius:10px;border:1px solid var(--line)">
+            <strong style="color:var(--text);font-size:13px;display:block;margin-bottom:4px">🎯 Relentless Perfectionism</strong>
+            <span style="font-size:12px;color:var(--muted);line-height:1.5;display:block">Zero tolerance for UI glitches, clipped dialogs, or math rounding errors. Every single pixel and edge case is surgically audited.</span>
+          </div>
+          <div style="background:var(--surface-2);padding:14px;border-radius:10px;border:1px solid var(--line)">
+            <strong style="color:var(--text);font-size:13px;display:block;margin-bottom:4px">🧠 Deep Systemic Vision</strong>
+            <span style="font-size:12px;color:var(--muted);line-height:1.5;display:block">Mastery in turning high-level product goals into enterprise-grade software architectures backed by automated benchmarks.</span>
+          </div>
+          <div style="background:var(--surface-2);padding:14px;border-radius:10px;border:1px solid var(--line)">
+            <strong style="color:var(--text);font-size:13px;display:block;margin-bottom:4px">🌍 Cultural &amp; Linguistic Empathy</strong>
+            <span style="font-size:12px;color:var(--muted);line-height:1.5;display:block">Pioneered native Arabic, Urdu Nastaliq, and Telugu typography alongside English, bringing true global financial inclusion.</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:1px solid var(--line)">
+          <span style="font-size:12px;color:var(--muted)">Connect with Mohammed Ali Quadri / CodeWithAli:</span>
+          <div style="display:flex;gap:10px">
+            <a href="mailto:ali@codewithali.com" class="btn sm" style="text-decoration:none">✉️ ali@codewithali.com</a>
+            <a href="https://github.com/mdaliquadri-786" target="_blank" rel="noopener" class="btn sm" style="text-decoration:none">🐙 GitHub</a>
+          </div>
+        </div>
+      </section>
+    </div>`;
+  }
+
   function sfld(label,path,o){
     o=o||{};
     return `<label class="f"><span>${label}</span><input type="${o.type||'text'}" data-s="${path}"${o.num?' data-num="1"':''} value="${sv(path)}"${o.dir?' dir="auto"':''}${o.ph?` placeholder="${esc(o.ph)}"`:''}${o.attrs?' '+o.attrs:''}></label>`;
@@ -8512,6 +8821,11 @@
       case 'shortcuts-dlg-close':{
         const dlg=$('#shortcutsDlg');
         if(dlg)dlg.close();
+        break;
+      }
+      case 'dismiss-guide-banner':{
+        if(typeof localStorage !== 'undefined') localStorage.setItem('zf_guide_dismissed','true');
+        showBanner();
         break;
       }
       case 'tab':{

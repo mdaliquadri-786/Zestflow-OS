@@ -21,7 +21,7 @@ const exposedScript = rawScript.replace(
     generateUpiURI, generateZatcaTLV, QRCodeEngine,
     addRecurringDate, processRecurringInvoices,
     generateShareableInvoiceHTML, compileSyncPayload, mergeSyncPayload,
-    generateInvoiceEmail, navigate, render, dashboardHTML, invoicesPageHTML, clientsPageHTML, settingsHTML, editorHTML,
+    generateInvoiceEmail, navigate, render, dashboardHTML, invoicesPageHTML, clientsPageHTML, settingsHTML, editorHTML, instructionsPageHTML, aboutPageHTML,
     applyTheme, runBuiltInSelfTests
   };
 })();`
