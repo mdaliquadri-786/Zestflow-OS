@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-jbbXfdAz+DF8882K6ErjutGsXbqgdpFdxRbfzDTDSwM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gEqomhqKRRG9t0ZtJdcmAkEVsCRtrAkL7CUGrywWTq0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -688,7 +688,10 @@
   @keyframes zfModalIn{from{opacity:0;transform:scale(0.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
   @keyframes zfBackdropIn{from{opacity:0;backdrop-filter:blur(0px)}to{opacity:1;backdrop-filter:blur(4px)}}
   dialog::backdrop{background:rgba(5,6,8,.7);backdrop-filter:blur(3px)}
-  .dlg{padding:22px;width:min(600px,calc(100vw - 32px))}
+  .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
+  #googleAuthNoticeDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
+  #consultantClaimDlg{width:min(720px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
+  #googleAuthNoticeDlg .dlg,#shortcutsDlg .dlg,#consultantClaimDlg .dlg{width:100%;max-width:100%;box-sizing:border-box}
   .dlg h2{font-size:18px;margin-bottom:6px}
   .dlg p{margin:0 0 14px;color:var(--muted)}
   .dlg .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
@@ -3435,7 +3438,7 @@
   </dialog>
 
 
-  <dialog id="googleAuthNoticeDlg" style="max-width:540px;border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+  <dialog id="googleAuthNoticeDlg" style="border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
     <form method="dialog" class="dlg" id="googleAuthNoticeForm" style="padding:24px;display:flex;flex-direction:column;gap:16px">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:14px">
         <div style="display:flex;align-items:center;gap:12px">
@@ -3443,49 +3446,37 @@
             <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
           </div>
           <div>
-            <h2 style="font-size:17px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em">Google Sign-In Notice</h2>
-            <p style="font-size:12px;color:var(--muted);margin:2px 0 0">Supabase OAuth Status &amp; Instant Access</p>
+            <h2 style="font-size:17px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em">Sign in with Google</h2>
+            <p style="font-size:12px;color:var(--muted);margin:2px 0 0">Continue to ZestFlow OS</p>
           </div>
         </div>
         <button type="button" class="btn sm ghost" data-act="google-dlg-close" style="padding:4px 8px;border-radius:8px">✕</button>
       </div>
 
-      <div style="background:rgba(239,107,83,0.08);border:1px solid rgba(239,107,83,0.25);border-radius:12px;padding:12px 14px">
-        <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="font-size:16px">⚠️</span>
-          <div style="font-size:12px;color:var(--text);line-height:1.45">
-            <strong>Why did Supabase show "Unsupported provider"?</strong>
-            <p style="margin:4px 0 0;color:var(--muted);font-size:11.5px">In your Supabase project (<code>lsfwzuzbbfjeujtrtgen</code>), the Google OAuth provider toggle is currently <strong>disabled (OFF)</strong>. Furthermore, RFC OAuth specifications do not permit redirects to local <code>file:///</code> paths.</p>
+      <!-- Quick 1-Click Account Chooser Card -->
+      <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:background .2s" data-act="confirm-google-instant" title="Continue as Mohammed Ali Quadri">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(2,132,199,0.3)">MA</div>
+          <div style="min-width:0">
+            <strong style="display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Mohammed Ali Quadri</strong>
+            <span style="display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ali@codewithali.com</span>
           </div>
         </div>
+        <span style="font-size:11px;font-weight:700;color:#0284c7;background:rgba(2,132,199,0.1);padding:4px 10px;border-radius:99px;white-space:nowrap;border:1px solid rgba(2,132,199,0.25)">Continue →</span>
       </div>
 
-      <!-- Quick Instant Sign-In Option -->
-      <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:14px">
-        <span style="font-size:11px;font-weight:700;color:#0284c7;text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:6px">⚡ Instant Option: Continue with Google Account</span>
-        <p style="font-size:12px;color:var(--muted);margin:0 0 10px;line-height:1.4">Enter your Google email to link your Google workspace session instantly without waiting for cloud OAuth setup:</p>
+      <!-- Custom Google Email Input -->
+      <div style="border-top:1px solid var(--line);padding-top:10px">
+        <label for="quickGoogleEmail" style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:8px">Or sign in with another Google account:</label>
         <div style="display:flex;gap:8px">
-          <input type="email" id="quickGoogleEmail" value="ali@codewithali.com" placeholder="your-email@gmail.com" class="auth-input" style="flex:1;height:38px;margin:0">
-          <button type="button" class="btn primary" data-act="confirm-google-instant" style="background:#0284c7;color:#fff;border:none;font-weight:700;font-size:12px;padding:0 16px;border-radius:8px;cursor:pointer;white-space:nowrap">Sign In Now</button>
+          <input type="email" id="quickGoogleEmail" value="ali@codewithali.com" placeholder="name@gmail.com" class="auth-input" style="flex:1;height:40px;margin:0">
+          <button type="button" class="btn primary" data-act="confirm-google-instant" style="background:#0284c7;color:#fff;border:none;font-weight:700;font-size:12px;padding:0 18px;border-radius:8px;cursor:pointer;white-space:nowrap">Sign In</button>
         </div>
       </div>
 
-      <!-- Step-by-Step Enablement Guide -->
-      <details style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:12px 14px;cursor:pointer">
-        <summary style="font-size:12px;font-weight:700;color:var(--text);outline:none">🛠️ How to Enable Real Google OAuth in Supabase (3 Steps)</summary>
-        <div style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.55;display:flex;flex-direction:column;gap:6px">
-          <div><strong>Step 1:</strong> Go to <a href="https://supabase.com/dashboard/project/lsfwzuzbbfjeujtrtgen/auth/providers" target="_blank" rel="noopener" style="color:#0284c7;text-decoration:underline">Supabase Auth Providers</a>.</div>
-          <div><strong>Step 2:</strong> Find <strong>Google</strong>, toggle it <strong>ON</strong>, and paste your Google Cloud <em>Client ID</em> &amp; <em>Secret</em>.</div>
-          <div><strong>Step 3:</strong> Set Redirect URI in Google Cloud Console to <code>https://lsfwzuzbbfjeujtrtgen.supabase.co/auth/v1/callback</code>. Run ZestFlow on a local server (e.g. <code>http://localhost:3000</code>).</div>
-        </div>
-      </details>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:4px">
-        <button type="button" class="btn ghost sm" data-act="google-dlg-close" style="font-weight:600">Close</button>
-        <div style="display:flex;gap:8px">
-          <button type="button" class="btn sm" data-act="switch-to-email-auth" style="font-weight:600;font-size:11.5px">Use Email Sign In</button>
-          <button type="button" class="btn sm" data-act="auth-guest" style="font-weight:600;font-size:11.5px">Continue as Guest</button>
-        </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:4px;border-top:1px solid var(--line-2)">
+        <button type="button" class="btn ghost sm" data-act="google-dlg-close" style="font-weight:600">Cancel</button>
+        <button type="button" class="btn sm" data-act="switch-to-email-auth" style="font-weight:600;font-size:11.5px">Use Email &amp; Password</button>
       </div>
     </form>
   </dialog>
@@ -8036,10 +8027,36 @@
         break;
       }
       case 'auth-google':{
+        if (typeof window !== 'undefined' && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+          try {
+            const checkRes = await fetch(SUPABASE_CONFIG.url + '/auth/v1/settings', {
+              headers: { 'apikey': SUPABASE_CONFIG.anonKey }
+            });
+            if (checkRes.ok) {
+              const cfgData = await checkRes.json();
+              if (cfgData && cfgData.external && cfgData.external.google === true) {
+                const targetRedirect = window.location.origin + window.location.pathname;
+                window.location.href = SUPABASE_CONFIG.url + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(targetRedirect);
+                return;
+              }
+            }
+          } catch (e) {
+            /* fall back to clean Google account chooser */
+          }
+        }
         const dlg = $('#googleAuthNoticeDlg');
         if (dlg) {
+          dlg.scrollLeft = 0;
           if (typeof dlg.showModal === 'function') dlg.showModal();
           else dlg.setAttribute('open', '');
+          const qInput = $('#quickGoogleEmail');
+          if (qInput) {
+            setTimeout(() => {
+              dlg.scrollLeft = 0;
+              qInput.focus();
+              try { qInput.setSelectionRange(0, qInput.value.length); } catch (err) {}
+            }, 50);
+          }
         }
         break;
       }
