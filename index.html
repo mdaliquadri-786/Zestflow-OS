@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TMgR2bYNNnLk6SnH+5Wek7lP8nFTykxvqhDtArepd0E='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-JkjzbNREYIYbYoxzu7FUF5oxRyFVWKoM+IBI7ZI8xOQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -1440,12 +1440,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 20px;
+    padding: 8px 18px;
+    min-height: 54px;
+    box-sizing: border-box;
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 99px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
+    gap: 12px;
   }
   html[data-theme="dark"] .invo-top-nav {
     background: #11131a;
@@ -1456,7 +1459,9 @@
   .invo-top-left {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 14px;
+    min-width: 0;
+    flex-shrink: 1;
   }
   .invo-brand {
     display: flex;
@@ -1464,44 +1469,59 @@
     gap: 8px;
     cursor: pointer;
     text-decoration: none;
+    flex-shrink: 0;
   }
   .invo-brand-logo {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
     object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     flex-shrink: 0;
     display: block;
   }
   .invo-brand-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: #0f172a;
+    white-space: nowrap;
   }
   html[data-theme="dark"] .invo-brand-name { color: #f8fafc; }
   .invo-brand-sub {
-    font-size: 11px;
+    font-size: 10px;
     color: #94a3b8;
     font-weight: 600;
+    white-space: nowrap;
   }
 
   .invo-pill-menu {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
+    flex-shrink: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
+  .invo-pill-menu::-webkit-scrollbar { display: none; }
   .invo-pill {
-    padding: 8px 18px;
+    padding: 6px 11px;
     border-radius: 99px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #64748b;
     border: none;
     background: transparent;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1;
   }
   .invo-pill:hover {
     color: #0f172a;
@@ -1512,23 +1532,26 @@
   .invo-pill.active {
     background: #ff5733 !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.35);
+    box-shadow: 0 2px 10px rgba(255, 87, 51, 0.3);
   }
 
   .invo-top-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    flex-shrink: 0;
   }
   .invo-search-wrap {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: #f8fafc;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 99px;
-    padding: 6px 14px;
-    width: 220px;
+    padding: 4px 10px;
+    width: 170px;
+    height: 34px;
+    box-sizing: border-box;
   }
   html[data-theme="dark"] .invo-search-wrap {
     background: #191c26;
@@ -1559,8 +1582,8 @@
   }
 
   .invo-icon-btn {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 1px solid rgba(15, 23, 42, 0.08);
     background: #ffffff;
@@ -1571,6 +1594,8 @@
     cursor: pointer;
     position: relative;
     transition: all 0.2s;
+    flex-shrink: 0;
+    font-size: 14px;
   }
   .invo-icon-btn:hover {
     background: #f1f5f9;
@@ -5538,6 +5563,7 @@
     return '<div class="cash-search-box">' +
       '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
       '<input type="text" id="qCash" placeholder="Search client or invoice..." value="' + esc(ui.q||'') + '" data-act="search-cash">' +
+      '<button type="button" data-act="open-shortcuts" title="Keyboard Shortcuts (?)" style="background:none;border:none;cursor:pointer;font-size:13px;padding:0 3px;line-height:1;opacity:0.8;display:inline-flex;align-items:center" aria-label="Keyboard Shortcuts">⌨️</button>' +
       '<kbd>⌘ K</kbd>' +
     '</div>' +
 
@@ -5606,6 +5632,11 @@
       '<button type="button" class="cash-nav-item ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">' +
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
         '<span>About Us</span>' +
+      '</button>' +
+      '<button type="button" class="cash-nav-item" data-act="open-shortcuts">' +
+        '<span style="font-size:13px;line-height:1;width:16px;display:inline-flex;justify-content:center">⌨️</span>' +
+        '<span>Shortcuts</span>' +
+        '<kbd style="margin-left:auto;font-size:9px;padding:2px 4px;background:rgba(15,23,42,0.06);border-radius:4px;color:#64748b">?</kbd>' +
       '</button>' +
     '</div>' +
 
@@ -5834,6 +5865,19 @@
     }).join('');
 
     return '<div class="cashfund-main-canvas">' +
+      '<div class="cashfund-top-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(15,23,42,0.06)">' +
+        '<div style="display:flex;align-items:center;gap:12px">' +
+          '<h2 style="margin:0;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.02em">CashFund Treasury</h2>' +
+          '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.1);color:#0284c7">Live Financial OS</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+          '<button type="button" class="cash-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)" style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(15,23,42,0.08);background:var(--surface,#fff);color:#475569;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)" aria-label="Keyboard Shortcuts">⌨️</button>' +
+          '<button type="button" class="btn primary sm" data-act="nav-new" style="background:#0284c7!important;color:#fff!important;border:none!important;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+            '<span>New Invoice</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
       /* Top 3 KPI Cards Row (Image 3) */
       '<div class="cash-kpi-row bento-kpis">' +
         /* Available Balance */
