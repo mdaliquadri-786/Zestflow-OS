@@ -1425,14 +1425,28 @@
     margin: 0 auto !important;
     padding: 24px 36px 60px !important;
     min-height: 100vh;
+    background: #f4f6fa !important;
+  }
+  html[data-theme="dark"] body.layout-invowise .shell {
+    background: #090a0f !important;
   }
   body.layout-invowise .main-col {
     width: 100% !important;
     max-width: 100% !important;
+    background: transparent !important;
   }
   body.layout-invowise #app {
+    position: relative !important;
+    z-index: 1 !important;
     max-width: 100% !important;
     padding: 0 !important;
+    background: transparent !important;
+  }
+  body.layout-invowise #invoTopNavHost {
+    position: relative !important;
+    z-index: 100 !important;
+    width: 100% !important;
+    background: transparent !important;
   }
   body.layout-invowise #bannerHost:empty {
     display: none !important;
@@ -1440,11 +1454,13 @@
 
   /* Invowise Seamless Header Bar — Merged Directly with Canvas */
   .invo-top-nav {
+    position: relative !important;
+    z-index: 100 !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 0 20px 0;
-    margin-bottom: 14px;
+    padding: 0 0 24px 0;
+    margin-bottom: 0 !important;
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
@@ -1523,12 +1539,17 @@
   }
   html[data-theme="dark"] .invo-pill { color: #94a3b8; }
   html[data-theme="dark"] .invo-pill:hover { color: #ffffff !important; background: rgba(255, 255, 255, 0.06) !important; }
-  .invo-pill.active {
+  .invo-pill.active,
+  .invo-pill.active:hover,
+  .invo-pill.active:focus,
+  .invo-pill.active:active {
     background: #ff5733 !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.32) !important;
+    box-shadow: none !important;
     font-weight: 700;
     transform: none !important;
+    outline: none !important;
+    border: none !important;
   }
 
   html[data-theme="dark"] .invo-guide-banner {
@@ -2594,6 +2615,10 @@
   button:hover, .btn:hover, .invo-sq-btn:hover, .invo-create-btn:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.16) !important;
+  }
+  button.invo-pill, .invo-pill, button.invo-pill:hover, .invo-pill:hover, button.invo-pill:active, .invo-pill:active, button.invo-pill:focus, .invo-pill:focus {
+    transform: none !important;
+    box-shadow: none !important;
   }
   button:active, .btn:active, .invo-create-btn:active, .invo-sq-btn:active {
     transform: translateY(0.5px) scale(0.97) !important;
