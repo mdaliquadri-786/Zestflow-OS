@@ -1,0 +1,21 @@
+{
+  "name": "zestflow-os",
+  "version": "1.0.0",
+  "description": "ZestFlow OS - Autonomous Invoicing & Financial Workspace",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test-all.js"
+  },
+  "keywords": [
+    "invoicing",
+    "saas",
+    "fintech",
+    "arabic",
+    "urdu",
+    "telugu"
+  ],
+  "author": "Mohammed Ali Quadri",
+  "license": "ISC"
+}
