@@ -31,3 +31,7 @@ $RECYCLE.BIN/
 .env
 .env.local
 .env.*.local
+
+# Local scratch and backups
+scratch/
+*backup*.html

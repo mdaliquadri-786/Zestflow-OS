@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Yx+fn7qVaBPNzBhfi2/0k+c4OLJdQEMl6GroRPBmYHI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-WiNsR1WgGrzF8+HkCtgLMIfFZNUZiVHHjyf5wybw0xU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -763,9 +763,9 @@
   @keyframes zfBackdropIn{from{opacity:0;backdrop-filter:blur(0px)}to{opacity:1;backdrop-filter:blur(4px)}}
   dialog::backdrop{background:rgba(5,6,8,.7);backdrop-filter:blur(3px)}
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
-  #googleAuthNoticeDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
+  #migrationConsentDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
   #consultantClaimDlg{width:min(720px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
-  #googleAuthNoticeDlg .dlg,#shortcutsDlg .dlg,#consultantClaimDlg .dlg{width:100%;max-width:100%;box-sizing:border-box}
+  #migrationConsentDlg .dlg,#shortcutsDlg .dlg,#consultantClaimDlg .dlg{width:100%;max-width:100%;box-sizing:border-box}
   .dlg h2{font-size:18px;margin-bottom:6px}
   .dlg p{margin:0 0 14px;color:var(--muted)}
   .dlg .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
@@ -778,6 +778,308 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
   .mobile-preview-fab{display:none}
+  /* ==========================================================================
+     CASHFUND HIGH-END FINTECH MOBILE ARCHITECTURE (TOP BAR, DRAWER & DOCK)
+     ========================================================================== */
+  .cash-mobile-topbar {
+    display: none;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99998;
+    height: 54px;
+    padding: 0 14px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(2, 132, 199, 0.12);
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 14px rgba(2, 132, 199, 0.04);
+  }
+  html[data-theme="dark"] .cash-mobile-topbar {
+    background: rgba(13, 17, 26, 0.92);
+    border-bottom-color: rgba(56, 189, 248, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+  .cash-mob-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cash-hamburger-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    background: rgba(2, 132, 199, 0.06);
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    padding: 0;
+  }
+  .cash-hamburger-btn:active {
+    transform: scale(0.92);
+    background: rgba(2, 132, 199, 0.14);
+  }
+  html[data-theme="dark"] .cash-hamburger-btn {
+    border-color: rgba(56, 189, 248, 0.2);
+    background: rgba(56, 189, 248, 0.08);
+    color: #38bdf8;
+  }
+  .cash-mob-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cash-mob-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .cash-mob-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: rgba(2, 132, 199, 0.1);
+    color: #0284c7;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  html[data-theme="dark"] .cash-mob-tag {
+    background: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+  }
+  .cash-mob-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cash-mob-icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: var(--surface);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .cash-mob-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* CashFund Slide-Over Mobile Drawer */
+  .cash-drawer-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(5, 8, 14, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100000001;
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    pointer-events: none;
+  }
+  .cash-drawer-backdrop.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .cashfund-drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(320px, 86vw);
+    max-width: 86vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #ffffff;
+    border-right: 1px solid rgba(2, 132, 199, 0.15);
+    box-shadow: 16px 0 45px rgba(0, 0, 0, 0.35);
+    z-index: 100000002;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  html[data-theme="dark"] .cashfund-drawer {
+    background: #0d111a;
+    border-right-color: rgba(56, 189, 248, 0.15);
+  }
+  .cashfund-drawer.open {
+    transform: translateX(0);
+  }
+  .cash-drawer-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .cash-drawer-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  html[data-theme="dark"] .cash-drawer-header {
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+  }
+  .cash-drawer-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(15, 23, 42, 0.06);
+    color: #64748b;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  html[data-theme="dark"] .cash-drawer-close-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+  }
+  .cash-drawer-user {
+    padding: 10px 16px;
+    background: rgba(2, 132, 199, 0.04);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  html[data-theme="dark"] .cash-drawer-user {
+    background: rgba(56, 189, 248, 0.04);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+  }
+  .cash-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px 40px;
+    scrollbar-width: thin;
+  }
+
+  /* CashFund Mobile Dock Button Enhancements */
+  body.layout-cashfund .mob-nav button.cash-dock-action {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #ffffff !important;
+    border-radius: 99px !important;
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+    padding: 6px 4px !important;
+    font-weight: 700 !important;
+    margin: 0 2px !important;
+  }
+  body.layout-cashfund .mob-nav button.cash-dock-action svg.i {
+    stroke: #ffffff !important;
+  }
+
+  @media (max-width: 900px) {
+    body.layout-cashfund .shell {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+    body.layout-cashfund .sidebar {
+      display: none !important;
+    }
+    body.layout-cashfund .cash-mobile-topbar {
+      display: flex !important;
+    }
+    body.layout-cashfund .cashfund-top-bar {
+      display: none !important;
+    }
+    body.layout-cashfund .cash-kpi-row {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+      margin-bottom: 16px !important;
+    }
+    body.layout-cashfund .cash-kpi-card {
+      padding: 16px 18px !important;
+      border-radius: 16px !important;
+    }
+    body.layout-cashfund .cash-kpi-val {
+      font-size: 22px !important;
+    }
+    body.layout-cashfund .cash-grid-layout {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    body.layout-cashfund .cash-card {
+      padding: 16px !important;
+      border-radius: 16px !important;
+    }
+    body.layout-cashfund .cash-wave-svg {
+      height: 140px !important;
+      max-width: 100% !important;
+    }
+    body.layout-cashfund .cash-years-row {
+      overflow-x: auto !important;
+      gap: 6px !important;
+      padding-bottom: 4px !important;
+      scrollbar-width: none !important;
+    }
+    body.layout-cashfund .cash-year-pill {
+      flex-shrink: 0 !important;
+    }
+    body.layout-cashfund .cash-donut-section {
+      margin: 8px 0 16px !important;
+    }
+    body.layout-cashfund .cash-donut-circle {
+      width: 140px !important;
+      height: 140px !important;
+    }
+    body.layout-cashfund .cash-donut-inner {
+      width: 96px !important;
+      height: 96px !important;
+    }
+    body.layout-cashfund .cash-cat-item {
+      padding: 10px 12px !important;
+    }
+  }
+
+  @media (min-width: 901px) {
+    .cash-mobile-topbar,
+    .cashfund-drawer,
+    .cash-drawer-backdrop {
+      display: none !important;
+    }
+  }
+
+
   /* Responsive Breakpoints */
   @media (max-width:1120px){
     .dash-grid,.split-view,.ed{grid-template-columns:minmax(0,1fr)}
@@ -3906,7 +4208,7 @@
             <span style="font-size:10px;color:var(--muted)">Account Settings ⌄</span>
           </div>
         </div>
-        <div class="side-card">
+        <div class="side-card" id="sideSyncCard">
           <b>Browser-only storage</b>
           <p>Invoices stay on this device. Export a JSON backup in Settings whenever you need a copy.</p>
         </div>
@@ -3920,6 +4222,9 @@
       <footer id="appFooterHost"></footer>
     </div>
   </div>
+
+  <div id="cashfundDrawerBackdrop" class="cash-drawer-backdrop" data-act="close-cash-drawer"></div>
+  <aside id="cashfundDrawer" class="cashfund-drawer" aria-label="CashFund Mobile Navigation Drawer"></aside>
 
   <nav class="mob-nav" aria-label="Mobile navigation">
     <button type="button" data-act="nav" data-page="dashboard" id="mnav-dashboard"><svg class="i"><use href="#i-grid"/></svg><span>Dashboard</span></button>
@@ -4129,47 +4434,30 @@
   </dialog>
 
 
-  <dialog id="googleAuthNoticeDlg" style="border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
-    <form method="dialog" class="dlg" id="googleAuthNoticeForm" style="padding:24px;display:flex;flex-direction:column;gap:16px">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:14px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:42px;height:42px;border-radius:12px;background:#f8fafc;border:1px solid rgba(15,23,42,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-          </div>
-          <div>
-            <h2 style="font-size:17px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em">Sign in with Google</h2>
-            <p style="font-size:12px;color:var(--muted);margin:2px 0 0">Continue to ZestFlow OS</p>
-          </div>
+  <dialog id="migrationConsentDlg" style="border-radius:20px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface);width:min(480px,calc(100vw - 32px))">
+    <div style="padding:24px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:14px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(2,132,199,0.1);border:1px solid rgba(2,132,199,0.25);display:flex;align-items:center;justify-content:center;font-size:20px">
+          🔄
         </div>
-        <button type="button" class="btn sm ghost" data-act="google-dlg-close" style="padding:4px 8px;border-radius:8px">✕</button>
-      </div>
-
-      <!-- Quick 1-Click Account Chooser Card -->
-      <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:background .2s" data-act="confirm-google-instant" title="Continue as Mohammed Ali Quadri">
-        <div style="display:flex;align-items:center;gap:12px;min-width:0">
-          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(2,132,199,0.3)">MA</div>
-          <div style="min-width:0">
-            <strong style="display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Mohammed Ali Quadri</strong>
-            <span style="display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ali@codewithali.com</span>
-          </div>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#0284c7;background:rgba(2,132,199,0.1);padding:4px 10px;border-radius:99px;white-space:nowrap;border:1px solid rgba(2,132,199,0.25)">Continue →</span>
-      </div>
-
-      <!-- Custom Google Email Input -->
-      <div style="border-top:1px solid var(--line);padding-top:10px">
-        <label for="quickGoogleEmail" style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:8px">Or sign in with another Google account:</label>
-        <div style="display:flex;gap:8px">
-          <input type="email" id="quickGoogleEmail" value="ali@codewithali.com" placeholder="name@gmail.com" class="auth-input" style="flex:1;height:40px;margin:0">
-          <button type="button" class="btn primary" data-act="confirm-google-instant" style="background:#0284c7;color:#fff;border:none;font-weight:700;font-size:12px;padding:0 18px;border-radius:8px;cursor:pointer;white-space:nowrap">Sign In</button>
+        <div>
+          <h2 style="font-size:16px;font-weight:800;color:var(--text);margin:0">Migrate Local Account</h2>
+          <p style="font-size:12px;color:var(--muted);margin:2px 0 0">Upgrade to verified cloud authentication</p>
         </div>
       </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:4px;border-top:1px solid var(--line-2)">
-        <button type="button" class="btn ghost sm" data-act="google-dlg-close" style="font-weight:600">Cancel</button>
-        <button type="button" class="btn sm" data-act="switch-to-email-auth" style="font-weight:600;font-size:11.5px">Use Email &amp; Password</button>
+      <div style="font-size:13px;color:var(--muted);line-height:1.5">
+        An existing offline account for <strong id="migrationEmailTarget" style="color:var(--text)"></strong> was found on this device. Would you like to migrate this account to secure Supabase authentication?
       </div>
-    </form>
+      <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:11.5px;color:var(--muted);line-height:1.4">
+        🔒 <strong>Data Safety:</strong> All invoices, clients, payments and business records stay 100% on your device. Your password will be securely migrated to Supabase Auth.
+      </div>
+      <div id="migrationErrorMsg" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;border-radius:8px;padding:10px;font-size:12px;font-weight:600"></div>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:6px">
+        <button type="button" class="btn sm ghost" data-act="cancel-migration" style="font-weight:600">Cancel</button>
+        <button type="button" class="btn sm" data-act="guest-from-migration" style="font-weight:600">Continue as Guest</button>
+        <button type="button" class="btn primary sm" id="btnConfirmMigration" data-act="confirm-migration" style="font-weight:700">Migrate Account</button>
+      </div>
+    </div>
   </dialog>
 
   <dialog id="shortcutsDlg" style="max-width:520px;border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
@@ -4192,6 +4480,94 @@
     </form>
   </dialog>
 
+  <dialog id="passwordResetDlg" style="max-width:440px;border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+    <form method="dialog" class="dlg" id="passwordResetForm" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-2);padding-bottom:12px">
+        <h2 style="font-size:17px;font-weight:800;color:var(--text);margin:0">Set New Password</h2>
+        <button type="button" class="btn sm ghost" data-act="close-reset-dlg" style="padding:4px 8px;border-radius:8px">✕</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin:0">Enter a secure new password for <strong id="resetEmailLabel">your account</strong>.</p>
+      <div id="resetErrorMsg" style="display:none;padding:8px 12px;border-radius:8px;font-size:12px;color:#ef4444;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3)"></div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">New Password</label>
+        <input type="password" id="newPassInput" class="auth-input" placeholder="At least 6 characters" style="width:100%;box-sizing:border-box" required>
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Confirm New Password</label>
+        <input type="password" id="confirmPassInput" class="auth-input" placeholder="Repeat new password" style="width:100%;box-sizing:border-box" required>
+      </div>
+      <div class="acts" style="margin-top:10px">
+        <button type="button" class="btn sm ghost" data-act="close-reset-dlg">Cancel</button>
+        <button type="button" class="btn sm primary" data-act="submit-new-password">Update Password</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="cloudSyncMigrationDlg" style="max-width:540px;border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+    <form method="dialog" class="dlg" style="padding:24px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-2);padding-bottom:12px">
+        <h2 style="font-size:17px;font-weight:800;color:var(--text);margin:0;display:flex;align-items:center;gap:8px"><span>☁️</span> Cloud Workspace Sync Setup</h2>
+        <button type="button" class="btn sm ghost" data-act="close-migration-dlg" style="padding:4px 8px;border-radius:8px">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--text);margin:0;line-height:1.5">
+        You are signed in as <strong id="migrationUserEmail">account</strong>. We found existing invoices on this device. Choose how to synchronize your business workspace:
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line)">
+        <div>
+          <span style="font-size:11px;color:var(--muted);display:block;text-transform:uppercase;font-weight:700">This Device (Local)</span>
+          <strong id="localInvoiceCountLabel" style="font-size:18px;color:var(--text)">0 Invoices</strong>
+        </div>
+        <div>
+          <span style="font-size:11px;color:var(--muted);display:block;text-transform:uppercase;font-weight:700">Account (Cloud)</span>
+          <strong id="cloudInvoiceCountLabel" style="font-size:18px;color:#0284c7">Ready</strong>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+        <button type="button" class="btn primary" data-act="start-cloud-migration" data-mode="upload" style="justify-content:flex-start;text-align:left;padding:12px 16px">
+          <div>
+            <strong style="display:block;font-size:13px">1. Upload Local Invoices to Cloud (Recommended)</strong>
+            <span style="font-size:11px;opacity:0.9">Save all invoices and settings on this device to your cloud account so you can access them anywhere.</span>
+          </div>
+        </button>
+        <button type="button" class="btn" data-act="start-cloud-migration" data-mode="download" style="justify-content:flex-start;text-align:left;padding:12px 16px">
+          <div>
+            <strong style="display:block;font-size:13px">2. Download Cloud Workspace (Replace Local)</strong>
+            <span style="font-size:11px;color:var(--muted)">Download account records from the cloud. A local recovery snapshot will be saved first.</span>
+          </div>
+        </button>
+        <button type="button" class="btn" data-act="start-cloud-migration" data-mode="merge" style="justify-content:flex-start;text-align:left;padding:12px 16px">
+          <div>
+            <strong style="display:block;font-size:13px">3. Safe Two-Way Merge</strong>
+            <span style="font-size:11px;color:var(--muted)">Combine local and cloud invoices safely without losing changes.</span>
+          </div>
+        </button>
+      </div>
+      <div class="acts" style="margin-top:6px;border-top:1px solid var(--line-2);padding-top:12px">
+        <button type="button" class="btn sm ghost" data-act="close-migration-dlg">Stay in Offline-First Mode</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="syncConflictDlg" style="max-width:620px;border-radius:22px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+    <form method="dialog" class="dlg" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-2);padding-bottom:12px">
+        <h2 style="font-size:17px;font-weight:800;color:#ef4444;margin:0;display:flex;align-items:center;gap:8px"><span>⚠️</span> Cloud Concurrency Conflict</h2>
+        <button type="button" class="btn sm ghost" data-act="close-conflict-dlg" style="padding:4px 8px;border-radius:8px">✕</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin:0">
+        This invoice was modified on another device before your changes could sync. Both versions are preserved. Choose which version to keep:
+      </p>
+      <div id="conflictComparisonContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:300px;overflow-y:auto;padding:8px 0"></div>
+      <div class="acts" style="margin-top:10px;border-top:1px solid var(--line-2);padding-top:12px;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn sm ghost" data-act="close-conflict-dlg">Review Later</button>
+        <span style="flex:1"></span>
+        <button type="button" class="btn sm" data-act="resolve-conflict-action" data-choice="keep_server">Keep Cloud Version</button>
+        <button type="button" class="btn sm" data-act="resolve-conflict-action" data-choice="keep_both">Keep Both (Save Copy)</button>
+        <button type="button" class="btn sm primary" data-act="resolve-conflict-action" data-choice="keep_local">Overwrite with Local</button>
+      </div>
+    </form>
+  </dialog>
+
   <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" hidden>
   <input type="file" id="importFile" accept="application/json,.json" hidden>
 
@@ -4199,34 +4575,7 @@
   (function(){
   'use strict';
 
-  // Check for Supabase OAuth redirect tokens (e.g. Google Login callback)
-  try {
-    if (typeof window !== 'undefined' && window.location && window.location.hash) {
-      const rawHash = window.location.hash.substring(1);
-      const hashParams = new URLSearchParams(rawHash);
-      const accessToken = hashParams.get('access_token');
-      if (accessToken) {
-        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('zf_session_active', 'true');
-        try {
-          const payloadBase64 = accessToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-          const payloadStr = decodeURIComponent(atob(payloadBase64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-          const payload = JSON.parse(payloadStr);
-          const userEmail = payload.email || (payload.user_metadata && payload.user_metadata.email) || 'google_user@gmail.com';
-          if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('zf_auth_user', JSON.stringify({
-              email: userEmail,
-              id: payload.sub || ('google_' + Date.now().toString(36)),
-              token: accessToken,
-              provider: 'google'
-            }));
-          }
-          if (window.history && window.history.replaceState) {
-            window.history.replaceState(null, '', window.location.pathname + window.location.search);
-          }
-        } catch (tokenErr) {}
-      }
-    }
-  } catch (oauthErr) {}
+
 
   /* ---------- helpers ---------- */
   const $=(s,r=document)=>r.querySelector(s);
@@ -4512,8 +4861,649 @@
   /* ---------- storage, schemaVersion: 3 migration & rollback snapshots ---------- */
   const KEY='zestflow.v2';
   const SNAP_KEY='zestflow.v2.backupSnapshot';
+  const RECOVERY_KEY='zestflow.v2.corrupted_recovery';
   const SCHEMA_VERSION=3;
-  let storageOK=true,multiTabConflict=false;
+  let storageOK=true,multiTabConflict=false,recoveryPending=false;
+  let rawCorruptedString=null;
+
+  /* ---------- authoritative authentication state architecture (Batch 3) ---------- */
+  const SUPABASE_CONFIG={
+    url:'https://lsfwzuzbbfjeujtrtgen.supabase.co',
+    anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzZnd6dXpiYmZqZXVqdHJ0Z2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMDI3MDUsImV4cCI6MjEwODY3ODcwNX0.IKyovymqrrimssedZ-SYQlAQBJEM7uGvAYZ8TpWD5PM'
+  };
+  const AUTH_STATES={
+    UNAUTHENTICATED:'unauthenticated',
+    PENDING:'pending',
+    AUTHENTICATED:'authenticated',
+    GUEST:'guest'
+  };
+  let authState=AUTH_STATES.UNAUTHENTICATED;
+  let verifiedAuthUser=null;
+  let cachedAuthIdentity=null;
+  let authNetworkOffline=false;
+  let refreshAttemptCount=0;
+  let currentAuthCallbackPromise=null;
+  let recoveryContext=null;
+  let pendingMigrationContext=null;
+
+  const SUPABASE_PERSISTENCE_CONFIG = {
+    url: 'https://mlxyegiwdzmcybvhtgwy.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1seHllZ2l3ZHptY3lidmh0Z3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMDI3MDUsImV4cCI6MjEwODY3ODcwNX0.dummy_staging_key'
+  };
+
+  const zfIdb = (function() {
+    const DB_NAME = 'zestflow_cloud_v1';
+    const DB_VERSION = 1;
+    let dbInstance = null;
+    const memoryStore = {
+      sync_queue: new Map(),
+      invoice_cache: new Map(),
+      profile_cache: new Map(),
+      conflict_vault: new Map(),
+      sync_meta: new Map()
+    };
+
+    function isIdbAvailable() {
+      return typeof window !== 'undefined' && typeof window.indexedDB !== 'undefined';
+    }
+
+    async function getDb() {
+      if (!isIdbAvailable()) return null;
+      if (dbInstance) return dbInstance;
+      return new Promise((resolve) => {
+        try {
+          const req = window.indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('sync_queue')) db.createObjectStore('sync_queue', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('invoice_cache')) db.createObjectStore('invoice_cache', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('profile_cache')) db.createObjectStore('profile_cache', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('conflict_vault')) db.createObjectStore('conflict_vault', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('sync_meta')) db.createObjectStore('sync_meta', { keyPath: 'key' });
+          };
+          req.onsuccess = (e) => {
+            dbInstance = e.target.result;
+            resolve(dbInstance);
+          };
+          req.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    return {
+      async put(storeName, item) {
+        if (!item || (!item.id && !item.key)) return false;
+        const key = item.id || item.key;
+        if (memoryStore[storeName]) memoryStore[storeName].set(key, item);
+        const db = await getDb();
+        if (!db) return true;
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(storeName, 'readwrite');
+            tx.objectStore(storeName).put(item);
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+          } catch (e) {
+            resolve(false);
+          }
+        });
+      },
+      async get(storeName, key) {
+        const db = await getDb();
+        if (!db) return (memoryStore[storeName] && memoryStore[storeName].get(key)) || null;
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(storeName, 'readonly');
+            const req = tx.objectStore(storeName).get(key);
+            req.onsuccess = () => resolve(req.result || (memoryStore[storeName] && memoryStore[storeName].get(key)) || null);
+            req.onerror = () => resolve((memoryStore[storeName] && memoryStore[storeName].get(key)) || null);
+          } catch (e) {
+            resolve((memoryStore[storeName] && memoryStore[storeName].get(key)) || null);
+          }
+        });
+      },
+      async delete(storeName, key) {
+        if (memoryStore[storeName]) memoryStore[storeName].delete(key);
+        const db = await getDb();
+        if (!db) return true;
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(storeName, 'readwrite');
+            tx.objectStore(storeName).delete(key);
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+          } catch (e) {
+            resolve(false);
+          }
+        });
+      },
+      async getAll(storeName) {
+        const db = await getDb();
+        if (!db) return memoryStore[storeName] ? Array.from(memoryStore[storeName].values()) : [];
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(storeName, 'readonly');
+            const req = tx.objectStore(storeName).getAll();
+            req.onsuccess = () => resolve(req.result || []);
+            req.onerror = () => resolve(memoryStore[storeName] ? Array.from(memoryStore[storeName].values()) : []);
+          } catch (e) {
+            resolve(memoryStore[storeName] ? Array.from(memoryStore[storeName].values()) : []);
+          }
+        });
+      },
+      async clear(storeName) {
+        if (memoryStore[storeName]) memoryStore[storeName].clear();
+        const db = await getDb();
+        if (!db) return true;
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(storeName, 'readwrite');
+            tx.objectStore(storeName).clear();
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+          } catch (e) {
+            resolve(false);
+          }
+        });
+      }
+    };
+  })();
+
+  const syncEngine = {
+    userId: null,
+    token: null,
+    status: 'synced',
+    lastSeq: 0,
+    queue: [],
+    conflicts: [],
+    invoiceVersions: {},
+    profileVersion: 1,
+    drainTimer: null,
+    isDraining: false,
+
+    async init(user, token) {
+      if (!user || !user.id) return;
+      this.userId = user.id;
+      this.token = token || '';
+      
+      const meta = await zfIdb.get('sync_meta', 'sync_state_' + this.userId);
+      if (meta && typeof meta.lastSeq === 'number') {
+        this.lastSeq = meta.lastSeq;
+      } else {
+        this.lastSeq = 0;
+      }
+
+      this.queue = await zfIdb.getAll('sync_queue');
+      this.conflicts = await zfIdb.getAll('conflict_vault');
+
+      if (this.conflicts.length > 0) {
+        this.status = 'conflict';
+      } else if (this.queue.length > 0) {
+        this.status = 'syncing';
+        this.scheduleDrain();
+      } else {
+        this.status = 'synced';
+      }
+
+      const migKey = 'zf_migrated_' + this.userId;
+      const alreadyMigrated = typeof localStorage !== 'undefined' && localStorage.getItem(migKey);
+      if (!alreadyMigrated) {
+        if (S && S.invoices && S.invoices.length > 0) {
+          this.checkAndPromptMigration();
+        } else {
+          try { if (typeof localStorage !== 'undefined') localStorage.setItem(migKey, 'true'); } catch(e){}
+          this.pullDeltas();
+        }
+      } else {
+        this.pullDeltas();
+      }
+      this.updateUI();
+    },
+
+    clearUser() {
+      this.userId = null;
+      this.token = null;
+      this.status = 'offline';
+      this.queue = [];
+      this.conflicts = [];
+      this.updateUI();
+    },
+
+    checkAndPromptMigration() {
+      const email = (verifiedAuthUser && verifiedAuthUser.email) || 'your account';
+      const emailEl = $('#migrationUserEmail');
+      if (emailEl) emailEl.textContent = email;
+      const localCountEl = $('#localInvoiceCountLabel');
+      if (localCountEl) localCountEl.textContent = S.invoices.length + ' Invoice' + (S.invoices.length === 1 ? '' : 's');
+      
+      const dlg = $('#cloudSyncMigrationDlg');
+      if (dlg && typeof dlg.showModal === 'function') {
+        dlg.showModal();
+      }
+    },
+
+    async executeMigration(mode) {
+      const migKey = 'zf_migrated_' + this.userId;
+      saveSnapshot('pre_cloud_sync_migration_' + mode);
+
+      if (mode === 'upload') {
+        for (const inv of S.invoices) {
+          await this.enqueueInvoiceMutation(inv.id, 'create', 0, inv);
+        }
+        await this.enqueueProfileMutation(0, S.settings);
+        try { if (typeof localStorage !== 'undefined') localStorage.setItem(migKey, 'true'); } catch(e){}
+        toast('Local workspace queued for cloud upload (' + S.invoices.length + ' invoices).', 'ok');
+        this.scheduleDrain();
+      } else if (mode === 'download') {
+        try { if (typeof localStorage !== 'undefined') localStorage.setItem(migKey, 'true'); } catch(e){}
+        await this.executeReconciliation();
+        toast('Cloud workspace downloaded successfully.', 'ok');
+      } else if (mode === 'merge') {
+        try { if (typeof localStorage !== 'undefined') localStorage.setItem(migKey, 'true'); } catch(e){}
+        await this.executeReconciliation();
+        toast('Workspaces merged successfully.', 'ok');
+      }
+      const dlg = $('#cloudSyncMigrationDlg');
+      if (dlg && typeof dlg.close === 'function') dlg.close();
+      this.updateUI();
+      render();
+    },
+
+    async enqueueInvoiceMutation(id, action, baseVersion, payload) {
+      const mutId = 'mut_' + uid() + '_' + Date.now();
+      const idempotencyKey = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : ('idmp_' + uid() + '_' + Date.now());
+      const cleanPayload = payload ? clone(payload) : null;
+      const entry = {
+        id: mutId,
+        idempotencyKey: idempotencyKey,
+        entity: 'invoice',
+        recordId: id,
+        action: action,
+        baseVersion: baseVersion || 0,
+        payload: cleanPayload,
+        status: 'queued',
+        timestamp: Date.now()
+      };
+      this.queue.push(entry);
+      this.status = 'syncing';
+      await zfIdb.put('sync_queue', entry);
+      this.updateUI();
+      this.scheduleDrain();
+      return entry;
+    },
+
+    async enqueueProfileMutation(baseVersion, payload) {
+      const mutId = 'mut_' + uid() + '_' + Date.now();
+      const idempotencyKey = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : ('idmp_' + uid() + '_' + Date.now());
+      const clean = clone(payload || {});
+      if (clean.business && clean.business.geminiKey) {
+        delete clean.business.geminiKey;
+      }
+      const entry = {
+        id: mutId,
+        idempotencyKey: idempotencyKey,
+        entity: 'profile',
+        recordId: 'profile',
+        action: 'update',
+        baseVersion: baseVersion || 0,
+        payload: clean,
+        status: 'queued',
+        timestamp: Date.now()
+      };
+      this.queue.push(entry);
+      this.status = 'syncing';
+      await zfIdb.put('sync_queue', entry);
+      this.updateUI();
+      this.scheduleDrain();
+      return entry;
+    },
+
+    scheduleDrain() {
+      clearTimeout(this.drainTimer);
+      this.drainTimer = setTimeout(() => this.drainQueue(), 250);
+    },
+
+    async drainQueue() {
+      if (!this.userId || !this.token || this.isDraining) return;
+      if (typeof navigator !== 'undefined' && navigator.locks && navigator.locks.request) {
+        try {
+          await navigator.locks.request('zf_sync_lock_' + this.userId, { ifAvailable: true }, async (lock) => {
+            if (!lock) return;
+            await this._processDrain();
+          });
+        } catch (e) {
+          await this._processDrain();
+        }
+      } else {
+        await this._processDrain();
+      }
+    },
+
+    async _processDrain() {
+      if (this.isDraining) return;
+      this.isDraining = true;
+      try {
+        while (this.queue.length > 0) {
+          const item = this.queue[0];
+          let endpoint = '';
+          let body = null;
+
+          if (item.entity === 'invoice') {
+            endpoint = '/rest/v1/rpc/sync_push_invoice_mutation';
+            body = {
+              p_id: item.recordId,
+              p_expected_version: item.baseVersion,
+              p_action: item.action,
+              p_payload: item.payload,
+              p_idempotency_key: item.idempotencyKey
+            };
+          } else if (item.entity === 'profile') {
+            endpoint = '/rest/v1/rpc/sync_push_profile_mutation';
+            body = {
+              p_expected_version: item.baseVersion,
+              p_payload: item.payload,
+              p_idempotency_key: item.idempotencyKey
+            };
+          }
+
+          let res = null;
+          try {
+            const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
+                'Authorization': 'Bearer ' + this.token,
+                'Prefer': 'return=representation'
+              },
+              body: JSON.stringify(body)
+            });
+            if (fetchRes.ok) {
+              res = await fetchRes.json();
+            } else {
+              throw new Error('HTTP ' + fetchRes.status);
+            }
+          } catch (netErr) {
+            this.status = 'offline';
+            this.updateUI();
+            break;
+          }
+
+          if (res) {
+            if (res.status === 'success') {
+              if (item.entity === 'invoice') {
+                this.invoiceVersions[item.recordId] = res.committed_version;
+                const inv = S.invoices.find(x => x.id === item.recordId);
+                if (inv) inv._version = res.committed_version;
+              } else {
+                this.profileVersion = res.committed_version;
+              }
+              this.lastSeq = Math.max(this.lastSeq, res.change_seq || 0);
+              await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
+              await zfIdb.delete('sync_queue', item.id);
+              this.queue.shift();
+            } else if (res.status === 'conflict') {
+              const conflictEntry = {
+                id: 'cnf_' + item.recordId + '_' + Date.now(),
+                entity: item.entity,
+                recordId: item.recordId,
+                localDraft: item.payload,
+                serverRecord: res.server_record,
+                conflictedAt: Date.now()
+              };
+              this.conflicts.push(conflictEntry);
+              await zfIdb.put('conflict_vault', conflictEntry);
+              if (item.entity === 'invoice' && res.server_record) {
+                const idx = S.invoices.findIndex(x => x.id === item.recordId);
+                if (idx >= 0) S.invoices[idx] = normInvoice(res.server_record);
+                else S.invoices.unshift(normInvoice(res.server_record));
+                persist();
+              }
+              this.status = 'conflict';
+              await zfIdb.delete('sync_queue', item.id);
+              this.queue.shift();
+              toast('Sync conflict detected and archived safely. Review in Settings.', 'err');
+            } else if (res.status === 'already_deleted' || res.status === 'not_found') {
+              if (item.entity === 'invoice') {
+                S.invoices = S.invoices.filter(x => x.id !== item.recordId);
+                persist();
+              }
+              await zfIdb.delete('sync_queue', item.id);
+              this.queue.shift();
+            } else if (res.status === 'reconciliation_required') {
+              await this.executeReconciliation();
+              break;
+            } else {
+              await zfIdb.delete('sync_queue', item.id);
+              this.queue.shift();
+            }
+          }
+        }
+      } finally {
+        this.isDraining = false;
+        if (this.conflicts.length > 0) this.status = 'conflict';
+        else if (this.queue.length === 0) this.status = 'synced';
+        this.updateUI();
+      }
+    },
+
+    async pullDeltas() {
+      if (!this.userId || !this.token) return;
+      try {
+        const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/sync_pull_changes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
+            'Authorization': 'Bearer ' + this.token
+          },
+          body: JSON.stringify({ p_since_seq: this.lastSeq, p_limit: 100 })
+        });
+        if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
+        const res = await fetchRes.json();
+        if (res.status === 'reconciliation_required') {
+          return await this.executeReconciliation();
+        }
+        if (res.status === 'success' && Array.isArray(res.changes)) {
+          let hasChanges = false;
+          for (const ch of res.changes) {
+            if (ch.entity_type === 'invoice') {
+              const pendingEdit = this.queue.some(q => q.recordId === ch.record_id);
+              if (!pendingEdit) {
+                if (ch.operation === 'delete') {
+                  S.invoices = S.invoices.filter(x => x.id !== ch.record_id);
+                  hasChanges = true;
+                } else if (ch.payload) {
+                  const inv = normInvoice(ch.payload);
+                  inv._version = ch.record_version;
+                  const idx = S.invoices.findIndex(x => x.id === ch.record_id);
+                  if (idx >= 0) S.invoices[idx] = inv;
+                  else S.invoices.unshift(inv);
+                  hasChanges = true;
+                }
+              }
+            } else if (ch.entity_type === 'user_profile' && ch.payload) {
+              const pendingProfile = this.queue.some(q => q.entity === 'profile');
+              if (!pendingProfile) {
+                const oldGeminiKey = S.settings.business && S.settings.business.geminiKey;
+                S.settings = normSettings(ch.payload);
+                if (oldGeminiKey && S.settings.business) S.settings.business.geminiKey = oldGeminiKey;
+                hasChanges = true;
+              }
+            }
+            this.lastSeq = ch.change_seq;
+          }
+          this.lastSeq = res.head_seq || this.lastSeq;
+          await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
+          if (hasChanges) {
+            persist();
+            render();
+          }
+        }
+      } catch (e) {
+        this.status = 'offline';
+        this.updateUI();
+      }
+    },
+
+    async executeReconciliation() {
+      if (!this.userId || !this.token) return;
+      try {
+        const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/export_user_workspace', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
+            'Authorization': 'Bearer ' + this.token
+          },
+          body: JSON.stringify({})
+        });
+        if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
+        const data = await fetchRes.json();
+        if (data) {
+          saveSnapshot('pre_reconciliation');
+          const serverMap = new Map((data.invoices || []).map(i => [i.id, i]));
+          for (const localInv of S.invoices) {
+            if (!serverMap.has(localInv.id)) {
+              await this.enqueueInvoiceMutation(localInv.id, 'create', 0, localInv);
+            }
+          }
+          for (const sInv of (data.invoices || [])) {
+            const localIdx = S.invoices.findIndex(x => x.id === sInv.id);
+            const normSInv = normInvoice(sInv);
+            normSInv._version = sInv.version || 1;
+            if (localIdx >= 0) {
+              S.invoices[localIdx] = normSInv;
+            } else {
+              S.invoices.push(normSInv);
+            }
+          }
+          if (data.profile) {
+            const oldGemini = S.settings.business && S.settings.business.geminiKey;
+            S.settings = normSettings(data.profile);
+            if (oldGemini && S.settings.business) S.settings.business.geminiKey = oldGemini;
+          }
+          this.lastSeq = data.head_seq || 0;
+          await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
+          persist();
+          render();
+        }
+      } catch (e) {
+        console.warn('[ZestFlow Sync] Full reconciliation failed:', e.message);
+      }
+    },
+
+    async resolveConflict(conflictId, choice) {
+      const idx = this.conflicts.findIndex(c => c.id === conflictId);
+      if (idx < 0) return;
+      const c = this.conflicts[idx];
+
+      if (choice === 'keep_local') {
+        const serverVer = (c.serverRecord && c.serverRecord.version) || 1;
+        await this.enqueueInvoiceMutation(c.recordId, 'update', serverVer, c.localDraft);
+        const localIdx = S.invoices.findIndex(x => x.id === c.recordId);
+        if (localIdx >= 0) S.invoices[localIdx] = normInvoice(c.localDraft);
+        persist();
+      } else if (choice === 'keep_both') {
+        const copy = clone(c.localDraft);
+        copy.id = uid();
+        copy.number = makeNumber();
+        S.invoices.unshift(normInvoice(copy));
+        await this.enqueueInvoiceMutation(copy.id, 'create', 0, copy);
+        persist();
+      }
+      await zfIdb.delete('conflict_vault', conflictId);
+      this.conflicts.splice(idx, 1);
+      if (this.conflicts.length === 0) {
+        this.status = this.queue.length > 0 ? 'syncing' : 'synced';
+      }
+      this.updateUI();
+      render();
+    },
+
+    async syncNow() {
+      if (authState !== AUTH_STATES.AUTHENTICATED) {
+        return { message: 'Signed in as guest. Cloud sync requires Supabase account sign-in.' };
+      }
+      this.status = 'syncing';
+      this.updateUI();
+      await this.pullDeltas();
+      await this.drainQueue();
+      return { message: this.status === 'offline' ? 'Server paused/offline; queued locally.' : 'Sync completed successfully.', status: this.status, queued: this.queue.length };
+    },
+
+    updateUI() {
+      if (typeof document === 'undefined') return;
+      const badges = document.querySelectorAll('.sync-badge-host');
+      badges.forEach(b => {
+        b.innerHTML = renderSyncStatusBadge();
+      });
+      const card = document.getElementById('sideSyncCard');
+      if (card) {
+        if (authState === AUTH_STATES.AUTHENTICATED) {
+          card.innerHTML = '<b>Cloud Persistence Active</b><p>Invoices and settings synchronize securely across your devices with offline backup.</p>';
+        } else {
+          card.innerHTML = '<b>Browser-only storage</b><p>Invoices stay on this device. Sign in to sync across devices automatically.</p>';
+        }
+      }
+    }
+  };
+
+  function renderSyncStatusBadge() {
+    if (authState !== AUTH_STATES.AUTHENTICATED) {
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);color:#0284c7;font-size:11px;font-weight:600;cursor:pointer" data-act="open-sync-status" title="Local Storage Mode"><span style="font-size:10px">⚡</span> Local</span>';
+    }
+    if (syncEngine.status === 'conflict') {
+      const cCount = (syncEngine.conflicts && syncEngine.conflicts.length) || 1;
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#ef4444;font-size:11px;font-weight:700;cursor:pointer" data-act="open-conflict-dlg" title="' + cCount + ' Unresolved Conflict(s)"><span style="font-size:10px">⚠️</span> Conflict (' + cCount + ')</span>';
+    }
+    if (syncEngine.status === 'syncing') {
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.1);border:1px solid rgba(2,132,199,0.3);color:#0284c7;font-size:11px;font-weight:600;cursor:pointer" data-act="open-sync-status" title="Syncing with Cloud..."><span style="font-size:10px">◌</span> Syncing...</span>';
+    }
+    if (syncEngine.status === 'offline') {
+      const qCount = (syncEngine.queue && syncEngine.queue.length) || 0;
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#d97706;font-size:11px;font-weight:600;cursor:pointer" data-act="open-sync-status" title="Offline Mode: ' + qCount + ' changes queued"><span style="font-size:10px">⚡</span> Offline' + (qCount ? ' (' + qCount + ')' : '') + '</span>';
+    }
+    return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#10b981;font-size:11px;font-weight:600;cursor:pointer" data-act="open-sync-status" title="Multi-device Cloud Synced"><span style="font-size:8px">●</span> Synced</span>';
+  }
+
+  function openConflictDialog() {
+    const dlg = $('#syncConflictDlg');
+    const container = $('#conflictComparisonContainer');
+    if (!dlg || !container) return;
+    if (!syncEngine.conflicts || syncEngine.conflicts.length === 0) {
+      toast('No active conflicts to resolve.', 'info');
+      return;
+    }
+    const c = syncEngine.conflicts[0];
+    const loc = c.localDraft || {};
+    const srv = c.serverRecord || {};
+    container.innerHTML = '<div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line)">' +
+      '<span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px">Your Local Draft</span>' +
+      '<div style="font-size:12px;line-height:1.6">' +
+        '<strong>Number:</strong> ' + esc(loc.number || '—') + '<br>' +
+        '<strong>Client:</strong> ' + esc((loc.client && loc.client.name) || '—') + '<br>' +
+        '<strong>Status:</strong> ' + esc(loc.status || '—') + '<br>' +
+        '<strong>Items:</strong> ' + ((loc.items && loc.items.length) || 0) + ' item(s)<br>' +
+        '<strong>Updated:</strong> ' + (loc.updated ? new Date(loc.updated).toLocaleTimeString() : '—') +
+      '</div>' +
+    '</div>' +
+    '<div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid #0284c7">' +
+      '<span style="font-size:11px;font-weight:700;color:#0284c7;text-transform:uppercase;display:block;margin-bottom:8px">Cloud Authoritative Version</span>' +
+      '<div style="font-size:12px;line-height:1.6">' +
+        '<strong>Number:</strong> ' + esc(srv.number || '—') + '<br>' +
+        '<strong>Client:</strong> ' + esc((srv.client && srv.client.name) || '—') + '<br>' +
+        '<strong>Status:</strong> ' + esc(srv.status || '—') + '<br>' +
+        '<strong>Items:</strong> ' + ((srv.items && srv.items.length) || 0) + ' item(s)<br>' +
+        '<strong>Version:</strong> v' + (srv.version || 1) +
+      '</div>' +
+    '</div>';
+    if (typeof dlg.showModal === 'function') dlg.showModal();
+  }
+
+
   try{localStorage.setItem('__zf','1');localStorage.removeItem('__zf')}catch(e){storageOK=false}
 
   const img=v=>(typeof v==='string'&&v.length<700000&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v))?v:'';
@@ -4640,15 +5630,25 @@
     };
   }
   function loadState(){
+    let raw=null;
     try{
-      const raw=localStorage.getItem(KEY);
+      raw=localStorage.getItem(KEY);
       if(raw){return migratePayload(JSON.parse(raw))}
-    }catch(e){}
+    }catch(e){
+      if(raw!==null && typeof raw==='string'){
+        recoveryPending=true;
+        rawCorruptedString=raw;
+        if(typeof window!=='undefined')window.__zf_corrupted_raw=raw;
+        try{localStorage.setItem(RECOVERY_KEY,raw)}catch(storageErr){console.warn('[ZestFlow Recovery] Emergency quarantine write failed:',storageErr.message)}
+        console.error('[ZestFlow Recovery Lock] Corrupted data detected in localStorage. Automatic saving locked.');
+      }
+    }
     return migratePayload({});
   }
   let S={schemaVersion:SCHEMA_VERSION,settings:normSettings({}),invoices:[]};
   S=loadState();
-  const recCount = processRecurringInvoices();if(recCount>0)toast(recCount+" recurring invoice(s) generated!","info");
+  const recCount = recoveryPending ? 0 : processRecurringInvoices();if(recCount>0)toast(recCount+" recurring invoice(s) generated!","info");
+  initAuthState();
   let saveTimer=null;
   function saveSnapshot(reason){
     if(!storageOK)return false;
@@ -4676,16 +5676,184 @@
     persist();
     return true;
   }
+  function restoreRecoverySnapshot(){
+    const snap=getSnapshot();
+    if(!snap||!snap.state){toast('No emergency backup snapshot available.','err');return false;}
+    try{
+      const m=migratePayload(snap.state);
+      if(!m||!Array.isArray(m.invoices)){toast('Invalid snapshot data.','err');return false;}
+      S.schemaVersion=SCHEMA_VERSION;
+      S.settings=m.settings;
+      S.invoices=m.invoices;
+      recoveryPending=false;
+      rawCorruptedString=null;
+      persist();
+      showBanner();
+      toast('Restored database from last known good snapshot.','ok');
+      return true;
+    }catch(err){toast('Restore failed: '+err.message,'err');return false;}
+  }
+  function downloadCorruptedBackup(){
+    const raw = rawCorruptedString || (typeof window!=='undefined'&&window.__zf_corrupted_raw) || localStorage.getItem(RECOVERY_KEY);
+    if(!raw){toast('No corrupted raw data found in memory.','err');return;}
+    try{
+      const blob=new Blob([raw],{type:'application/json;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='zestflow-corrupted-database-'+todayISO()+'.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+      toast('Corrupted database downloaded. Keep this file safe.','ok');
+    }catch(err){toast('Download failed: '+err.message,'err');}
+  }
+  function exportConflictExternal(){
+    try{
+      const raw=localStorage.getItem(KEY);
+      if(!raw){toast('No stored database found in localStorage.','err');return false;}
+      const parsed=JSON.parse(raw);
+      const blob=new Blob([JSON.stringify(parsed,null,2)],{type:'application/json;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='zestflow-external-tab-data-'+todayISO()+'.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+      toast('Downloaded external tab database','ok');
+      return true;
+    }catch(err){toast('Export failed: '+err.message,'err');return false;}
+  }
+  function exportConflictLocal(){
+    try{
+      const payload={app:'zestflow',version:SCHEMA_VERSION,schemaVersion:SCHEMA_VERSION,settings:S.settings,invoices:S.invoices};
+      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='zestflow-current-tab-unsaved-edits-'+todayISO()+'.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+      toast('Downloaded current tab unsaved edits','ok');
+      return true;
+    }catch(err){toast('Export failed: '+err.message,'err');return false;}
+  }
+  async function forceOverwriteConflict(){
+    if(recoveryPending){
+      toast('Cannot overwrite: recovery mode is active. Please restore or replace database first.','err');
+      return false;
+    }
+
+    const step1=await ask(
+      'Overwrite external tab changes?',
+      'Another tab has saved changes to your database. Force-overwriting will replace those external changes with this tab\'s in-memory state.\n\nWe recommend exporting both copies first.',
+      'Proceed to Overwrite',
+      true
+    );
+    if(!step1)return false;
+
+    const step2=await ask(
+      'FINAL CONFIRMATION: Force Overwrite Database?',
+      'Are you absolutely sure? The external tab\'s stored data will be overwritten. A rollback snapshot of the external data will be preserved automatically.',
+      'Yes, Overwrite Now',
+      true
+    );
+    if(!step2)return false;
+
+    const rawStored=localStorage.getItem(KEY);
+    if(rawStored!==null){
+      let parsedStored;
+      try{
+        parsedStored=JSON.parse(rawStored);
+        if(!parsedStored||typeof parsedStored!=='object'){
+          throw new Error('Invalid external data structure');
+        }
+      }catch(parseErr){
+        toast('Cannot overwrite: stored external data is corrupted. Export external data first to prevent unrecoverable loss.','err');
+        return false;
+      }
+
+      const snapObj={reason:'pre-force-overwrite-external',timestamp:Date.now(),state:parsedStored};
+      const snapStr=JSON.stringify(snapObj);
+      try{
+        localStorage.setItem(SNAP_KEY,snapStr);
+      }catch(writeErr){
+        toast('Could not create rollback snapshot (storage full or blocked). Overwrite aborted.','err');
+        return false;
+      }
+
+      try{
+        const readBack=localStorage.getItem(SNAP_KEY);
+        if(!readBack||readBack!==snapStr){
+          throw new Error('Snapshot read-back verification failed');
+        }
+      }catch(verifyErr){
+        toast('Rollback snapshot verification failed. Overwrite aborted to protect external data.','err');
+        return false;
+      }
+    }
+
+    const currentStored=localStorage.getItem(KEY);
+    if(currentStored!==rawStored){
+      toast('Storage was modified by another tab while confirming. Overwrite aborted.','err');
+      showBanner();
+      return false;
+    }
+
+    clearTimeout(saveTimer);
+    saveTimer=null;
+    multiTabConflict=false;
+
+    const ok=persist();
+    showBanner();
+    if(ok){
+      toast('Database overwritten with current tab data. External state preserved in snapshot.','ok');
+    }
+    return ok;
+  }
   function persist(){
-    if(!storageOK)return;
+    if(recoveryPending){
+      console.warn('[ZestFlow Safety Lock] All persistence blocked: corrupted storage recovery is pending.');
+      return false;
+    }
+    if(multiTabConflict){
+      console.warn('[ZestFlow Safety Lock] All persistence blocked: multi-tab storage conflict active.');
+      return false;
+    }
+    if(!storageOK)return false;
     try{
       S.schemaVersion=SCHEMA_VERSION;
       localStorage.setItem(KEY,JSON.stringify(S));
-    }catch(e){storageOK=false;showBanner();toast('Could not save (storage full or blocked). Please export a backup.','err')}
+      if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+        syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
+      }
+      return true;
+    }catch(e){storageOK=false;showBanner();toast('Could not save (storage full or blocked). Please export a backup.','err');return false;}
   }
-  function persistSoon(){clearTimeout(saveTimer);saveTimer=setTimeout(persist,250)}
+  function persistSoon(){if(recoveryPending||multiTabConflict)return;clearTimeout(saveTimer);saveTimer=setTimeout(persist,250)}
   function showBanner(){
     const parts=[];
+    if(recoveryPending){
+      parts.push('<div class="banner recovery-banner" style="background:#dc2626!important;color:#fff!important;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-radius:12px;margin-bottom:16px;box-shadow:0 4px 14px rgba(220,38,38,0.3)">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+          '<span style="font-size:20px">⚠️</span>' +
+          '<div>' +
+            '<strong style="display:block;font-size:14px">Corrupted Storage Detected &mdash; Saving Locked</strong>' +
+            '<span style="font-size:12px;opacity:0.95">Your existing database in browser storage was corrupted. Automatic saves are blocked to prevent overwriting your raw data. Download your raw data or restore from snapshot/backup to resume.</span>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">' +
+          '<button type="button" class="btn sm" data-act="download-corrupted-backup" style="background:#fff;color:#dc2626;font-weight:700;border:none;cursor:pointer">Download Raw Data</button>' +
+          '<button type="button" class="btn sm" data-act="restore-recovery-snapshot" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.4);cursor:pointer">Restore Snapshot</button>' +
+          '<button type="button" class="btn sm" data-act="import-recovery-file" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.4);cursor:pointer">Import Backup</button>' +
+        '</div>' +
+      '</div>');
+    }
     try { if (typeof localStorage !== 'undefined') localStorage.removeItem('zf_guide_dismissed'); } catch(e){}
     const guideDismissed = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('zf_guide_dismissed_session') : null;
     const authUser = typeof localStorage !== 'undefined' ? localStorage.getItem('zf_auth_user') : null;
@@ -4709,11 +5877,38 @@
         '</div>' +
       '</div>');
     }
+    if(authState === AUTH_STATES.PENDING){
+      const hasPendingPKCE = (typeof sessionStorage !== 'undefined') && !!sessionStorage.getItem('zf_pkce_pending');
+      const bannerMsg = authNetworkOffline ?
+        (hasPendingPKCE ? '<strong>Offline Mode:</strong> Network interrupted during sign-in. Cached OAuth flow is preserved.' : '<strong>Offline Mode:</strong> Supabase server is unreachable. Cached session is preserved and local records remain fully accessible.') :
+        '<strong>Session Verification Pending:</strong> Checking Supabase authentication status in the background. Access to local records remains active.';
+      parts.push('<div class="banner" style="background:rgba(245,158,11,0.12)!important;color:#b45309!important;border:1px solid rgba(245,158,11,0.3)!important;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-radius:10px;margin-bottom:14px;flex-wrap:wrap">' +
+        '<span>' + bannerMsg + '</span>' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          (hasPendingPKCE ? '<button type="button" class="btn sm" data-act="retry-pkce-exchange" style="background:#b45309;color:#fff;border:none;cursor:pointer;white-space:nowrap">Retry Sign-In</button>' : '') +
+          '<button type="button" class="btn sm" data-act="verify-session-retry" style="background:#b45309;color:#fff;border:none;cursor:pointer;white-space:nowrap">Retry Verification</button>' +
+        '</div>' +
+      '</div>');
+    }
     if(!storageOK){
       parts.push('<div class="banner">Saving is off in this browser mode, so your invoices will be lost when you close this tab. Use Settings → Export backup often.</div>');
     }
     if(multiTabConflict){
-      parts.push('<div class="banner" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>Invoices were updated in another browser tab. Reload state before saving to avoid overwriting changes.</span><button type="button" class="btn sm primary" data-act="reload-tab-state">Reload latest data</button></div>');
+      parts.push('<div class="banner conflict-banner" style="background:#b45309!important;color:#fff!important;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-radius:12px;margin-bottom:16px;box-shadow:0 4px 14px rgba(180,83,9,0.3);flex-wrap:wrap">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+          '<span style="font-size:20px">⚠️</span>' +
+          '<div>' +
+            '<strong style="display:block;font-size:14px">Multi-Tab Conflict Detected &mdash; Saving Locked</strong>' +
+            '<span style="font-size:12px;opacity:0.95">Invoices were updated in another browser tab. Saving is locked to prevent silent overwrites. Choose an action below:</span>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">' +
+          '<button type="button" class="btn sm" data-act="reload-tab-state" style="background:#fff;color:#b45309;font-weight:700;border:none;cursor:pointer">Reload Latest Data (Safe)</button>' +
+          '<button type="button" class="btn sm" data-act="export-conflict-external" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.4);cursor:pointer">Export Other Tab Data</button>' +
+          '<button type="button" class="btn sm" data-act="export-conflict-local" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.4);cursor:pointer">Export This Tab Edits</button>' +
+          '<button type="button" class="btn sm" data-act="force-overwrite-conflict" style="background:#dc2626;color:#fff;font-weight:700;border:none;cursor:pointer">Force Overwrite...</button>' +
+        '</div>' +
+      '</div>');
     }
     const bh = $('#bannerHost');
     if(bh) bh.innerHTML=parts.join('');
@@ -4721,6 +5916,8 @@
   window.addEventListener('storage',e=>{
     if(e&&e.key===KEY){
       multiTabConflict=true;
+      clearTimeout(saveTimer);
+      saveTimer=null;
       showBanner();
     }
   });
@@ -4746,7 +5943,7 @@
       document.body.classList.remove('layout-invowise', 'layout-cashfund');
       document.body.classList.add('layout-' + lay);
     }
-    const isAuth = (typeof localStorage !== 'undefined' && localStorage.getItem('zf_auth_user') && localStorage.getItem('zf_onboarded'));
+    const isAuth = (authState !== AUTH_STATES.UNAUTHENTICATED && (typeof localStorage !== 'undefined' && localStorage.getItem('zf_onboarded')));
     const isObActive = (typeof document !== 'undefined' && document.body && document.body.classList.contains('onboard-active'));
 
     const topHost = (typeof document !== 'undefined' && document.getElementById ? document.getElementById('invoTopNavHost') : null);
@@ -4754,9 +5951,37 @@
       if(lay === 'invowise' && isAuth && !isObActive){
         topHost.innerHTML = renderInvowiseTopNav();
         topHost.style.display = 'block';
+      } else if(lay === 'cashfund' && isAuth && !isObActive){
+        topHost.innerHTML = renderCashFundMobileTopBar();
+        topHost.style.display = 'block';
       } else {
         topHost.innerHTML = '';
         topHost.style.display = 'none';
+      }
+    }
+
+    const drawer = (typeof document !== 'undefined' ? document.getElementById('cashfundDrawer') : null);
+    if(drawer){
+      if(lay === 'cashfund' && isAuth && !isObActive){
+        drawer.innerHTML = renderCashFundDrawer();
+      } else {
+        drawer.innerHTML = '';
+        if (drawer.classList && typeof drawer.classList.remove === 'function') {
+          drawer.classList.remove('open');
+        }
+        const bdrop = document.getElementById('cashfundDrawerBackdrop');
+        if (bdrop && bdrop.classList && typeof bdrop.classList.remove === 'function') {
+          bdrop.classList.remove('open');
+        }
+      }
+    }
+
+    const mobNav = (typeof document !== 'undefined' ? document.querySelector('.mob-nav') : null);
+    if(mobNav){
+      if(lay === 'cashfund'){
+        mobNav.innerHTML = renderCashFundMobNav();
+      } else {
+        mobNav.innerHTML = renderInvowiseMobNav();
       }
     }
 
@@ -5387,38 +6612,894 @@
 
 
   /* ---------- SUPABASE AUTH & GEMINI AI ENGINE ---------- */
-  const SUPABASE_CONFIG = {
-    url: 'https://lsfwzuzbbfjeujtrtgen.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzZnd6dXpiYmZqZXVqdHJ0Z2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMDI3MDUsImV4cCI6MjEwODY3ODcwNX0.IKyovymqrrimssedZ-SYQlAQBJEM7uGvAYZ8TpWD5PM'
-  };
   const GEMINI_CONFIG = {
     key: ''
   };
 
+  /* ---------- Supabase REST client, session storage & Web Locks synchronization (Batch 4A) ---------- */
+  async function supabaseRequest(endpoint, opts) {
+    opts = opts || {};
+    const url = endpoint.startsWith('http') ? endpoint : (SUPABASE_CONFIG.url + endpoint);
+    const headers = Object.assign({
+      'apikey': SUPABASE_CONFIG.anonKey
+    }, opts.headers || {});
+    if (opts.body && typeof opts.body === 'object' && !(typeof FormData !== 'undefined' && opts.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(opts.body);
+    }
+    return fetch(url, Object.assign({}, opts, { headers: headers }));
+  }
+
+  function getStoredAuthSession() {
+    try {
+      const raw = (typeof localStorage !== 'undefined') ? localStorage.getItem('zf_auth_session') : null;
+      if (raw) return JSON.parse(raw);
+      const oldRaw = (typeof localStorage !== 'undefined') ? localStorage.getItem('zf_auth_user') : null;
+      if (oldRaw) {
+        const old = JSON.parse(oldRaw);
+        if (old && (old.token || old.provider === 'guest')) {
+          return {
+            access_token: old.token || '',
+            refresh_token: old.refresh_token || '',
+            expires_at: old.expires_at || (Math.floor(Date.now() / 1000) + 3600),
+            provider: old.provider || 'email',
+            user: { id: old.id || uid(), email: old.email || '' }
+          };
+        }
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function setStoredAuthSession(session) {
+    try {
+      if (typeof localStorage === 'undefined') return;
+      if (!session) {
+        localStorage.removeItem('zf_auth_session');
+        localStorage.removeItem('zf_auth_user');
+        return;
+      }
+      localStorage.setItem('zf_auth_session', JSON.stringify(session));
+      localStorage.setItem('zf_auth_user', JSON.stringify({
+        email: (session.user && session.user.email) || '',
+        id: (session.user && session.user.id) || '',
+        token: session.access_token || '',
+        refresh_token: session.refresh_token || '',
+        provider: session.provider || 'email',
+        expires_at: session.expires_at || 0
+      }));
+    } catch (e) {}
+  }
+
+  async function coordinateTokenRefresh() {
+    if (typeof navigator !== 'undefined' && navigator.locks && typeof navigator.locks.request === 'function') {
+      try {
+        return await navigator.locks.request('zf_auth_refresh_lock', { mode: 'exclusive' }, async () => {
+          return executeSafeRefresh();
+        });
+      } catch (lockErr) {
+        console.warn('[ZestFlow Auth] Web Locks request failed, attempting leased fallback:', lockErr.message);
+      }
+    }
+    return executeFallbackRefreshWithLease();
+  }
+
+  async function executeSafeRefresh() {
+    const currentSession = getStoredAuthSession();
+    if (!currentSession || !currentSession.refresh_token) {
+      return null;
+    }
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (currentSession.expires_at && currentSession.expires_at > (nowSec + 120) && currentSession.access_token) {
+      return currentSession;
+    }
+    if (refreshAttemptCount > 0) {
+      return null;
+    }
+    refreshAttemptCount++;
+
+    try {
+      const res = await supabaseRequest('/auth/v1/token?grant_type=refresh_token', {
+        method: 'POST',
+        body: { refresh_token: currentSession.refresh_token }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.access_token && data.refresh_token) {
+          const latestStored = getStoredAuthSession();
+          const newExpiresAt = Math.floor(Date.now() / 1000) + (data.expires_in || 3600);
+          if (latestStored && latestStored.expires_at && latestStored.expires_at > newExpiresAt) {
+            refreshAttemptCount = 0;
+            return latestStored;
+          }
+          const newSession = {
+            access_token: data.access_token,
+            refresh_token: data.refresh_token,
+            expires_at: newExpiresAt,
+            provider: currentSession.provider || 'email',
+            user: data.user || currentSession.user || null
+          };
+          setStoredAuthSession(newSession);
+          refreshAttemptCount = 0;
+          return newSession;
+        }
+      }
+      if (res.status === 400 || res.status === 401) {
+        const latestStored = getStoredAuthSession();
+        if (latestStored && latestStored.refresh_token !== currentSession.refresh_token && latestStored.expires_at > nowSec) {
+          refreshAttemptCount = 0;
+          return latestStored;
+        }
+        console.warn('[ZestFlow Auth] Refresh token revoked or invalid on server. Session expired.');
+        setStoredAuthSession(null);
+        authState = AUTH_STATES.UNAUTHENTICATED;
+        verifiedAuthUser = null;
+        applyLayout();
+        showBanner();
+        toast('Your session has expired. Please sign in again, or continue in offline guest mode.', 'err');
+        refreshAttemptCount = 0;
+        return null;
+      }
+      refreshAttemptCount = 0;
+      return null;
+    } catch (netErr) {
+      console.warn('[ZestFlow Auth] Refresh network interruption (' + netErr.message + '). Preserving cached credentials.');
+      authNetworkOffline = true;
+      refreshAttemptCount = 0;
+      return null;
+    }
+  }
+
+  async function executeFallbackRefreshWithLease() {
+    const LEASE_KEY = 'zf_auth_fallback_lease';
+    const myLeaseId = uid();
+    const now = Date.now();
+    try {
+      const rawLease = localStorage.getItem(LEASE_KEY);
+      if (rawLease) {
+        const lease = JSON.parse(rawLease);
+        if (lease && lease.expires && lease.expires > now && lease.tabId !== myLeaseId) {
+          await new Promise(r => setTimeout(r, 100));
+          return getStoredAuthSession();
+        }
+      }
+      localStorage.setItem(LEASE_KEY, JSON.stringify({ tabId: myLeaseId, expires: now + 5000 }));
+    } catch (e) {}
+
+    await new Promise(r => setTimeout(r, 50));
+    try {
+      const rawLease = localStorage.getItem(LEASE_KEY);
+      if (rawLease) {
+        const lease = JSON.parse(rawLease);
+        if (lease && lease.tabId !== myLeaseId && lease.expires > Date.now()) {
+          return getStoredAuthSession();
+        }
+      }
+    } catch (e) {}
+
+    try {
+      return await executeSafeRefresh();
+    } finally {
+      try {
+        const rawLease = localStorage.getItem(LEASE_KEY);
+        if (rawLease) {
+          const lease = JSON.parse(rawLease);
+          if (lease && lease.tabId === myLeaseId) localStorage.removeItem(LEASE_KEY);
+        }
+      } catch (e) {}
+    }
+  }
+
+  function initAuthState() {
+    try {
+      const searchStr = (typeof window !== 'undefined' && window.location && window.location.search) ? window.location.search : '';
+      const hashStr = (typeof window !== 'undefined' && window.location && window.location.hash) ? window.location.hash : '';
+      const hasAuthCode = searchStr.includes('code=');
+      const hasOauthErr = searchStr.includes('error=') || hashStr.includes('error=');
+      const hasTokenInHash = hashStr.includes('access_token=');
+      const hasAuthCallback = hasAuthCode || hasOauthErr || hasTokenInHash;
+
+      if (hasAuthCallback) {
+        authState = AUTH_STATES.PENDING;
+      }
+
+      handleAuthCallbackOnStartup();
+
+      if (hasAuthCallback) {
+        return;
+      }
+
+      const session = getStoredAuthSession();
+      if (!session) {
+        const rawUser = (typeof localStorage !== 'undefined') ? localStorage.getItem('zf_auth_user') : null;
+        if (rawUser) {
+          try {
+            const parsed = JSON.parse(rawUser);
+            if (parsed.provider === 'guest' || parsed.email === 'guest@zestflow.local') {
+              authState = AUTH_STATES.GUEST;
+              verifiedAuthUser = null;
+              cachedAuthIdentity = parsed;
+              return;
+            }
+          } catch (e) {}
+        }
+        authState = AUTH_STATES.UNAUTHENTICATED;
+        verifiedAuthUser = null;
+        cachedAuthIdentity = null;
+        return;
+      }
+      cachedAuthIdentity = session.user || session;
+      if (session.provider === 'guest' || (session.user && session.user.email === 'guest@zestflow.local')) {
+        authState = AUTH_STATES.GUEST;
+        verifiedAuthUser = null;
+        return;
+      }
+      if (session.access_token) {
+        authState = AUTH_STATES.PENDING;
+        verifiedAuthUser = null;
+        const nowSec = Math.floor(Date.now() / 1000);
+        if (session.expires_at && session.expires_at < (nowSec + 120) && session.refresh_token) {
+          coordinateTokenRefresh().then(fresh => {
+            const tok = (fresh && fresh.access_token) || session.access_token;
+            verifySessionWithServer(tok);
+          }).catch(() => {
+            verifySessionWithServer(session.access_token);
+          });
+        } else {
+          verifySessionWithServer(session.access_token);
+        }
+      } else {
+        authState = AUTH_STATES.GUEST;
+        verifiedAuthUser = null;
+      }
+    } catch (e) {
+      authState = AUTH_STATES.UNAUTHENTICATED;
+      verifiedAuthUser = null;
+      cachedAuthIdentity = null;
+    }
+  }
+
+  async function verifySessionWithServer(token) {
+    if (!token) {
+      if (authState === AUTH_STATES.PENDING) {
+        authState = AUTH_STATES.GUEST;
+        authNetworkOffline = false;
+        applyLayout();
+        showBanner();
+      }
+      return false;
+    }
+    try {
+      const res = await fetch(SUPABASE_CONFIG.url + '/auth/v1/user', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'apikey': SUPABASE_CONFIG.anonKey
+        }
+      });
+      if (authState === AUTH_STATES.UNAUTHENTICATED) {
+        return false;
+      }
+      if (res.ok) {
+        const userData = await res.json();
+        if (userData && (userData.id || userData.email)) {
+          authState = AUTH_STATES.AUTHENTICATED;
+          authNetworkOffline = false;
+          verifiedAuthUser = userData;
+          if (typeof syncEngine !== 'undefined') {
+            syncEngine.init(userData, token);
+          }
+          applyLayout();
+          showBanner();
+          if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') render();
+          return true;
+        }
+      }
+      if (res.status === 401 || res.status === 403) {
+        const sess = getStoredAuthSession();
+        if (sess && sess.refresh_token) {
+          const refreshed = await coordinateTokenRefresh();
+          if (refreshed && refreshed.access_token && refreshed.access_token !== token) {
+            return await verifySessionWithServer(refreshed.access_token);
+          }
+        }
+        if (authState === AUTH_STATES.UNAUTHENTICATED) return false;
+        console.warn('[ZestFlow Auth] Supabase session explicitly rejected by server (HTTP ' + res.status + '). Operating as Offline Guest.');
+        authState = AUTH_STATES.GUEST;
+        authNetworkOffline = false;
+        verifiedAuthUser = null;
+        applyLayout();
+        showBanner();
+        if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') render();
+        toast('Your session has expired or was rejected by server. Operating in offline guest mode.', 'err');
+        return false;
+      }
+      if (authState === AUTH_STATES.UNAUTHENTICATED) return false;
+      console.warn('[ZestFlow Auth] Supabase server error (HTTP ' + res.status + '). Retaining pending session in offline mode.');
+      authState = AUTH_STATES.PENDING;
+      authNetworkOffline = true;
+      verifiedAuthUser = null;
+      applyLayout();
+      showBanner();
+      if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') render();
+      return false;
+    } catch (netErr) {
+      if (authState === AUTH_STATES.UNAUTHENTICATED) return false;
+      console.warn('[ZestFlow Auth] Supabase server unreachable (' + netErr.message + '). Retaining pending session in offline mode.');
+      authState = AUTH_STATES.PENDING;
+      authNetworkOffline = true;
+      verifiedAuthUser = null;
+      applyLayout();
+      showBanner();
+      if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') render();
+      return false;
+    }
+  }
+
+  function setGuestAuthState() {
+    authState = AUTH_STATES.GUEST;
+    authNetworkOffline = false;
+    verifiedAuthUser = null;
+    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('zf_session_active', 'true');
+    const guestUser = {
+      email: 'guest@zestflow.local',
+      id: 'guest_' + uid(),
+      provider: 'guest',
+      name: 'Guest'
+    };
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('zf_auth_user', JSON.stringify(guestUser));
+      localStorage.setItem('zf_auth_session', JSON.stringify({
+        access_token: '',
+        refresh_token: '',
+        expires_at: 0,
+        provider: 'guest',
+        user: guestUser
+      }));
+    }
+    applyLayout();
+    showBanner();
+  }
+
+  async function logoutAuth() {
+    const currentSession = getStoredAuthSession();
+    const token = currentSession ? currentSession.access_token : null;
+    if (typeof syncEngine !== 'undefined') {
+      syncEngine.clearUser();
+    }
+    if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_session_active');
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('zf_auth_session');
+      localStorage.removeItem('zf_auth_user');
+      localStorage.removeItem('zf_onboarded');
+    }
+    authState = AUTH_STATES.UNAUTHENTICATED;
+    authNetworkOffline = false;
+    verifiedAuthUser = null;
+    cachedAuthIdentity = null;
+    ui.onboardStep = 'auth';
+    render();
+    if (token) {
+      try {
+        const res = await supabaseRequest('/auth/v1/logout?scope=local', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res && res.ok) {
+          toast('Signed out successfully. Your local invoices remain safe.', 'info');
+          return;
+        }
+      } catch (e) {}
+    }
+    toast('Signed out on this device. Your local invoices remain safe.', 'info');
+  }
+
+  function getAuthBadgeText() {
+    if (authState === AUTH_STATES.AUTHENTICATED && verifiedAuthUser) {
+      return '● Authenticated (' + (verifiedAuthUser.email || 'Supabase') + ')';
+    }
+    if (authState === AUTH_STATES.PENDING) {
+      return authNetworkOffline ? '◌ Offline (Server Unreachable)' : '◌ Session Verification Pending...';
+    }
+    if (authState === AUTH_STATES.GUEST) {
+      return '⚡ Offline Guest (Local Storage)';
+    }
+    return '✕ Unauthenticated';
+  }
+
+  function getAuthProviderName() {
+    if (verifiedAuthUser) {
+      if (verifiedAuthUser.app_metadata && verifiedAuthUser.app_metadata.provider) {
+        return verifiedAuthUser.app_metadata.provider;
+      }
+      if (Array.isArray(verifiedAuthUser.identities) && verifiedAuthUser.identities[0] && verifiedAuthUser.identities[0].provider) {
+        return verifiedAuthUser.identities[0].provider;
+      }
+    }
+    const sess = getStoredAuthSession();
+    if (sess && sess.provider) return sess.provider;
+    return 'email';
+  }
+
+  function getAuthDescriptionText() {
+    if (authState === AUTH_STATES.AUTHENTICATED && verifiedAuthUser) {
+      const prov = getAuthProviderName() === 'google' ? 'Google OAuth' : 'Email & Password';
+      return 'Connected via ' + prov + ' with verified server identity (' + (verifiedAuthUser.email || '') + '). Business records remain browser-local.';
+    }
+    if (authState === AUTH_STATES.PENDING) {
+      let pendingProv = '';
+      try {
+        const sess = getStoredAuthSession();
+        if (sess && sess.provider === 'google') pendingProv = ' (Google OAuth)';
+        else if (sess && sess.user && sess.user.email) pendingProv = ' (' + sess.user.email + ')';
+      } catch (e) {}
+      if (authNetworkOffline) {
+        return 'Supabase server is currently unreachable' + pendingProv + '. Cached session is preserved. Click Retry Verification when reconnected.';
+      }
+      return 'Validating cached session' + pendingProv + ' with Supabase Auth server. Access to local records is active while verification completes.';
+    }
+    if (authState === AUTH_STATES.GUEST) {
+      return 'Operating in offline-first mode. All invoices, clients, and settings are stored locally in this browser.';
+    }
+    return 'No active session. Please sign in or continue as guest to access your workspace.';
+  }
+
+  function renderAuthStatusPill() {
+    if (authState === AUTH_STATES.AUTHENTICATED) {
+      return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#10b981;font-size:11px;font-weight:700">● Authenticated (Server-Verified)</span>';
+    }
+    if (authState === AUTH_STATES.PENDING) {
+      if (authNetworkOffline) {
+        return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;font-size:11px;font-weight:700">◌ Offline (Server Unreachable)</span>';
+      }
+      return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;font-size:11px;font-weight:700">◌ Verification Pending</span>';
+    }
+    if (authState === AUTH_STATES.GUEST) {
+      return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(2,132,199,0.12);border:1px solid rgba(2,132,199,0.3);color:#0284c7;font-size:11px;font-weight:700">⚡ Offline Guest</span>';
+    }
+    return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(148,163,184,0.12);border:1px solid rgba(148,163,184,0.3);color:#94a3b8;font-size:11px;font-weight:700">✕ Unauthenticated</span>';
+  }
+
   async function supabaseEmailAuth(email, password, isSignUp) {
-    const endpoint = isSignUp ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password';
-    const res = await fetch(SUPABASE_CONFIG.url + endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_CONFIG.anonKey
-      },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error_description || data.msg || data.message || 'Authentication failed');
-    const user = data.user || data;
-    localStorage.setItem('zf_auth_user', JSON.stringify({
-      email: user.email || email,
-      id: user.id || uid(),
-      token: data.access_token || ''
-    }));
-    return user;
+    if (isSignUp) {
+      const targetRedirect = encodeURIComponent(window.location.origin + window.location.pathname);
+      const res = await supabaseRequest('/auth/v1/signup?redirect_to=' + targetRedirect, {
+        method: 'POST',
+        body: { email: email, password: password }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg || data.message || data.error_description || 'Signup failed');
+      if (data.access_token) {
+        const newSession = {
+          access_token: data.access_token,
+          refresh_token: data.refresh_token || '',
+          expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
+          provider: 'email',
+          user: data.user || data
+        };
+        setStoredAuthSession(newSession);
+        authState = AUTH_STATES.PENDING;
+        await verifySessionWithServer(data.access_token);
+        return { success: true, confirmed: true, user: data.user || data };
+      }
+      authState = AUTH_STATES.UNAUTHENTICATED;
+      showAuthMsg('Confirmation link sent! Please check your email to activate your account before signing in.', false);
+      toast('Confirmation link sent! Check your inbox.', 'info');
+      return { success: true, confirmed: false, user: data };
+    } else {
+      const res = await supabaseRequest('/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        body: { email: email, password: password }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error_description || data.msg || data.message || 'Invalid login credentials');
+      const newSession = {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token || '',
+        expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
+        provider: 'email',
+        user: data.user || data
+      };
+      setStoredAuthSession(newSession);
+      authState = AUTH_STATES.PENDING;
+      await verifySessionWithServer(data.access_token);
+      return { success: true, confirmed: true, user: data.user || data };
+    }
+  }
+
+  /* ---------- RFC 7636 PKCE Google OAuth, Callback Router & Password Recovery (Batch 4B) ---------- */
+  async function generatePKCEPair() {
+    const bytes = new Uint8Array(64);
+    if (typeof window !== 'undefined' && window.crypto && typeof window.crypto.getRandomValues === 'function') {
+      window.crypto.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < 64; i++) bytes[i] = Math.floor(Math.random() * 256);
+    }
+    let bin = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+      bin += String.fromCharCode(bytes[i]);
+    }
+    const verifier = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle && typeof window.crypto.subtle.digest === 'function') {
+      const encoder = new TextEncoder();
+      const hashBuf = await window.crypto.subtle.digest('SHA-256', encoder.encode(verifier));
+      const hashBytes = new Uint8Array(hashBuf);
+      let hashBin = '';
+      for (let i = 0; i < hashBytes.byteLength; i++) {
+        hashBin += String.fromCharCode(hashBytes[i]);
+      }
+      const challenge = btoa(hashBin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      return { verifier, challenge };
+    }
+    return { verifier, challenge: verifier };
+  }
+
+  function sanitizeAuthCallbackUrl() {
+    if (typeof window === 'undefined' || !window.location || !window.history || !window.history.replaceState) return;
+    try {
+      const url = new URL(window.location.href);
+      const authParams = [
+        'code', 'error', 'error_code', 'error_description',
+        'access_token', 'refresh_token', 'type', 'expires_in',
+        'token_type', 'provider_token'
+      ];
+      authParams.forEach(p => url.searchParams.delete(p));
+      let cleanHash = url.hash || '';
+      if (cleanHash && (cleanHash.includes('access_token=') || cleanHash.includes('error='))) {
+        cleanHash = '';
+      }
+      const cleanSearch = url.searchParams.toString();
+      const finalUrl = url.pathname + (cleanSearch ? ('?' + cleanSearch) : '') + cleanHash;
+      window.history.replaceState(null, '', finalUrl);
+    } catch (e) {}
+  }
+
+  async function startGooglePKCEFlow() {
+    try {
+      const pair = await generatePKCEPair();
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('zf_pkce_verifier', pair.verifier);
+        sessionStorage.setItem('zf_pkce_ts', String(Date.now()));
+      }
+      const targetUrl = window.location.origin + window.location.pathname;
+      const authUrl = SUPABASE_CONFIG.url + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(targetUrl) + '&code_challenge=' + encodeURIComponent(pair.challenge) + '&code_challenge_method=S256';
+      window.location.href = authUrl;
+    } catch (err) {
+      console.error('[ZestFlow Auth] Failed to initialize PKCE Google flow:', err.message);
+      toast('Unable to start Google sign-in. Please try email sign-in.', 'err');
+    }
   }
 
   function supabaseGoogleOAuth() {
-    const redirectUrl = encodeURIComponent(window.location.href.split('#')[0].split('?')[0]);
-    window.location.href = SUPABASE_CONFIG.url + '/auth/v1/authorize?provider=google&redirect_to=' + redirectUrl;
+    startGooglePKCEFlow();
+  }
+
+  async function requestPasswordRecovery(email) {
+    email = String(email || '').trim().toLowerCase();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast('Please enter a valid email address to reset password.', 'err');
+      return false;
+    }
+    const targetRedirect = window.location.origin + window.location.pathname;
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('zf_recovery_intent', JSON.stringify({ email: email, initiatedAt: Date.now() }));
+      }
+      const res = await supabaseRequest('/auth/v1/recover?redirect_to=' + encodeURIComponent(targetRedirect), {
+        method: 'POST',
+        body: { email: email }
+      });
+      if (res.ok) {
+        toast('Password reset email sent! Please check your inbox.', 'info');
+        return true;
+      }
+      const data = await res.json().catch(() => ({}));
+      toast(data.msg || data.message || 'Unable to send recovery email. Try again later.', 'err');
+      return false;
+    } catch (netErr) {
+      toast('Network unavailable. Could not send password recovery email.', 'err');
+      return false;
+    }
+  }
+
+  function openPasswordResetModal(email) {
+    const dlg = $('#passwordResetDlg');
+    if (dlg) {
+      const lbl = $('#resetEmailLabel');
+      if (lbl) lbl.textContent = email || 'your account';
+      const errBox = $('#resetErrorMsg');
+      if (errBox) { errBox.style.display = 'none'; errBox.textContent = ''; }
+      const p1 = $('#newPassInput'); if (p1) p1.value = '';
+      const p2 = $('#confirmPassInput'); if (p2) p2.value = '';
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+      else dlg.setAttribute('open', '');
+    }
+  }
+
+  function closePasswordResetModal() {
+    const dlg = $('#passwordResetDlg');
+    if (dlg) {
+      if (typeof dlg.close === 'function') dlg.close();
+      else dlg.removeAttribute('open');
+    }
+    recoveryContext = null;
+  }
+
+  async function updatePasswordWithRecoverySession(newPassword) {
+    if (!recoveryContext || !recoveryContext.token || !recoveryContext.active) {
+      toast('No active password recovery session. Please request a new link.', 'err');
+      return false;
+    }
+    if (!newPassword || newPassword.length < 6) {
+      const errBox = $('#resetErrorMsg');
+      if (errBox) { errBox.style.display = 'block'; errBox.textContent = 'Password must be at least 6 characters.'; }
+      return false;
+    }
+    try {
+      const res = await supabaseRequest('/auth/v1/user', {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + recoveryContext.token
+        },
+        body: { password: newPassword }
+      });
+      if (res.ok) {
+        const updatedUser = await res.json();
+        const savedToken = recoveryContext.token;
+        const savedRefresh = recoveryContext.refreshToken;
+        closePasswordResetModal();
+        if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_recovery_intent');
+        
+        const newSession = {
+          access_token: savedToken,
+          refresh_token: savedRefresh || '',
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          provider: 'email',
+          user: updatedUser
+        };
+        setStoredAuthSession(newSession);
+        authState = AUTH_STATES.AUTHENTICATED;
+        verifiedAuthUser = updatedUser;
+        applyLayout();
+        showBanner();
+        toast('Password updated successfully! You are now signed in.', 'ok');
+        return true;
+      }
+      const data = await res.json().catch(() => ({}));
+      const errBox = $('#resetErrorMsg');
+      if (errBox) {
+        errBox.style.display = 'block';
+        errBox.textContent = data.msg || data.message || 'Failed to update password.';
+      }
+      return false;
+    } catch (err) {
+      const errBox = $('#resetErrorMsg');
+      if (errBox) {
+        errBox.style.display = 'block';
+        errBox.textContent = 'Network error: could not update password.';
+      }
+      return false;
+    }
+  }
+
+  async function retryPendingPKCEExchange() {
+    let pending = null;
+    try {
+      const raw = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('zf_pkce_pending') : null;
+      if (raw) pending = JSON.parse(raw);
+    } catch (e) {}
+    if (!pending || !pending.code || !pending.verifier) {
+      toast('No pending sign-in to retry.', 'info');
+      return false;
+    }
+    if (Date.now() - (pending.ts || 0) > 300000) {
+      if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_pkce_pending');
+      toast('Authorization code expired. Please sign in again.', 'err');
+      return false;
+    }
+    try {
+      const res = await supabaseRequest('/auth/v1/token?grant_type=pkce', {
+        method: 'POST',
+        body: { auth_code: pending.code, code_verifier: pending.verifier }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.access_token) {
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem('zf_pkce_pending');
+            sessionStorage.setItem('zf_session_active', 'true');
+          }
+          const newSession = {
+            access_token: data.access_token,
+            refresh_token: data.refresh_token || '',
+            expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
+            provider: 'google',
+            user: data.user || null
+          };
+          setStoredAuthSession(newSession);
+          authState = AUTH_STATES.PENDING;
+          const verified = await verifySessionWithServer(data.access_token);
+          if (verified) {
+            toast('Signed in with Google successfully!', 'ok');
+            return true;
+          }
+          return false;
+        }
+      }
+      if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_pkce_pending');
+      toast('Authorization code was already used or expired. Please sign in again.', 'err');
+      return false;
+    } catch (netErr) {
+      toast('Network still unavailable. Retaining pending sign-in.', 'err');
+      return false;
+    }
+  }
+
+  function handleAuthCallbackOnStartup() {
+    if (currentAuthCallbackPromise) return currentAuthCallbackPromise;
+    currentAuthCallbackPromise = (async () => {
+      if (typeof window === 'undefined' || !window.location) return;
+      try {
+        const USP = (typeof URLSearchParams !== 'undefined') ? URLSearchParams : (typeof window !== 'undefined' && window.URLSearchParams ? window.URLSearchParams : null);
+        const searchStr = window.location.search || '';
+        const rawHash = (window.location.hash && window.location.hash.length > 1) ? window.location.hash.substring(1) : '';
+        const urlParams = (USP && searchStr) ? new USP(searchStr) : null;
+        const hashParams = (USP && rawHash) ? new USP(rawHash) : null;
+
+        // 1. Check for OAuth errors (e.g. ?error=access_denied)
+        const oauthErr = (urlParams && urlParams.get('error')) || (hashParams && hashParams.get('error'));
+        const oauthErrDesc = (urlParams && urlParams.get('error_description')) || (hashParams && hashParams.get('error_description'));
+        if (oauthErr) {
+          sanitizeAuthCallbackUrl();
+          console.warn('[ZestFlow Auth] OAuth error callback:', oauthErr, oauthErrDesc);
+          if (oauthErr === 'access_denied') {
+            toast('Google sign-in was cancelled.', 'info');
+          } else {
+            toast('Authentication failed: ' + (oauthErrDesc || oauthErr), 'err');
+          }
+          authState = AUTH_STATES.UNAUTHENTICATED;
+          applyLayout();
+          showBanner();
+          return;
+        }
+
+        // 2. Check for Password Recovery callback (type=recovery)
+        const typeParam = (urlParams && urlParams.get('type')) || (hashParams && hashParams.get('type'));
+        let hasRecoveryIntent = false;
+        try {
+          hasRecoveryIntent = typeof sessionStorage !== 'undefined' && !!sessionStorage.getItem('zf_recovery_intent');
+        } catch (e) {}
+
+        if (typeParam === 'recovery' || (hasRecoveryIntent && hashParams && hashParams.get('access_token'))) {
+          const recoveryToken = hashParams ? hashParams.get('access_token') : null;
+          const refreshToken = hashParams ? hashParams.get('refresh_token') : '';
+          sanitizeAuthCallbackUrl();
+          if (recoveryToken) {
+            try {
+              const verifyRes = await supabaseRequest('/auth/v1/user', {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + recoveryToken }
+              });
+              if (verifyRes.ok) {
+                const userData = await verifyRes.json();
+                if (userData && (userData.id || userData.email)) {
+                  recoveryContext = { token: recoveryToken, refreshToken: refreshToken, user: userData, active: true };
+                  openPasswordResetModal(userData.email);
+                  return;
+                }
+              }
+            } catch (e) {}
+          }
+          recoveryContext = null;
+          authState = AUTH_STATES.UNAUTHENTICATED;
+          applyLayout();
+          showBanner();
+          toast('Password reset link is invalid or has expired.', 'err');
+          return;
+        }
+
+        // 3. Check for PKCE Authorization Code (?code=XYZ)
+        const authCode = urlParams ? urlParams.get('code') : null;
+        if (authCode) {
+          const inFlight = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('zf_pkce_in_flight') : null;
+          if (inFlight === authCode) {
+            return;
+          }
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.setItem('zf_pkce_in_flight', authCode);
+          }
+          const verifier = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('zf_pkce_verifier') : null;
+          sanitizeAuthCallbackUrl();
+
+          if (!verifier) {
+            if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_pkce_in_flight');
+            console.warn('[ZestFlow Auth] PKCE code received but code_verifier missing from sessionStorage.');
+            toast('Sign-in verification state was not found. Please try signing in again.', 'err');
+            authState = AUTH_STATES.UNAUTHENTICATED;
+            applyLayout();
+            showBanner();
+            return;
+          }
+
+          try {
+            const exchangeRes = await supabaseRequest('/auth/v1/token?grant_type=pkce', {
+              method: 'POST',
+              body: { auth_code: authCode, code_verifier: verifier }
+            });
+            if (exchangeRes.ok) {
+              const data = await exchangeRes.json();
+              if (data && data.access_token) {
+                if (typeof sessionStorage !== 'undefined') {
+                  sessionStorage.removeItem('zf_pkce_verifier');
+                  sessionStorage.removeItem('zf_pkce_in_flight');
+                  sessionStorage.removeItem('zf_pkce_pending');
+                  sessionStorage.setItem('zf_session_active', 'true');
+                }
+                const newSession = {
+                  access_token: data.access_token,
+                  refresh_token: data.refresh_token || '',
+                  expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
+                  provider: 'google',
+                  user: data.user || null
+                };
+                setStoredAuthSession(newSession);
+                authState = AUTH_STATES.PENDING;
+                const verified = await verifySessionWithServer(data.access_token);
+                if (verified) {
+                  toast('Signed in with Google successfully!', 'ok');
+                }
+                return;
+              }
+            }
+            if (typeof sessionStorage !== 'undefined') {
+              sessionStorage.removeItem('zf_pkce_verifier');
+              sessionStorage.removeItem('zf_pkce_in_flight');
+              sessionStorage.removeItem('zf_pkce_pending');
+            }
+            console.warn('[ZestFlow Auth] PKCE authorization code exchange rejected or expired.');
+            toast('Sign-in link expired or already used. Please sign in again.', 'err');
+            authState = AUTH_STATES.UNAUTHENTICATED;
+            applyLayout();
+            showBanner();
+          } catch (netErr) {
+            console.warn('[ZestFlow Auth] PKCE exchange interrupted by network error:', netErr.message);
+            if (typeof sessionStorage !== 'undefined') {
+              sessionStorage.setItem('zf_pkce_pending', JSON.stringify({ code: authCode, verifier: verifier, ts: Date.now() }));
+              sessionStorage.removeItem('zf_pkce_in_flight');
+            }
+            authNetworkOffline = true;
+            authState = AUTH_STATES.PENDING;
+            applyLayout();
+            showBanner();
+            toast('Network offline during sign-in. Session flow preserved; retry when connected.', 'err');
+          }
+          return;
+        }
+
+        // 4. Backward-compatible implicit token check
+        const hashToken = hashParams ? hashParams.get('access_token') : null;
+        if (hashToken) {
+          sanitizeAuthCallbackUrl();
+          if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('zf_session_active', 'true');
+          const newSession = {
+            access_token: hashToken,
+            refresh_token: hashParams.get('refresh_token') || '',
+            expires_at: Math.floor(Date.now() / 1000) + (Number(hashParams.get('expires_in')) || 3600),
+            provider: 'google',
+            user: null
+          };
+          setStoredAuthSession(newSession);
+          authState = AUTH_STATES.PENDING;
+          await verifySessionWithServer(hashToken);
+        }
+      } catch (e) {
+        console.warn('[ZestFlow Auth] Callback handling error:', e.message);
+      }
+    })().finally(() => {
+      currentAuthCallbackPromise = null;
+    });
+    return currentAuthCallbackPromise;
   }
 
   function saveAuthenticatedUser(email, id, provider, token) {
@@ -5432,6 +7513,13 @@
       name: rawName,
       token: token || ''
     }));
+    if (provider === 'guest' || !token) {
+      authState = AUTH_STATES.GUEST;
+      verifiedAuthUser = null;
+    } else {
+      authState = AUTH_STATES.PENDING;
+      verifySessionWithServer(token);
+    }
     if (!S.settings.business.email) S.settings.business.email = cleanEmail;
     if (!S.settings.business.name || S.settings.business.name === 'Mohammed Ali Quadri') {
       S.settings.business.name = rawName;
@@ -5452,7 +7540,120 @@
   }
 
   function continueAsGuestAuth() {
-    saveAuthenticatedUser('guest@zestflow.local', 'guest_' + uid(), 'guest', '');
+    setGuestAuthState();
+  }
+
+  function openMigrationModal(email, password) {
+    pendingMigrationContext = { email: email, password: password };
+    const dlg = $('#migrationConsentDlg');
+    const targetEl = $('#migrationEmailTarget');
+    const errBox = $('#migrationErrorMsg');
+    if (targetEl) targetEl.textContent = email;
+    if (errBox) {
+      errBox.style.display = 'none';
+      errBox.textContent = '';
+    }
+    if (dlg) {
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+      else dlg.setAttribute('open', '');
+    }
+  }
+
+  function closeMigrationModal() {
+    pendingMigrationContext = null;
+    const dlg = $('#migrationConsentDlg');
+    if (dlg) {
+      if (typeof dlg.close === 'function') dlg.close();
+      else dlg.removeAttribute('open');
+    }
+  }
+
+  async function executeLegacyMigration() {
+    if (!pendingMigrationContext || !pendingMigrationContext.email || !pendingMigrationContext.password) {
+      toast('No active account selected for migration.', 'err');
+      return false;
+    }
+    const { email: em, password: pw } = pendingMigrationContext;
+    const btn = $('#btnConfirmMigration');
+    const errBox = $('#migrationErrorMsg');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Migrating...';
+    }
+    if (errBox) {
+      errBox.style.display = 'none';
+      errBox.textContent = '';
+    }
+
+    try {
+      const signupRes = await supabaseEmailAuth(em, pw, true);
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Migrate Account';
+      }
+
+      if (signupRes && signupRes.success) {
+        if (signupRes.confirmed) {
+          const session = getStoredAuthSession();
+          let verified = false;
+          if (session && session.access_token) {
+            verified = await verifySessionWithServer(session.access_token);
+          }
+          if (verified) {
+            try {
+              const accounts = JSON.parse(localStorage.getItem('zf_local_accounts') || '{}');
+              delete accounts[em];
+              if (Object.keys(accounts).length > 0) {
+                localStorage.setItem('zf_local_accounts', JSON.stringify(accounts));
+              } else {
+                localStorage.removeItem('zf_local_accounts');
+              }
+            } catch (e) {}
+
+            closeMigrationModal();
+            ui.onboardStep = 'layout';
+            render();
+            toast('Account migrated successfully! Welcome to ZestFlow.', 'ok');
+            return true;
+          }
+        } else {
+          closeMigrationModal();
+          showAuthMsg('Migration initiated! A confirmation email has been sent to ' + em + '. Please verify your email before signing in. Your local credentials remain safe.', false);
+          toast('Confirmation email sent to ' + em, 'info');
+          return true;
+        }
+      }
+    } catch (err) {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Migrate Account';
+      }
+      const errMsg = err.message || '';
+      console.warn('[ZestFlow Auth] Migration error:', errMsg);
+      
+      if (errMsg.includes('already registered') || errMsg.includes('user_already_exists') || errMsg.includes('already exists')) {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.textContent = 'A cloud account with this email already exists on Supabase. Please sign in with your cloud password, or use "Forgot?" to reset it.';
+        }
+      } else if (errMsg.includes('rate limit') || errMsg.includes('over_email_send_rate_limit')) {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.textContent = 'Too many migration attempts. Please wait a few minutes before trying again.';
+        }
+      } else if (errMsg.includes('Failed to fetch') || errMsg.includes('Network') || errMsg.includes('offline')) {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.textContent = 'Network offline. Your local account remains safe; please try again when connected.';
+        }
+      } else {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.textContent = errMsg || 'Migration failed. Your local account has not been changed.';
+        }
+      }
+      return false;
+    }
   }
 
   async function generateInvoiceWithGeminiAI(userPrompt) {
@@ -5548,7 +7749,10 @@
         '<div id="authStatusMsg" style="display:none;margin-bottom:12px;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:600"></div>' +
         '<label style="font-size:12px;font-weight:600;color:var(--muted)">Email address</label>' +
         '<input type="email" id="authEmailInput" class="auth-input" placeholder="ali@codewithali.com" required>' +
-        '<label style="font-size:12px;font-weight:600;color:var(--muted)">Password</label>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px">' +
+          '<label style="font-size:12px;font-weight:600;color:var(--muted);margin:0">Password</label>' +
+          '<button type="button" data-act="forgot-password" style="background:none;border:none;color:#0284c7;font-size:11px;font-weight:600;cursor:pointer;padding:0">Forgot?</button>' +
+        '</div>' +
         '<input type="password" id="authPassInput" class="auth-input" placeholder="••••••••" required>' +
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">' +
           '<button type="button" class="btn primary" id="btnEmailLogin" data-act="auth-login" style="height:42px;font-weight:700">Sign in</button>' +
@@ -5899,7 +8103,7 @@
   }
 
   /* ---------- state-driven navigation (works on file:// without relying on hashchange) ---------- */
-  const ui={
+  var ui={
     currentPage:'dashboard',
     filter:'all',
     q:'',
@@ -5947,6 +8151,7 @@
   }
 
   async function navigate(page,opts){
+    if (typeof toggleCashDrawer === 'function') toggleCashDrawer(true);
     opts=opts||{};
     if(ed&&ed.dirty&&!opts.force){
       const ok=await ask('Leave without saving?','You have unsaved changes on this invoice.','Leave',true);
@@ -5984,7 +8189,7 @@
     const onboarded = (typeof localStorage !== 'undefined' ? localStorage.getItem('zf_onboarded') : null);
     const onboardRoot = $('#onboardOverlay');
 
-    if(!authUser){
+    if(authState === AUTH_STATES.UNAUTHENTICATED){
       if (typeof document !== 'undefined' && document.body && document.body.classList) {
         document.body.classList.add('onboard-active');
       }
@@ -6343,11 +8548,11 @@
       '</button>' +
     '</div>' +
 
-    '<div class="cash-sidebar-user" data-act="nav" data-page="settings" title="' + esc(biz) + '">' +
+    '<div class="cash-sidebar-user" data-act="nav" data-page="settings" title="' + esc(getAuthBadgeText()) + ' · ' + esc(biz) + '">' +
       '<div class="cash-user-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);color:#ffffff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(2,132,199,0.25);flex-shrink:0">' + esc(userInit) + '</div>' +
       '<div class="cash-user-meta">' +
         '<strong>' + esc(biz) + '</strong>' +
-        '<span>' + esc(S.settings.business.email || 'ali@codewithali.com') + '</span>' +
+        '<span>' + esc(getAuthBadgeText()) + '</span>' +
       '</div>' +
       '<span style="font-size:12px;color:#94a3b8">⌄</span>' +
     '</div>';
@@ -6740,6 +8945,195 @@
     '</div>';
   }
 
+  function renderCashFundMobileTopBar() {
+    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
+    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    return '<header class="cash-mobile-topbar" aria-label="CashFund Mobile Header">' +
+      '<div class="cash-mob-bar-left">' +
+        '<button type="button" class="cash-hamburger-btn" data-act="toggle-cash-drawer" aria-label="Open Navigation Menu" title="Open Menu (☰)">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="18" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
+        '</button>' +
+        '<div class="cash-mob-brand" data-act="nav" data-page="dashboard" title="CashFund Treasury Dashboard">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.8" stroke-linecap="round" style="flex-shrink:0"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg>' +
+          '<span class="cash-mob-title">CashFund</span>' +
+          '<span class="cash-mob-tag">Treasury</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cash-mob-bar-right">' +
+        '<button type="button" class="cash-mob-icon-btn" data-act="nav" data-page="invoices" title="Search Invoices">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+        '</button>' +
+        '<span class="sync-badge-host">' + renderSyncStatusBadge() + '</span>' +
+        '<div class="cash-mob-avatar" data-act="nav" data-page="settings" title="' + esc(getAuthBadgeText()) + ' · ' + esc(biz) + '">' + esc(userInit) + '</div>' +
+      '</div>' +
+    '</header>';
+  }
+
+  function renderCashFundDrawer() {
+    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
+    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const curPage = ui.currentPage;
+    return '<div class="cash-drawer-inner">' +
+      '<div class="cash-drawer-header">' +
+        '<div class="cash-mob-brand" data-act="nav" data-page="dashboard">' +
+          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg>' +
+          '<div>' +
+            '<strong class="cash-mob-title" style="display:block;font-size:15px">CashFund Treasury</strong>' +
+            '<span style="font-size:10px;color:#0284c7;font-weight:700">Financial Operating System</span>' +
+          '</div>' +
+        '</div>' +
+        '<button type="button" class="cash-drawer-close-btn" data-act="close-cash-drawer" aria-label="Close Menu">✕</button>' +
+      '</div>' +
+
+      '<div class="cash-drawer-user" data-act="nav" data-page="settings">' +
+        '<div class="cash-user-avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);color:#ffffff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(2,132,199,0.25);flex-shrink:0">' + esc(userInit) + '</div>' +
+        '<div class="cash-user-meta" style="flex:1;min-width:0">' +
+          '<strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block">' + esc(biz) + '</strong>' +
+          '<span>' + esc(getAuthBadgeText()) + '</span>' +
+        '</div>' +
+        '<span style="font-size:11px;color:#0284c7;font-weight:600">Settings →</span>' +
+      '</div>' +
+
+      '<div class="cash-drawer-body">' +
+        '<div class="cash-search-box" style="margin:8px 0 14px 0">' +
+          '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
+          '<input type="text" id="qCashMob" placeholder="Search client or invoice..." value="' + esc(ui.q||'') + '" data-act="search-cash">' +
+        '</div>' +
+
+        '<div class="cash-nav-sec">' +
+          '<div class="cash-nav-title">OVERVIEW</div>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='dashboard'?'active':'') + '" data-act="nav" data-page="dashboard">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' +
+            '<span>Treasury Dashboard</span>' +
+          '</button>' +
+        '</div>' +
+
+        '<div class="cash-nav-sec">' +
+          '<div class="cash-nav-title">TRANSACTIONS</div>' +
+          '<button type="button" class="cash-nav-item" data-act="nav-new" style="color:#0284c7!important;font-weight:700">' +
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+            '<span>+ New Client Invoice</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='invoices'?'active':'') + '" data-act="nav" data-page="invoices">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+            '<span>Invoices &amp; Billing</span>' +
+            '<span class="nav-count" style="margin-left:auto">' + S.invoices.length + '</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='payment'?'active':'') + '" data-act="nav" data-page="payment">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>' +
+            '<span>Payouts &amp; Payments</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item" data-act="open-consultant-claim">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+            '<span>Consultant &amp; Jamia Claim</span>' +
+          '</button>' +
+        '</div>' +
+
+        '<div class="cash-nav-sec">' +
+          '<div class="cash-nav-title">OPERATIONS &amp; REPORTS</div>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='clients'?'active':'') + '" data-act="nav" data-page="clients">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+            '<span>Customers &amp; Directory</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item" data-act="sync-now">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>' +
+            '<span>Cloud Persistence (Sync)</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='email'?'active':'') + '" data-act="nav" data-page="email">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
+            '<span>Email &amp; Reminders</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='settings'?'active':'') + '" data-act="nav" data-page="settings">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>' +
+            '<span>Settings &amp; Business Profile</span>' +
+          '</button>' +
+        '</div>' +
+
+        '<div class="cash-nav-sec">' +
+          '<div class="cash-nav-title">HELP &amp; SYSTEM</div>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' +
+            '<span>Instructions Guide</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+            '<span>About Us</span>' +
+          '</button>' +
+          '<button type="button" class="cash-nav-item" data-act="reopen-onboarding">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
+            '<span>Switch Layout / Wizard</span>' +
+          '</button>' +
+        '</div>' +
+
+        '<div class="cash-ai-widget" style="margin-top:16px">' +
+          '<div class="cash-ai-icon">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg>' +
+          '</div>' +
+          '<strong>Try AI CashFund</strong>' +
+          '<p>Generate invoices &amp; auto-reconcile cashflow with Gemini AI.</p>' +
+          '<button type="button" class="cash-ai-btn" data-act="ai-open-prompt">' +
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg>' +
+            '<span>Try Now</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderCashFundMobNav() {
+    return '<button type="button" data-act="nav" data-page="dashboard" id="mnav-dashboard" title="Treasury Dashboard">' +
+      '<svg class="i"><use href="#i-grid"/></svg><span>Treasury</span>' +
+    '</button>' +
+    '<button type="button" data-act="nav" data-page="invoices" id="mnav-invoices" title="Invoices">' +
+      '<svg class="i"><use href="#i-doc"/></svg><span>Invoices</span>' +
+    '</button>' +
+    '<button type="button" data-act="nav-new" id="mnav-new" class="cash-dock-action" title="Create Invoice">' +
+      '<svg class="i"><use href="#i-plus"/></svg><span>+ Action</span>' +
+    '</button>' +
+    '<button type="button" data-act="nav" data-page="payment" id="mnav-clients" title="Payouts &amp; Payments">' +
+      '<svg class="i"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><span>Payouts</span>' +
+    '</button>' +
+    '<button type="button" data-act="toggle-cash-drawer" id="mnav-settings" title="More Menu (Drawer)">' +
+      '<svg class="i" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span>Menu ☰</span>' +
+    '</button>';
+  }
+
+  function renderInvowiseMobNav() {
+    return '<button type="button" data-act="nav" data-page="dashboard" id="mnav-dashboard"><svg class="i"><use href="#i-grid"/></svg><span>Dashboard</span></button>' +
+    '<button type="button" data-act="nav" data-page="invoices" id="mnav-invoices"><svg class="i"><use href="#i-doc"/></svg><span>Invoices</span></button>' +
+    '<button type="button" data-act="nav-new" id="mnav-new"><svg class="i"><use href="#i-plus"/></svg><span>New</span></button>' +
+    '<button type="button" data-act="nav" data-page="clients" id="mnav-clients"><svg class="i"><use href="#i-users"/></svg><span>Clients</span></button>' +
+    '<button type="button" data-act="nav" data-page="settings" id="mnav-settings"><svg class="i"><use href="#i-cog"/></svg><span>Settings</span></button>';
+  }
+
+  function toggleCashDrawer(forceClose) {
+    if (typeof document === 'undefined') return;
+    const drawer = document.getElementById('cashfundDrawer');
+    const backdrop = document.getElementById('cashfundDrawerBackdrop');
+    if (!drawer || !backdrop) return;
+    const hasRemove = drawer.classList && typeof drawer.classList.remove === 'function';
+    const hasAdd = drawer.classList && typeof drawer.classList.add === 'function';
+    const isOpen = drawer.classList && typeof drawer.classList.contains === 'function' ? drawer.classList.contains('open') : false;
+    if (forceClose || isOpen) {
+      if (hasRemove) {
+        drawer.classList.remove('open');
+        if (backdrop.classList && typeof backdrop.classList.remove === 'function') backdrop.classList.remove('open');
+        if (document.body && document.body.classList && typeof document.body.classList.remove === 'function') {
+          document.body.classList.remove('drawer-open');
+        }
+      }
+    } else {
+      drawer.innerHTML = renderCashFundDrawer();
+      if (hasAdd) {
+        drawer.classList.add('open');
+        if (backdrop.classList && typeof backdrop.classList.add === 'function') backdrop.classList.add('open');
+        if (document.body && document.body.classList && typeof document.body.classList.add === 'function') {
+          document.body.classList.add('drawer-open');
+        }
+      }
+    }
+  }
+
   function renderInvowiseTopNav() {
     const biz = S.settings.business.name || 'Mohammed Ali Quadri';
     const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
@@ -6764,7 +9158,7 @@
             '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' +
             '<span class="notif-dot"></span>' +
           '</button>' +
-          '<div class="invo-user-avatar" data-act="nav" data-page="settings" title="Account Settings: ' + esc(biz) + '">' + esc(userInit) + '</div>' +
+          '<div class="invo-user-avatar" data-act="nav" data-page="settings" title="' + esc(getAuthBadgeText()) + ' · Account Settings: ' + esc(biz) + '">' + esc(userInit) + '</div>' +
         '</div>' +
       '</div>' +
       '<nav class="invo-pill-menu">' +
@@ -7717,6 +10111,14 @@
     if(list.length)box.scrollIntoView({behavior:'smooth',block:'center'});
   }
   function saveInvoice(){
+    if(recoveryPending){
+      toast('Cannot save: recovery mode is active. Please restore or replace database first.','err');
+      return false;
+    }
+    if(multiTabConflict){
+      toast('Cannot save: invoices were modified in another tab. Please resolve the conflict first.','err');
+      return false;
+    }
     const inv=ed.inv,errs=validate(inv);showErrors(errs);
     if(errs.length)return false;
     const out=normInvoice(inv);out.updated=Date.now();
@@ -7726,7 +10128,14 @@
     const idx=S.invoices.findIndex(x=>x.id===out.id);
     if(idx>=0){out.created=S.invoices[idx].created;S.invoices[idx]=out}
     else{const curNum=makeNumber();S.invoices.unshift(out);if(out.number===curNum)S.settings.defaults.next++}
-    persist();ed.inv=clone(out);ed.dirty=false;ui.selectedId=out.id;
+    const wasNewInv = ed.isNew;
+    persist();
+    if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+      const baseVer = out._version || (wasNewInv ? 0 : 1);
+      const act = wasNewInv ? 'create' : 'update';
+      syncEngine.enqueueInvoiceMutation(out.id, act, baseVer, out);
+    }
+    ed.inv=clone(out);ed.dirty=false;ui.selectedId=out.id;
     updateNavCounts();
     if(!S.settings.business.name)toast('Saved. Tip: add your business details in Settings so they appear on the invoice.','ok');
     else toast('Invoice saved','ok');
@@ -8280,6 +10689,33 @@
         <div class="page-h-title"><h1>Settings</h1><p id="savedHint">Changes are saved automatically in this browser.</p></div>
         <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);font-size:12px;font-weight:600;color:#0284c7"><span>💎</span> Engineered by <strong>Mohammed Ali Quadri</strong> · <span>CodeWithAli</span></div>
       </div>
+      <section class="card"><h2>Authentication &amp; Session Status</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              ${renderAuthStatusPill()}
+              ${authState === AUTH_STATES.AUTHENTICATED && verifiedAuthUser ?
+                `<span style="font-size:12px;font-weight:600;color:var(--text)">${esc(verifiedAuthUser.email || '')}</span>
+                 <span style="font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:6px;border:1px solid var(--line-2)">${getAuthProviderName() === 'google' ? 'Google OAuth' : 'Email & Password'}</span>` : ''}
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">
+              ${esc(getAuthDescriptionText())}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            ${authState === AUTH_STATES.AUTHENTICATED || authState === AUTH_STATES.GUEST ?
+              `<button type="button" class="btn sm ghost" data-act="auth-logout">Sign Out</button>` : ''}
+            ${authState === AUTH_STATES.GUEST ?
+              `<button type="button" class="btn sm primary" data-act="reopen-onboarding">Connect Account</button>` : ''}
+            ${authState === AUTH_STATES.UNAUTHENTICATED ?
+              `<button type="button" class="btn sm primary" data-act="reopen-onboarding">Sign In</button>` : ''}
+            ${authState === AUTH_STATES.PENDING ?
+              ((typeof sessionStorage !== 'undefined' && sessionStorage.getItem('zf_pkce_pending')) ?
+                `<button type="button" class="btn sm" data-act="retry-pkce-exchange" style="background:#b45309;color:#fff;border:none;cursor:pointer">Retry Sign-In</button>` : '') +
+              `<button type="button" class="btn sm" data-act="verify-session-retry">Retry Verification</button>` : ''}
+          </div>
+        </div>
+      </section>
       <section class="card"><h2>Your business</h2><div class="stack">
         <div class="sigbox">
           <div class="sigimg" id="logoPrev" style="min-width:120px"></div>
@@ -8550,7 +10986,10 @@
       S.invoices=migrated.invoices;
     }
     S.schemaVersion=SCHEMA_VERSION;
+    recoveryPending=false;
+    rawCorruptedString=null;
     persist();
+    showBanner();
     return {ok:true,count:migrated.invoices.length,mode:mode||'replace'};
   }
   $('#importFile').addEventListener('change',e=>{
@@ -9123,8 +11562,12 @@
       case 'del':{
         const inv=S.invoices.find(x=>x.id===id);if(!inv)break;
         if(await ask('Delete '+inv.number+'?','This cannot be undone. Export a backup first if you are not sure.','Delete',true)){
+          const delVer = inv._version || 1;
           S.invoices=S.invoices.filter(x=>x.id!==id);
           persist();updateNavCounts();render();toast('Deleted');
+          if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+            syncEngine.enqueueInvoiceMutation(id, 'delete', delVer, null);
+          }
         }
         break;
       }
@@ -9147,6 +11590,14 @@
       case 'export-csv':
         exportCSV();
         break;
+      case 'toggle-cash-drawer':{
+        toggleCashDrawer();
+        break;
+      }
+      case 'close-cash-drawer':{
+        toggleCashDrawer(true);
+        break;
+      }
       case 'sync-now':{
         toast('Initiating cloud sync...','info');
         try {
@@ -9172,66 +11623,73 @@
       }
       case 'auth-google':{
         if (typeof window !== 'undefined' && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
-          try {
-            const checkRes = await fetch(SUPABASE_CONFIG.url + '/auth/v1/settings', {
-              headers: { 'apikey': SUPABASE_CONFIG.anonKey }
-            });
-            if (checkRes.ok) {
-              const cfgData = await checkRes.json();
-              if (cfgData && cfgData.external && cfgData.external.google === true) {
-                const targetRedirect = window.location.origin + window.location.pathname;
-                window.location.href = SUPABASE_CONFIG.url + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(targetRedirect);
-                return;
-              }
-            }
-          } catch (e) {
-            /* fall back to clean Google account chooser */
-          }
+          await startGooglePKCEFlow();
+          return;
         }
-        const dlg = $('#googleAuthNoticeDlg');
-        if (dlg) {
-          dlg.scrollLeft = 0;
-          if (typeof dlg.showModal === 'function') dlg.showModal();
-          else dlg.setAttribute('open', '');
-          const qInput = $('#quickGoogleEmail');
-          if (qInput) {
-            setTimeout(() => {
-              dlg.scrollLeft = 0;
-              qInput.focus();
-              try { qInput.setSelectionRange(0, qInput.value.length); } catch (err) {}
-            }, 50);
-          }
-        }
+        toast('Google sign-in requires running ZestFlow OS over HTTP or HTTPS.', 'info');
         break;
       }
-      case 'confirm-google-instant':{
-        const emInput = $('#quickGoogleEmail');
-        const em = (emInput && emInput.value.trim().toLowerCase()) || 'ali@codewithali.com';
+      case 'forgot-password':{
+        const em = ($('#authEmailInput') && $('#authEmailInput').value || '').trim();
         if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-          toast('Please enter a valid Google email address', 'err');
+          toast('Please enter your email address above, then click Forgot.', 'err');
+          const inp = $('#authEmailInput'); if (inp) inp.focus();
           break;
         }
-        saveAuthenticatedUser(em, 'google_' + uid(), 'google', '');
-        const dlg = $('#googleAuthNoticeDlg');
-        if (dlg) {
-          if (typeof dlg.close === 'function') dlg.close();
-          else dlg.removeAttribute('open');
+        b.disabled = true;
+        const prevText = b.textContent;
+        b.textContent = 'Sending...';
+        await requestPasswordRecovery(em);
+        b.disabled = false;
+        b.textContent = prevText;
+        break;
+      }
+      case 'close-reset-dlg':{
+        closePasswordResetModal();
+        break;
+      }
+      case 'submit-new-password':{
+        const p1 = $('#newPassInput');
+        const p2 = $('#confirmPassInput');
+        const errBox = $('#resetErrorMsg');
+        const v1 = p1 ? p1.value : '';
+        const v2 = p2 ? p2.value : '';
+        if (!v1 || v1.length < 6) {
+          if (errBox) { errBox.style.display = 'block'; errBox.textContent = 'Password must be at least 6 characters.'; }
+          if (p1) p1.focus();
+          break;
         }
+        if (v1 !== v2) {
+          if (errBox) { errBox.style.display = 'block'; errBox.textContent = 'Passwords do not match.'; }
+          if (p2) p2.focus();
+          break;
+        }
+        b.disabled = true;
+        const prevText = b.textContent;
+        b.textContent = 'Updating...';
+        await updatePasswordWithRecoverySession(v1);
+        b.disabled = false;
+        b.textContent = prevText;
+        break;
+      }
+      case 'retry-pkce-exchange':{
+        await retryPendingPKCEExchange();
+        break;
+      }
+      case 'confirm-migration':{
+        await executeLegacyMigration();
+        break;
+      }
+      case 'cancel-migration':{
+        closeMigrationModal();
+        break;
+      }
+      case 'guest-from-migration':{
+        closeMigrationModal();
+        continueAsGuestAuth();
         ui.onboardStep = 'layout';
         render();
-        toast('Signed in as ' + em, 'ok');
-        break;
-      }
-      case 'switch-to-email-auth':{
-        const dlg = $('#googleAuthNoticeDlg');
-        if (dlg) dlg.close();
-        const emInp = $('#authEmailInput');
-        if (emInp) emInp.focus();
-        break;
-      }
-      case 'google-dlg-close':{
-        const dlg = $('#googleAuthNoticeDlg');
-        if (dlg) dlg.close();
+        toast('Continuing as Offline Guest. Your local records remain safe.', 'ok');
         break;
       }
       case 'auth-guest':{
@@ -9254,29 +11712,64 @@
           const inp = $('#authPassInput'); if (inp) inp.focus();
           break;
         }
-        let accounts = {};
-        try { accounts = JSON.parse(localStorage.getItem('zf_local_accounts') || '{}'); } catch(e){}
-        const encodedPw = btoa(encodeURIComponent(pw));
-        if (accounts[em] && accounts[em] !== encodedPw) {
-          showAuthMsg('Incorrect password for ' + em, true);
+
+        b.disabled = true;
+        const prevText = b.textContent;
+        b.textContent = 'Signing in...';
+        try {
+          const authRes = await supabaseEmailAuth(em, pw, false);
+          b.disabled = false;
+          b.textContent = prevText;
+          if (authRes && authRes.success) {
+            try {
+              const accounts = JSON.parse(localStorage.getItem('zf_local_accounts') || '{}');
+              if (accounts[em]) {
+                delete accounts[em];
+                if (Object.keys(accounts).length > 0) {
+                  localStorage.setItem('zf_local_accounts', JSON.stringify(accounts));
+                } else {
+                  localStorage.removeItem('zf_local_accounts');
+                }
+              }
+            } catch (e) {}
+
+            ui.onboardStep = 'layout';
+            render();
+            toast('Signed in as ' + em + '!', 'ok');
+            break;
+          }
+        } catch (authErr) {
+          b.disabled = false;
+          b.textContent = prevText;
+          const errMsg = authErr.message || '';
+
+          if (errMsg.includes('Failed to fetch') || errMsg.includes('Network') || errMsg.includes('offline')) {
+            showAuthMsg('Network connection offline. Please check your connection or continue as guest.', true);
+            break;
+          }
+
+          if (errMsg.includes('rate limit') || errMsg.includes('429') || errMsg.includes('over_email_send_rate_limit')) {
+            showAuthMsg('Too many sign-in attempts. Please wait a moment before trying again.', true);
+            break;
+          }
+
+          if (errMsg.includes('Email not confirmed') || errMsg.includes('email_not_confirmed')) {
+            showAuthMsg('Email address has not been confirmed. Please check your inbox for the verification link.', true);
+            break;
+          }
+
+          let accounts = {};
+          try { accounts = JSON.parse(localStorage.getItem('zf_local_accounts') || '{}'); } catch(e){}
+          const encodedPw = btoa(encodeURIComponent(pw));
+
+          if (accounts[em] && accounts[em] === encodedPw) {
+            openMigrationModal(em, pw);
+            break;
+          }
+
+          showAuthMsg(errMsg || 'Invalid email or password. Please try again.', true);
           break;
         }
-        accounts[em] = encodedPw;
-        localStorage.setItem('zf_local_accounts', JSON.stringify(accounts));
-
-        let customSync = S.settings.sync && S.settings.sync.enabled && S.settings.sync.endpoint;
-        if (customSync) {
-          try {
-            await supabaseEmailAuth(em, pw, false);
-          } catch(e) {
-            saveAuthenticatedUser(em, 'local_' + uid(), 'email', '');
-          }
-        } else {
-          saveAuthenticatedUser(em, 'local_' + uid(), 'email', '');
-        }
-        ui.onboardStep = 'layout';
-        render();
-        toast('Signed in as ' + em + '!', 'ok');
         break;
       }
       case 'auth-signup':{
@@ -9295,26 +11788,32 @@
         b.disabled = true;
         const prevText = b.textContent;
         b.textContent = 'Creating account...';
-        let accounts = {};
-        try { accounts = JSON.parse(localStorage.getItem('zf_local_accounts') || '{}'); } catch(e){}
-        accounts[em] = btoa(encodeURIComponent(pw));
-        localStorage.setItem('zf_local_accounts', JSON.stringify(accounts));
 
-        let customSync = S.settings.sync && S.settings.sync.enabled && S.settings.sync.endpoint;
-        if (customSync) {
-          try {
-            await supabaseEmailAuth(em, pw, true);
-          } catch(e) {
-            saveAuthenticatedUser(em, 'local_' + uid(), 'email', '');
+        try {
+          const authRes = await supabaseEmailAuth(em, pw, true);
+          b.disabled = false;
+          b.textContent = prevText;
+          if (authRes && authRes.success) {
+            if (authRes.confirmed) {
+              ui.onboardStep = 'layout';
+              render();
+              toast('Account created for ' + em + '!', 'ok');
+            } else {
+              showAuthMsg('Confirmation link sent to ' + em + '. Please verify your email before signing in.', false);
+            }
+            break;
           }
-        } else {
-          saveAuthenticatedUser(em, 'local_' + uid(), 'email', '');
+        } catch (authErr) {
+          b.disabled = false;
+          b.textContent = prevText;
+          const errMsg = authErr.message || '';
+          if (errMsg.includes('already registered') || errMsg.includes('user_already_exists') || errMsg.includes('already exists')) {
+            showAuthMsg('An account with this email already exists. Please sign in instead.', true);
+          } else {
+            showAuthMsg(errMsg || 'Account creation failed.', true);
+          }
+          break;
         }
-        b.disabled = false;
-        b.textContent = prevText;
-        ui.onboardStep = 'layout';
-        render();
-        toast('Account created for ' + em + '!', 'ok');
         break;
       }
       case 'select-layout-temp':{
@@ -9390,12 +11889,29 @@
         break;
       }
       case 'auth-logout':{
-        if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_session_active');
-        localStorage.removeItem('zf_auth_user');
-        localStorage.removeItem('zf_onboarded');
-        ui.onboardStep = 'auth';
-        render();
-        toast('Logged out successfully','info');
+        logoutAuth();
+        break;
+      }
+      case 'verify-session-retry':{
+        const sess = getStoredAuthSession();
+        const tok = (sess && sess.access_token) || (sess && sess.token) || null;
+        if (tok) {
+          toast('Verifying session with Supabase...', 'info');
+          const nowSec = Math.floor(Date.now() / 1000);
+          if (sess.expires_at && sess.expires_at < (nowSec + 120) && sess.refresh_token) {
+            coordinateTokenRefresh().then(fresh => {
+              const freshTok = (fresh && fresh.access_token) || tok;
+              verifySessionWithServer(freshTok);
+            }).catch(() => {
+              verifySessionWithServer(tok);
+            });
+          } else {
+            verifySessionWithServer(tok);
+          }
+        } else {
+          toast('No session token available to verify. Operating as Offline Guest.', 'info');
+          setGuestAuthState();
+        }
         break;
       }
       case 'pick-layout':{
@@ -9517,16 +12033,41 @@
       case 'import-json':
         $('#importFile').click();
         break;
+      case 'download-corrupted-backup':
+        downloadCorruptedBackup();
+        break;
+      case 'restore-recovery-snapshot':
+        if(restoreRecoverySnapshot()){updateNavCounts();render()}
+        break;
+      case 'import-recovery-file':
+        $('#importFile').click();
+        break;
       case 'restore-snapshot':
         if(restoreSnapshot()){updateNavCounts();render();toast('Previous snapshot restored','ok')}
         else toast('No snapshot available to restore.','err');
         break;
       case 'reload-tab-state':{
+        clearTimeout(saveTimer);
+        saveTimer=null;
         const fresh=loadState();
-        S.settings=fresh.settings;S.invoices=fresh.invoices;multiTabConflict=false;
-        showBanner();updateNavCounts();render();toast('Reloaded latest data from browser storage','ok');
+        S.settings=fresh.settings;
+        S.invoices=fresh.invoices;
+        multiTabConflict=false;
+        showBanner();
+        updateNavCounts();
+        render();
+        toast('Reloaded latest data from browser storage','ok');
         break;
       }
+      case 'export-conflict-external':
+        exportConflictExternal();
+        break;
+      case 'export-conflict-local':
+        exportConflictLocal();
+        break;
+      case 'force-overwrite-conflict':
+        await forceOverwriteConflict();
+        break;
       case 'wipe':
         if(await ask('Delete everything?','All invoices, business details and signature will be removed from this browser. A rollback snapshot will be saved first.','Delete everything',true)){
           saveSnapshot('pre-wipe');
