@@ -3049,15 +3049,18 @@
   #appFooterHost {
     display: block;
     width: 100%;
-    margin-top: auto;
+    max-width: 1360px;
+    margin: 0 auto;
     position: relative;
     z-index: 10;
+    box-sizing: border-box;
+    padding: 0 28px 36px;
   }
   .zf-global-footer {
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    margin-top: 54px;
-    margin-bottom: 24px;
+    margin: 40px 0 0 0;
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 24px;
@@ -3068,7 +3071,9 @@
     transition: background 0.25s ease, border-color 0.25s ease;
   }
   body.layout-cashfund .zf-global-footer {
-    margin: 44px 28px 24px;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 40px 0 0 0 !important;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
   }
@@ -3090,14 +3095,37 @@
       gap: 32px;
     }
   }
-  @media (max-width: 640px) {
-    .zf-footer-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
+  @media (max-width: 900px) {
+    #appFooterHost {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 14px calc(112px + env(safe-area-inset-bottom, 16px)) 14px !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
     }
-    .zf-global-footer {
-      padding: 30px 20px 20px;
-      margin-top: 36px;
+    .zf-footer-grid {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+    }
+    .zf-global-footer,
+    body.layout-cashfund .zf-global-footer {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 20px 0 0 0 !important;
+      padding: 24px 18px 20px !important;
+      border-radius: 18px !important;
+      box-sizing: border-box !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .zf-global-footer,
+    body.layout-cashfund .zf-global-footer {
+      padding: 20px 14px 18px !important;
+      border-radius: 16px !important;
+    }
+    .zf-footer-brand-title {
+      font-size: 18px !important;
     }
   }
 
