@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-YqBftjuy5DTbANQ8GsRtid/wzHjAteVjSi3FS0/ktOg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TTX7IiX4MqJmJEmjCa7Dd0jDk9uAljioFTIE5MebyBk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -756,14 +756,81 @@
   }
 
   /* Dialogs & Toasts with Smooth Spring Animations */
-  dialog{background:var(--surface);color:var(--text);border:1px solid var(--line-2);border-radius:14px;padding:0;max-width:calc(100vw - 32px);box-shadow:0 30px 80px rgba(0,0,0,.65);z-index:100000002}
-  dialog[open]{animation:zfModalIn .26s cubic-bezier(0.16,1,0.3,1) forwards}
-  dialog[open]::backdrop{animation:zfBackdropIn .24s ease forwards}
-  @keyframes zfModalIn{from{opacity:0;transform:scale(0.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
-  @keyframes zfBackdropIn{from{opacity:0;backdrop-filter:blur(0px)}to{opacity:1;backdrop-filter:blur(4px)}}
-  dialog::backdrop{background:rgba(5,6,8,.7);backdrop-filter:blur(3px)}
-  dialog{max-width:calc(100vw - 24px);box-sizing:border-box}
+  dialog{background:var(--surface);color:var(--text);border:1px solid var(--line-2);border-radius:14px;padding:0;max-width:calc(100vw - 24px);box-sizing:border-box;box-shadow:0 30px 80px rgba(0,0,0,.65);z-index:100000002}
   dialog .dlg{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+  dialog::backdrop{background:rgba(5,6,8,.7);backdrop-filter:blur(3px)}
+
+@keyframes zfModalIn {
+  0% { opacity: 0; transform: scale(0.92) translateY(16px); filter: blur(4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+@keyframes zfModalOut {
+  0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(0.94) translateY(12px); filter: blur(3px); }
+}
+@keyframes zfBackdropIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(5px); }
+}
+@keyframes zfBackdropOut {
+  from { opacity: 1; backdrop-filter: blur(5px); }
+  to { opacity: 0; backdrop-filter: blur(0px); }
+}
+@keyframes zfStepSlideNext {
+  0% { opacity: 0; transform: translateX(22px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes zfStepSlidePrev {
+  0% { opacity: 0; transform: translateX(-22px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes zfCoachPopIn {
+  0% { opacity: 0; transform: translateY(-12px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes zfCoachPopOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.94); }
+}
+dialog[open] {
+  animation: zfModalIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+dialog[open]::backdrop {
+  animation: zfBackdropIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+dialog.zf-closing {
+  animation: zfModalOut 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none;
+}
+dialog.zf-closing::backdrop {
+  animation: zfBackdropOut 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+.zf-step-enter-next {
+  animation: zfStepSlideNext 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.zf-step-enter-prev {
+  animation: zfStepSlidePrev 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.settings-coach-mark.zf-coach-in {
+  animation: zfCoachPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.settings-coach-mark.zf-coach-out {
+  animation: zfCoachPopOut 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+.ws-storage-card {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease !important;
+}
+.ws-storage-card:hover {
+  transform: translateY(-2px) scale(1.006);
+  box-shadow: 0 12px 28px -8px rgba(2, 132, 199, 0.22);
+}
+.ws-storage-card:active {
+  transform: scale(0.985);
+}
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
   #migrationConsentDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
   #consultantClaimDlg{width:min(720px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
@@ -4962,36 +5029,111 @@
     get anonKey() { return getPersistenceConfig().anonKey; }
   };
 
+  function getActiveStorageMode(stateObj) {
+    try {
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('zf_storage_mode') === 'session') {
+        return 'session';
+      }
+      if (typeof localStorage !== 'undefined') {
+        const persistedMode = localStorage.getItem('zf_storage_mode_pref');
+        if (persistedMode === 'offline' || persistedMode === 'cloud') return persistedMode;
+      }
+    } catch (_) {}
+    const st = stateObj || (typeof S !== 'undefined' ? S : null);
+    const m = (st && st.storageMode) || (st && st.settings && st.settings.storageMode);
+    return ['session', 'cloud', 'offline'].includes(m) ? m : 'cloud';
+  }
+
+  function openDialogSmooth(dlg) {
+    if (!dlg) return;
+    if (dlg.classList && typeof dlg.classList.remove === 'function') dlg.classList.remove('zf-closing');
+    if (!dlg.open) {
+      try {
+        if (typeof dlg.showModal === 'function') dlg.showModal();
+        else if (typeof dlg.setAttribute === 'function') dlg.setAttribute('open', '');
+        else dlg.open = true;
+      } catch (_) {
+        if (typeof dlg.setAttribute === 'function') dlg.setAttribute('open', '');
+        else dlg.open = true;
+      }
+    }
+  }
+
+  function closeDialogSmooth(dlg, onDone) {
+    if (!dlg) { if (onDone) onDone(); return; }
+    const isOpen = dlg.open || (typeof dlg.hasAttribute === 'function' && dlg.hasAttribute('open'));
+    if (!isOpen) { if (onDone) onDone(); return; }
+    const canAnimate = dlg.classList && typeof dlg.classList.add === 'function' && typeof window !== 'undefined' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (canAnimate) {
+      dlg.classList.add('zf-closing');
+      setTimeout(() => {
+        if (dlg.classList && typeof dlg.classList.remove === 'function') dlg.classList.remove('zf-closing');
+        try {
+          if (typeof dlg.close === 'function') dlg.close();
+          else if (typeof dlg.removeAttribute === 'function') dlg.removeAttribute('open');
+          else dlg.open = false;
+        } catch (_) {
+          if (typeof dlg.removeAttribute === 'function') dlg.removeAttribute('open');
+          else dlg.open = false;
+        }
+        if (onDone) onDone();
+      }, 210);
+    } else {
+      try {
+        if (typeof dlg.close === 'function') dlg.close();
+        else if (typeof dlg.removeAttribute === 'function') dlg.removeAttribute('open');
+        else dlg.open = false;
+      } catch (_) {
+        if (typeof dlg.removeAttribute === 'function') dlg.removeAttribute('open');
+        else dlg.open = false;
+      }
+      if (onDone) onDone();
+    }
+  }
+
   function toSqlProfilePayload(s) {
     const b = (s && s.business) || {};
+    const sig = (s && s.signature) || b.signature || '';
+    const mode = typeof getActiveStorageMode === 'function' ? getActiveStorageMode(s) : ((s && s.storageMode) || 'cloud');
     return {
       business_name: b.name || '',
+      business_address: b.address || '',
+      business_state: b.state || '',
       business_email: b.email || '',
       business_phone: b.phone || '',
-      business_address: b.address || '',
+      tax_id_label: b.taxIdLabel || 'GSTIN',
       tax_id: b.taxId || '',
-      currency_code: (s && s.defaults && s.defaults.currency) || 'INR',
+      tax_regime: ['simple', 'gst_in'].includes(b.taxRegime) ? b.taxRegime : 'simple',
+      upi_id: b.upiId || '',
+      payment_link: b.paymentLink || '',
+      zatca_enabled: !!b.zatcaEnabled,
+      email_webhook: b.emailWebhook || '',
+      logo_storage_path: b.logo || '',
+      signature_storage_path: sig || '',
       logo_url: b.logo || null,
-      signature_url: b.signature || null,
+      signature_url: sig || null,
+      currency_code: (s && s.defaults && s.defaults.currency) || 'INR',
+      defaults: (s && s.defaults) || {},
+      catalog: Array.isArray(s && s.catalog) ? s.catalog : [],
       ui_preferences: {
         business: {
           state: b.state || '',
           taxIdLabel: b.taxIdLabel || 'GSTIN',
-          taxRegime: b.taxRegime || 'gst_in',
+          taxRegime: ['simple', 'gst_in'].includes(b.taxRegime) ? b.taxRegime : 'simple',
           upiId: b.upiId || '',
           paymentLink: b.paymentLink || '',
           zatcaEnabled: !!b.zatcaEnabled,
           emailWebhook: b.emailWebhook || ''
         },
         defaults: (s && s.defaults) || {},
-        catalog: (s && s.catalog) || [],
-        theme: (s && s.theme) || 'light',
+        catalog: Array.isArray(s && s.catalog) ? s.catalog : [],
+        theme: (s && s.theme) || 'dark',
         layout: (s && s.layout) || 'invowise',
-        paperColor: (s && s.paperColor) || '#ffffff',
+        paperColor: (s && s.paperColor) || '#14171f',
         bilingualPrint: !!(s && s.bilingualPrint),
         numerals: (s && s.numerals) || 'western',
         showCredit: s && s.showCredit !== undefined ? !!s.showCredit : true,
-        storageMode: (s && s.storageMode) || 'cloud'
+        storageMode: mode
       }
     };
   }
@@ -5004,29 +5146,35 @@
     const uiPref = (p.ui_preferences && typeof p.ui_preferences === 'object') ? p.ui_preferences : {};
     const bPref = uiPref.business || {};
     const curB = (currentSettings && currentSettings.business) || {};
+    const sig = p.signature_storage_path || p.signature_url || (currentSettings && currentSettings.signature) || '';
+    const logo = p.logo_storage_path || p.logo_url || curB.logo || '';
+    const mergedDefaults = Object.assign({}, (currentSettings && currentSettings.defaults) || {}, uiPref.defaults || {}, (p.defaults && typeof p.defaults === 'object') ? p.defaults : {}, p.currency_code ? { currency: p.currency_code } : {});
+    const mergedCatalog = Array.isArray(p.catalog) && p.catalog.length ? p.catalog : (Array.isArray(uiPref.catalog) ? uiPref.catalog : ((currentSettings && currentSettings.catalog) || []));
     return normSettings({
+      storageMode: uiPref.storageMode || (currentSettings && currentSettings.storageMode) || 'cloud',
       business: {
-        name: p.business_name !== undefined ? p.business_name : (curB.name || 'Guest'),
+        name: p.business_name !== undefined ? p.business_name : (curB.name || ''),
         email: p.business_email !== undefined ? p.business_email : (curB.email || ''),
         phone: p.business_phone !== undefined ? p.business_phone : (curB.phone || ''),
         address: p.business_address !== undefined ? p.business_address : (curB.address || ''),
-        state: bPref.state !== undefined ? bPref.state : (curB.state || ''),
-        taxIdLabel: bPref.taxIdLabel || curB.taxIdLabel || 'GSTIN',
+        state: p.business_state !== undefined ? p.business_state : (bPref.state !== undefined ? bPref.state : (curB.state || '')),
+        taxIdLabel: p.tax_id_label || bPref.taxIdLabel || curB.taxIdLabel || 'GSTIN',
         taxId: p.tax_id !== undefined ? p.tax_id : (curB.taxId || ''),
-        taxRegime: bPref.taxRegime || curB.taxRegime || 'gst_in',
-        upiId: bPref.upiId !== undefined ? bPref.upiId : (curB.upiId || ''),
-        paymentLink: bPref.paymentLink !== undefined ? bPref.paymentLink : (curB.paymentLink || ''),
-        zatcaEnabled: bPref.zatcaEnabled !== undefined ? !!bPref.zatcaEnabled : !!curB.zatcaEnabled,
-        emailWebhook: bPref.emailWebhook !== undefined ? bPref.emailWebhook : (curB.emailWebhook || ''),
+        taxRegime: p.tax_regime || bPref.taxRegime || curB.taxRegime || 'simple',
+        upiId: p.upi_id !== undefined ? p.upi_id : (bPref.upiId !== undefined ? bPref.upiId : (curB.upiId || '')),
+        paymentLink: p.payment_link !== undefined ? p.payment_link : (bPref.paymentLink !== undefined ? bPref.paymentLink : (curB.paymentLink || '')),
+        zatcaEnabled: p.zatca_enabled !== undefined ? !!p.zatca_enabled : (bPref.zatcaEnabled !== undefined ? !!bPref.zatcaEnabled : !!curB.zatcaEnabled),
+        emailWebhook: p.email_webhook !== undefined ? p.email_webhook : (bPref.emailWebhook !== undefined ? bPref.emailWebhook : (curB.emailWebhook || '')),
         geminiKey: curB.geminiKey || '',
-        logo: p.logo_url !== undefined ? (p.logo_url || '') : (curB.logo || ''),
-        signature: p.signature_url !== undefined ? (p.signature_url || '') : (curB.signature || '')
+        logo: logo,
+        signature: sig
       },
-      defaults: Object.assign({}, uiPref.defaults || {}, p.currency_code ? { currency: p.currency_code } : {}),
-      catalog: Array.isArray(uiPref.catalog) ? uiPref.catalog : ((currentSettings && currentSettings.catalog) || []),
-      theme: uiPref.theme || (currentSettings && currentSettings.theme) || 'light',
+      defaults: mergedDefaults,
+      catalog: mergedCatalog,
+      signature: sig,
+      theme: uiPref.theme || (currentSettings && currentSettings.theme) || 'dark',
       layout: uiPref.layout || (currentSettings && currentSettings.layout) || 'invowise',
-      paperColor: uiPref.paperColor || (currentSettings && currentSettings.paperColor) || '#ffffff',
+      paperColor: uiPref.paperColor || (currentSettings && currentSettings.paperColor) || '#14171f',
       bilingualPrint: uiPref.bilingualPrint !== undefined ? !!uiPref.bilingualPrint : !!(currentSettings && currentSettings.bilingualPrint),
       numerals: uiPref.numerals || (currentSettings && currentSettings.numerals) || 'western',
       showCredit: uiPref.showCredit !== undefined ? !!uiPref.showCredit : true
@@ -5263,9 +5411,7 @@
       if (localCountEl) localCountEl.textContent = S.invoices.length + ' Invoice' + (S.invoices.length === 1 ? '' : 's');
       
       const dlg = $('#cloudSyncMigrationDlg');
-      if (dlg && typeof dlg.showModal === 'function') {
-        dlg.showModal();
-      }
+      openDialogSmooth(dlg);
     },
 
     async executeMigration(mode) {
@@ -5290,7 +5436,7 @@
         toast('Workspaces merged successfully.', 'ok');
       }
       const dlg = $('#cloudSyncMigrationDlg');
-      if (dlg && typeof dlg.close === 'function') dlg.close();
+      closeDialogSmooth(dlg);
       this.updateUI();
       render();
     },
@@ -5347,6 +5493,10 @@
     scheduleDrain() {
       clearTimeout(this.drainTimer);
       this.drainTimer = setTimeout(() => this.drainQueue(), 250);
+    },
+
+    drainMutationQueue() {
+      return this.drainQueue();
     },
 
     async drainQueue() {
@@ -5639,7 +5789,12 @@
       });
       const card = document.getElementById('sideSyncCard');
       if (card) {
-        if (authState === AUTH_STATES.AUTHENTICATED) {
+        const curMode = getActiveStorageMode();
+        if (curMode === 'session') {
+          card.innerHTML = '<b>Temporary Browser Session</b><p>Data stays in this tab\'s memory and wipes automatically on logout or close.</p>';
+        } else if (curMode === 'offline') {
+          card.innerHTML = '<b>Full Offline Device Vault</b><p>Stored permanently on this device with zero cloud transmissions.</p>';
+        } else if (authState === AUTH_STATES.AUTHENTICATED) {
           card.innerHTML = '<b>Cloud Persistence Active</b><p>Invoices and settings synchronize securely across your devices with offline backup.</p>';
         } else {
           card.innerHTML = '<b>Browser-only storage</b><p>Invoices stay on this device. Sign in to sync across devices automatically.</p>';
@@ -5649,6 +5804,13 @@
   };
 
   function renderSyncStatusBadge() {
+    const curMode = getActiveStorageMode();
+    if (curMode === 'session') {
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(100,116,139,0.12);border:1px solid rgba(100,116,139,0.3);color:#64748b;font-size:11px;font-weight:700;cursor:pointer" data-act="open-workspace-setup" title="Temporary Browser Session (Memory Only)"><span style="font-size:10px">🔒</span> Session Only</span>';
+    }
+    if (curMode === 'offline') {
+      return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#d97706;font-size:11px;font-weight:700;cursor:pointer" data-act="open-workspace-setup" title="Full Offline Device Vault (Local Only)"><span style="font-size:10px">🛡️</span> Offline Vault</span>';
+    }
     if (authState !== AUTH_STATES.AUTHENTICATED) {
       return '<span class="sync-badge" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);color:#0284c7;font-size:11px;font-weight:600;cursor:pointer" data-act="open-sync-status" title="Local Storage Mode"><span style="font-size:10px">⚡</span> Local</span>';
     }
@@ -5697,7 +5859,7 @@
         '<strong>Version:</strong> v' + (srv.version || 1) +
       '</div>' +
     '</div>';
-    if (typeof dlg.showModal === 'function') dlg.showModal();
+    openDialogSmooth(dlg);
   }
 
 
@@ -5739,6 +5901,7 @@
       })).filter(c=>c.desc.trim()),
       signature:img(s.signature),
       showCredit:s.showCredit!==false,
+      storageMode: ['session', 'cloud', 'offline'].includes(s && s.storageMode) ? s.storageMode : 'cloud',
   sync:{
         enabled:Boolean(s.sync&&s.sync.enabled),
         endpoint:str(s.sync&&s.sync.endpoint,500),
@@ -5820,32 +5983,53 @@
   }
   function migratePayload(d){
     d=d||{};
+    const mode = ['session', 'cloud', 'offline'].includes(d.storageMode || (d.settings && d.settings.storageMode)) ? (d.storageMode || d.settings.storageMode) : 'cloud';
+    const settings = normSettings(d.settings);
+    settings.storageMode = mode;
     return {
       schemaVersion:SCHEMA_VERSION,
-      settings:normSettings(d.settings),
+      storageMode: mode,
+      settings: settings,
       invoices:(Array.isArray(d.invoices)?d.invoices:[]).map(normInvoice)
     };
   }
   function loadState(){
-    let raw=null;
-    try{
-      const mode = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('zf_storage_mode')) || 'cloud';
-      if(mode === 'session' && typeof sessionStorage !== 'undefined'){
+    let raw = null;
+    try {
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('zf_storage_mode') === 'session') {
         raw = sessionStorage.getItem('zf_session_vault');
-        if(raw){ return migratePayload(JSON.parse(raw)); }
+        if (raw) {
+          const state = migratePayload(JSON.parse(raw));
+          state.storageMode = 'session';
+          if (!state.settings) state.settings = {};
+          state.settings.storageMode = 'session';
+          return state;
+        }
       }
-      raw=localStorage.getItem(KEY);
-      if(raw){return migratePayload(JSON.parse(raw))}
-    }catch(e){
-      if(raw!==null && typeof raw==='string'){
-        recoveryPending=true;
-        rawCorruptedString=raw;
-        if(typeof window!=='undefined')window.__zf_corrupted_raw=raw;
-        try{localStorage.setItem(RECOVERY_KEY,raw)}catch(storageErr){console.warn('[ZestFlow Recovery] Emergency quarantine write failed:',storageErr.message)}
+      const pref = (typeof localStorage !== 'undefined' && localStorage.getItem('zf_storage_mode_pref')) || 'cloud';
+      raw = localStorage.getItem(KEY);
+      if (raw) {
+        const state = migratePayload(JSON.parse(raw));
+        state.storageMode = pref;
+        if (!state.settings) state.settings = {};
+        state.settings.storageMode = pref;
+        return state;
+      }
+    } catch(e) {
+      if (raw !== null && typeof raw === 'string') {
+        recoveryPending = true;
+        rawCorruptedString = raw;
+        if (typeof window !== 'undefined') window.__zf_corrupted_raw = raw;
+        try { localStorage.setItem(RECOVERY_KEY, raw); } catch(storageErr) { console.warn('[ZestFlow Recovery] Emergency quarantine write failed:', storageErr.message); }
         console.error('[ZestFlow Recovery Lock] Corrupted data detected in localStorage. Automatic saving locked.');
       }
     }
-    return migratePayload({});
+    const defaultState = migratePayload({});
+    const pref = (typeof localStorage !== 'undefined' && localStorage.getItem('zf_storage_mode_pref')) || 'cloud';
+    defaultState.storageMode = pref;
+    if (!defaultState.settings) defaultState.settings = {};
+    defaultState.settings.storageMode = pref;
+    return defaultState;
   }
   let S={schemaVersion:SCHEMA_VERSION,settings:normSettings({}),invoices:[]};
   S=loadState();
@@ -6030,17 +6214,38 @@
     if(!storageOK)return false;
     try{
       S.schemaVersion=SCHEMA_VERSION;
-      const curMode = S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
-      if(curMode === 'session'){
-        if(typeof sessionStorage !== 'undefined'){
+      const curMode = getActiveStorageMode(S);
+      S.storageMode = curMode;
+      if (S.settings) S.settings.storageMode = curMode;
+
+      if (curMode === 'session') {
+        if (typeof sessionStorage !== 'undefined') {
           sessionStorage.setItem('zf_session_vault', JSON.stringify(S));
           sessionStorage.setItem('zf_storage_mode', 'session');
         }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem(KEY);
+          localStorage.removeItem(SNAP_KEY);
+        }
         return true;
       }
-      localStorage.setItem(KEY,JSON.stringify(S));
-      if(curMode === 'offline'){
+
+      if (curMode === 'offline') {
+        localStorage.setItem(KEY, JSON.stringify(S));
+        localStorage.setItem('zf_storage_mode_pref', 'offline');
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.removeItem('zf_session_vault');
+          sessionStorage.removeItem('zf_storage_mode');
+        }
         return true;
+      }
+
+      // curMode === 'cloud'
+      localStorage.setItem(KEY, JSON.stringify(S));
+      localStorage.setItem('zf_storage_mode_pref', 'cloud');
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('zf_session_vault');
+        sessionStorage.removeItem('zf_storage_mode');
       }
       if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
         syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
@@ -6048,37 +6253,80 @@
       return true;
     }catch(e){storageOK=false;showBanner();toast('Could not save (storage full or blocked). Please export a backup.','err');return false;}
   }
-  function setStorageMode(mode) {
+  async function setStorageMode(mode) {
     if (!['session', 'cloud', 'offline'].includes(mode)) mode = 'cloud';
     S.storageMode = mode;
     if (!S.settings) S.settings = {};
     S.settings.storageMode = mode;
-    if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.setItem('zf_storage_mode', mode);
-    }
+
     if (mode === 'session') {
       try {
         if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem('zf_storage_mode', 'session');
           sessionStorage.setItem('zf_session_vault', JSON.stringify(S));
         }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem(KEY);
+          localStorage.removeItem(SNAP_KEY);
+          localStorage.removeItem('zf_storage_mode_pref');
+        }
+        if (typeof syncEngine !== 'undefined') {
+          await zfIdb.clear('sync_queue');
+          await zfIdb.clear('invoice_cache');
+          await zfIdb.clear('profile_cache');
+          syncEngine.queue = [];
+          syncEngine.status = 'session_only';
+          syncEngine.updateUI();
+        }
       } catch (_) {}
-      toast('Storage mode: Temporary Session (wipes on close/logout)', 'ok');
+      toast('Temporary Browser Session active — data lives only in sessionStorage and wipes on tab close or logout.', 'ok');
     } else if (mode === 'offline') {
       try {
-        localStorage.setItem(KEY, JSON.stringify(S));
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.removeItem('zf_storage_mode');
+          sessionStorage.removeItem('zf_session_vault');
+        }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('zf_storage_mode_pref', 'offline');
+          localStorage.setItem(KEY, JSON.stringify(S));
+        }
+        if (typeof syncEngine !== 'undefined') {
+          clearTimeout(syncEngine.drainTimer);
+          syncEngine.status = 'offline_vault';
+          syncEngine.updateUI();
+        }
       } catch (_) {}
-      toast('Storage mode: Full Offline Device Vault (local-only)', 'ok');
+      toast('Full Offline Device Vault active — saved permanently on this device with zero cloud traffic.', 'ok');
     } else {
       try {
-        localStorage.setItem(KEY, JSON.stringify(S));
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.removeItem('zf_storage_mode');
+          sessionStorage.removeItem('zf_session_vault');
+        }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('zf_storage_mode_pref', 'cloud');
+          localStorage.setItem(KEY, JSON.stringify(S));
+        }
       } catch (_) {}
       if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
-        syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
-        syncEngine.drainMutationQueue();
+        const sess = getStoredAuthSession();
+        const tok = (sess && sess.access_token) || syncEngine.token || '';
+        if (!syncEngine.userId && verifiedAuthUser) {
+          await syncEngine.init(verifiedAuthUser, tok);
+        }
+        await syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
+        const syncRes = await syncEngine.syncNow();
+        if (syncEngine.status === 'synced') {
+          toast('Cloud Database Account Sync active & verified with Supabase!', 'ok');
+        } else {
+          toast('Cloud Database mode enabled — changes are safely queued locally and will sync as soon as Supabase tables/network are reachable.', 'info');
+        }
+      } else {
+        toast('Cloud Database mode selected — sign in with your account to sync across devices.', 'info');
       }
-      toast('Storage mode: Cloud Database Sync active', 'ok');
     }
     persist();
+    if (typeof syncEngine !== 'undefined') syncEngine.updateUI();
     if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') {
       render();
     }
@@ -6179,7 +6427,7 @@
     return new Promise(res=>{
       const d=$('#confirmDlg');$('#cfTitle').textContent=title;$('#cfMsg').textContent=msg;
       const b=$('#cfOk');b.textContent=ok||'Confirm';b.classList.toggle('danger',!!danger);
-      d.returnValue='';d.addEventListener('close',()=>res(d.returnValue==='ok'),{once:true});d.showModal();
+      d.returnValue='';d.addEventListener('close',()=>res(d.returnValue==='ok'),{once:true});openDialogSmooth(d);
     });
   }
 
@@ -7135,7 +7383,14 @@
           authNetworkOffline = false;
           verifiedAuthUser = userData;
           if (typeof syncEngine !== 'undefined') {
-            syncEngine.init(userData, token);
+            if (getActiveStorageMode() === 'cloud') {
+              syncEngine.init(userData, token);
+            } else {
+              syncEngine.userId = userData.id;
+              syncEngine.token = token;
+              syncEngine.status = getActiveStorageMode() === 'session' ? 'session_only' : 'offline_vault';
+              syncEngine.updateUI();
+            }
           }
           applyLayout();
           showBanner();
@@ -7218,11 +7473,19 @@
     if (typeof syncEngine !== 'undefined') {
       syncEngine.clearUser();
     }
-    if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem('zf_session_active');
+    const wasSessionMode = getActiveStorageMode() === 'session';
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('zf_session_active');
+      sessionStorage.removeItem('zf_session_vault');
+      sessionStorage.removeItem('zf_storage_mode');
+    }
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem('zf_auth_session');
       localStorage.removeItem('zf_auth_user');
       localStorage.removeItem('zf_onboarded');
+    }
+    if (wasSessionMode) {
+      S = migratePayload({});
     }
     authState = AUTH_STATES.UNAUTHENTICATED;
     authNetworkOffline = false;
@@ -7463,17 +7726,13 @@
       if (errBox) { errBox.style.display = 'none'; errBox.textContent = ''; }
       const p1 = $('#newPassInput'); if (p1) p1.value = '';
       const p2 = $('#confirmPassInput'); if (p2) p2.value = '';
-      if (typeof dlg.showModal === 'function') dlg.showModal();
-      else dlg.setAttribute('open', '');
+      openDialogSmooth(dlg);
     }
   }
 
   function closePasswordResetModal() {
     const dlg = $('#passwordResetDlg');
-    if (dlg) {
-      if (typeof dlg.close === 'function') dlg.close();
-      else dlg.removeAttribute('open');
-    }
+    if (dlg) closeDialogSmooth(dlg);
     recoveryContext = null;
   }
 
@@ -7804,19 +8063,13 @@
       errBox.style.display = 'none';
       errBox.textContent = '';
     }
-    if (dlg) {
-      if (typeof dlg.showModal === 'function') dlg.showModal();
-      else dlg.setAttribute('open', '');
-    }
+    if (dlg) openDialogSmooth(dlg);
   }
 
   function closeMigrationModal() {
     pendingMigrationContext = null;
     const dlg = $('#migrationConsentDlg');
-    if (dlg) {
-      if (typeof dlg.close === 'function') dlg.close();
-      else dlg.removeAttribute('open');
-    }
+    if (dlg) closeDialogSmooth(dlg);
   }
 
   async function executeLegacyMigration() {
@@ -10387,7 +10640,7 @@
     else{const curNum=makeNumber();S.invoices.unshift(out);if(out.number===curNum)S.settings.defaults.next++}
     const wasNewInv = ed.isNew;
     persist();
-    if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+    if (authState === AUTH_STATES.AUTHENTICATED && getActiveStorageMode() === 'cloud' && typeof syncEngine !== 'undefined') {
       const baseVer = out._version || (wasNewInv ? 0 : 1);
       const act = wasNewInv ? 'create' : 'update';
       syncEngine.enqueueInvoiceMutation(out.id, act, baseVer, out);
@@ -11123,34 +11376,43 @@
   function openWorkspaceSetupDlg(step = 1) {
     const dlg = $('#workspaceSetupDlg');
     if (!dlg) return;
-    renderWorkspaceSetupStep(step);
-    if (!dlg.open) {
-      try { dlg.showModal(); } catch (_) { dlg.setAttribute('open', ''); }
-    }
+    renderWorkspaceSetupStep(step, 'initial');
+    openDialogSmooth(dlg);
   }
 
   function closeWorkspaceSetupDlg(showCoachMark) {
     const dlg = $('#workspaceSetupDlg');
-    if (dlg) {
-      try { dlg.close(); } catch (_) { dlg.removeAttribute('open'); }
-    }
-    ui.setupModalDismissed = true;
-    if (showCoachMark) {
-      const cm = $('#settingsCoachMark');
-      if (cm) {
-        cm.style.display = 'block';
-        clearTimeout(ui._coachTimer);
-        ui._coachTimer = setTimeout(() => {
-          if (cm) cm.style.display = 'none';
-        }, 9000);
+    closeDialogSmooth(dlg, () => {
+      ui.setupModalDismissed = true;
+      if (showCoachMark) {
+        const cm = $('#settingsCoachMark');
+        if (cm) {
+          cm.style.display = 'block';
+          cm.classList.remove('zf-coach-out');
+          cm.classList.add('zf-coach-in');
+          clearTimeout(ui._coachTimer);
+          ui._coachTimer = setTimeout(() => {
+            dismissCoachMark();
+          }, 9000);
+        }
       }
-    }
+    });
   }
 
   function dismissCoachMark() {
     const cm = $('#settingsCoachMark');
-    if (cm) cm.style.display = 'none';
+    if (!cm) return;
     clearTimeout(ui._coachTimer);
+    if (cm.classList && typeof window !== 'undefined' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      cm.classList.remove('zf-coach-in');
+      cm.classList.add('zf-coach-out');
+      setTimeout(() => {
+        cm.style.display = 'none';
+        cm.classList.remove('zf-coach-out');
+      }, 210);
+    } else {
+      cm.style.display = 'none';
+    }
   }
 
   function saveWorkspaceSetupProfileFields() {
@@ -11200,15 +11462,17 @@
     }
   }
 
-  function renderWorkspaceSetupStep(step = 1) {
+  function renderWorkspaceSetupStep(step = 1, direction = 'initial') {
     const container = $('#workspaceSetupContent');
     if (!container) return;
     const b = S.settings.business || {};
     const d = S.settings.defaults || {};
     const curMode = ui._wsSelectedStorageMode || S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+    const animClass = direction === 'next' ? ' zf-step-enter-next' : (direction === 'prev' ? ' zf-step-enter-prev' : '');
 
     if (step === 1) {
       container.innerHTML = `
+        <div class="dlg${animClass}" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
         <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
           <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
@@ -11278,9 +11542,11 @@
           <button type="button" class="btn sm ghost" data-act="setup-go-full-settings">⚙️ Need Advanced Settings? Open Full Settings Page →</button>
           <button type="button" class="btn sm primary" data-act="setup-save-step1">Save Profile &amp; Choose Storage →</button>
         </div>
+        </div>
       `;
     } else {
       container.innerHTML = `
+        <div class="dlg${animClass}" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
         <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
           <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
@@ -11298,7 +11564,7 @@
 
         <div style="padding:18px 24px;max-height:66vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px">
           <!-- Option 1: Temporary Session -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="session" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='session'?'#0284c7':'var(--line)'};background:${curMode==='session'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="session" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='session'?'#0284c7':'var(--line)'};background:${curMode==='session'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
               <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
                 <input type="radio" name="ws_opt_mode" value="session" ${curMode==='session'?'checked':''} style="accent-color:#0284c7">
@@ -11310,7 +11576,7 @@
           </div>
 
           <!-- Option 2: Cloud Database -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="cloud" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='cloud'?'#0284c7':'var(--line)'};background:${curMode==='cloud'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="cloud" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='cloud'?'#0284c7':'var(--line)'};background:${curMode==='cloud'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
               <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
                 <input type="radio" name="ws_opt_mode" value="cloud" ${curMode==='cloud'?'checked':''} style="accent-color:#0284c7">
@@ -11322,7 +11588,7 @@
           </div>
 
           <!-- Option 3: Offline Vault -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="offline" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='offline'?'#0284c7':'var(--line)'};background:${curMode==='offline'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="offline" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='offline'?'#0284c7':'var(--line)'};background:${curMode==='offline'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
               <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
                 <input type="radio" name="ws_opt_mode" value="offline" ${curMode==='offline'?'checked':''} style="accent-color:#0284c7">
@@ -11337,6 +11603,7 @@
         <div style="padding:14px 24px;border-top:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <button type="button" class="btn sm" data-act="setup-back-step1">← Back to Profile</button>
           <button type="button" class="btn sm primary" data-act="setup-confirm-storage">Confirm &amp; Activate Storage Mode ✓</button>
+        </div>
         </div>
       `;
     }
@@ -11372,7 +11639,7 @@
   /* ---------- signature pad ---------- */
   const sig={drawing:false,drawn:false,ctx:null,last:null};
   function openSig(){
-    const dlg=$('#sigDlg');dlg.showModal();
+    const dlg=$('#sigDlg');openDialogSmooth(dlg);
     const cv=$('#sigCanvas'),dpr=window.devicePixelRatio||1,w=cv.clientWidth||500,h=cv.clientHeight||200;
     cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);
     const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#14171f';
@@ -11392,7 +11659,7 @@
     const pad=8;x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);x1=Math.min(W-1,x1+pad);y1=Math.min(H-1,y1+pad);
     const out=document.createElement('canvas');out.width=x1-x0+1;out.height=y1-y0+1;
     out.getContext('2d').drawImage(src,x0,y0,out.width,out.height,0,0,out.width,out.height);
-    S.settings.signature=out.toDataURL('image/png');persist();$('#sigDlg').close();
+    S.settings.signature=out.toDataURL('image/png');persist();closeDialogSmooth($('#sigDlg'));
     fillSig();updateSigPrev();
     if(ed){ed.inv.showSignature=true;const cb=$('[data-f="showSignature"]');if(cb)cb.checked=true;ed.dirty=true;schedulePreview()}
     toast('Signature saved','ok');
@@ -11421,7 +11688,7 @@
     const mail = generateInvoiceEmail(inv, 'reminder');
     const mailBtn = $('#remindDlgMail');
     if (mailBtn) mailBtn.href = mail.mailtoUrl;
-    $('#remindDlg').showModal();
+    openDialogSmooth($('#remindDlg'));
   }
 
   /* ---------- logo upload ---------- */
@@ -11471,7 +11738,7 @@
     $('#payMethod').value='Bank Transfer';
     $('#payNote').value='';
     renderPayExisting(inv);
-    $('#payDlg').showModal();
+    openDialogSmooth($('#payDlg'));
   }
   function renderPayExisting(inv){
     const w=$('#payExistingWrap');if(!w)return;
@@ -11542,7 +11809,7 @@
         const res=applyBackupImport(d,act);
         if(res.ok){toast(act==='merge'?'Backup merged (rollback snapshot saved)':'Backup restored (rollback snapshot saved)','ok');render()}
       },{once:true});
-      dlg.showModal();
+      openDialogSmooth(dlg);
     };
     fr.readAsText(f);
   });
@@ -11675,10 +11942,7 @@
     claimInv.notes = 'Monthly Consultant Timesheet & Expense Reimbursement Claim for ' + period + '.\nSubmitted by ' + (S.settings.business.name || role) + ' to ' + sponsorName + ' for approval and payment settlement as agreed with Sponsor / CEO.';
 
     const dlg = $('#consultantClaimDlg');
-    if (dlg) {
-      if (typeof dlg.close === 'function') dlg.close();
-      else dlg.removeAttribute('open');
-    }
+    if (dlg) closeDialogSmooth(dlg);
 
     ed = { inv: claimInv, isNew: true, dirty: true };
     navigate('editor', { force: true });
@@ -11960,7 +12224,7 @@
         openPayModal(id);
         break;
       case 'pay-dlg-close':
-        $('#payDlg').close();
+        closeDialogSmooth($('#payDlg'));
         break;
       case 'pay-dlg-save':{
         const inv=S.invoices.find(x=>x.id===payTargetId);if(!inv)break;
@@ -11972,7 +12236,7 @@
           note:$('#payNote').value
         });
         if(!ok){toast('Enter a valid positive amount and date.','err');break}
-        persist();$('#payDlg').close();render();toast('Payment entry saved','ok');
+        persist();closeDialogSmooth($('#payDlg'));render();toast('Payment entry saved','ok');
         break;
       }
       case 'pay-del':{
@@ -11989,7 +12253,7 @@
         openRemindModal(id);
         break;
       case 'remind-dlg-close':
-        $('#remindDlg').close();
+        closeDialogSmooth($('#remindDlg'));
         break;
       case 'remind-dlg-copy':{
         const txt=$('#remindDlgTxt').value;
@@ -12098,7 +12362,7 @@
           const delVer = inv._version || 1;
           S.invoices=S.invoices.filter(x=>x.id!==id);
           persist();updateNavCounts();render();toast('Deleted');
-          if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+          if (authState === AUTH_STATES.AUTHENTICATED && getActiveStorageMode() === 'cloud' && typeof syncEngine !== 'undefined') {
             syncEngine.enqueueInvoiceMutation(id, 'delete', delVer, null);
           }
         }
@@ -12132,7 +12396,7 @@
         break;
       }
       case 'sync-now':{
-        const mode = S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+        const mode = getActiveStorageMode(S);
         if (mode === 'session') {
           toast('Storage mode is Temporary Session: cloud sync disabled. Data stays in sessionStorage.', 'info');
           break;
@@ -12148,10 +12412,13 @@
         toast('Syncing with Supabase Cloud...','info');
         try {
           if (typeof syncEngine !== 'undefined') {
-            await syncEngine.drainMutationQueue();
-            const deltas = await syncEngine.pullDeltas();
+            const syncRes = await syncEngine.syncNow();
             render();
-            toast('Cloud sync complete: ' + (deltas ? deltas.applied : 0) + ' changes pulled.', 'ok');
+            if (syncEngine.status === 'synced') {
+              toast('Cloud sync complete: workspace verified & updated.', 'ok');
+            } else {
+              toast(syncRes.message || 'Changes queued locally.', 'info');
+            }
           } else {
             toast('Sync engine initializing...', 'info');
           }
@@ -12196,10 +12463,10 @@
         break;
       case 'setup-save-step1':
         saveWorkspaceSetupProfileFields();
-        renderWorkspaceSetupStep(2);
+        renderWorkspaceSetupStep(2, 'next');
         break;
       case 'setup-back-step1':
-        renderWorkspaceSetupStep(1);
+        renderWorkspaceSetupStep(1, 'prev');
         break;
       case 'select-ws-storage-mode':{
         const mode = b.dataset.storageMode;
@@ -12549,17 +12816,13 @@
         const dlg = $('#consultantClaimDlg');
         if (dlg) {
           calcClaimLive();
-          if (typeof dlg.showModal === 'function') dlg.showModal();
-          else dlg.setAttribute('open', '');
+          openDialogSmooth(dlg);
         }
         break;
       }
       case 'claim-dlg-close':{
         const dlg = $('#consultantClaimDlg');
-        if (dlg) {
-          if (typeof dlg.close === 'function') dlg.close();
-          else dlg.removeAttribute('open');
-        }
+        if (dlg) closeDialogSmooth(dlg);
         break;
       }
       case 'claim-prefill-jamia':{
@@ -12574,7 +12837,7 @@
       case 'ai-open-prompt':{
         const dlg = $('#aiPromptDlg');
         if (dlg) {
-          dlg.showModal();
+          openDialogSmooth(dlg);
           const txt = $('#aiModalPromptTxt');
           if (txt) { txt.value = ''; txt.focus(); }
         }
@@ -12582,7 +12845,7 @@
       }
       case 'ai-dlg-close':{
         const dlg = $('#aiPromptDlg');
-        if (dlg) dlg.close();
+        if (dlg) closeDialogSmooth(dlg);
         break;
       }
       case 'ai-dlg-submit':{
@@ -12590,7 +12853,7 @@
         const val = txt ? txt.value.trim() : '';
         if (!val) { toast('Please enter invoice description', 'err'); break; }
         const dlg = $('#aiPromptDlg');
-        if (dlg) dlg.close();
+        if (dlg) closeDialogSmooth(dlg);
         toast('Generating invoice with Gemini AI...', 'info');
         try {
           const aiData = await generateInvoiceWithGeminiAI(val);
@@ -12682,6 +12945,24 @@
       case 'force-overwrite-conflict':
         await forceOverwriteConflict();
         break;
+      case 'open-conflict-dlg':
+        openConflictDialog();
+        break;
+      case 'close-conflict-dlg':{
+        const dlg = $('#syncConflictDlg');
+        if (dlg) closeDialogSmooth(dlg);
+        break;
+      }
+      case 'resolve-conflict-action':{
+        const choice = b.dataset.choice;
+        if (!syncEngine.conflicts || syncEngine.conflicts.length === 0) break;
+        const conflictId = syncEngine.conflicts[0].id;
+        await syncEngine.resolveConflict(conflictId, choice);
+        const dlg = $('#syncConflictDlg');
+        if (dlg) closeDialogSmooth(dlg);
+        toast('Conflict resolved: ' + (choice === 'keep_server' ? 'Kept cloud version' : (choice === 'keep_both' ? 'Saved copy alongside cloud version' : 'Overwritten with local version')), 'ok');
+        break;
+      }
       case 'wipe':
         if(await ask('Delete everything?','All invoices, business details and signature will be removed from this browser. A rollback snapshot will be saved first.','Delete everything',true)){
           saveSnapshot('pre-wipe');
@@ -12707,7 +12988,7 @@
         saveSigCanvas();
         break;
       case 'sig-dlg-cancel':
-        $('#sigDlg').close();
+        closeDialogSmooth($('#sigDlg'));
         break;
       case 'add-item':
         if(ed){
@@ -12805,12 +13086,12 @@
       }
       case 'open-shortcuts':{
         const dlg=$('#shortcutsDlg');
-        if(dlg)dlg.showModal();
+        if(dlg)openDialogSmooth(dlg);
         break;
       }
       case 'shortcuts-dlg-close':{
         const dlg=$('#shortcutsDlg');
-        if(dlg)dlg.close();
+        if(dlg)closeDialogSmooth(dlg);
         break;
       }
       case 'dismiss-guide-banner':{
@@ -12872,7 +13153,7 @@
     if(e.key==='/'&&$('#q')){e.preventDefault();$('#q').focus()}
     else if(e.key==='?'&&!document.querySelector('dialog[open]')){
       e.preventDefault();
-      const dlg=$('#shortcutsDlg');if(dlg)dlg.showModal();
+      const dlg=$('#shortcutsDlg');if(dlg)openDialogSmooth(dlg);
     }
     else if(e.key.toLowerCase()==='n'&&!document.querySelector('dialog[open]')){ed=null;navigate('editor',{})}
   });

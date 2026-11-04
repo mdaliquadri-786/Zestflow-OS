@@ -211,6 +211,45 @@ test('SQL Mutation RPC: Prevents resurrection of tombstoned invoice on create', 
   );
 });
 
+test('SQL Mutation RPC: No duplicate WHERE or server_updated_at in update mutation block', () => {
+  const updateIdx = sqlContent.indexOf("ELSIF p_action = 'update' THEN");
+  const endIdx = sqlContent.indexOf("INSERT INTO public.account_sync_log", updateIdx);
+  const updateBlock = sqlContent.slice(updateIdx, endIdx);
+  const whereCount = (updateBlock.match(/WHERE user_id = v_user_id AND id = p_id/g) || []).length;
+  const stampCount = (updateBlock.match(/server_updated_at = pg_catalog\.now\(\)/g) || []).length;
+  assert.strictEqual(whereCount, 1, 'Should have exactly 1 WHERE clause in update block');
+  assert.strictEqual(stampCount, 1, 'Should have exactly 1 server_updated_at in update block');
+});
+
+test('Storage Mode Normalization: normSettings preserves storageMode (session, offline, cloud)', () => {
+  const vm = require('vm');
+  const sandbox = {
+    str: (v, n) => String(v || '').slice(0, n),
+    num: (v) => Number(v) || 0,
+    clamp: (v, min, max) => Math.max(min, Math.min(max, v)),
+    uid: () => 'test_uid',
+    CURRENCIES: ['USD', 'INR', 'AED', 'SAR', 'EUR', 'GBP'],
+    T: { en: {}, ar: {}, ur: {} },
+    img: (v) => v || '',
+    localStorage: { setItem: ()=>{}, removeItem: ()=>{} }
+  };
+  const start = indexContent.indexOf('function normSettings(s){');
+  let depth = 0, end = -1;
+  for (let i = start; i < indexContent.length; i++) {
+    if (indexContent[i] === '{') depth++;
+    else if (indexContent[i] === '}') {
+      depth--;
+      if (depth === 0) { end = i + 1; break; }
+    }
+  }
+  const code = indexContent.slice(start, end);
+  vm.createContext(sandbox);
+  vm.runInContext(code, sandbox);
+  assert.strictEqual(sandbox.normSettings({ storageMode: 'offline' }).storageMode, 'offline');
+  assert.strictEqual(sandbox.normSettings({ storageMode: 'session' }).storageMode, 'session');
+  assert.strictEqual(sandbox.normSettings({ storageMode: 'cloud' }).storageMode, 'cloud');
+});
+
 // 4. Multi-Page Delta Pull Pagination Simulation
 test('Sync Engine: pullDeltas paginates correctly when >100 changes exist', async () => {
   // Simulate mock RPC that returns 100 changes on page 1, 30 changes on page 2

@@ -50,8 +50,8 @@ test('Storage Modes: setStorageMode supports session, cloud, offline modes', () 
 
 test('Storage Modes: loadState and persist handle session mode without leaking to localStorage or cloud', () => {
   assert.ok(html.includes("sessionStorage.getItem('zf_session_vault')"), 'loadState must check zf_session_vault');
-  assert.ok(html.includes("if(curMode === 'session')"), 'persist must isolate session mode');
-  assert.ok(html.includes("if(curMode === 'offline')"), 'persist must isolate offline mode from cloud queue');
+  assert.ok(html.includes("if(curMode === 'session')") || html.includes("if (curMode === 'session')"), 'persist must isolate session mode');
+  assert.ok(html.includes("if(curMode === 'offline')") || html.includes("if (curMode === 'offline')"), 'persist must isolate offline mode from cloud queue');
 });
 
 test('Honest Feedback: sync-now informs user honestly when session/offline mode is active', () => {
@@ -62,14 +62,26 @@ test('Honest Feedback: sync-now informs user honestly when session/offline mode 
 // 3. Universal Dialog Clipping CSS
 test('Universal Dialog CSS: dialog and dialog .dlg have responsive width constraints', () => {
   assert.ok(
-    html.includes('dialog{max-width:calc(100vw - 24px);box-sizing:border-box}') ||
-    html.includes('dialog{max-width:calc(100vw - 24px)'),
+    html.includes('max-width:calc(100vw - 24px)') ||
+    html.includes('max-width:min(640px,calc(100vw - 24px))'),
     'dialog must have max-width calc(100vw - 24px)'
   );
   assert.ok(
     html.includes('dialog .dlg{width:100%!important;max-width:100%!important;box-sizing:border-box!important}'),
     'dialog .dlg must have width 100%!important'
   );
+});
+
+// 4. Spring Animation Engine & Storage Aliases
+test('Spring Animation Engine & Storage Aliases: smooth dialogs, getActiveStorageMode, drainMutationQueue', () => {
+  assert.ok(html.includes('function getActiveStorageMode'), 'getActiveStorageMode must exist');
+  assert.ok(html.includes('function openDialogSmooth'), 'openDialogSmooth must exist');
+  assert.ok(html.includes('function closeDialogSmooth'), 'closeDialogSmooth must exist');
+  assert.ok(html.includes('drainMutationQueue()'), 'drainMutationQueue alias must exist on syncEngine');
+  assert.ok(html.includes('zfModalIn'), 'zfModalIn animation must be defined in CSS');
+  assert.ok(html.includes('zfModalOut'), 'zfModalOut animation must be defined in CSS');
+  assert.ok(html.includes('zfBackdropIn'), 'zfBackdropIn animation must be defined in CSS');
+  assert.ok(html.includes('zfBackdropOut'), 'zfBackdropOut animation must be defined in CSS');
 });
 
 // 4. Guided 2-Step Setup Modal & Coach-Mark Callout

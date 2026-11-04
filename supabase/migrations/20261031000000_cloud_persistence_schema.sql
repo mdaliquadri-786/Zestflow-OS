@@ -533,8 +533,6 @@ BEGIN
       deleted_at = NULL,
       server_updated_at = pg_catalog.now()
     WHERE user_id = v_user_id AND id = p_id
-      server_updated_at = pg_catalog.now()
-    WHERE user_id = v_user_id AND id = p_id
     RETURNING version, to_jsonb(invoices) INTO v_current_version, v_current_record;
 
     INSERT INTO public.account_sync_log (user_id, change_seq, entity_type, record_id, operation, record_version, payload)
