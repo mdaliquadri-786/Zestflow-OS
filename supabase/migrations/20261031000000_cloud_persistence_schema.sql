@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   payments JSONB NOT NULL DEFAULT '[]'::jsonb,
   history JSONB NOT NULL DEFAULT '[]'::jsonb,
   recurring JSONB NOT NULL DEFAULT '{}'::jsonb,
+  extra JSONB NOT NULL DEFAULT '{}'::jsonb,
   notes TEXT NOT NULL DEFAULT '',
   payment_instructions TEXT NOT NULL DEFAULT '',
   upi_id TEXT NOT NULL DEFAULT '',
@@ -94,6 +95,14 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   deleted_at TIMESTAMPTZ DEFAULT NULL,
   server_updated_at TIMESTAMPTZ NOT NULL DEFAULT pg_catalog.now(),
   PRIMARY KEY (user_id, id)
+);
+
+-- 3b. Invoice Tombstones (Permanent Deletion Prevention of Resurrection)
+CREATE TABLE IF NOT EXISTS public.invoice_tombstones (
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  invoice_id TEXT NOT NULL,
+  deleted_at TIMESTAMPTZ NOT NULL DEFAULT pg_catalog.now(),
+  PRIMARY KEY (user_id, invoice_id)
 );
 
 -- 4. Account Change Log (Prunable Delta Stream)
@@ -151,12 +160,16 @@ CREATE INDEX IF NOT EXISTS idx_idempotency_created
 ALTER TABLE public.account_sync_state ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.invoice_tombstones ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.account_sync_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sync_idempotency_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.conflict_archive ENABLE ROW LEVEL SECURITY;
 
 -- Explicit RLS Read Policies (Writes are restricted strictly to RPCs)
 CREATE POLICY "sync_state_select" ON public.account_sync_state
+  FOR SELECT TO authenticated USING (auth.uid() = user_id);
+
+CREATE POLICY "invoice_tombstones_select" ON public.invoice_tombstones
   FOR SELECT TO authenticated USING (auth.uid() = user_id);
 
 CREATE POLICY "user_profiles_select" ON public.user_profiles
@@ -247,7 +260,7 @@ BEGIN
   PERFORM pg_catalog.pg_advisory_xact_lock(v_lock_key);
 
   -- 4. Payload Hash & Idempotency Evaluation
-  v_payload_hash := pg_catalog.encode(extensions.digest(COALESCE(p_payload::text, '')::bytea, 'sha256'), 'hex');
+  v_payload_hash := pg_catalog.encode(extensions.digest((p_action || ':' || p_id || ':' || COALESCE(p_expected_version::text, 'null') || ':' || COALESCE(p_payload::text, 'null'))::bytea, 'sha256'), 'hex');
 
   SELECT payload_hash, response_payload INTO v_cached_hash, v_cached_result
   FROM public.sync_idempotency_log
@@ -278,6 +291,10 @@ BEGIN
 
   -- 7. Precondition Enforcement by Action
   IF p_action = 'create' THEN
+    IF EXISTS (SELECT 1 FROM public.invoice_tombstones WHERE user_id = v_user_id AND invoice_id = p_id) THEN
+      RETURN pg_catalog.jsonb_build_object('status', 'already_deleted', 'id', p_id);
+    END IF;
+
     IF p_expected_version IS NOT NULL AND p_expected_version != 0 THEN
       RETURN pg_catalog.jsonb_build_object(
         'status', 'invalid_request',
@@ -451,6 +468,10 @@ BEGIN
     WHERE user_id = v_user_id AND id = p_id
     RETURNING version INTO v_current_version;
 
+    INSERT INTO public.invoice_tombstones (user_id, invoice_id, deleted_at)
+    VALUES (v_user_id, p_id, pg_catalog.now())
+    ON CONFLICT (user_id, invoice_id) DO UPDATE SET deleted_at = pg_catalog.now();
+
     INSERT INTO public.account_sync_log (user_id, change_seq, entity_type, record_id, operation, record_version, payload)
     VALUES (v_user_id, v_next_seq, 'invoice', p_id, 'delete', v_current_version, NULL);
 
@@ -460,7 +481,7 @@ BEGIN
       user_id, id, number, title, status, currency, lang, issue_date, due_date, paid_date,
       client_name, client_email, client_phone, client_address, client_state, client_tax_id,
       tax_mode, tax_regime, supplier_state, place_of_supply, tax_rate, tax_label, discount_type,
-      discount, rounding_mode, items, payments, history, recurring, notes, payment_instructions,
+      discount, rounding_mode, items, payments, history, recurring, extra, notes, payment_instructions,
       upi_id, payment_link, show_signature, is_sample, created_at_ms, updated_at_ms, version,
       server_updated_at
     ) VALUES (
@@ -475,7 +496,9 @@ BEGIN
       COALESCE(p_payload->>'discountType', 'percent'), COALESCE((p_payload->>'discount')::numeric, 0.00),
       COALESCE(p_payload->>'roundingMode', 'none'), COALESCE(p_payload->'items', '[]'::jsonb),
       COALESCE(p_payload->'payments', '[]'::jsonb), COALESCE(p_payload->'history', '[]'::jsonb),
-      COALESCE(p_payload->'recurring', '{}'::jsonb), COALESCE(p_payload->>'notes', ''),
+      COALESCE(p_payload->'recurring', '{}'::jsonb),
+      COALESCE(p_payload->'extra', pg_catalog.jsonb_build_object('po', COALESCE(p_payload->>'po',''), 'signature', COALESCE(p_payload->>'signature',''), 'recurring', COALESCE(p_payload->'recurring', '{}'::jsonb))),
+      COALESCE(p_payload->>'notes', ''),
       COALESCE(p_payload->>'payment', ''), COALESCE(p_payload->>'upiId', ''), COALESCE(p_payload->>'paymentLink', ''),
       COALESCE((p_payload->>'showSignature')::boolean, false), COALESCE((p_payload->>'sample')::boolean, false),
       COALESCE((p_payload->>'created')::bigint, (pg_catalog.extract(epoch from pg_catalog.now()) * 1000)::bigint),
@@ -500,12 +523,16 @@ BEGIN
       discount_type = COALESCE(p_payload->>'discountType', 'percent'), discount = COALESCE((p_payload->>'discount')::numeric, 0.00),
       rounding_mode = COALESCE(p_payload->>'roundingMode', 'none'), items = COALESCE(p_payload->'items', '[]'::jsonb),
       payments = COALESCE(p_payload->'payments', '[]'::jsonb), history = COALESCE(p_payload->'history', '[]'::jsonb),
-      recurring = COALESCE(p_payload->'recurring', '{}'::jsonb), notes = COALESCE(p_payload->>'notes', ''),
+      recurring = COALESCE(p_payload->'recurring', '{}'::jsonb),
+      extra = COALESCE(p_payload->'extra', pg_catalog.jsonb_build_object('po', COALESCE(p_payload->>'po',''), 'signature', COALESCE(p_payload->>'signature',''), 'recurring', COALESCE(p_payload->'recurring', '{}'::jsonb))),
+      notes = COALESCE(p_payload->>'notes', ''),
       payment_instructions = COALESCE(p_payload->>'payment', ''), upi_id = COALESCE(p_payload->>'upiId', ''),
       payment_link = COALESCE(p_payload->>'paymentLink', ''), show_signature = COALESCE((p_payload->>'showSignature')::boolean, false),
       updated_at_ms = COALESCE((p_payload->>'updated')::bigint, (pg_catalog.extract(epoch from pg_catalog.now()) * 1000)::bigint),
       version = invoices.version + 1,
       deleted_at = NULL,
+      server_updated_at = pg_catalog.now()
+    WHERE user_id = v_user_id AND id = p_id
       server_updated_at = pg_catalog.now()
     WHERE user_id = v_user_id AND id = p_id
     RETURNING version, to_jsonb(invoices) INTO v_current_version, v_current_record;
@@ -580,7 +607,7 @@ BEGIN
   PERFORM pg_catalog.pg_advisory_xact_lock(v_lock_key);
 
   -- 4. SHA-256 Digest Idempotency Check
-  v_payload_hash := pg_catalog.encode(extensions.digest(p_payload::text::bytea, 'sha256'), 'hex');
+  v_payload_hash := pg_catalog.encode(extensions.digest(('profile_upsert:' || COALESCE(p_expected_version::text, 'null') || ':' || COALESCE(p_payload::text, 'null'))::bytea, 'sha256'), 'hex');
 
   SELECT payload_hash, response_payload INTO v_cached_hash, v_cached_result
   FROM public.sync_idempotency_log
@@ -806,6 +833,9 @@ BEGIN
 
       DELETE FROM public.invoices
       WHERE user_id = v_user_rec.user_id AND deleted_at IS NOT NULL AND deleted_at < v_purge_boundary;
+
+      DELETE FROM public.invoice_tombstones
+      WHERE user_id = v_user_rec.user_id AND deleted_at < v_purge_boundary;
     END IF;
   END LOOP;
 END;

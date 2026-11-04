@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-WiNsR1WgGrzF8+HkCtgLMIfFZNUZiVHHjyf5wybw0xU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-YqBftjuy5DTbANQ8GsRtid/wzHjAteVjSi3FS0/ktOg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -762,6 +762,8 @@
   @keyframes zfModalIn{from{opacity:0;transform:scale(0.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
   @keyframes zfBackdropIn{from{opacity:0;backdrop-filter:blur(0px)}to{opacity:1;backdrop-filter:blur(4px)}}
   dialog::backdrop{background:rgba(5,6,8,.7);backdrop-filter:blur(3px)}
+  dialog{max-width:calc(100vw - 24px);box-sizing:border-box}
+  dialog .dlg{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
   #migrationConsentDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
   #consultantClaimDlg{width:min(720px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
@@ -1013,7 +1015,8 @@
     body.layout-cashfund .shell {
       grid-template-columns: minmax(0, 1fr) !important;
     }
-    body.layout-cashfund .sidebar {
+    body.layout-cashfund .sidebar,
+    .sidebar {
       display: none !important;
     }
     body.layout-cashfund .cash-mobile-topbar {
@@ -3640,6 +3643,7 @@
   }
   @media (max-width: 1024px) {
     body.layout-cashfund .shell { grid-template-columns: 1fr !important; }
+    body.layout-cashfund .sidebar,
     body.layout-cashfund .cashfund-sidebar { display: none !important; }
   }
 
@@ -4596,6 +4600,27 @@
     </form>
   </dialog>
 
+  <dialog id="workspaceSetupDlg" style="max-width:640px;width:min(640px,calc(100vw - 24px));border-radius:24px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+    <div id="workspaceSetupContent" class="dlg" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
+      <!-- Step 1 / Step 2 dynamically rendered -->
+    </div>
+  </dialog>
+
+  <div id="settingsCoachMark" class="settings-coach-mark" style="display:none;position:fixed;top:70px;right:24px;z-index:100000010;max-width:380px;background:#0f172a;color:#f8fafc;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);box-shadow:0 12px 36px rgba(0,0,0,0.4);animation:in .2s ease-out">
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="font-size:22px;line-height:1">💡</span>
+      <div style="flex:1">
+        <div style="font-size:13px;line-height:1.5;font-weight:500;color:#e2e8f0;margin-bottom:12px">
+          You can always complete your Business Profile and switch your Storage Mode (Session, Cloud Database, or Offline Vault) anytime from Settings here.
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
+          <button type="button" class="btn sm" data-act="nav" data-page="settings" style="background:rgba(255,255,255,0.15);color:#fff;border:none">Open Settings</button>
+          <button type="button" class="btn sm primary" data-act="dismiss-coach-mark">Got it ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" hidden>
   <input type="file" id="importFile" accept="application/json,.json" hidden>
 
@@ -4914,10 +4939,141 @@
   let recoveryContext=null;
   let pendingMigrationContext=null;
 
+  function getPersistenceConfig() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const raw = localStorage.getItem('zf_supabase_staging_override');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.url && parsed.anonKey) {
+            return { url: parsed.url, anonKey: parsed.anonKey };
+          }
+        }
+      }
+    } catch (_) {}
+    return {
+      url: SUPABASE_CONFIG.url,
+      anonKey: SUPABASE_CONFIG.anonKey
+    };
+  }
+
   const SUPABASE_PERSISTENCE_CONFIG = {
-    url: 'https://mlxyegiwdzmcybvhtgwy.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1seHllZ2l3ZHptY3lidmh0Z3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMDI3MDUsImV4cCI6MjEwODY3ODcwNX0.dummy_staging_key'
+    get url() { return getPersistenceConfig().url; },
+    get anonKey() { return getPersistenceConfig().anonKey; }
   };
+
+  function toSqlProfilePayload(s) {
+    const b = (s && s.business) || {};
+    return {
+      business_name: b.name || '',
+      business_email: b.email || '',
+      business_phone: b.phone || '',
+      business_address: b.address || '',
+      tax_id: b.taxId || '',
+      currency_code: (s && s.defaults && s.defaults.currency) || 'INR',
+      logo_url: b.logo || null,
+      signature_url: b.signature || null,
+      ui_preferences: {
+        business: {
+          state: b.state || '',
+          taxIdLabel: b.taxIdLabel || 'GSTIN',
+          taxRegime: b.taxRegime || 'gst_in',
+          upiId: b.upiId || '',
+          paymentLink: b.paymentLink || '',
+          zatcaEnabled: !!b.zatcaEnabled,
+          emailWebhook: b.emailWebhook || ''
+        },
+        defaults: (s && s.defaults) || {},
+        catalog: (s && s.catalog) || [],
+        theme: (s && s.theme) || 'light',
+        layout: (s && s.layout) || 'invowise',
+        paperColor: (s && s.paperColor) || '#ffffff',
+        bilingualPrint: !!(s && s.bilingualPrint),
+        numerals: (s && s.numerals) || 'western',
+        showCredit: s && s.showCredit !== undefined ? !!s.showCredit : true,
+        storageMode: (s && s.storageMode) || 'cloud'
+      }
+    };
+  }
+
+  function fromSqlProfilePayload(p, currentSettings) {
+    if (!p) return normSettings(currentSettings || {});
+    if (p.business && typeof p.business === 'object' && !('business_name' in p)) {
+      return normSettings(p);
+    }
+    const uiPref = (p.ui_preferences && typeof p.ui_preferences === 'object') ? p.ui_preferences : {};
+    const bPref = uiPref.business || {};
+    const curB = (currentSettings && currentSettings.business) || {};
+    return normSettings({
+      business: {
+        name: p.business_name !== undefined ? p.business_name : (curB.name || 'Guest'),
+        email: p.business_email !== undefined ? p.business_email : (curB.email || ''),
+        phone: p.business_phone !== undefined ? p.business_phone : (curB.phone || ''),
+        address: p.business_address !== undefined ? p.business_address : (curB.address || ''),
+        state: bPref.state !== undefined ? bPref.state : (curB.state || ''),
+        taxIdLabel: bPref.taxIdLabel || curB.taxIdLabel || 'GSTIN',
+        taxId: p.tax_id !== undefined ? p.tax_id : (curB.taxId || ''),
+        taxRegime: bPref.taxRegime || curB.taxRegime || 'gst_in',
+        upiId: bPref.upiId !== undefined ? bPref.upiId : (curB.upiId || ''),
+        paymentLink: bPref.paymentLink !== undefined ? bPref.paymentLink : (curB.paymentLink || ''),
+        zatcaEnabled: bPref.zatcaEnabled !== undefined ? !!bPref.zatcaEnabled : !!curB.zatcaEnabled,
+        emailWebhook: bPref.emailWebhook !== undefined ? bPref.emailWebhook : (curB.emailWebhook || ''),
+        geminiKey: curB.geminiKey || '',
+        logo: p.logo_url !== undefined ? (p.logo_url || '') : (curB.logo || ''),
+        signature: p.signature_url !== undefined ? (p.signature_url || '') : (curB.signature || '')
+      },
+      defaults: Object.assign({}, uiPref.defaults || {}, p.currency_code ? { currency: p.currency_code } : {}),
+      catalog: Array.isArray(uiPref.catalog) ? uiPref.catalog : ((currentSettings && currentSettings.catalog) || []),
+      theme: uiPref.theme || (currentSettings && currentSettings.theme) || 'light',
+      layout: uiPref.layout || (currentSettings && currentSettings.layout) || 'invowise',
+      paperColor: uiPref.paperColor || (currentSettings && currentSettings.paperColor) || '#ffffff',
+      bilingualPrint: uiPref.bilingualPrint !== undefined ? !!uiPref.bilingualPrint : !!(currentSettings && currentSettings.bilingualPrint),
+      numerals: uiPref.numerals || (currentSettings && currentSettings.numerals) || 'western',
+      showCredit: uiPref.showCredit !== undefined ? !!uiPref.showCredit : true
+    });
+  }
+
+  function fromSqlInvoicePayload(raw) {
+    if (!raw || typeof raw !== 'object') return normInvoice({});
+    const extra = (raw.extra && typeof raw.extra === 'object') ? raw.extra : {};
+    const hasNestedClient = raw.client && typeof raw.client === 'object';
+    const mapped = Object.assign({}, extra, raw, {
+      id: raw.id,
+      type: raw.type || raw.title || 'invoice',
+      number: raw.number || '',
+      status: raw.status || 'draft',
+      issue: raw.issue || raw.issue_date || extra.issue || todayISO(),
+      due: raw.due !== undefined ? raw.due : (raw.due_date !== undefined ? raw.due_date : (extra.due || '')),
+      paidDate: raw.paidDate !== undefined ? raw.paidDate : (raw.paid_date !== undefined ? raw.paid_date : (extra.paidDate || '')),
+      po: raw.po !== undefined ? raw.po : (extra.po || ''),
+      currency: raw.currency || 'INR',
+      client: hasNestedClient ? raw.client : {
+        name: raw.client_name || '',
+        email: raw.client_email || '',
+        phone: raw.client_phone || '',
+        address: raw.client_address || '',
+        state: raw.client_state || '',
+        taxId: raw.client_tax_id || ''
+      },
+      items: Array.isArray(raw.items) ? raw.items : [],
+      payments: Array.isArray(raw.payments) ? raw.payments : [],
+      discountType: raw.discountType || raw.discount_type || 'pct',
+      discountValue: raw.discountValue !== undefined ? raw.discountValue : (raw.discount_value !== undefined ? raw.discount_value : (raw.discount !== undefined ? String(raw.discount) : '0')),
+      taxMode: raw.taxMode || raw.tax_mode || 'cgst_sgst',
+      taxLabel: raw.taxLabel || raw.tax_label || 'GST',
+      taxRate: raw.taxRate !== undefined ? raw.taxRate : (raw.tax_rate !== undefined ? String(raw.tax_rate) : '18'),
+      shipping: raw.shipping !== undefined ? raw.shipping : '0',
+      notes: raw.notes !== undefined ? raw.notes : '',
+      payment: raw.payment !== undefined ? raw.payment : (raw.payment_instructions !== undefined ? raw.payment_instructions : ''),
+      signature: raw.signature !== undefined ? raw.signature : (extra.signature || ''),
+      recurring: raw.recurring || extra.recurring || { enabled: false, freq: 'monthly', nextDate: '' },
+      created: Number(raw.created || raw.created_at_ms || Date.now()),
+      updated: Number(raw.updated || raw.updated_at_ms || Date.now())
+    });
+    const norm = normInvoice(mapped);
+    norm._version = Number(raw.version || raw._version || 1);
+    return norm;
+  }
 
   const zfIdb = (function() {
     const DB_NAME = 'zestflow_cloud_v1';
@@ -5174,9 +5330,9 @@
         idempotencyKey: idempotencyKey,
         entity: 'profile',
         recordId: 'profile',
-        action: 'update',
+        action: 'upsert',
         baseVersion: baseVersion || 0,
-        payload: clean,
+        payload: toSqlProfilePayload(clean),
         status: 'queued',
         timestamp: Date.now()
       };
@@ -5285,8 +5441,9 @@
               await zfIdb.put('conflict_vault', conflictEntry);
               if (item.entity === 'invoice' && res.server_record) {
                 const idx = S.invoices.findIndex(x => x.id === item.recordId);
-                if (idx >= 0) S.invoices[idx] = normInvoice(res.server_record);
-                else S.invoices.unshift(normInvoice(res.server_record));
+                const srvInv = fromSqlInvoicePayload(res.server_record);
+                if (idx >= 0) S.invoices[idx] = srvInv;
+                else S.invoices.unshift(srvInv);
                 persist();
               }
               this.status = 'conflict';
@@ -5320,55 +5477,70 @@
     async pullDeltas() {
       if (!this.userId || !this.token) return;
       try {
-        const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/sync_pull_changes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
-            'Authorization': 'Bearer ' + this.token
-          },
-          body: JSON.stringify({ p_since_seq: this.lastSeq, p_limit: 100 })
-        });
-        if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
-        const res = await fetchRes.json();
-        if (res.status === 'reconciliation_required') {
-          return await this.executeReconciliation();
-        }
-        if (res.status === 'success' && Array.isArray(res.changes)) {
-          let hasChanges = false;
-          for (const ch of res.changes) {
-            if (ch.entity_type === 'invoice') {
-              const pendingEdit = this.queue.some(q => q.recordId === ch.record_id);
-              if (!pendingEdit) {
-                if (ch.operation === 'delete') {
-                  S.invoices = S.invoices.filter(x => x.id !== ch.record_id);
-                  hasChanges = true;
-                } else if (ch.payload) {
-                  const inv = normInvoice(ch.payload);
-                  inv._version = ch.record_version;
-                  const idx = S.invoices.findIndex(x => x.id === ch.record_id);
-                  if (idx >= 0) S.invoices[idx] = inv;
-                  else S.invoices.unshift(inv);
+        let pagesCount = 0;
+        let hasChanges = false;
+        while (pagesCount < 20) {
+          pagesCount++;
+          const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/sync_pull_changes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
+              'Authorization': 'Bearer ' + this.token
+            },
+            body: JSON.stringify({ p_since_seq: this.lastSeq, p_limit: 100 })
+          });
+          if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
+          const res = await fetchRes.json();
+          if (res.status === 'reconciliation_required') {
+            return await this.executeReconciliation();
+          }
+          if (res.status === 'success' && Array.isArray(res.changes)) {
+            if (res.changes.length === 0) {
+              if (typeof res.head_seq === 'number') {
+                this.lastSeq = res.head_seq;
+                await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
+              }
+              break;
+            }
+            for (const ch of res.changes) {
+              if (ch.entity_type === 'invoice') {
+                const pendingEdit = this.queue.some(q => q.recordId === ch.record_id);
+                if (!pendingEdit) {
+                  if (ch.operation === 'delete') {
+                    S.invoices = S.invoices.filter(x => x.id !== ch.record_id);
+                    hasChanges = true;
+                  } else if (ch.payload) {
+                    const inv = fromSqlInvoicePayload(ch.payload);
+                    inv._version = ch.record_version;
+                    const idx = S.invoices.findIndex(x => x.id === ch.record_id);
+                    if (idx >= 0) S.invoices[idx] = inv;
+                    else S.invoices.unshift(inv);
+                    hasChanges = true;
+                  }
+                }
+              } else if (ch.entity_type === 'user_profile' && ch.payload) {
+                const pendingProfile = this.queue.some(q => q.entity === 'profile');
+                if (!pendingProfile) {
+                  S.settings = fromSqlProfilePayload(ch.payload, S.settings);
                   hasChanges = true;
                 }
               }
-            } else if (ch.entity_type === 'user_profile' && ch.payload) {
-              const pendingProfile = this.queue.some(q => q.entity === 'profile');
-              if (!pendingProfile) {
-                const oldGeminiKey = S.settings.business && S.settings.business.geminiKey;
-                S.settings = normSettings(ch.payload);
-                if (oldGeminiKey && S.settings.business) S.settings.business.geminiKey = oldGeminiKey;
-                hasChanges = true;
+              if (typeof ch.change_seq === 'number') {
+                this.lastSeq = ch.change_seq;
               }
             }
-            this.lastSeq = ch.change_seq;
+            await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
+            if (res.changes.length < 100 || this.lastSeq >= (res.head_seq || 0)) {
+              break;
+            }
+          } else {
+            break;
           }
-          this.lastSeq = res.head_seq || this.lastSeq;
-          await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
-          if (hasChanges) {
-            persist();
-            render();
-          }
+        }
+        if (hasChanges) {
+          persist();
+          render();
         }
       } catch (e) {
         this.status = 'offline';
@@ -5400,8 +5572,7 @@
           }
           for (const sInv of (data.invoices || [])) {
             const localIdx = S.invoices.findIndex(x => x.id === sInv.id);
-            const normSInv = normInvoice(sInv);
-            normSInv._version = sInv.version || 1;
+            const normSInv = fromSqlInvoicePayload(sInv);
             if (localIdx >= 0) {
               S.invoices[localIdx] = normSInv;
             } else {
@@ -5409,9 +5580,7 @@
             }
           }
           if (data.profile) {
-            const oldGemini = S.settings.business && S.settings.business.geminiKey;
-            S.settings = normSettings(data.profile);
-            if (oldGemini && S.settings.business) S.settings.business.geminiKey = oldGemini;
+            S.settings = fromSqlProfilePayload(data.profile, S.settings);
           }
           this.lastSeq = data.head_seq || 0;
           await zfIdb.put('sync_meta', { key: 'sync_state_' + this.userId, lastSeq: this.lastSeq });
@@ -5507,7 +5676,7 @@
     }
     const c = syncEngine.conflicts[0];
     const loc = c.localDraft || {};
-    const srv = c.serverRecord || {};
+    const srv = c.entity === 'invoice' ? fromSqlInvoicePayload(c.serverRecord || {}) : (c.serverRecord || {});
     container.innerHTML = '<div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line)">' +
       '<span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px">Your Local Draft</span>' +
       '<div style="font-size:12px;line-height:1.6">' +
@@ -5660,6 +5829,11 @@
   function loadState(){
     let raw=null;
     try{
+      const mode = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('zf_storage_mode')) || 'cloud';
+      if(mode === 'session' && typeof sessionStorage !== 'undefined'){
+        raw = sessionStorage.getItem('zf_session_vault');
+        if(raw){ return migratePayload(JSON.parse(raw)); }
+      }
       raw=localStorage.getItem(KEY);
       if(raw){return migratePayload(JSON.parse(raw))}
     }catch(e){
@@ -5856,12 +6030,58 @@
     if(!storageOK)return false;
     try{
       S.schemaVersion=SCHEMA_VERSION;
+      const curMode = S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+      if(curMode === 'session'){
+        if(typeof sessionStorage !== 'undefined'){
+          sessionStorage.setItem('zf_session_vault', JSON.stringify(S));
+          sessionStorage.setItem('zf_storage_mode', 'session');
+        }
+        return true;
+      }
       localStorage.setItem(KEY,JSON.stringify(S));
+      if(curMode === 'offline'){
+        return true;
+      }
       if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
         syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
       }
       return true;
     }catch(e){storageOK=false;showBanner();toast('Could not save (storage full or blocked). Please export a backup.','err');return false;}
+  }
+  function setStorageMode(mode) {
+    if (!['session', 'cloud', 'offline'].includes(mode)) mode = 'cloud';
+    S.storageMode = mode;
+    if (!S.settings) S.settings = {};
+    S.settings.storageMode = mode;
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('zf_storage_mode', mode);
+    }
+    if (mode === 'session') {
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem('zf_session_vault', JSON.stringify(S));
+        }
+      } catch (_) {}
+      toast('Storage mode: Temporary Session (wipes on close/logout)', 'ok');
+    } else if (mode === 'offline') {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(S));
+      } catch (_) {}
+      toast('Storage mode: Full Offline Device Vault (local-only)', 'ok');
+    } else {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(S));
+      } catch (_) {}
+      if (authState === AUTH_STATES.AUTHENTICATED && typeof syncEngine !== 'undefined') {
+        syncEngine.enqueueProfileMutation(syncEngine.profileVersion || 1, S.settings);
+        syncEngine.drainMutationQueue();
+      }
+      toast('Storage mode: Cloud Database Sync active', 'ok');
+    }
+    persist();
+    if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') {
+      render();
+    }
   }
   function persistSoon(){if(recoveryPending||multiTabConflict)return;clearTimeout(saveTimer);saveTimer=setTimeout(persist,250)}
   function showBanner(){
@@ -6017,7 +6237,7 @@
     if(sb){
       if(lay === 'cashfund' && isAuth && !isObActive){
         sb.innerHTML = renderCashFundSidebar();
-        sb.style.display = 'flex';
+        sb.style.display = '';
       } else if(lay === 'invowise' || isObActive){
         sb.style.display = 'none';
       }
@@ -6920,6 +7140,9 @@
           applyLayout();
           showBanner();
           if (typeof ui !== 'undefined' && ui && ui.currentPage === 'settings') render();
+          if (typeof checkAndTriggerWorkspaceSetup === 'function') {
+            checkAndTriggerWorkspaceSetup();
+          }
           return true;
         }
       }
@@ -8007,6 +8230,9 @@
             if (ob) { ob.style.display = 'none'; ob.innerHTML = ''; }
             render();
             toast('🎉 Welcome to ZestFlow OS! Architecture & Theme active.','ok');
+            if (typeof checkAndTriggerWorkspaceSetup === 'function') {
+              setTimeout(checkAndTriggerWorkspaceSetup, 150);
+            }
           }, 400);
         }
       }, 240);
@@ -8195,6 +8421,9 @@
       history.replaceState(null,'',hashMap[page]||'#/');
     }catch(e){}
     render(opts);
+    if (typeof checkAndTriggerWorkspaceSetup === 'function') {
+      checkAndTriggerWorkspaceSetup();
+    }
     return true;
   }
 
@@ -10744,6 +10973,51 @@
           </div>
         </div>
       </section>
+      <section class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+          <div>
+            <h2 style="margin:0 0 4px">Workspace Storage &amp; Persistence Mode</h2>
+            <p style="margin:0;font-size:12px;color:var(--muted)">Choose whether your records stay in this temporary browser session, sync to your Supabase Cloud account, or remain in an offline vault.</p>
+          </div>
+          <button type="button" class="btn sm" data-act="open-workspace-setup" style="background:rgba(2,132,199,0.08);color:#0284c7;border:1px solid rgba(2,132,199,0.25);font-weight:600">
+            ✨ Launch Guided Profile &amp; Storage Setup
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:12px">
+          <div class="ws-storage-card" data-act="select-storage-mode" data-mode="session" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${(S.storageMode==='session'||(S.settings&&S.settings.storageMode==='session'))?'#0284c7':'var(--line)'};background:${(S.storageMode==='session'||(S.settings&&S.settings.storageMode==='session'))?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <span>Temporary Browser Session</span>
+                ${(S.storageMode==='session'||(S.settings&&S.settings.storageMode==='session'))?'<span style="font-size:11px;font-weight:700;color:#0284c7">✓ Active</span>':''}
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(100,116,139,0.15);color:#64748b">Session Only · Zero Footprint</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0">Your invoices, clients, and files stay strictly inside this browser session\'s temporary memory (sessionStorage). Nothing leaves your browser, and all session data is automatically wiped when you log out or close the browser.</p>
+          </div>
+
+          <div class="ws-storage-card" data-act="select-storage-mode" data-mode="cloud" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${((!S.storageMode||S.storageMode==='cloud')&&(!S.settings||!S.settings.storageMode||S.settings.storageMode==='cloud'))?'#0284c7':'var(--line)'};background:${((!S.storageMode||S.storageMode==='cloud')&&(!S.settings||!S.settings.storageMode||S.settings.storageMode==='cloud'))?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <span>Cloud Database Account Sync</span>
+                ${((!S.storageMode||S.storageMode==='cloud')&&(!S.settings||!S.settings.storageMode||S.settings.storageMode==='cloud'))?'<span style="font-size:11px;font-weight:700;color:#10b981">✓ Active</span>':''}
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(16,185,129,0.15);color:#10b981">Recommended · Multi-Device SaaS</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0">Your invoices, settings, and business assets are encrypted and synced to your Supabase Cloud account with local IndexedDB caching. Log in from any PC, laptop, or phone anywhere in the world and your workspace will be waiting for you without corruption.</p>
+          </div>
+
+          <div class="ws-storage-card" data-act="select-storage-mode" data-mode="offline" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${(S.storageMode==='offline'||(S.settings&&S.settings.storageMode==='offline'))?'#0284c7':'var(--line)'};background:${(S.storageMode==='offline'||(S.settings&&S.settings.storageMode==='offline'))?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <span>Full Offline Device Vault</span>
+                ${(S.storageMode==='offline'||(S.settings&&S.settings.storageMode==='offline'))?'<span style="font-size:11px;font-weight:700;color:#d97706">✓ Active</span>':''}
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(245,158,11,0.15);color:#d97706">100% Offline · This Device Only</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0">Your workspace is stored permanently on this computer\'s local browser vault (localStorage + IndexedDB snapshots) and works 100% offline without internet. Zero data is transmitted to the cloud database.</p>
+          </div>
+        </div>
+      </section>
       <section class="card"><h2>Your business</h2><div class="stack">
         <div class="sigbox">
           <div class="sigimg" id="logoPrev" style="min-width:120px"></div>
@@ -10846,9 +11120,240 @@
       </section>
     </div>`;
   }
+  function openWorkspaceSetupDlg(step = 1) {
+    const dlg = $('#workspaceSetupDlg');
+    if (!dlg) return;
+    renderWorkspaceSetupStep(step);
+    if (!dlg.open) {
+      try { dlg.showModal(); } catch (_) { dlg.setAttribute('open', ''); }
+    }
+  }
+
+  function closeWorkspaceSetupDlg(showCoachMark) {
+    const dlg = $('#workspaceSetupDlg');
+    if (dlg) {
+      try { dlg.close(); } catch (_) { dlg.removeAttribute('open'); }
+    }
+    ui.setupModalDismissed = true;
+    if (showCoachMark) {
+      const cm = $('#settingsCoachMark');
+      if (cm) {
+        cm.style.display = 'block';
+        clearTimeout(ui._coachTimer);
+        ui._coachTimer = setTimeout(() => {
+          if (cm) cm.style.display = 'none';
+        }, 9000);
+      }
+    }
+  }
+
+  function dismissCoachMark() {
+    const cm = $('#settingsCoachMark');
+    if (cm) cm.style.display = 'none';
+    clearTimeout(ui._coachTimer);
+  }
+
+  function saveWorkspaceSetupProfileFields() {
+    const b = S.settings.business;
+    const nameEl = $('#wsBizName');
+    if (nameEl) b.name = nameEl.value.trim() || 'My Business';
+    const emailEl = $('#wsBizEmail');
+    if (emailEl) b.email = emailEl.value.trim();
+    const phoneEl = $('#wsBizPhone');
+    if (phoneEl) b.phone = phoneEl.value.trim();
+    const addrEl = $('#wsBizAddress');
+    if (addrEl) b.address = addrEl.value.trim();
+    const stateEl = $('#wsBizState');
+    if (stateEl) b.state = stateEl.value.trim();
+    const regimeEl = $('#wsTaxRegime');
+    if (regimeEl) b.taxRegime = regimeEl.value;
+    const lblEl = $('#wsTaxIdLabel');
+    if (lblEl) b.taxIdLabel = lblEl.value.trim() || 'GSTIN';
+    const idEl = $('#wsTaxId');
+    if (idEl) b.taxId = idEl.value.trim();
+    const upiEl = $('#wsUpiId');
+    if (upiEl) b.upiId = upiEl.value.trim();
+    const curEl = $('#wsCurrency');
+    if (curEl) {
+      if (!S.settings.defaults) S.settings.defaults = {};
+      S.settings.defaults.currency = curEl.value;
+    }
+    persist();
+    fillSig();
+  }
+
+  function checkAndTriggerWorkspaceSetup() {
+    if (typeof ui === 'undefined' || !ui) return;
+    if (ui.setupModalDismissed) return;
+    const currentScopeKey = (verifiedAuthUser && verifiedAuthUser.id) || (authState === AUTH_STATES.AUTHENTICATED ? 'authenticated' : 'guest');
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('zf_workspace_setup_done_' + currentScopeKey)) {
+        return;
+      }
+    } catch (_) {}
+    if (authState === AUTH_STATES.AUTHENTICATED || (typeof localStorage !== 'undefined' && localStorage.getItem('zf_onboarded'))) {
+      if (ui.currentPage === 'dashboard' || ui.currentPage === 'invoices') {
+        setTimeout(() => {
+          openWorkspaceSetupDlg(1);
+        }, 150);
+      }
+    }
+  }
+
+  function renderWorkspaceSetupStep(step = 1) {
+    const container = $('#workspaceSetupContent');
+    if (!container) return;
+    const b = S.settings.business || {};
+    const d = S.settings.defaults || {};
+    const curMode = ui._wsSelectedStorageMode || S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+
+    if (step === 1) {
+      container.innerHTML = `
+        <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.12);color:#0284c7;font-size:11px;font-weight:700">Step 1 of 2: Business Profile</span>
+              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:600">Step 2: Storage Mode</span>
+            </div>
+            <h2 style="font-size:18px;font-weight:800;color:var(--text);margin:0 0 4px">Let's Complete Your Business Profile</h2>
+            <p style="font-size:12.5px;color:var(--muted);margin:0">Set up your official branding, tax identity, and payment details so every invoice is client-ready from day one.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:4px 8px">Skip for now</button>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:4px 8px;border-radius:8px" title="Close">✕</button>
+          </div>
+        </div>
+
+        <div style="padding:18px 24px;max-height:66vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+          <!-- Logo & Signature Cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+              <div style="font-size:11.5px;font-weight:700;color:var(--text);width:100%;text-align:left">Brand Logo</div>
+              <div id="wsLogoThumb" style="width:100%;height:48px;border-radius:8px;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
+                ${b.logo ? `<img src="${b.logo}" style="max-height:44px;max-width:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:11px;color:var(--muted)">No Logo</span>`}
+              </div>
+              <div style="display:flex;gap:6px;width:100%">
+                <button type="button" class="btn sm" data-act="ws-upload-logo" style="flex:1;font-size:11px;padding:4px 8px">Upload Logo</button>
+                ${b.logo ? `<button type="button" class="btn sm ghost" data-act="ws-clear-logo" style="font-size:11px;padding:4px 6px">✕</button>` : ''}
+              </div>
+            </div>
+
+            <div style="padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+              <div style="font-size:11.5px;font-weight:700;color:var(--text);width:100%;text-align:left">Authorised Signature</div>
+              <div id="wsSigThumb" style="width:100%;height:48px;border-radius:8px;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
+                ${(S.settings.signature || b.signature) ? `<img src="${S.settings.signature || b.signature}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : `<span style="font-size:11px;color:var(--muted)">No Signature</span>`}
+              </div>
+              <div style="display:flex;gap:6px;width:100%">
+                <button type="button" class="btn sm" data-act="ws-draw-sig" style="flex:1;font-size:11px;padding:4px 8px">Draw Signature</button>
+                ${(S.settings.signature || b.signature) ? `<button type="button" class="btn sm ghost" data-act="ws-clear-sig" style="font-size:11px;padding:4px 6px">✕</button>` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- Fields Grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label class="f" style="grid-column:1 / -1"><span>Business / Company Name</span><input type="text" id="wsBizName" value="${esc((b.name === 'Guest' || b.name === 'Mohammed Ali Quadri') ? '' : (b.name || ''))}" placeholder="e.g. Acme Studio Pvt Ltd"></label>
+            <label class="f"><span>Official Email</span><input type="email" id="wsBizEmail" value="${esc(b.email || '')}" placeholder="billing@acme.com"></label>
+            <label class="f"><span>Phone</span><input type="tel" id="wsBizPhone" value="${esc(b.phone || '')}" placeholder="+91 98765 43210"></label>
+            <label class="f" style="grid-column:1 / -1"><span>Business Address</span><textarea id="wsBizAddress" rows="2" placeholder="Street address, city, postal code">${esc(b.address || '')}</textarea></label>
+            <label class="f"><span>State / Region</span><input type="text" id="wsBizState" value="${esc(b.state || '')}" placeholder="e.g. Telangana (36)"></label>
+            <label class="f"><span>Default Currency</span>
+              <select id="wsCurrency">
+                ${['INR','USD','EUR','GBP','SAR','AED','SGD','CAD','AUD'].map(c => `<option value="${c}"${(d.currency||'INR')===c?' selected':''}>${c}</option>`).join('')}
+              </select>
+            </label>
+            <label class="f"><span>Tax Regime</span>
+              <select id="wsTaxRegime">
+                <option value="gst_in"${b.taxRegime==='gst_in'?' selected':''}>India GST (CGST/SGST/IGST)</option>
+                <option value="simple"${b.taxRegime==='simple'?' selected':''}>Simple Tax / VAT</option>
+              </select>
+            </label>
+            <label class="f"><span>Tax ID Label</span><input type="text" id="wsTaxIdLabel" value="${esc(b.taxIdLabel || 'GSTIN')}" placeholder="GSTIN / VAT ID"></label>
+            <label class="f" style="grid-column:1 / -1"><span>Tax ID / GSTIN</span><input type="text" id="wsTaxId" value="${esc(b.taxId || '')}" placeholder="e.g. 36AAAAA0000A1Z5"></label>
+            <label class="f" style="grid-column:1 / -1"><span>Instant UPI ID (Dynamic Vector QR)</span><input type="text" id="wsUpiId" value="${esc(b.upiId || '')}" placeholder="e.g. yourname@okaxis"></label>
+          </div>
+        </div>
+
+        <div style="padding:14px 24px;border-top:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <button type="button" class="btn sm ghost" data-act="setup-go-full-settings">⚙️ Need Advanced Settings? Open Full Settings Page →</button>
+          <button type="button" class="btn sm primary" data-act="setup-save-step1">Save Profile &amp; Choose Storage →</button>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:600">Step 1: Business Profile</span>
+              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.12);color:#0284c7;font-size:11px;font-weight:700">Step 2 of 2: Storage Mode</span>
+            </div>
+            <h2 style="font-size:18px;font-weight:800;color:var(--text);margin:0 0 4px">Choose Your Workspace Storage Mode</h2>
+            <p style="font-size:12.5px;color:var(--muted);margin:0">Select how and where your invoices, financial records, and business assets should be kept.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:4px 8px">Skip for now</button>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:4px 8px;border-radius:8px" title="Close">✕</button>
+          </div>
+        </div>
+
+        <div style="padding:18px 24px;max-height:66vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px">
+          <!-- Option 1: Temporary Session -->
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="session" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='session'?'#0284c7':'var(--line)'};background:${curMode==='session'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <input type="radio" name="ws_opt_mode" value="session" ${curMode==='session'?'checked':''} style="accent-color:#0284c7">
+                <span>Temporary Browser Session</span>
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(100,116,139,0.15);color:#64748b">Session Only · Zero Footprint</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your invoices, clients, and files stay strictly inside this browser session's temporary memory (sessionStorage). Nothing leaves your browser, and all session data is automatically wiped when you log out or close the browser.</p>
+          </div>
+
+          <!-- Option 2: Cloud Database -->
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="cloud" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='cloud'?'#0284c7':'var(--line)'};background:${curMode==='cloud'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <input type="radio" name="ws_opt_mode" value="cloud" ${curMode==='cloud'?'checked':''} style="accent-color:#0284c7">
+                <span>Cloud Database Account Sync</span>
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(16,185,129,0.15);color:#10b981">Recommended · Multi-Device SaaS</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your invoices, settings, and business assets are encrypted and synced to your Supabase Cloud account with local IndexedDB caching. Log in from any PC, laptop, or phone anywhere in the world and your workspace will be waiting for you without corruption.</p>
+          </div>
+
+          <!-- Option 3: Offline Vault -->
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="offline" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='offline'?'#0284c7':'var(--line)'};background:${curMode==='offline'?'rgba(2,132,199,0.04)':'var(--surface-2)'};transition:all .15s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
+                <input type="radio" name="ws_opt_mode" value="offline" ${curMode==='offline'?'checked':''} style="accent-color:#0284c7">
+                <span>Full Offline Device Vault</span>
+              </div>
+              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(245,158,11,0.15);color:#d97706">100% Offline · This Device Only</span>
+            </div>
+            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your workspace is stored permanently on this computer's local browser vault (localStorage + IndexedDB snapshots) and works 100% offline without internet. Zero data is transmitted to the cloud database.</p>
+          </div>
+        </div>
+
+        <div style="padding:14px 24px;border-top:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <button type="button" class="btn sm" data-act="setup-back-step1">← Back to Profile</button>
+          <button type="button" class="btn sm primary" data-act="setup-confirm-storage">Confirm &amp; Activate Storage Mode ✓</button>
+        </div>
+      `;
+    }
+  }
+
   function fillSig(){
     const p=$('#sigPrevS');if(p)p.innerHTML=S.settings.signature?`<img src="${S.settings.signature}" alt="Your saved signature">`:'No signature yet';
     const l=$('#logoPrev');if(l)l.innerHTML=S.settings.business.logo?`<img src="${S.settings.business.logo}" alt="Your logo">`:'No logo yet';
+    const wsLogo = $('#wsLogoThumb');
+    if (wsLogo) {
+      wsLogo.innerHTML = S.settings.business.logo ? `<img src="${S.settings.business.logo}" style="max-height:44px;max-width:100%;object-fit:contain" alt="Logo">` : '<span style="font-size:11px;color:var(--muted)">No Logo</span>';
+    }
+    const wsSig = $('#wsSigThumb');
+    if (wsSig) {
+      const sImg = S.settings.signature || (S.settings.business && S.settings.business.signature);
+      wsSig.innerHTML = sImg ? `<img src="${sImg}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : '<span style="font-size:11px;color:var(--muted)">No Signature</span>';
+    }
   }
 
   /* ---------- print ---------- */
@@ -11627,18 +12132,99 @@
         break;
       }
       case 'sync-now':{
-        toast('Initiating cloud sync...','info');
+        const mode = S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+        if (mode === 'session') {
+          toast('Storage mode is Temporary Session: cloud sync disabled. Data stays in sessionStorage.', 'info');
+          break;
+        }
+        if (mode === 'offline') {
+          toast('Storage mode is Full Offline Vault: cloud sync disabled. Data stays on this device.', 'info');
+          break;
+        }
+        if (authState !== AUTH_STATES.AUTHENTICATED) {
+          toast('Please sign in to Supabase to synchronize with cloud database.', 'info');
+          break;
+        }
+        toast('Syncing with Supabase Cloud...','info');
         try {
-          const report = await executeCloudSync();
-          render();
-          if (report && report.mode === 'local') {
-            toast('Local vault snapshot synced! (Add custom endpoint in Settings for remote cloud sync)', 'ok');
+          if (typeof syncEngine !== 'undefined') {
+            await syncEngine.drainMutationQueue();
+            const deltas = await syncEngine.pullDeltas();
+            render();
+            toast('Cloud sync complete: ' + (deltas ? deltas.applied : 0) + ' changes pulled.', 'ok');
           } else {
-            toast('Sync successful! ' + report.added + ' added, ' + report.updated + ' updated.', 'ok');
+            toast('Sync engine initializing...', 'info');
           }
         } catch(err) {
           toast('Sync failed: ' + err.message, 'err');
         }
+        break;
+      }
+      case 'open-workspace-setup':
+        openWorkspaceSetupDlg(1);
+        break;
+      case 'skip-workspace-setup':
+        closeWorkspaceSetupDlg(true);
+        break;
+      case 'dismiss-coach-mark':
+        dismissCoachMark();
+        break;
+      case 'ws-upload-logo':{
+        const fi = $('#logoFile');
+        if (fi) fi.click();
+        break;
+      }
+      case 'ws-clear-logo':
+        S.settings.business.logo = '';
+        persist();
+        fillSig();
+        toast('Logo removed', 'ok');
+        break;
+      case 'ws-draw-sig':
+        openSig();
+        break;
+      case 'ws-clear-sig':
+        S.settings.signature = '';
+        if (S.settings.business) S.settings.business.signature = '';
+        persist();
+        fillSig();
+        toast('Signature removed', 'ok');
+        break;
+      case 'setup-go-full-settings':
+        closeWorkspaceSetupDlg(false);
+        await navigate('settings');
+        break;
+      case 'setup-save-step1':
+        saveWorkspaceSetupProfileFields();
+        renderWorkspaceSetupStep(2);
+        break;
+      case 'setup-back-step1':
+        renderWorkspaceSetupStep(1);
+        break;
+      case 'select-ws-storage-mode':{
+        const mode = b.dataset.storageMode;
+        ui._wsSelectedStorageMode = mode;
+        const rad = b.querySelector('input[type="radio"]');
+        if (rad) rad.checked = true;
+        renderWorkspaceSetupStep(2);
+        break;
+      }
+      case 'setup-confirm-storage':{
+        const selectedMode = ui._wsSelectedStorageMode || S.storageMode || (S.settings && S.settings.storageMode) || 'cloud';
+        setStorageMode(selectedMode);
+        const currentScopeKey = (verifiedAuthUser && verifiedAuthUser.id) || (authState === AUTH_STATES.AUTHENTICATED ? 'authenticated' : 'guest');
+        try {
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('zf_workspace_setup_done_' + currentScopeKey, '1');
+          }
+        } catch (_) {}
+        closeWorkspaceSetupDlg(false);
+        render();
+        break;
+      }
+      case 'select-storage-mode':{
+        const m = b.dataset.mode;
+        if (m) setStorageMode(m);
         break;
       }
       case 'save-webhook':{
@@ -11873,8 +12459,8 @@
         break;
       }
       case 'cash-more-options':{
-        const title = b.dataset.title || 'Chart';
-        toast('Quick options for ' + title + ': Filter active.','info');
+        const title = b.dataset.title || 'Invoices';
+        await navigate('invoices', { filter: 'all', q: '' });
         break;
       }
       case 'add-template':{
