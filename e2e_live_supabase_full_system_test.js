@@ -185,6 +185,7 @@ function runFullApplicationSandboxTests() {
       generateInvoiceWithGeminiAI, generateConsultantClaim,
       saveAuthenticatedUser, showAuthMsg, GEMINI_CONFIG,
       renderInvowiseDashboard, renderCashFundDashboard, renderInvowiseTopNav, renderCashFundSidebar,
+      renderCashFundMobileTopBar, renderCashFundDrawer, renderCashFundMobNav,
       applyLayout, applyTheme, navigate, render, getEd: () => ed,
       openWorkspaceSetupDlg, closeWorkspaceSetupDlg, renderWorkspaceSetupStep,
       updateWsLivePreview, saveWorkspaceSetupProfileFields, checkAndTriggerWorkspaceSetup,
@@ -624,6 +625,94 @@ function runFullApplicationSandboxTests() {
     recordTest('Feature 15: Responsive & Dialogs', 'Mobile responsive sidebar isolation, universal dialogs, and 100% footer container alignment verified', true, 'Responsive & Alignment verified');
   } catch (err) {
     recordTest('Feature 15: Responsive & Dialogs', 'Responsive isolation & dialog clipping', false, err.message);
+  }
+
+  // --- Feature 16: All-Pages & Dual-Layout Visual/DOM Audit ---
+  try {
+    const pages = ['dashboard', 'invoices', 'editor', 'payment', 'clients', 'email', 'settings', 'instructions', 'about'];
+    const layouts = ['invowise', 'cashfund'];
+
+    // 1. Set active user to larelo7617@drtall.com with empty custom business name
+    zf.saveAuthenticatedUser('larelo7617@drtall.com', 'usr_mock_123', 'guest');
+    sandbox.localStorage.setItem('zf_onboarded', 'true');
+    zf.S.settings.business.name = '';
+
+    const activeName = zf.getActiveUserDisplayName();
+    const activeInit = zf.getActiveUserInitials();
+    assert.strictEqual(activeName, 'Larelo', `Active user display name must be 'Larelo', got '${activeName}'`);
+    assert.strictEqual(activeInit, 'LA', `Active user initials must be 'LA', got '${activeInit}'`);
+
+    // Verify WhatsApp share and paper signature
+    const testInv = zf.newInvoice();
+    const paperHTML = zf.renderPaper(testInv);
+    assert.ok(paperHTML.includes('For Larelo') || paperHTML.includes('For Authorised Business'), 'Paper signature block must use active user or Authorised Business');
+    assert.ok(!paperHTML.includes('For CodeWithAli') && !paperHTML.includes('For Mohammed Ali Quadri'), 'Paper signature must not hardcode personal/architect names');
+
+    // 2. Iterate through both layouts and all pages
+    const renderedButtons = [];
+    for (const layout of layouts) {
+      zf.S.settings.layout = layout;
+      zf.applyLayout(layout);
+
+      for (const page of pages) {
+        zf.ui.currentPage = page;
+        zf.render();
+        const pageHTML = sandbox.document.getElementById('app').innerHTML;
+        assert.ok(pageHTML.length > 0, `Page '${page}' in layout '${layout}' must render content`);
+
+        // Collect buttons from page
+        const btnMatches = pageHTML.match(/<button[^>]*>([\s\S]*?)<\/button>/gi) || [];
+        renderedButtons.push(...btnMatches);
+
+        if (page === 'dashboard' && layout === 'invowise') {
+          assert.ok(pageHTML.includes('Larelo!'), 'Invowise dashboard greeting must use Larelo');
+          assert.ok(!pageHTML.includes('Mohammed Ali Quadri!'), 'Invowise dashboard greeting must not use Mohammed Ali Quadri');
+        }
+
+        if (page === 'dashboard' && layout === 'cashfund') {
+          // Verify CashFund dashboard has ZERO double-nested .panel inside .cash-card
+          const doubleNestedPanel = /class=["'][^"']*cash-card[^"']*["'][^>]*>[\s\S]*?<section class=["'][^"']*panel[^"']*/i.test(pageHTML);
+          assert.strictEqual(doubleNestedPanel, false, 'CashFund dashboard must have ZERO double-nested .panel inside .cash-card');
+
+          // Verify both columns of .cash-grid-layout have 2 .cash-card children each
+          assert.ok(pageHTML.includes('class="cash-grid-layout"'), 'cash-grid-layout must exist');
+          const gridPart = pageHTML.split('class="cash-grid-layout"')[1];
+          const cols = gridPart.split('style="display:flex;flex-direction:column;gap:22px"');
+          assert.ok(cols.length >= 3, 'cash-grid-layout must have 2 flex columns with gap 22px');
+          const col1Cards = (cols[1].match(/class="cash-card(?:\s|")/g) || []).length;
+          const col2Cards = (cols[2].match(/class="cash-card(?:\s|")/g) || []).length;
+          assert.strictEqual(col1Cards, 2, `Left column must have exactly 2 cash-cards, found ${col1Cards}`);
+          assert.strictEqual(col2Cards, 2, `Right column must have exactly 2 cash-cards, found ${col2Cards}`);
+        }
+      }
+    }
+
+    // Collect buttons from nav components
+    const topNavHTML = zf.renderInvowiseTopNav();
+    const sidebarHTML = zf.renderCashFundSidebar();
+    const mobTopHTML = zf.renderCashFundMobileTopBar ? zf.renderCashFundMobileTopBar() : '';
+    const drawerHTML = zf.renderCashFundDrawer ? zf.renderCashFundDrawer() : '';
+    const mobNavHTML = zf.renderCashFundMobNav ? zf.renderCashFundMobNav() : '';
+
+    [topNavHTML, sidebarHTML, mobTopHTML, drawerHTML, mobNavHTML].forEach(h => {
+      const bMatches = h.match(/<button[^>]*>([\s\S]*?)<\/button>/gi) || [];
+      renderedButtons.push(...bMatches);
+    });
+
+    // 3. Verify zero buttons contain duplicate '+ +'
+    for (const btn of renderedButtons) {
+      const text = btn.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      assert.ok(!text.includes('+ +') && !text.includes('++'), `Button text must not contain duplicate plus symbols: "${text}"`);
+    }
+
+    // 4. Verify Container & Footer width alignment rules in CSS
+    assert.ok(html.includes('body.layout-cashfund #appFooterHost') && html.includes('padding: 0 28px 32px 28px !important;'), 'CashFund footer must match 28px horizontal gutters');
+    assert.ok(html.includes('body.layout-invowise #appFooterHost') && html.includes('padding: 0 !important;'), 'Invowise footer must have zero horizontal padding');
+    assert.ok(html.includes('.set{max-width:100%!important;width:100%!important;margin:0 auto}'), '.set Bento grid width must span 100%');
+
+    recordTest('Feature 16: Visual & DOM Audit', 'All 9 pages in both layouts verified: dynamic identity (Larelo/LA), balanced columns (2x2), 0 double-nested panels, 0 double plus buttons, 100% container alignment', true, 'All pages & dual layouts verified');
+  } catch (err) {
+    recordTest('Feature 16: Visual & DOM Audit', 'Visual & DOM Audit', false, err.message);
   }
 }
 
