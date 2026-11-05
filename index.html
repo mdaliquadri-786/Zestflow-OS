@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-g3Yps6ybI/W4h/UmSnPwcBgJ3yuGSviOiH839SMwQNY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Oa07leDicp4L2d7j30ogSF9fLHCqETPN6UcIam3XTmo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -832,6 +832,31 @@ dialog.zf-closing::backdrop {
 }
 .ws-storage-card:active {
   transform: scale(0.985);
+}
+#workspaceSetupDlg {
+  max-width: min(880px, calc(100vw - 28px)) !important;
+  width: min(880px, calc(100vw - 28px)) !important;
+  border-radius: 24px !important;
+  border: 1px solid var(--line-2) !important;
+  box-shadow: 0 32px 90px -20px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.08) inset !important;
+  background: var(--surface) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+#workspaceSetupDlg::backdrop {
+  background: rgba(4, 7, 13, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+@media (max-width: 760px) {
+  .ws-studio-split {
+    grid-template-columns: 1fr !important;
+    max-height: calc(85vh - 120px) !important;
+    overflow-y: auto !important;
+  }
+  .ws-studio-form-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
   #migrationConsentDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
@@ -4669,7 +4694,7 @@ dialog.zf-closing::backdrop {
     </form>
   </dialog>
 
-  <dialog id="workspaceSetupDlg" style="max-width:640px;width:min(640px,calc(100vw - 24px));border-radius:24px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 25px 70px -15px rgba(0,0,0,0.5);background:var(--surface)">
+  <dialog id="workspaceSetupDlg" style="max-width:min(880px,calc(100vw - 28px));width:min(880px,calc(100vw - 28px));border-radius:24px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 30px 85px -15px rgba(0,0,0,0.65);background:var(--surface)">
     <div id="workspaceSetupContent" class="dlg" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
       <!-- Step 1 / Step 2 dynamically rendered -->
     </div>
@@ -8486,7 +8511,7 @@ dialog.zf-closing::backdrop {
             render();
             toast('🎉 Welcome to ZestFlow OS! Architecture & Theme active.','ok');
             if (typeof checkAndTriggerWorkspaceSetup === 'function') {
-              setTimeout(checkAndTriggerWorkspaceSetup, 150);
+              setTimeout(checkAndTriggerWorkspaceSetup, 950);
             }
           }, 400);
         }
@@ -11385,6 +11410,7 @@ dialog.zf-closing::backdrop {
     const dlg = $('#workspaceSetupDlg');
     if (!dlg) return;
     renderWorkspaceSetupStep(step, 'initial');
+    if (step === 1) updateWsLivePreview();
     openDialogSmooth(dlg);
   }
 
@@ -11420,6 +11446,37 @@ dialog.zf-closing::backdrop {
       }, 210);
     } else {
       cm.style.display = 'none';
+    }
+  }
+
+  function updateWsLivePreview() {
+    const nameEl = $('#wsBizName');
+    const stateEl = $('#wsBizState');
+    const taxIdEl = $('#wsTaxId');
+    const taxLabelEl = $('#wsTaxIdLabel');
+    const curEl = $('#wsCurrency');
+    
+    const pName = $('#wsLivePreviewName');
+    const pMeta = $('#wsLivePreviewMeta');
+    const pTax = $('#wsLivePreviewTax');
+    const pLogo = $('#wsLivePreviewLogo');
+    
+    if (pName && nameEl) {
+      pName.textContent = nameEl.value.trim() || 'Your Business Name';
+    }
+    if (pMeta) {
+      const cur = (curEl && curEl.value) || (S.settings.defaults && S.settings.defaults.currency) || 'INR';
+      const st = (stateEl && stateEl.value.trim()) || (S.settings.business && S.settings.business.state) || 'General';
+      pMeta.textContent = cur + ' · ' + st;
+    }
+    if (pTax && taxIdEl) {
+      const tid = taxIdEl.value.trim();
+      const lbl = (taxLabelEl && taxLabelEl.value.trim()) || (S.settings.business && S.settings.business.taxIdLabel) || 'GSTIN';
+      pTax.textContent = tid ? (lbl + ': ' + tid) : 'Tax ID Pending';
+    }
+    if (pLogo) {
+      const logoUrl = S.settings.business && S.settings.business.logo;
+      pLogo.innerHTML = logoUrl ? `<img src="${logoUrl}" style="max-width:100%;max-height:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:14px;color:var(--muted)">🏢</span>`;
     }
   }
 
@@ -11477,7 +11534,7 @@ dialog.zf-closing::backdrop {
       if (obCheck && obCheck.style.display !== 'none' && obCheck.innerHTML.trim() !== '') return;
       if (ui.currentPage !== 'dashboard' && ui.currentPage !== 'invoices') return;
       openWorkspaceSetupDlg(1);
-    }, 150);
+    }, 950);
   }
 
   function renderWorkspaceSetupStep(step = 1, direction = 'initial') {
@@ -11491,136 +11548,242 @@ dialog.zf-closing::backdrop {
     if (step === 1) {
       container.innerHTML = `
         <div class="dlg${animClass}" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
-        <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.12);color:#0284c7;font-size:11px;font-weight:700">Step 1 of 2: Business Profile</span>
-              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:600">Step 2: Storage Mode</span>
+        <!-- Top Studio Header Bar -->
+        <div style="padding:16px 24px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface)">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(2,132,199,0.12);color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0">🏢</div>
+            <div style="min-width:0">
+              <h2 style="font-size:16px;font-weight:700;color:var(--text);margin:0 0 2px;letter-spacing:-0.02em">Workspace Identity &amp; Tax Studio</h2>
+              <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Set up your official branding, tax identity, and payment details so every invoice is client-ready from day one.</p>
             </div>
-            <h2 style="font-size:18px;font-weight:800;color:var(--text);margin:0 0 4px">Let's Complete Your Business Profile</h2>
-            <p style="font-size:12.5px;color:var(--muted);margin:0">Set up your official branding, tax identity, and payment details so every invoice is client-ready from day one.</p>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:4px 8px">Skip for now</button>
-            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:4px 8px;border-radius:8px" title="Close">✕</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <div class="seg" style="padding:2px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;display:flex;gap:2px">
+              <button type="button" data-act="ws-goto-step" data-step="1" style="border:none;background:var(--surface);color:var(--text);font-weight:700;font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.1)">1. Business Profile</button>
+              <button type="button" data-act="ws-goto-step" data-step="2" style="border:none;background:transparent;color:var(--muted);font-weight:500;font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer">2. Storage Mode</button>
+            </div>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:5px 10px;border-radius:8px">Skip</button>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:5px 8px;border-radius:8px;font-size:12px;line-height:1" title="Close">✕</button>
           </div>
         </div>
 
-        <div style="padding:18px 24px;max-height:66vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
-          <!-- Logo & Signature Cards -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div style="padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
-              <div style="font-size:11.5px;font-weight:700;color:var(--text);width:100%;text-align:left">Brand Logo</div>
-              <div id="wsLogoThumb" style="width:100%;height:48px;border-radius:8px;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
-                ${b.logo ? `<img src="${b.logo}" style="max-height:44px;max-width:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:11px;color:var(--muted)">No Logo</span>`}
+        <!-- 2-Pane Split Studio: Left = Brand & Preview, Right = Zero-Scroll Form Grid -->
+        <div class="ws-studio-split" style="display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;padding:18px 24px;box-sizing:border-box;align-items:start">
+          <!-- Left Pane (260px) -->
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <!-- 1. Live Mini Invoice Preview Card -->
+            <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted)">Live Header Preview</span>
+                <span id="wsLivePreviewMeta" style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:6px;background:rgba(2,132,199,0.12);color:#0284c7">${esc(d.currency||'INR')} · ${esc(b.state||'General')}</span>
               </div>
-              <div style="display:flex;gap:6px;width:100%">
-                <button type="button" class="btn sm" data-act="ws-upload-logo" style="flex:1;font-size:11px;padding:4px 8px">Upload Logo</button>
-                ${b.logo ? `<button type="button" class="btn sm ghost" data-act="ws-clear-logo" style="font-size:11px;padding:4px 6px">✕</button>` : ''}
+              <div style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px">
+                <div id="wsLivePreviewLogo" style="width:36px;height:36px;border-radius:8px;background:var(--surface-2);border:1px dashed var(--line-2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
+                  ${b.logo ? `<img src="${b.logo}" style="max-width:100%;max-height:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:14px;color:var(--muted)">🏢</span>`}
+                </div>
+                <div style="min-width:0;flex:1">
+                  <div id="wsLivePreviewName" style="font-size:12.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                    ${esc((b.name && b.name !== 'Guest' && b.name !== 'Mohammed Ali Quadri') ? b.name : 'Your Business Name')}
+                  </div>
+                  <div id="wsLivePreviewTax" style="font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums">
+                    ${b.taxId ? `${b.taxIdLabel || 'GSTIN'}: ${esc(b.taxId)}` : 'Tax ID Pending'}
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div style="padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
-              <div style="font-size:11.5px;font-weight:700;color:var(--text);width:100%;text-align:left">Authorised Signature</div>
-              <div id="wsSigThumb" style="width:100%;height:48px;border-radius:8px;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
-                ${(S.settings.signature || b.signature) ? `<img src="${S.settings.signature || b.signature}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : `<span style="font-size:11px;color:var(--muted)">No Signature</span>`}
+            <!-- 2. Interactive Brand Logo Dropzone Card -->
+            <div style="background:var(--surface-2);border:1px dashed var(--line-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);width:100%;text-align:left;display:flex;align-items:center;gap:6px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Brand Logo</span>
+              </div>
+              <div id="wsLogoThumb" style="width:100%;height:44px;border-radius:8px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
+                ${b.logo ? `<img src="${b.logo}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:11px;color:var(--muted)">No Logo</span>`}
               </div>
               <div style="display:flex;gap:6px;width:100%">
-                <button type="button" class="btn sm" data-act="ws-draw-sig" style="flex:1;font-size:11px;padding:4px 8px">Draw Signature</button>
-                ${(S.settings.signature || b.signature) ? `<button type="button" class="btn sm ghost" data-act="ws-clear-sig" style="font-size:11px;padding:4px 6px">✕</button>` : ''}
+                <button type="button" class="btn sm" data-act="ws-upload-logo" style="flex:1;font-size:11px;padding:4px 8px;height:28px">Upload Logo</button>
+                ${b.logo ? `<button type="button" class="btn sm ghost" data-act="ws-clear-logo" style="font-size:11px;padding:4px 6px;height:28px" title="Remove Logo">✕</button>` : ''}
+              </div>
+            </div>
+
+            <!-- 3. Interactive Authorised Signature Card -->
+            <div style="background:var(--surface-2);border:1px dashed var(--line-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text);width:100%;text-align:left;display:flex;align-items:center;gap:6px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                <span>Authorised Signature</span>
+              </div>
+              <div id="wsSigThumb" style="width:100%;height:44px;border-radius:8px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden">
+                ${(S.settings.signature || b.signature) ? `<img src="${S.settings.signature || b.signature}" style="max-height:38px;max-width:100%;object-fit:contain" alt="Signature">` : `<span style="font-size:11px;color:var(--muted)">No Signature</span>`}
+              </div>
+              <div style="display:flex;gap:6px;width:100%">
+                <button type="button" class="btn sm" data-act="ws-draw-sig" style="flex:1;font-size:11px;padding:4px 8px;height:28px">Draw Signature</button>
+                ${(S.settings.signature || b.signature) ? `<button type="button" class="btn sm ghost" data-act="ws-clear-sig" style="font-size:11px;padding:4px 6px;height:28px" title="Remove Signature">✕</button>` : ''}
               </div>
             </div>
           </div>
 
-          <!-- Fields Grid -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <label class="f" style="grid-column:1 / -1"><span>Business / Company Name</span><input type="text" id="wsBizName" value="${esc((b.name === 'Guest' || b.name === 'Mohammed Ali Quadri') ? '' : (b.name || ''))}" placeholder="e.g. Acme Studio Pvt Ltd"></label>
-            <label class="f"><span>Official Email</span><input type="email" id="wsBizEmail" value="${esc(b.email || '')}" placeholder="billing@acme.com"></label>
-            <label class="f"><span>Phone</span><input type="tel" id="wsBizPhone" value="${esc(b.phone || '')}" placeholder="+91 98765 43210"></label>
-            <label class="f" style="grid-column:1 / -1"><span>Business Address</span><textarea id="wsBizAddress" rows="2" placeholder="Street address, city, postal code">${esc(b.address || '')}</textarea></label>
-            <label class="f"><span>State / Region</span><input type="text" id="wsBizState" value="${esc(b.state || '')}" placeholder="e.g. Telangana (36)"></label>
-            <label class="f"><span>Default Currency</span>
-              <select id="wsCurrency">
-                ${['INR','USD','EUR','GBP','SAR','AED','SGD','CAD','AUD'].map(c => `<option value="${c}"${(d.currency||'INR')===c?' selected':''}>${c}</option>`).join('')}
-              </select>
+          <!-- Right Pane (1fr): High-Density Zero-Scroll 2-Column Form Grid -->
+          <div class="ws-studio-form-grid" style="display:flex;flex-direction:column;gap:10px">
+            <!-- Row 1: Business Name & Email -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Business / Company Name</span>
+                <input type="text" id="wsBizName" value="${esc((b.name === 'Guest' || b.name === 'Mohammed Ali Quadri') ? '' : (b.name || ''))}" placeholder="e.g. Acme Studio Pvt Ltd" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Official Email</span>
+                <input type="email" id="wsBizEmail" value="${esc(b.email || '')}" placeholder="billing@acme.com" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+            </div>
+
+            <!-- Row 2: Phone & State -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Phone / WhatsApp</span>
+                <input type="tel" id="wsBizPhone" value="${esc(b.phone || '')}" placeholder="+91 98765 43210" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">State / Place of Supply</span>
+                <input type="text" id="wsBizState" value="${esc(b.state || '')}" placeholder="e.g. Telangana (36)" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+            </div>
+
+            <!-- Row 3: Registered Business Address -->
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Registered Business Address</span>
+              <input type="text" id="wsBizAddress" value="${esc(b.address || '')}" placeholder="Street address, city, postal code" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
             </label>
-            <label class="f"><span>Tax Regime</span>
-              <select id="wsTaxRegime">
-                <option value="gst_in"${b.taxRegime==='gst_in'?' selected':''}>India GST (CGST/SGST/IGST)</option>
-                <option value="simple"${b.taxRegime==='simple'?' selected':''}>Simple Tax / VAT</option>
-              </select>
-            </label>
-            <label class="f"><span>Tax ID Label</span><input type="text" id="wsTaxIdLabel" value="${esc(b.taxIdLabel || 'GSTIN')}" placeholder="GSTIN / VAT ID"></label>
-            <label class="f" style="grid-column:1 / -1"><span>Tax ID / GSTIN</span><input type="text" id="wsTaxId" value="${esc(b.taxId || '')}" placeholder="e.g. 36AAAAA0000A1Z5"></label>
-            <label class="f" style="grid-column:1 / -1"><span>Instant UPI ID (Dynamic Vector QR)</span><input type="text" id="wsUpiId" value="${esc(b.upiId || '')}" placeholder="e.g. yourname@okaxis"></label>
+
+            <!-- Row 4: Currency, Tax Regime, Tax Label -->
+            <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px">
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Default Currency</span>
+                <select id="wsCurrency" style="height:36px;font-size:13px;border-radius:10px;padding:6px 10px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+                  ${['INR','USD','EUR','GBP','SAR','AED','SGD','CAD','AUD'].map(c => `<option value="${c}"${(d.currency||'INR')===c?' selected':''}>${c}</option>`).join('')}
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Tax Regime</span>
+                <select id="wsTaxRegime" style="height:36px;font-size:13px;border-radius:10px;padding:6px 10px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+                  <option value="gst_in"${b.taxRegime==='gst_in'?' selected':''}>India GST (CGST/SGST/IGST)</option>
+                  <option value="simple"${b.taxRegime==='simple'?' selected':''}>Simple Tax / VAT</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Tax Label</span>
+                <input type="text" id="wsTaxIdLabel" value="${esc(b.taxIdLabel || 'GSTIN')}" placeholder="GSTIN / VAT ID" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+            </div>
+
+            <!-- Row 5: Tax ID / GSTIN & Instant UPI ID -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Tax ID / GSTIN Number</span>
+                <input type="text" id="wsTaxId" value="${esc(b.taxId || '')}" placeholder="e.g. 36AAAAA0000A1Z5" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.03em;color:var(--muted);text-transform:uppercase">Instant UPI ID (QR)</span>
+                <input type="text" id="wsUpiId" value="${esc(b.upiId || '')}" placeholder="e.g. yourname@okaxis" style="height:36px;font-size:13px;border-radius:10px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text);box-sizing:border-box;width:100%">
+              </label>
+            </div>
           </div>
         </div>
 
-        <div style="padding:14px 24px;border-top:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-          <button type="button" class="btn sm ghost" data-act="setup-go-full-settings">⚙️ Need Advanced Settings? Open Full Settings Page →</button>
-          <button type="button" class="btn sm primary" data-act="setup-save-step1">Save Profile &amp; Choose Storage →</button>
+        <!-- Single-Row Balanced Studio Footer (No Wrapping on Desktop!) -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:var(--surface-2);border-top:1px solid var(--line-2);flex-wrap:nowrap">
+          <button type="button" class="btn sm ghost" data-act="setup-go-full-settings" style="font-size:12px;padding:6px 12px;white-space:nowrap">⚙️ Full Settings Page →</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:12px;padding:6px 12px">Skip for now</button>
+            <button type="button" class="btn sm primary" data-act="setup-save-step1" style="font-size:12px;padding:6px 16px;font-weight:600">Save &amp; Choose Storage →</button>
+          </div>
         </div>
         </div>
       `;
     } else {
       container.innerHTML = `
         <div class="dlg${animClass}" style="padding:0;display:flex;flex-direction:column;width:100%!important;max-width:100%!important;box-sizing:border-box!important">
-        <div style="padding:20px 24px 14px;border-bottom:1px solid var(--line-2);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:600">Step 1: Business Profile</span>
-              <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.12);color:#0284c7;font-size:11px;font-weight:700">Step 2 of 2: Storage Mode</span>
+        <!-- Top Studio Header Bar -->
+        <div style="padding:16px 24px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface)">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(2,132,199,0.12);color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0">☁️</div>
+            <div style="min-width:0">
+              <h2 style="font-size:16px;font-weight:700;color:var(--text);margin:0 0 2px;letter-spacing:-0.02em">Workspace Storage Architecture</h2>
+              <p style="font-size:12px;color:var(--muted);margin:0;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Select how and where your invoices, financial records, and business assets should be kept.</p>
             </div>
-            <h2 style="font-size:18px;font-weight:800;color:var(--text);margin:0 0 4px">Choose Your Workspace Storage Mode</h2>
-            <p style="font-size:12.5px;color:var(--muted);margin:0">Select how and where your invoices, financial records, and business assets should be kept.</p>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:4px 8px">Skip for now</button>
-            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:4px 8px;border-radius:8px" title="Close">✕</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <div class="seg" style="padding:2px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;display:flex;gap:2px">
+              <button type="button" data-act="ws-goto-step" data-step="1" style="border:none;background:transparent;color:var(--muted);font-weight:500;font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer">1. Business Profile</button>
+              <button type="button" data-act="ws-goto-step" data-step="2" style="border:none;background:var(--surface);color:var(--text);font-weight:700;font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.1)">2. Storage Mode</button>
+            </div>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:11.5px;padding:5px 10px;border-radius:8px">Skip</button>
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="padding:5px 8px;border-radius:8px;font-size:12px;line-height:1" title="Close">✕</button>
           </div>
         </div>
 
-        <div style="padding:18px 24px;max-height:66vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px">
+        <!-- 3 Architectural Storage Cards -->
+        <div style="padding:18px 24px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box">
           <!-- Option 1: Temporary Session -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="session" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='session'?'#0284c7':'var(--line)'};background:${curMode==='session'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
-                <input type="radio" name="ws_opt_mode" value="session" ${curMode==='session'?'checked':''} style="accent-color:#0284c7">
-                <span>Temporary Browser Session</span>
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="session" style="cursor:pointer;padding:14px 18px;border-radius:16px;border:2px solid ${curMode==='session'?'#0284c7':'var(--line)'};background:${curMode==='session'?'rgba(2,132,199,0.06)':'var(--surface-2)'};${curMode==='session'?'box-shadow:0 0 0 1px #0284c7, 0 8px 24px -6px rgba(2,132,199,0.25);':''}">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:10px">
+                <input type="radio" name="ws_opt_mode" value="session" ${curMode==='session'?'checked':''} style="accent-color:#0284c7;width:15px;height:15px">
+                <span style="font-size:16px">⚡</span>
+                <span>Option 1: Temporary Browser Session</span>
               </div>
-              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(100,116,139,0.15);color:#64748b">Session Only · Zero Footprint</span>
+              <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(100,116,139,0.15);color:#64748b;letter-spacing:0.02em">RAM + SessionStorage · Ephemeral</span>
             </div>
-            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your invoices, clients, and files stay strictly inside this browser session's temporary memory (sessionStorage). Nothing leaves your browser, and all session data is automatically wiped when you log out or close the browser.</p>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-left:26px;display:flex;flex-direction:column;gap:3px">
+              <div>• <strong>Zero permanent trace on disk</strong> — strictly resides in volatile browser memory.</div>
+              <div>• <strong>Auto-wipes on tab close or logout</strong> — complete peace of mind for shared or public terminals.</div>
+              <div>• <strong>Ideal for shared/public computers</strong> — zero disk persistence.</div>
+            </div>
           </div>
 
           <!-- Option 2: Cloud Database -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="cloud" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='cloud'?'#0284c7':'var(--line)'};background:${curMode==='cloud'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
-                <input type="radio" name="ws_opt_mode" value="cloud" ${curMode==='cloud'?'checked':''} style="accent-color:#0284c7">
-                <span>Cloud Database Account Sync</span>
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="cloud" style="cursor:pointer;padding:14px 18px;border-radius:16px;border:2px solid ${curMode==='cloud'?'#0284c7':'var(--line)'};background:${curMode==='cloud'?'rgba(2,132,199,0.06)':'var(--surface-2)'};${curMode==='cloud'?'box-shadow:0 0 0 1px #0284c7, 0 8px 24px -6px rgba(2,132,199,0.25);':''}">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:10px">
+                <input type="radio" name="ws_opt_mode" value="cloud" ${curMode==='cloud'?'checked':''} style="accent-color:#0284c7;width:15px;height:15px">
+                <span style="font-size:16px">☁️</span>
+                <span>Option 2: Cloud Database Account Sync</span>
               </div>
-              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(16,185,129,0.15);color:#10b981">Recommended · Multi-Device SaaS</span>
+              <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(16,185,129,0.15);color:#10b981;letter-spacing:0.02em">Recommended · Supabase PostgreSQL + IndexedDB</span>
             </div>
-            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your invoices, settings, and business assets are encrypted and synced to your Supabase Cloud account with local IndexedDB caching. Log in from any PC, laptop, or phone anywhere in the world and your workspace will be waiting for you without corruption.</p>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-left:26px;display:flex;flex-direction:column;gap:3px">
+              <div>• <strong>Multi-device sync across PC, mobile &amp; Incognito</strong> — cloud PostgreSQL backup with local caching.</div>
+              <div>• <strong>Optimistic concurrency &amp; conflict vault</strong> — offline-first mutations with atomic server conflict resolution.</div>
+              <div>• <strong>Instant offline cache fallback</strong> — full workspace availability even during network drops.</div>
+            </div>
           </div>
 
           <!-- Option 3: Offline Vault -->
-          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="offline" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2px solid ${curMode==='offline'?'#0284c7':'var(--line)'};background:${curMode==='offline'?'rgba(2,132,199,0.04)':'var(--surface-2)'}">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px">
-                <input type="radio" name="ws_opt_mode" value="offline" ${curMode==='offline'?'checked':''} style="accent-color:#0284c7">
-                <span>Full Offline Device Vault</span>
+          <div class="ws-storage-card" data-act="select-ws-storage-mode" data-storage-mode="offline" style="cursor:pointer;padding:14px 18px;border-radius:16px;border:2px solid ${curMode==='offline'?'#0284c7':'var(--line)'};background:${curMode==='offline'?'rgba(2,132,199,0.06)':'var(--surface-2)'};${curMode==='offline'?'box-shadow:0 0 0 1px #0284c7, 0 8px 24px -6px rgba(2,132,199,0.25);':''}">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:10px">
+                <input type="radio" name="ws_opt_mode" value="offline" ${curMode==='offline'?'checked':''} style="accent-color:#0284c7;width:15px;height:15px">
+                <span style="font-size:16px">🛡️</span>
+                <span>Option 3: Full Offline Device Vault</span>
               </div>
-              <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(245,158,11,0.15);color:#d97706">100% Offline · This Device Only</span>
+              <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(245,158,11,0.15);color:#d97706;letter-spacing:0.02em">100% Offline · This Device Only</span>
             </div>
-            <p style="font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 0 24px">Your workspace is stored permanently on this computer's local browser vault (localStorage + IndexedDB snapshots) and works 100% offline without internet. Zero data is transmitted to the cloud database.</p>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-left:26px;display:flex;flex-direction:column;gap:3px">
+              <div>• <strong>Permanent localStorage + IndexedDB vault</strong> — stored strictly on this device without cloud sync.</div>
+              <div>• <strong>Zero outbound cloud network packets</strong> — air-gapped sovereign financial storage.</div>
+              <div>• <strong>Works 100% without internet</strong> — zero external dependencies.</div>
+            </div>
           </div>
         </div>
 
-        <div style="padding:14px 24px;border-top:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-          <button type="button" class="btn sm" data-act="setup-back-step1">← Back to Profile</button>
-          <button type="button" class="btn sm primary" data-act="setup-confirm-storage">Confirm &amp; Activate Storage Mode ✓</button>
+        <!-- Single-Row Balanced Studio Footer -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:var(--surface-2);border-top:1px solid var(--line-2);flex-wrap:nowrap">
+          <button type="button" class="btn sm ghost" data-act="setup-go-full-settings" style="font-size:12px;padding:6px 12px;white-space:nowrap">⚙️ Full Settings Page →</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <button type="button" class="btn sm ghost" data-act="skip-workspace-setup" style="font-size:12px;padding:6px 12px">Skip for now</button>
+            <button type="button" class="btn sm" data-act="setup-back-step1" style="font-size:12px;padding:6px 12px">← Back</button>
+            <button type="button" class="btn sm primary" data-act="setup-confirm-storage" style="font-size:12px;padding:6px 16px;font-weight:600">Activate Storage Mode ✓</button>
+          </div>
         </div>
         </div>
       `;
@@ -11639,6 +11802,7 @@ dialog.zf-closing::backdrop {
       const sImg = S.settings.signature || (S.settings.business && S.settings.business.signature);
       wsSig.innerHTML = sImg ? `<img src="${sImg}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : '<span style="font-size:11px;color:var(--muted)">No Signature</span>';
     }
+    if (typeof updateWsLivePreview === 'function') updateWsLivePreview();
   }
 
   /* ---------- print ---------- */
@@ -11970,6 +12134,7 @@ dialog.zf-closing::backdrop {
   /* ---------- single delegated event listeners on document ---------- */
   document.addEventListener('input',e=>{
     const t=e.target;
+    if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
     if(t.id==='q'||t.id==='qInvo'||t.id==='qCash'||t.id==='qInvoMini'||(t.dataset&&t.dataset.act==='search-cash')){
       ui.q=t.value;
@@ -12043,6 +12208,7 @@ dialog.zf-closing::backdrop {
 
   document.addEventListener('change',e=>{
     const t=e.target;
+    if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
     if(t.id==='sortSel'){ui.sort=t.value;renderInvoicesSplit();return}
     if(t.dataset.actChange==='terms'&&ed&&t.value!==''){
@@ -12479,6 +12645,16 @@ dialog.zf-closing::backdrop {
         closeWorkspaceSetupDlg(false);
         await navigate('settings');
         break;
+      case 'ws-goto-step':{
+        const stepTarget = parseInt(b.dataset.step, 10) || 1;
+        if (stepTarget === 2) {
+          saveWorkspaceSetupProfileFields();
+          renderWorkspaceSetupStep(2, 'next');
+        } else {
+          renderWorkspaceSetupStep(1, 'prev');
+        }
+        break;
+      }
       case 'setup-save-step1':
         saveWorkspaceSetupProfileFields();
         renderWorkspaceSetupStep(2, 'next');
