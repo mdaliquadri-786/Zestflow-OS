@@ -17,5 +17,8 @@
     "telugu"
   ],
   "author": "Mohammed Ali Quadri",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource-variable/google-sans-flex": "^5.3.2"
+  }
 }
