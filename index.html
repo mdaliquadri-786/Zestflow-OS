@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Oa07leDicp4L2d7j30ogSF9fLHCqETPN6UcIam3XTmo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-aGLCTnkHC/WwVbsI2pIDGldyqTHd2MWiuhs8doBdmGk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -567,7 +567,10 @@
   .pv-wrap{position:sticky;top:24px}
   .pv-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:var(--muted);font-size:13px}
   .tabs{display:none}
-  .set{max-width:780px}
+  .set{max-width:100%!important;width:100%!important;margin:0 auto}
+  .settings-bento-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+  .settings-bento-grid>.settings-span-full{grid-column:1 / -1}
+  @media (max-width:959px){.settings-bento-grid{grid-template-columns:1fr}}
 
   .empty{
     padding:56px 24px;
@@ -2530,6 +2533,28 @@ dialog.zf-closing::backdrop {
     display: grid;
     grid-template-columns: 1.4fr 0.95fr 0.85fr;
     gap: 22px;
+    align-items: stretch;
+  }
+  .invo-col-1, .invo-col-2, .invo-col-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .invo-col-1 > .invo-card:last-child,
+  .invo-col-2 > .invo-card:last-child,
+  .invo-col-3 > .invo-card:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0 !important;
+  }
+  .invo-col-1 > .invo-card:last-child .invo-table-responsive {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .invo-col-3 > .invo-card:last-child {
+    justify-content: space-between;
   }
   @media (max-width: 1180px) {
     .invo-bento-grid { grid-template-columns: 1fr 1fr; }
@@ -3153,6 +3178,29 @@ dialog.zf-closing::backdrop {
     box-sizing: border-box;
     padding: 0 28px 36px;
   }
+  body.layout-invowise #appFooterHost {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  body.layout-cashfund #app.wrap {
+    padding: 28px 36px 24px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  body.layout-cashfund .cashfund-main-canvas {
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  body.layout-cashfund #appFooterHost {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 36px 36px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
   .zf-global-footer {
     width: 100%;
     max-width: 100%;
@@ -3193,13 +3241,18 @@ dialog.zf-closing::backdrop {
     }
   }
   @media (max-width: 900px) {
-    #appFooterHost {
+    #appFooterHost,
+    body.layout-invowise #appFooterHost,
+    body.layout-cashfund #appFooterHost {
       width: 100% !important;
       max-width: 100% !important;
       margin: 0 !important;
       padding: 0 14px calc(112px + env(safe-area-inset-bottom, 16px)) 14px !important;
       box-sizing: border-box !important;
       overflow-x: hidden !important;
+    }
+    body.layout-cashfund #app.wrap {
+      padding: 16px 14px calc(108px + env(safe-area-inset-bottom, 16px)) 14px !important;
     }
     .zf-footer-grid {
       grid-template-columns: 1fr !important;
@@ -4066,6 +4119,17 @@ dialog.zf-closing::backdrop {
     display: grid;
     grid-template-columns: 1.7fr 1fr;
     gap: 22px;
+    align-items: stretch;
+  }
+  .cash-grid-layout > div {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .cash-grid-layout > div > .cash-card:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
   @media (max-width: 1180px) {
     .cash-grid-layout { grid-template-columns: 1fr; }
@@ -4328,9 +4392,9 @@ dialog.zf-closing::backdrop {
 
       <div class="side-foot">
         <div class="side-user-account" id="sideUserAccount" data-act="nav" data-page="settings" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;cursor:pointer">
-          <div id="sideUserInitial" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">CA</div>
+          <div id="sideUserInitial" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">U</div>
           <div style="display:flex;flex-direction:column;min-width:0;line-height:1.2">
-            <strong id="sideUserName" style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Mohammed Ali Quadri</strong>
+            <strong id="sideUserName" style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Account</strong>
             <span style="font-size:10px;color:var(--muted)">Account Settings ⌄</span>
           </div>
         </div>
@@ -7409,6 +7473,10 @@ dialog.zf-closing::backdrop {
           authState = AUTH_STATES.AUTHENTICATED;
           authNetworkOffline = false;
           verifiedAuthUser = userData;
+          if (userData && userData.email && (!S.settings.business || !S.settings.business.email)) {
+            if (!S.settings.business) S.settings.business = {};
+            S.settings.business.email = userData.email;
+          }
           if (typeof syncEngine !== 'undefined') {
             if (getActiveStorageMode() === 'cloud') {
               syncEngine.init(userData, token);
@@ -7601,6 +7669,47 @@ dialog.zf-closing::backdrop {
     return '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;background:rgba(148,163,184,0.12);border:1px solid rgba(148,163,184,0.3);color:#94a3b8;font-size:11px;font-weight:700">✕ Unauthenticated</span>';
   }
 
+  function getActiveUserDisplayName() {
+    const customBiz = (S && S.settings && S.settings.business && S.settings.business.name || '').trim();
+    if (customBiz && customBiz !== 'Guest' && customBiz !== 'Mohammed Ali Quadri') {
+      return customBiz;
+    }
+    const metaName = (verifiedAuthUser && verifiedAuthUser.user_metadata && (verifiedAuthUser.user_metadata.full_name || verifiedAuthUser.user_metadata.name)) || '';
+    if (metaName && metaName.trim()) return metaName.trim();
+    let email = (verifiedAuthUser && verifiedAuthUser.email) || '';
+    if (!email) {
+      const sess = getStoredAuthSession();
+      email = (sess && sess.user && sess.user.email) || '';
+    }
+    if (!email && typeof localStorage !== 'undefined') {
+      try {
+        const rawU = JSON.parse(localStorage.getItem('zf_auth_user') || '{}');
+        if (rawU && rawU.email && rawU.email !== 'guest@zestflow.local') email = rawU.email;
+        else if (rawU && rawU.name && rawU.name !== 'Mohammed Ali Quadri') return rawU.name;
+      } catch (_) {}
+    }
+    if (email) {
+      const localPart = email.split('@')[0] || '';
+      const cleaned = localPart.replace(/[0-9]+$/g, '').replace(/[._-]+/g, ' ').trim() || localPart;
+      return cleaned.replace(/\b\w/g, c => c.toUpperCase());
+    }
+    if (customBiz) return customBiz;
+    return 'Guest';
+  }
+
+  function getActiveUserInitials() {
+    const name = getActiveUserDisplayName();
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    if (parts.length === 1 && parts[0].length >= 2) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0] && parts[0][0] ? parts[0][0].toUpperCase() : 'U');
+  }
+
+  if (typeof window !== 'undefined') {
+    window.getActiveUserDisplayName = getActiveUserDisplayName;
+    window.getActiveUserInitials = getActiveUserInitials;
+  }
+
   async function supabaseEmailAuth(email, password, isSignUp) {
     if (isSignUp) {
       const targetRedirect = encodeURIComponent(window.location.origin + window.location.pathname);
@@ -7611,17 +7720,22 @@ dialog.zf-closing::backdrop {
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || data.message || data.error_description || 'Signup failed');
       if (data.access_token) {
+        const authUser = data.user || data;
         const newSession = {
           access_token: data.access_token,
           refresh_token: data.refresh_token || '',
           expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
           provider: 'email',
-          user: data.user || data
+          user: authUser
         };
         setStoredAuthSession(newSession);
         authState = AUTH_STATES.PENDING;
+        if (authUser && authUser.email && (!S.settings.business || !S.settings.business.email)) {
+          if (!S.settings.business) S.settings.business = {};
+          S.settings.business.email = authUser.email;
+        }
         await verifySessionWithServer(data.access_token);
-        return { success: true, confirmed: true, user: data.user || data };
+        return { success: true, confirmed: true, user: authUser };
       }
       authState = AUTH_STATES.UNAUTHENTICATED;
       showAuthMsg('Confirmation link sent! Please check your email to activate your account before signing in.', false);
@@ -7634,17 +7748,22 @@ dialog.zf-closing::backdrop {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error_description || data.msg || data.message || 'Invalid login credentials');
+      const authUser = data.user || data;
       const newSession = {
         access_token: data.access_token,
         refresh_token: data.refresh_token || '',
         expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
         provider: 'email',
-        user: data.user || data
+        user: authUser
       };
       setStoredAuthSession(newSession);
       authState = AUTH_STATES.PENDING;
+      if (authUser && authUser.email && (!S.settings.business || !S.settings.business.email)) {
+        if (!S.settings.business) S.settings.business = {};
+        S.settings.business.email = authUser.email;
+      }
       await verifySessionWithServer(data.access_token);
-      return { success: true, confirmed: true, user: data.user || data };
+      return { success: true, confirmed: true, user: authUser };
     }
   }
 
@@ -8550,7 +8669,7 @@ dialog.zf-closing::backdrop {
   function renderPaper(inv,opts){
     opts=opts||{};const st=S.settings,b=st.business,L=T[inv.lang]||T.en,c=calc(inv),es=effStatus(inv);
     const t=Object.assign({},c,{grand:c.total/100});
-    const sellerName=((inv.seller&&inv.seller.name)||b.name||'Mohammed Ali Quadri').trim();
+    const sellerName=((inv.seller&&inv.seller.name)||b.name||getActiveUserDisplayName()).trim();
     const signBlockHTML='<div class="p-sign" style="text-align:right;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;min-height:70px"><div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.06em">For '+esc(sellerName||'CodeWithAli')+'</div><div style="font-family:Georgia,serif;font-style:italic;font-size:15px;color:var(--ink);margin:10px 0 4px;opacity:.85">'+esc(sellerName||'Authorized Signatory')+'</div><div style="border-top:1px solid #cbd5e1;padding-top:4px;font-size:10px;color:#64748b;min-width:140px;text-align:center">Authorized Signatory</div></div>';
     const numMode=(inv.lang==='ar'||inv.lang==='ur')?st.numerals:'western';
     const D=v=>fmtDigits(v,numMode);
@@ -8670,8 +8789,8 @@ dialog.zf-closing::backdrop {
   function updateNavCounts(){
     const ic=$('#navCountInv');if(ic)ic.textContent=String(S.invoices.length);
     const cc=$('#navCountCli');if(cc)cc.textContent=String(getClientGroups().length);
-    const biz=S.settings.business.name||'Mohammed Ali Quadri';
-    const uInit=(biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase())||'U';
+    const biz=getActiveUserDisplayName();
+    const uInit=getActiveUserInitials();
     const suName=$('#sideUserName');if(suName)suName.textContent=biz;
     const suInit=$('#sideUserInitial');if(suInit)suInit.textContent=uInit;
     const active=ui.currentPage==='editor'?'invoices':ui.currentPage;
@@ -8990,8 +9109,8 @@ dialog.zf-closing::backdrop {
 
   /* ---------- CASHFUND SIDEBAR & DRIBBBLE DASHBOARD REPLICA (IMAGE 3) ---------- */
   function renderCashFundSidebar() {
-    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
-    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const biz = getActiveUserDisplayName();
+    const userInit = getActiveUserInitials();
     const curPage = ui.currentPage;
     return '<div class="cash-search-box">' +
       '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
@@ -9483,8 +9602,8 @@ dialog.zf-closing::backdrop {
   }
 
   function renderCashFundMobileTopBar() {
-    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
-    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const biz = getActiveUserDisplayName();
+    const userInit = getActiveUserInitials();
     return '<header class="cash-mobile-topbar" aria-label="CashFund Mobile Header">' +
       '<div class="cash-mob-bar-left">' +
         '<button type="button" class="cash-hamburger-btn" data-act="toggle-cash-drawer" aria-label="Open Navigation Menu" title="Open Menu (☰)">' +
@@ -9507,8 +9626,8 @@ dialog.zf-closing::backdrop {
   }
 
   function renderCashFundDrawer() {
-    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
-    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const biz = getActiveUserDisplayName();
+    const userInit = getActiveUserInitials();
     const curPage = ui.currentPage;
     return '<div class="cash-drawer-inner">' +
       '<div class="cash-drawer-header">' +
@@ -9672,8 +9791,8 @@ dialog.zf-closing::backdrop {
   }
 
   function renderInvowiseTopNav() {
-    const biz = S.settings.business.name || 'Mohammed Ali Quadri';
-    const userInit = (biz.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const biz = getActiveUserDisplayName();
+    const userInit = getActiveUserInitials();
     const curPage = ui.currentPage;
     return '<header class="invo-top-nav">' +
       '<div class="invo-top-row">' +
@@ -9824,8 +9943,8 @@ dialog.zf-closing::backdrop {
     const greet = hr < 12 ? 'Good Morning' : (hr < 18 ? 'Good Afternoon' : 'Good Evening');
     const now = new Date();
     const dateFmt = now.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
-    const bizName = (S.settings.business.name || 'Mohammed Ali Quadri');
-    const userInit = (bizName.trim().split(/\s+/).map(w=>w[0]).join('').slice(0, 2).toUpperCase()) || 'U';
+    const bizName = getActiveUserDisplayName();
+    const userInit = getActiveUserInitials();
 
     // Calculate totals for selected currency
     let paidTotal = 0, dueTotal = 0, overdueTotal = 0, totalBilled = 0;
@@ -10142,7 +10261,7 @@ dialog.zf-closing::backdrop {
           '</div>' +
 
           /* All Invoices Table Card */
-          '<div class="invo-card" style="margin-top:22px">' +
+          '<div class="invo-card">' +
             '<div class="invo-table-header">' +
               '<h3>All Invoices</h3>' +
               '<div class="invo-table-filters">' +
@@ -10190,29 +10309,33 @@ dialog.zf-closing::backdrop {
           '</div>' +
 
           /* Receivables Ageing Card (Clean single card matching Dribbble style) */
-          '<div class="invo-card" style="margin-top:22px">' +
+          '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Receivables ageing</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices">↗</button>' +
             '</div>' +
             '<p style="font-size:11px;color:#94a3b8;margin:-10px 0 14px">Unpaid balances grouped by days past due date (per currency)</p>' +
-            '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:12px;border-radius:12px;border:1px solid rgba(15,23,42,0.06)">' +
-                '<span style="font-size:10px;color:#94a3b8;display:block">Current (Not due)</span>' +
-                '<strong style="font-size:13px;color:var(--text, #0f172a)">' + inlineCurrencyTotals(ageingBuckets.current) + '</strong>' +
+            '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;flex:1;align-content:stretch">' +
+              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+                '<span style="font-size:10.5px;color:#94a3b8;display:block">Current (Not due)</span>' +
+                '<strong style="font-size:13.5px;color:var(--text, #0f172a);margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.current) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:12px;border-radius:12px;border:1px solid rgba(15,23,42,0.06)">' +
-                '<span style="font-size:10px;color:#94a3b8;display:block">1-30 days overdue</span>' +
-                '<strong style="font-size:13px;color:#f59e0b">' + inlineCurrencyTotals(ageingBuckets.d30) + '</strong>' +
+              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+                '<span style="font-size:10.5px;color:#94a3b8;display:block">1-30 days overdue</span>' +
+                '<strong style="font-size:13.5px;color:#f59e0b;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d30) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:12px;border-radius:12px;border:1px solid rgba(15,23,42,0.06)">' +
-                '<span style="font-size:10px;color:#94a3b8;display:block">31-60 days overdue</span>' +
-                '<strong style="font-size:13px;color:#ef4444">' + inlineCurrencyTotals(ageingBuckets.d60) + '</strong>' +
+              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+                '<span style="font-size:10.5px;color:#94a3b8;display:block">31-60 days overdue</span>' +
+                '<strong style="font-size:13.5px;color:#ef4444;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d60) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:12px;border-radius:12px;border:1px solid rgba(15,23,42,0.06)">' +
-                '<span style="font-size:10px;color:#94a3b8;display:block">61-90+ days overdue</span>' +
-                '<strong style="font-size:13px;color:#ef4444">' + inlineCurrencyTotals(ageingBuckets.d90) + '</strong>' +
+              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+                '<span style="font-size:10.5px;color:#94a3b8;display:block">61-90+ days overdue</span>' +
+                '<strong style="font-size:13.5px;color:#ef4444;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d90) + '</strong>' +
               '</div>' +
+            '</div>' +
+            '<div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11.5px">' +
+              '<span style="color:var(--muted);font-weight:600">Collection Health: <strong style="color:' + (overdueTotal > 0 ? '#ef4444' : '#10b981') + '">' + (overdueTotal > 0 ? overdueList.length + ' Overdue' : '100% On-Time') + '</strong></span>' +
+              '<button type="button" class="invo-link-btn" data-act="nav" data-page="payment" style="font-size:11.5px">Payment Ledger ↗</button>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -10239,7 +10362,7 @@ dialog.zf-closing::backdrop {
           '</div>' +
 
           /* Templates Selection Card */
-          '<div class="invo-card" style="margin-top:22px">' +
+          '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Invoices Template</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices">↗</button>' +
@@ -10939,7 +11062,7 @@ dialog.zf-closing::backdrop {
   /* ---------- PAGE 5: SETTINGS ---------- */
   function sv(path){return esc(getPath(S.settings,path))}
   function instructionsPageHTML(){
-    return `<div class="instructions-page" style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+    return `<div class="instructions-page" style="max-width:100%;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:24px">
       <div class="page-h">
         <div class="page-h-title">
           <h1 style="display:flex;align-items:center;gap:10px"><span>📘</span> ZestFlow OS — User Guide &amp; Master Operating Manual</h1>
@@ -11065,7 +11188,7 @@ dialog.zf-closing::backdrop {
   }
 
   function aboutPageHTML(){
-    return `<div class="about-page" style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+    return `<div class="about-page" style="max-width:100%;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:24px">
       <div class="page-h">
         <div class="page-h-title">
           <h1 style="display:flex;align-items:center;gap:10px"><span>💎</span> About ZestFlow OS &amp; The Developer</h1>
@@ -11226,7 +11349,8 @@ dialog.zf-closing::backdrop {
         <div class="page-h-title"><h1>Settings</h1><p id="savedHint">Changes are saved automatically in this browser.</p></div>
         <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);font-size:12px;font-weight:600;color:#0284c7"><span>💎</span> Engineered by <strong>Mohammed Ali Quadri</strong> · <span>CodeWithAli</span></div>
       </div>
-      <section class="card"><h2>Authentication &amp; Session Status</h2>
+      <div class="settings-bento-grid">
+      <section class="card settings-span-full"><h2>Authentication &amp; Session Status</h2>
         <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);flex-wrap:wrap;gap:12px">
           <div>
             <div style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -11253,7 +11377,7 @@ dialog.zf-closing::backdrop {
           </div>
         </div>
       </section>
-      <section class="card">
+      <section class="card settings-span-full">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
           <div>
             <h2 style="margin:0 0 4px">Workspace Storage &amp; Persistence Mode</h2>
@@ -11398,6 +11522,7 @@ dialog.zf-closing::backdrop {
           <button type="button" class="btn danger" data-act="wipe">${icon('trash')}<span>Delete everything</span></button>
         </div>
       </section>
+      </div>
     </div>`;
   }
   function openWorkspaceSetupDlg(step = 1, force = false) {
@@ -13207,7 +13332,7 @@ dialog.zf-closing::backdrop {
       case 'share-whatsapp':{
         const targetInv=(id?S.invoices.find(x=>x.id===id):null)||(ed&&ed.inv);
         if(!targetInv)break;
-        const bizName=(S.settings.business.name||(targetInv.seller&&targetInv.seller.name)||'Mohammed Ali Quadri').trim();
+        const bizName=(S.settings.business.name||(targetInv.seller&&targetInv.seller.name)||getActiveUserDisplayName()).trim();
         const buyerName=(targetInv.client&&targetInv.client.name)||'Valued Client';
         const c=calc(targetInv);
         const upi=(targetInv.upiId||S.settings.business.upiId||'').trim();

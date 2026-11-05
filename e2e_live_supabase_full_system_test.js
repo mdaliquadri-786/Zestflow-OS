@@ -191,7 +191,8 @@ function runFullApplicationSandboxTests() {
       setStorageMode, getActiveStorageMode, getPersistenceConfig, syncEngine,
       generatePKCEPair, startGooglePKCEFlow,
       toSqlProfilePayload, fromSqlProfilePayload, fromSqlInvoicePayload,
-      amountInWords, numToWords
+      amountInWords, numToWords,
+      getActiveUserDisplayName, getActiveUserInitials
     };
     })();`
   );
@@ -353,13 +354,22 @@ function runFullApplicationSandboxTests() {
   const zf = sandbox.window.__ZF_FULL__;
   assert.ok(zf, 'Application exports must be available');
 
-  // --- Feature 1: Onboarding Flow ---
+  // --- Feature 1: Onboarding Flow & Dynamic User Identity ---
   try {
     const obActive = zf.S.settings.layout === 'cashfund' || zf.S.settings.layout === 'invowise';
     const themes = ['light', 'dark'].includes(zf.S.settings.theme);
-    recordTest('Feature 01: Onboarding', 'Workspace layouts (Invowise & CashFund) and themes toggle cleanly', obActive && themes, `layout=${zf.S.settings.layout}, theme=${zf.S.settings.theme}`);
+
+    // Verify Dynamic User Display Name & Initials
+    zf.S.settings.business.name = '';
+    sandbox.localStorage.setItem('zf_auth_user', JSON.stringify({ email: 'larelo7617@drtall.com' }));
+    const displayName = zf.getActiveUserDisplayName();
+    const initials = zf.getActiveUserInitials();
+    assert.strictEqual(displayName, 'Larelo', `Expected 'Larelo', got '${displayName}'`);
+    assert.strictEqual(initials, 'LA', `Expected 'LA', got '${initials}'`);
+
+    recordTest('Feature 01: Onboarding & Identity', 'Workspace layouts, themes toggle and dynamic user name (Larelo) & initials (LA) verified', obActive && themes && displayName === 'Larelo' && initials === 'LA', `layout=${zf.S.settings.layout}, theme=${zf.S.settings.theme}`);
   } catch (err) {
-    recordTest('Feature 01: Onboarding', 'Workspace layouts toggle cleanly', false, err.message);
+    recordTest('Feature 01: Onboarding & Identity', 'Workspace layouts & dynamic identity', false, err.message);
   }
 
   // --- Feature 2: Post-Login Studio Modal ---
@@ -603,12 +613,15 @@ function runFullApplicationSandboxTests() {
     recordTest('Feature 14: Cloud Sync Schema', 'Cloud sync schema adapters', false, err.message);
   }
 
-  // --- Feature 15: Mobile Responsive Isolation & Dialog Clipping ---
+  // --- Feature 15: Mobile Responsive Isolation, Dialogs & Container Alignment ---
   try {
     assert.ok(html.includes('.sidebar{display:none}'), 'CSS must isolate mobile sidebar on viewports <=900px');
     assert.ok(html.includes('dialog .dlg{width:100%!important;max-width:100%!important;box-sizing:border-box!important}'), 'Universal dialog constraint width 100% must prevent clipping');
     assert.ok(html.includes('min(880px, calc(100vw - 28px))'), '#workspaceSetupDlg must have wide studio 880px width constraint');
-    recordTest('Feature 15: Responsive & Dialogs', 'Mobile responsive sidebar isolation and 11 universal dialog width constraints verified', true, 'Responsive verified');
+    assert.ok(html.includes('.set{max-width:100%!important;width:100%!important;margin:0 auto}'), '.set must span 100% container width');
+    assert.ok(html.includes('body.layout-invowise #appFooterHost') && html.includes('padding: 0 !important;'), '#appFooterHost must align 100% with #app');
+    assert.ok(html.includes('.invo-bento-grid') && html.includes('align-items: stretch'), '.invo-bento-grid must stretch columns');
+    recordTest('Feature 15: Responsive & Dialogs', 'Mobile responsive sidebar isolation, universal dialogs, and 100% footer container alignment verified', true, 'Responsive & Alignment verified');
   } catch (err) {
     recordTest('Feature 15: Responsive & Dialogs', 'Responsive isolation & dialog clipping', false, err.message);
   }
