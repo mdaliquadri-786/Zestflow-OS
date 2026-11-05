@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TTX7IiX4MqJmJEmjCa7Dd0jDk9uAljioFTIE5MebyBk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-aZyOniq42DMC9kjopMdWn7S4lBMLwhBe6PPAsMVT3kM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -11373,7 +11373,13 @@ dialog.zf-closing::backdrop {
       </section>
     </div>`;
   }
-  function openWorkspaceSetupDlg(step = 1) {
+  function openWorkspaceSetupDlg(step = 1, force = false) {
+    if (!force) {
+      if (typeof localStorage === 'undefined' || !localStorage.getItem('zf_onboarded')) return;
+      if (typeof document !== 'undefined' && document.body && document.body.classList.contains('onboard-active')) return;
+      const ob = typeof document !== 'undefined' && document.getElementById('onboardOverlay');
+      if (ob && ob.style.display !== 'none' && ob.innerHTML.trim() !== '') return;
+    }
     const dlg = $('#workspaceSetupDlg');
     if (!dlg) return;
     renderWorkspaceSetupStep(step, 'initial');
@@ -11447,19 +11453,29 @@ dialog.zf-closing::backdrop {
   function checkAndTriggerWorkspaceSetup() {
     if (typeof ui === 'undefined' || !ui) return;
     if (ui.setupModalDismissed) return;
+    // Strictly verify onboarding is completely finished before prompting setup
+    if (typeof localStorage === 'undefined' || !localStorage.getItem('zf_onboarded')) return;
+    if (typeof document !== 'undefined' && document.body && document.body.classList.contains('onboard-active')) return;
+    const ob = typeof document !== 'undefined' && document.getElementById('onboardOverlay');
+    if (ob && ob.style.display !== 'none' && ob.innerHTML.trim() !== '') return;
+    if (ui.currentPage !== 'dashboard' && ui.currentPage !== 'invoices') return;
+
     const currentScopeKey = (verifiedAuthUser && verifiedAuthUser.id) || (authState === AUTH_STATES.AUTHENTICATED ? 'authenticated' : 'guest');
     try {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('zf_workspace_setup_done_' + currentScopeKey)) {
         return;
       }
     } catch (_) {}
-    if (authState === AUTH_STATES.AUTHENTICATED || (typeof localStorage !== 'undefined' && localStorage.getItem('zf_onboarded'))) {
-      if (ui.currentPage === 'dashboard' || ui.currentPage === 'invoices') {
-        setTimeout(() => {
-          openWorkspaceSetupDlg(1);
-        }, 150);
-      }
-    }
+
+    setTimeout(() => {
+      // Re-verify that onboarding is not active before opening
+      if (typeof localStorage === 'undefined' || !localStorage.getItem('zf_onboarded')) return;
+      if (typeof document !== 'undefined' && document.body && document.body.classList.contains('onboard-active')) return;
+      const obCheck = typeof document !== 'undefined' && document.getElementById('onboardOverlay');
+      if (obCheck && obCheck.style.display !== 'none' && obCheck.innerHTML.trim() !== '') return;
+      if (ui.currentPage !== 'dashboard' && ui.currentPage !== 'invoices') return;
+      openWorkspaceSetupDlg(1);
+    }, 150);
   }
 
   function renderWorkspaceSetupStep(step = 1, direction = 'initial') {
@@ -12428,7 +12444,7 @@ dialog.zf-closing::backdrop {
         break;
       }
       case 'open-workspace-setup':
-        openWorkspaceSetupDlg(1);
+        openWorkspaceSetupDlg(1, true);
         break;
       case 'skip-workspace-setup':
         closeWorkspaceSetupDlg(true);

@@ -91,6 +91,8 @@ test('Workspace Setup UI: Dialog #workspaceSetupDlg and Coach-Mark #settingsCoac
   assert.ok(html.includes('function openWorkspaceSetupDlg'), 'openWorkspaceSetupDlg must exist');
   assert.ok(html.includes('function closeWorkspaceSetupDlg'), 'closeWorkspaceSetupDlg must exist');
   assert.ok(html.includes('function checkAndTriggerWorkspaceSetup'), 'checkAndTriggerWorkspaceSetup must exist');
+  assert.ok(html.includes("!localStorage.getItem('zf_onboarded')"), 'checkAndTriggerWorkspaceSetup must block when onboarding is incomplete');
+  assert.ok(html.includes("classList.contains('onboard-active')"), 'checkAndTriggerWorkspaceSetup must block when onboard-active is true');
 });
 
 test('Workspace Setup UI: Settings page contains 3-storage-mode selector and launch button', () => {
