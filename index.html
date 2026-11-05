@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-KSExaCaAWHLwWNc4T6+TRL5esH5alk46vZs7v+0e3uk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mo36ejlntkV8IDTV9uqBdSyg9VvcfyMPu0PUR6eXjZ8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -568,9 +568,26 @@
   .pv-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:var(--muted);font-size:13px}
   .tabs{display:none}
   .set{max-width:100%!important;width:100%!important;margin:0 auto}
-  .settings-bento-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
-  .settings-bento-grid>.settings-span-full{grid-column:1 / -1}
-  @media (max-width:959px){.settings-bento-grid{grid-template-columns:1fr}}
+  .set{display:flex;flex-direction:column;gap:22px}
+  .set > .card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 0 !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+  }
+  .set > .card > h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   .empty{
     padding:56px 24px;
@@ -1954,8 +1971,7 @@ dialog.zf-closing::backdrop {
   body.layout-invowise #bannerHost,
   body.layout-invowise #app,
   body.layout-invowise .wrap,
-  body.layout-invowise #appFooterHost,
-  body.layout-invowise .zf-global-footer {
+  body.layout-invowise #appFooterHost {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
@@ -3238,31 +3254,36 @@ dialog.zf-closing::backdrop {
     padding: 0 28px 32px 28px !important;
     box-sizing: border-box !important;
   }
-  body.layout-cashfund .zf-global-footer {
+  .zf-global-footer {
     width: 100% !important;
     max-width: 100% !important;
-    margin: 8px 0 0 0 !important;
-  }
-  .zf-global-footer {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 40px 0 0 0;
+    box-sizing: border-box !important;
+    margin: 40px 0 0 0 !important;
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 24px;
     box-shadow: 0 4px 24px rgba(15, 23, 42, 0.03);
-    padding: 44px 38px 26px;
+    padding: 44px 38px 26px !important;
     color: #475569;
     font-family: var(--ui);
+    position: relative;
+    overflow: hidden;
     transition: background 0.25s ease, border-color 0.25s ease;
   }
   body.layout-cashfund .zf-global-footer {
     width: 100% !important;
     max-width: 100% !important;
-    margin: 40px 0 0 0 !important;
+    margin: 28px 0 0 0 !important;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    padding: 42px 36px 26px !important;
+  }
+  body.layout-invowise .zf-global-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 40px 0 0 0 !important;
+    border-radius: 24px;
+    padding: 44px 38px 26px !important;
   }
   html[data-theme="dark"] .zf-global-footer {
     background: #11141c !important;
@@ -11407,8 +11428,7 @@ dialog.zf-closing::backdrop {
         <div class="page-h-title"><h1>Settings</h1><p id="savedHint">Changes are saved automatically in this browser.</p></div>
         <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);font-size:12px;font-weight:600;color:#0284c7"><span>💎</span> Engineered by <strong>Mohammed Ali Quadri</strong> · <span>CodeWithAli</span></div>
       </div>
-      <div class="settings-bento-grid">
-      <section class="card settings-span-full"><h2>Authentication &amp; Session Status</h2>
+      <section class="card"><h2>Authentication &amp; Session Status</h2>
         <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);flex-wrap:wrap;gap:12px">
           <div>
             <div style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -11435,7 +11455,7 @@ dialog.zf-closing::backdrop {
           </div>
         </div>
       </section>
-      <section class="card settings-span-full">
+      <section class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
           <div>
             <h2 style="margin:0 0 4px">Workspace Storage &amp; Persistence Mode</h2>
@@ -11580,7 +11600,6 @@ dialog.zf-closing::backdrop {
           <button type="button" class="btn danger" data-act="wipe">${icon('trash')}<span>Delete everything</span></button>
         </div>
       </section>
-      </div>
     </div>`;
   }
   function openWorkspaceSetupDlg(step = 1, force = false) {
