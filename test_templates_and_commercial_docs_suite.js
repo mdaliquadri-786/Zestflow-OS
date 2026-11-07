@@ -319,6 +319,60 @@ test('Watermark Engine: Supports PAID, DRAFT, ORIGINAL with diagonal print style
   assert.ok(html.includes('grid-template-columns: repeat(3, 1fr)'), 'Hero metrics row must use balanced 3-column grid (no void gap)');
 });
 
+// 13. Phase 2: Official Company Seal Stamp Engine
+test('Official Verified Company Seal: SVG circular stamp with concentric rings & print persistence', () => {
+  const invWithSeal = zf.normInvoice({ number: 'SEAL-001', showSeal: true, lang: 'en' });
+  assert.strictEqual(invWithSeal.showSeal, true, 'normInvoice must parse showSeal as boolean');
+  const paperSeal = zf.renderPaper(invWithSeal, {});
+  assert.ok(paperSeal.includes('class="company-seal-stamp"'), 'Paper must render .company-seal-stamp');
+  assert.ok(paperSeal.includes('OFFICIAL SEAL'), 'Paper must render OFFICIAL SEAL text in SVG');
+  assert.ok(paperSeal.includes('GOVT &amp; CORP VERIFIED'), 'Paper must render GOVT & CORP VERIFIED in SVG');
+
+  const invNoSeal = zf.normInvoice({ number: 'SEAL-002', showSeal: false, lang: 'en' });
+  const paperNoSeal = zf.renderPaper(invNoSeal, {});
+  assert.ok(!paperNoSeal.includes('class="company-seal-stamp"'), 'Paper must NOT render seal when showSeal is false');
+
+  assert.ok(html.includes('.company-seal-stamp'), 'Must define .company-seal-stamp in CSS');
+  assert.ok(html.includes('data-f="showSeal"'), 'Must have showSeal checkbox in editor form');
+  assert.ok(html.includes('data-act-change="toggle-seal"'), 'Must have toggle-seal checkbox in design studio drawer');
+});
+
+// 14. Phase 2: Reverse Charge Mechanism (RCM)
+test('Reverse Charge Mechanism (RCM): Regulatory tax badge and editor toggle', () => {
+  const invWithRCM = zf.normInvoice({ number: 'RCM-001', rcm: true, lang: 'en' });
+  assert.strictEqual(invWithRCM.rcm, true, 'normInvoice must parse rcm as boolean');
+  const paperRCM = zf.renderPaper(invWithRCM, {});
+  assert.ok(paperRCM.includes('class="rcm-badge"'), 'Paper must render .rcm-badge when rcm is true');
+  assert.ok(paperRCM.includes('Reverse Charge Applicable'), 'Paper must display Reverse Charge text');
+
+  const invNoRCM = zf.normInvoice({ number: 'RCM-002', rcm: false, lang: 'en' });
+  const paperNoRCM = zf.renderPaper(invNoRCM, {});
+  assert.ok(!paperNoRCM.includes('class="rcm-badge"'), 'Paper must NOT render .rcm-badge when rcm is false');
+
+  assert.ok(html.includes('data-f="rcm"'), 'Must have rcm checkbox in editor form');
+});
+
+// 15. Phase 2: Legal Terms & Boilerplate Presets
+test('Legal Terms Presets: Standard corporate boilerplate presets exist and are wired', () => {
+  assert.ok(html.includes('data-act-change="pick-terms-preset"'), 'Must have pick-terms-preset select in editor');
+  assert.ok(html.includes('value="due_receipt"'), 'Must include Immediate (Due on Receipt) preset');
+  assert.ok(html.includes('value="net_15"'), 'Must include Net 15 Days preset');
+  assert.ok(html.includes('value="net_30"'), 'Must include Net 30 Days preset');
+  assert.ok(html.includes('value="retail_return"'), 'Must include Retail Return preset');
+  assert.ok(html.includes('value="milestone_consulting"'), 'Must include Milestone Consulting preset');
+  assert.ok(rawScript.includes("t.dataset.actChange==='pick-terms-preset'"), 'Must handle pick-terms-preset in change handler');
+});
+
+// 16. Phase 2: 1-Click Document Conversion Lifecycle Actions
+test('Document Lifecycle Conversions: 1-click Convert to Invoice, Credit Note & Receipt wired in header & split views', () => {
+  assert.ok(html.includes('data-act="convert-to-inv"'), 'Must provide Convert to Invoice button');
+  assert.ok(html.includes('data-act="make-credit-note"'), 'Must provide Credit Note button');
+  assert.ok(html.includes('data-act="make-receipt"'), 'Must provide Receipt button');
+  assert.ok(rawScript.includes("case 'convert-to-inv':"), 'Must have convert-to-inv action handler');
+  assert.ok(rawScript.includes("case 'make-credit-note':"), 'Must have make-credit-note action handler');
+  assert.ok(rawScript.includes("case 'make-receipt':"), 'Must have make-receipt action handler');
+});
+
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
 if (passCount === totalCount) {
   console.log('🎉 ALL 7-ARCHETYPE & COMMERCIAL DOCUMENT SUITE TESTS PASSED!\n');
