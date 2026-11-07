@@ -981,6 +981,9 @@
     box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 4.5px #0f172a, 0 2px 6px rgba(0, 0, 0, 0.18) !important;
     z-index: 2;
   }
+  html[data-theme="dark"] .color-swatch.active {
+    box-shadow: 0 0 0 2.5px #1e293b, 0 0 0 4.5px #ffffff, 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  }
 
   /* Official Company Seal Stamp */
   .company-seal-stamp {
@@ -2360,8 +2363,7 @@ dialog.zf-closing::backdrop {
   body.layout-invowise #invoTopNavHost,
   body.layout-invowise #bannerHost,
   body.layout-invowise #app,
-  body.layout-invowise .wrap,
-  body.layout-invowise #appFooterHost {
+  body.layout-invowise .wrap {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
@@ -2369,6 +2371,23 @@ dialog.zf-closing::backdrop {
     padding-left: 0 !important;
     padding-right: 0 !important;
     box-sizing: border-box !important;
+  }
+  .invowise-container,
+  body.layout-invowise .invo-top-nav,
+  body.layout-invowise .page-h,
+  body.layout-invowise .toolbar,
+  body.layout-invowise .split-view,
+  body.layout-invowise .set,
+  body.layout-invowise .editor-wrap,
+  body.layout-invowise .clients-grid,
+  body.layout-invowise #appFooterHost {
+    max-width: 1380px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
   body.layout-invowise #app {
     position: relative !important;
@@ -2786,12 +2805,14 @@ dialog.zf-closing::backdrop {
     font-weight: 500;
   }
 
-  .invo-hero-metrics {
+  .invo-hero-metrics,
+  .invo-hero-metrics.bento-kpis {
     flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
     align-items: stretch;
+    margin-bottom: 0 !important;
   }
   .invo-metric-card {
     display: flex;
