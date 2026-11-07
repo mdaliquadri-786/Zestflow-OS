@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-We5EDGBpYug2Db/M5yBOeoEnS/37sHlnPdUBoecVmKA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Y/QhVZBftta/5M5CrFnTPLDFo3EoXMHW6DeWyQ7Aw9Y='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -11368,7 +11368,7 @@ dialog.zf-closing::backdrop {
     </div>`;
   }
     function editorHTML(){
-    const inv=ed.inv;
+    const inv=(ed&&ed.inv)?ed.inv:(ed||newInvoice());
     const docType = inv.title || 'invoice';
     const clientHeading = docType === 'po' ? 'Vendor / Supplier' : (docType === 'receipt' ? 'Payer / Received From' : (docType === 'claim' ? 'Sponsor / Organization' : 'Client'));
     const clientNameLabel = docType === 'po' ? 'Vendor / Supplier name' : (docType === 'receipt' ? 'Payer name' : 'Client name');
@@ -12409,6 +12409,7 @@ dialog.zf-closing::backdrop {
           <button type="button" class="btn" data-act="export-json">${icon('down')}<span>Export JSON backup</span></button>
           <button type="button" class="btn" data-act="import-json">${icon('up')}<span>Import backup</span></button>
           <button type="button" class="btn" data-act="export-csv">${icon('down')}<span>Export CSV</span></button>
+          <button type="button" class="btn" data-act="export-audit" style="border:1px solid var(--line);background:var(--surface-2)">📋 <span>Export Audit Trail</span></button>
           ${getSnapshot()?`<button type="button" class="btn" data-act="restore-snapshot">Undo / Restore last snapshot</button>`:''}
           <button type="button" class="btn danger" data-act="wipe">${icon('trash')}<span>Delete everything</span></button>
         </div>
@@ -13802,7 +13803,7 @@ dialog.zf-closing::backdrop {
           issue:todayISO(),
           due:todayISO()
         });
-        ed=soaDoc;
+        ed={inv:soaDoc,isNew:true,dirty:true};
         await navigate('editor');
         toast(`Generated Official Statement of Account for ${g.name}`,'ok');
         break;
@@ -13823,12 +13824,63 @@ dialog.zf-closing::backdrop {
       case 'export-csv':
         exportCSV();
         break;
+      case 'export-audit':{
+        const rows = [['Timestamp', 'ISO Date', 'Document Number', 'Type', 'Client Name', 'Currency', 'Amount', 'Status', 'Audit Event']];
+        S.invoices.forEach(i => {
+          const c = calc(i);
+          const hist = (i.history && i.history.length) ? i.history : [{ at: i.created, action: 'Document created' }];
+          hist.forEach(h => {
+            rows.push([
+              new Date(h.at).toISOString(),
+              fmtDate(i.issue, 'en'),
+              i.number,
+              normDocTitle(i.title || 'invoice'),
+              i.client.name || '(Unnamed)',
+              i.currency,
+              (c.total / 100).toFixed(2),
+              effStatus(i).toUpperCase(),
+              h.action
+            ]);
+          });
+        });
+        const csvContent = rows.map(r => r.map(csvCell).join(',')).join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `zestflow-audit-trail-${todayISO()}.csv`;
+        a.click();
+        toast('Audit trail exported successfully', 'ok');
+        break;
+      }
       case 'toggle-cash-drawer':{
         toggleCashDrawer();
         break;
       }
       case 'close-cash-drawer':{
         toggleCashDrawer(true);
+        break;
+      }
+      case 'close-migration-dlg':{
+        const dlg = $('#cloudSyncMigrationDlg');
+        if(dlg) closeDialogSmooth(dlg);
+        break;
+      }
+      case 'start-cloud-migration':{
+        const mode = b.dataset.mode || 'upload';
+        if (typeof syncEngine !== 'undefined' && syncEngine.executeMigration) {
+          await syncEngine.executeMigration(mode);
+        } else {
+          const dlg = $('#cloudSyncMigrationDlg');
+          if(dlg) closeDialogSmooth(dlg);
+        }
+        break;
+      }
+      case 'open-sync-status':{
+        if (typeof syncEngine !== 'undefined' && syncEngine.status === 'conflict') {
+          openConflictDialog();
+        } else {
+          await navigate('settings');
+        }
         break;
       }
       case 'sync-now':{
