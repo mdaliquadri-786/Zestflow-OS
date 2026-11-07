@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-i0sl7FXiTexqb1VMZwWN6ScnTbPQ5OZEK/+R4jc+voM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-77CZ6nOxNNf3fXIgNbk8AAJUBTOsERJP8MDaAtD0djg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -952,23 +952,56 @@
   .color-swatches-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 18px;
+    padding: 4px 2px;
   }
   .color-swatch {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     cursor: pointer;
-    border: 2.5px solid #ffffff;
-    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.15);
-    transition: transform 0.16s ease;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 1.5px rgba(15, 23, 42, 0.18), 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    padding: 0;
+    outline: none;
+    position: relative;
   }
-  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch:hover {
+    transform: scale(1.18);
+  }
   .color-swatch.active {
-    box-shadow: 0 0 0 2.5px #ff5733;
-    transform: scale(1.1);
+    transform: scale(1.28);
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 5.5px #ff5733, 0 4px 12px rgba(0, 0, 0, 0.22);
+    z-index: 2;
+  }
+  .invo-tpl-scroll-list {
+    max-height: 252px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+    border-radius: 8px;
+    overscroll-behavior: contain;
+  }
+  .invo-tpl-scroll-list::-webkit-scrollbar {
+    width: 5px;
+  }
+  .invo-tpl-scroll-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .invo-tpl-scroll-list::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 99px;
+  }
+  .invo-tpl-scroll-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.65);
   }
 
   /* Mobile Bottom Navigation - Universal Touch Architecture */
@@ -10793,14 +10826,26 @@ dialog.zf-closing::backdrop {
           '</div>' +
 
           /* Templates Selection Card */
-          '<div class="invo-card">' +
-            '<div class="invo-card-h">' +
-              '<div><h3 style="margin:0">Document &amp; Invoice Templates</h3><span style="font-size:12px;color:var(--muted)">6 Production Blueprints &amp; Studio</span></div>' +
-              '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents">↗</button>' +
-            '</div>' +
+          '<div class="invo-card" style="display:flex;flex-direction:column;justify-content:space-between">' +
+            '<div>' +
+              '<div class="invo-card-h" style="margin-bottom:8px">' +
+                '<div>' +
+                  '<div style="display:flex;align-items:center;gap:8px">' +
+                    '<h3 style="margin:0">Document &amp; Invoice Templates</h3>' +
+                    '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:rgba(255,87,51,0.08);color:#ff5733;letter-spacing:0.02em">6 Blueprints</span>' +
+                  '</div>' +
+                  '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">' +
+                    '<span style="font-size:11px;color:var(--muted)">Curated Studio Archetypes</span>' +
+                    '<span style="font-size:10.5px;color:#94a3b8;font-weight:500">↕ Scroll for more</span>' +
+                  '</div>' +
+                '</div>' +
+                '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents">↗</button>' +
+              '</div>' +
+
+              '<div class="invo-tpl-scroll-list" tabindex="0" role="region" aria-label="Curated Invoice Templates">' +
 
             /* 1. Modern SaaS Invoice */
-            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="modern" data-title="invoice">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #ff5733">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10820,7 +10865,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 2. Corporate Tax Invoice */
-            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="corporate" data-title="tax">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #0f2e5c">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10840,7 +10885,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 3. Official Payment Receipt */
-            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="compact" data-title="receipt">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #059669">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10859,7 +10904,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 4. Purchase Order (PO) */
-            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="corporate" data-title="po">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #7c3aed">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10878,7 +10923,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 5. Creative Studio Quotation */
-            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="creative" data-title="quote">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #e11d48">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10897,7 +10942,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 6. Consultant Claim & Timesheet */
-            '<div class="invo-tpl-item" style="margin-bottom:14px">' +
+            '<div class="invo-tpl-item" style="margin-bottom:4px;cursor:pointer" data-act="open-consultant-claim">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #0284c7">' +
                 '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
                   '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
@@ -10915,9 +10960,11 @@ dialog.zf-closing::backdrop {
               '</div>' +
               '<button type="button" class="invo-tpl-add" data-act="open-consultant-claim" title="Open Consultant Timesheet &amp; Expense Claim">+</button>' +
             '</div>' +
+              '</div>' + // Close .invo-tpl-scroll-list
+            '</div>' + // Close upper div
 
             /* Custom Studio Action */
-            '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:600;background:rgba(255,87,51,0.08);color:#ff5733;border:1px dashed rgba(255,87,51,0.35);padding:10px 14px;border-radius:12px">' +
+            '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:600;background:rgba(255,87,51,0.08);color:#ff5733;border:1px dashed rgba(255,87,51,0.35);padding:10px 14px;border-radius:12px;margin-top:12px">' +
               '🎨 Open Custom Design Studio' +
             '</button>' +
           '</div>' +
@@ -12833,6 +12880,17 @@ dialog.zf-closing::backdrop {
     const t=e.target;
     if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
+    if(t.dataset && t.dataset.actChange === 'pick-custom-hex' && ed) {
+      ed.inv.design = ed.inv.design || {};
+      ed.inv.design.accentColor = t.value;
+      ed.dirty = true;
+      $$('.color-swatch').forEach(s => {
+        const isMatch = s.dataset.color && s.dataset.color.toLowerCase() === t.value.toLowerCase();
+        s.classList.toggle('active', isMatch);
+      });
+      updatePreview();
+      return;
+    }
     if(t.id==='q'||t.id==='qInvo'||t.id==='qCash'||t.id==='qInvoMini'||(t.dataset&&t.dataset.act==='search-cash')){
       ui.q=t.value;
       const activeId = t.id;
@@ -12912,7 +12970,11 @@ dialog.zf-closing::backdrop {
       ed.inv.design = ed.inv.design || {};
       ed.inv.design.accentColor = t.value;
       ed.dirty = true;
-      schedulePreview();
+      $$('.color-swatch').forEach(s => {
+        const isMatch = s.dataset.color && s.dataset.color.toLowerCase() === t.value.toLowerCase();
+        s.classList.toggle('active', isMatch);
+      });
+      updatePreview();
     }
     if(t.dataset.actChange==='pick-font-family'&&ed){
       ed.inv.design = ed.inv.design || {};
@@ -13694,7 +13756,7 @@ dialog.zf-closing::backdrop {
         if(ed && ed.inv) {
           ed.inv.template = tpl;
           ed.dirty = true;
-          $('.tpl-chip').forEach(c => c.classList.toggle('active', c.dataset.tpl === tpl));
+          $$('.tpl-chip').forEach(c => c.classList.toggle('active', c.dataset.tpl === tpl));
           updatePreview();
           toast('Applied ' + (tpl.charAt(0).toUpperCase() + tpl.slice(1)) + ' template layout!', 'ok');
         }
@@ -13706,8 +13768,14 @@ dialog.zf-closing::backdrop {
           ed.inv.design = ed.inv.design || {};
           ed.inv.design.accentColor = hex;
           ed.dirty = true;
-          $('.color-swatch').forEach(s => s.classList.toggle('active', s.dataset.color === hex));
+          $$('.color-swatch').forEach(s => {
+            const isMatch = s.dataset.color && s.dataset.color.toLowerCase() === hex.toLowerCase();
+            s.classList.toggle('active', isMatch);
+          });
+          const customHexInput = $('[data-act-change="pick-custom-hex"]');
+          if(customHexInput) customHexInput.value = hex;
           updatePreview();
+          toast('Applied ' + (b.title || hex) + ' accent color!', 'ok');
         }
         break;
       }
@@ -13715,6 +13783,7 @@ dialog.zf-closing::backdrop {
         if(ed && ed.inv) {
           S.settings.defaultTemplate = ed.inv.template || 'classic';
           if(ed.inv.design && ed.inv.design.accentColor) S.settings.paperColor = ed.inv.design.accentColor;
+          if(ed.inv.design && ed.inv.design.fontFamily) S.settings.defaultFont = ed.inv.design.fontFamily;
           persist();
           toast('Saved as default document style for future invoices!', 'ok');
         }

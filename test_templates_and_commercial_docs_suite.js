@@ -270,7 +270,7 @@ test('Quotation: Stamped ESTIMATE / QUOTE with Valid Until and Estimated Total',
   assert.ok(paperHtml.includes('Estimated Total'), 'Must render Estimated Total');
 });
 
-// 10. Dashboard Templates Card: Zero Fake Metrics & Real SVGs
+// 10. Dashboard Templates Card: Zero Fake Metrics, Real SVGs & Inner Scroll
 test('Dashboard Templates Widget: Zero fake vanity counts and genuine SVG blueprints', () => {
   assert.ok(!html.includes('used by 1000 user'), 'Must NOT contain fake "used by 1000 user" text');
   assert.ok(!html.includes('used by 800 user'), 'Must NOT contain fake "used by 800 user" text');
@@ -281,15 +281,26 @@ test('Dashboard Templates Widget: Zero fake vanity counts and genuine SVG bluepr
   assert.ok(html.includes('Creative Studio Quote'), 'Must list Creative Studio Quote');
   assert.ok(html.includes('Consultant Claim'), 'Must list Consultant Claim');
   assert.ok(html.includes('🎨 Open Custom Design Studio'), 'Must feature Open Custom Design Studio button');
+  assert.ok(html.includes('invo-tpl-scroll-list'), 'Must wrap blueprints in .invo-tpl-scroll-list');
+  assert.ok(html.includes('Scroll for more'), 'Must show Scroll for more indicator');
+  assert.ok(html.includes('max-height: 252px'), 'Must apply max-height scroll boundary in CSS');
 });
 
-// 11. Design Studio Drawer in DOM
-test('Design Studio Drawer: Interactive controls exist in DOM', () => {
+// 11. Design Studio Drawer & Event Wiring in DOM
+test('Design Studio Drawer: Interactive controls exist in DOM and handlers are cleanly wired', () => {
   assert.ok(html.includes('id="designStudioDrawer"'), 'Must render #designStudioDrawer');
   assert.ok(html.includes('data-act="pick-tpl-archetype" data-tpl="modern"'), 'Must have Modern SaaS archetype chip');
   assert.ok(html.includes('data-act="pick-tpl-archetype" data-tpl="corporate"'), 'Must have Corporate archetype chip');
   assert.ok(html.includes('data-act="pick-accent-color" data-color="#ff5733"'), 'Must have Zest Amber color swatch');
   assert.ok(html.includes('data-act="set-default-design"'), 'Must have Save as Default button');
+  // Check active color swatch scaling and outline
+  assert.ok(html.includes('.color-swatch.active'), 'Must have .color-swatch.active style');
+  assert.ok(html.includes('transform: scale(1.28)'), 'Active swatch must pop to scale(1.28)');
+  // Strict check that $$ is used for multiple elements (no single $ querySelector)
+  assert.ok(!/[^$]\$\('\.tpl-chip'\)\.forEach/.test(rawScript), 'Must NOT call forEach on single $ querySelector for .tpl-chip');
+  assert.ok(!/[^$]\$\('\.color-swatch'\)\.forEach/.test(rawScript), 'Must NOT call forEach on single $ querySelector for .color-swatch');
+  assert.ok(rawScript.includes("$$('.tpl-chip').forEach"), 'Must use $$ querySelectorAll for .tpl-chip');
+  assert.ok(rawScript.includes("$$('.color-swatch').forEach"), 'Must use $$ querySelectorAll for .color-swatch');
 });
 
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
