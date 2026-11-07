@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mo36ejlntkV8IDTV9uqBdSyg9VvcfyMPu0PUR6eXjZ8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-i0sl7FXiTexqb1VMZwWN6ScnTbPQ5OZEK/+R4jc+voM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -684,6 +684,292 @@
   .stamp{display:inline-block;margin-top:10px;border:2px solid #1f9d63;color:#1f9d63;font-weight:700;font-size:14px;letter-spacing:.08em;padding:2px 12px;border-radius:6px;text-transform:uppercase;line-height:1.6}
   .ph{color:#b0b5c0;font-weight:500}
   #printRoot{display:none}
+
+  /* ==========================================================================
+     ZESTFLOW 7 CURATED INDUSTRIAL ARCHETYPES & DOCUMENT SUITE CSS ENGINE
+     ========================================================================== */
+  /* Stamp & Badge Variants */
+  .stamp.stamp-paid { border-color: #059669; color: #059669; background: #ecfdf5; }
+  .stamp.stamp-quote { border-color: #0284c7; color: #0284c7; background: #f0f9ff; }
+  .stamp.stamp-po { border-color: #7c3aed; color: #7c3aed; background: #f5f3ff; }
+  .stamp.stamp-proforma { border-color: #d97706; color: #d97706; background: #fffbeb; }
+  .stamp.stamp-credit { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+  .stamp.stamp-claim { border-color: #0284c7; color: #0284c7; background: #f0f9ff; }
+  .stamp.stamp-sent { border-color: #64748b; color: #475569; background: #f8fafc; }
+  .stamp.stamp-void { border-color: #94a3b8; color: #94a3b8; background: #f1f5f9; text-decoration: line-through; }
+
+  /* 1. Modern SaaS (Stripe-Grade) Archetype */
+  .paper.tpl-modern {
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .paper.tpl-modern .p-top {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 24px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+  }
+  .paper.tpl-modern .p-title .stamp {
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+  .paper.tpl-modern .p-tbl th {
+    background: #f1f5f9;
+    border: none;
+    font-size: 11px;
+    color: #475569;
+    padding: 11px 12px;
+  }
+  .paper.tpl-modern .p-tbl th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+  .paper.tpl-modern .p-tbl th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+  .paper.tpl-modern .p-tbl td {
+    padding: 12px 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .paper.tpl-modern .p-tot .g {
+    border-radius: 10px;
+    background: var(--ink);
+    padding: 12px 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  /* 2. Minimalist Swiss / Tech Archetype */
+  .paper.tpl-minimal {
+    box-shadow: none;
+  }
+  .paper.tpl-minimal .p-top {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 16px;
+  }
+  .paper.tpl-minimal .p-title h2 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .paper.tpl-minimal .p-tbl th {
+    background: transparent;
+    border-bottom: 1px solid #0f172a;
+    font-size: 11px;
+    color: #64748b;
+  }
+  .paper.tpl-minimal .p-tbl td {
+    border-bottom: 1px solid #f1f5f9;
+    font-variant-numeric: tabular-nums;
+  }
+  .paper.tpl-minimal .p-tot .g {
+    background: transparent;
+    color: var(--ink);
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    border-radius: 0;
+    padding: 8px 4px;
+    font-size: 16px;
+  }
+
+  /* 3. Corporate Executive / Ledger Archetype */
+  .paper.tpl-corporate {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+  .paper.tpl-corporate .p-top {
+    background: var(--ink);
+    color: #ffffff !important;
+    margin: -56px -56px 24px -56px;
+    padding: 36px 56px 28px 56px;
+    border-bottom: none;
+  }
+  .paper.tpl-corporate .p-top .p-biz .n,
+  .paper.tpl-corporate .p-top .p-biz .s,
+  .paper.tpl-corporate .p-top .p-title h2,
+  .paper.tpl-corporate .p-top .p-title .no {
+    color: #ffffff !important;
+  }
+  .paper.tpl-corporate .p-top .p-biz .s { opacity: 0.85; }
+  .paper.tpl-corporate .p-top .p-title .no { opacity: 0.85; }
+  .paper.tpl-corporate .p-meta {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .paper.tpl-corporate .p-tbl th {
+    background: #1e293b;
+    color: #ffffff;
+    border: none;
+    font-weight: 700;
+  }
+  .paper.tpl-corporate .p-tbl td {
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .paper.tpl-corporate .p-tot .g {
+    background: #1e293b;
+    color: #ffffff;
+    border-radius: 4px;
+    border-bottom: 3px double #94a3b8;
+  }
+
+  /* 4. Creative Studio / Editorial Archetype */
+  .paper.tpl-creative {
+    border-left: 6px solid var(--ink);
+    padding-left: 50px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+  .paper.tpl-creative .p-title h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: none;
+  }
+  .paper.tpl-creative .p-top {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 24px;
+  }
+  .paper.tpl-creative .p-tbl th {
+    background: transparent;
+    border-bottom: 2px solid var(--ink);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+  .paper.tpl-creative .p-tbl td {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 14px 8px;
+  }
+  .paper.tpl-creative .p-tot .g {
+    background: transparent;
+    color: var(--ink);
+    border-bottom: 3px solid var(--ink);
+    border-radius: 0;
+    padding: 10px 0;
+  }
+
+  /* 5. Consultant Claim / Timesheet Archetype */
+  .paper.tpl-claim {
+    border-top: 5px solid #0284c7;
+  }
+  .paper.tpl-claim .claim-badge {
+    background: #f0f9ff;
+    color: #0284c7;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 8px;
+    border: 1px solid #bae6fd;
+  }
+  .paper.tpl-claim .p-tbl th {
+    background: #f0f9ff;
+    color: #0369a1;
+    border-bottom: 1px solid #bae6fd;
+  }
+  .paper.tpl-claim .p-tot .g {
+    background: #0284c7;
+    color: #ffffff;
+    border-radius: 6px;
+  }
+
+  /* 6. Compact Retail / POS Receipt Archetype */
+  .paper.tpl-compact {
+    padding: 36px 40px;
+    font-size: 13px;
+  }
+  .paper.tpl-compact .p-top {
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #cbd5e1;
+  }
+  .paper.tpl-compact .p-title h2 { font-size: 22px; }
+  .paper.tpl-compact .p-meta { padding: 12px 0; }
+  .paper.tpl-compact .p-tbl th { padding: 6px 6px; font-size: 11px; }
+  .paper.tpl-compact .p-tbl td { padding: 8px 6px; border-bottom: 1px dashed #e2e8f0; font-size: 12px; }
+  .paper.tpl-compact .p-tot { width: 260px; margin-top: 12px; }
+  .paper.tpl-compact .p-tot .g { padding: 8px 10px; font-size: 14px; border-radius: 4px; }
+
+  /* 7. Classic Clean (Default) */
+  .paper.tpl-classic {
+    /* Uses base .paper styles cleanly */
+  }
+
+  /* Custom Design Studio Drawer */
+  .design-studio-drawer {
+    background: var(--surface-2, #ffffff);
+    border: 1.5px solid var(--line, rgba(15, 23, 42, 0.12));
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    animation: studioSlideDown 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes studioSlideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .studio-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted, #64748b);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tpl-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .tpl-chip {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--line, rgba(15, 23, 42, 0.12));
+    background: var(--surface-1, #f8fafc);
+    color: var(--ink, #0f172a);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+  }
+  .tpl-chip:hover {
+    border-color: #ff5733;
+    background: rgba(255, 87, 51, 0.04);
+  }
+  .tpl-chip.active {
+    border-color: #ff5733;
+    background: #ff5733;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(255, 87, 51, 0.35);
+  }
+  .color-swatches-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.15);
+    transition: transform 0.16s ease;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active {
+    box-shadow: 0 0 0 2.5px #ff5733;
+    transform: scale(1.1);
+  }
 
   /* Mobile Bottom Navigation - Universal Touch Architecture */
   .mob-nav {
@@ -6043,6 +6329,7 @@ dialog.zf-closing::backdrop {
         payment:str(d.payment,1200),notes:str(d.notes,1200)
       },
       theme:s.theme==='light'?'light':'dark',layout:['invowise','cashfund'].includes(s.layout)?s.layout:'invowise',
+      defaultTemplate:['modern','minimal','corporate','creative','claim','compact','classic'].includes(s.defaultTemplate)?s.defaultTemplate:'classic',
       paperColor:['#14171f','#b88628','#0284c7','#047857','#ea580c'].includes(s.paperColor)?s.paperColor:(str(s.paperColor,20)||'#14171f'),
       bilingualPrint:Boolean(s.bilingualPrint),
       numerals:s.numerals==='arabic_indic'?'arabic_indic':'western',
@@ -6099,6 +6386,20 @@ dialog.zf-closing::backdrop {
       currency:CURRENCIES.includes(x.currency)?x.currency:'USD',
       lang:T[x.lang]?x.lang:'en',
       title:['invoice','tax','quote','proforma','credit','receipt','voucher','po','statement','claim'].includes(x.title)?x.title:'invoice',
+      template:['modern','minimal','corporate','creative','claim','compact','classic'].includes(x.template)?x.template:'classic',
+      design:(typeof x.design==='object'&&x.design!==null)?{
+        accentColor:str(x.design.accentColor||'',20),
+        fontFamily:str(x.design.fontFamily||'',60),
+        headerStyle:str(x.design.headerStyle||'',20),
+        tableDensity:str(x.design.tableDensity||'',20),
+        signatureStyle:str(x.design.signatureStyle||'',20)
+      }:{
+        accentColor:str(x.accentColor||'',20),
+        fontFamily:str(x.fontFamily||'',60),
+        headerStyle:str(x.headerStyle||'',20),
+        tableDensity:str(x.tableDensity||'',20),
+        signatureStyle:str(x.signatureStyle||'',20)
+      },
       taxMode:x.taxMode==='inclusive'?'inclusive':'exclusive',
       taxRegime:['simple','gst_in'].includes(x.taxRegime)?x.taxRegime:'',
       supplierState:str(x.supplierState,80),
@@ -6685,11 +6986,16 @@ dialog.zf-closing::backdrop {
     d.next=seq;
     return candidate;
   }
-  function newInvoice(prefillClient){
+  function newInvoice(prefillClient, tplOptions){
     const d=S.settings.defaults,b=S.settings.business,t=todayISO();
+    const opts=tplOptions||{};
     const inv=normInvoice({
-      id:uid(),number:makeNumber(),status:'draft',issue:t,due:addDays(t,d.dueDays),
-      currency:d.currency,lang:d.lang,taxRate:d.taxRate,taxLabel:d.taxLabel,
+      id:uid(),number:makeNumber(),status:opts.status||'draft',issue:t,due:addDays(t,d.dueDays),
+      currency:opts.currency||d.currency,lang:opts.lang||d.lang,
+      title:opts.title||'invoice',
+      template:opts.template||S.settings.defaultTemplate||'classic',
+      design:opts.design||{},
+      taxRate:d.taxRate,taxLabel:d.taxLabel,
       taxMode:d.taxMode||'exclusive',taxRegime:b.taxRegime||'simple',
       supplierState:b.state||'',roundingMode:d.roundingMode||'none',
       payment:d.payment,notes:d.notes,showSignature:!!S.settings.signature
@@ -8733,6 +9039,11 @@ dialog.zf-closing::backdrop {
     opts=opts||{};const st=S.settings,b=st.business,L=T[inv.lang]||T.en,c=calc(inv),es=effStatus(inv);
     const t=Object.assign({},c,{grand:c.total/100});
     const sellerName=((inv.seller&&inv.seller.name)||b.name||getActiveUserDisplayName()).trim();
+    const tpl = inv.template || st.defaultTemplate || 'classic';
+    const curAccent = (inv.design && inv.design.accentColor) || st.paperColor || '#14171f';
+    const curFont = (inv.design && inv.design.fontFamily) || '';
+    const fontStyleAttr = curFont ? `font-family:${curFont};` : '';
+
     const signBlockHTML='<div class="p-sign" style="text-align:right;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;min-height:70px"><div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.06em">For '+esc(sellerName||'Authorised Business')+'</div><div style="font-family:Georgia,serif;font-style:italic;font-size:15px;color:var(--ink);margin:10px 0 4px;opacity:.85">'+esc(sellerName||'Authorized Signatory')+'</div><div style="border-top:1px solid #cbd5e1;padding-top:4px;font-size:10px;color:#64748b;min-width:140px;text-align:center">Authorized Signatory</div></div>';
     const numMode=(inv.lang==='ar'||inv.lang==='ur')?st.numerals:'western';
     const D=v=>fmtDigits(v,numMode);
@@ -8783,14 +9094,46 @@ dialog.zf-closing::backdrop {
       payLinkHTML='<div style="margin-top:12px"><a href="'+esc(payLink)+'" target="_blank" rel="noopener noreferrer" class="p-pay-link"><span>💳 Pay Invoice Online</span></a></div>';
     }
 
-    return `<div class="paper" lang="${inv.lang}" dir="${L.dir}" style="--ink:${esc(st.paperColor||'#14171f')};">
+    // Dynamic Context Stamps & Headings
+    let stampHTML = '';
+    if (inv.title === 'receipt' || es === 'paid') {
+      stampHTML = `<div class="stamp stamp-paid">${esc(inv.title === 'receipt' ? 'OFFICIAL RECEIPT' : L.paid)}</div>`;
+    } else if (inv.title === 'quote') {
+      stampHTML = `<div class="stamp stamp-quote">ESTIMATE / QUOTE</div>`;
+    } else if (inv.title === 'po') {
+      stampHTML = `<div class="stamp stamp-po">PURCHASE ORDER</div>`;
+    } else if (inv.title === 'proforma') {
+      stampHTML = `<div class="stamp stamp-proforma">PRO FORMA</div>`;
+    } else if (inv.title === 'credit') {
+      stampHTML = `<div class="stamp stamp-credit">CREDIT NOTE</div>`;
+    } else if (inv.title === 'claim') {
+      stampHTML = `<div class="stamp stamp-claim">OFFICIAL CLAIM</div>`;
+    } else if (es === 'sent') {
+      stampHTML = `<div class="stamp stamp-sent">ISSUED</div>`;
+    } else if (es === 'void') {
+      stampHTML = `<div class="stamp stamp-void">VOID</div>`;
+    }
+
+    // Context-sensitive counterparty and date labels
+    const clientHeadingLabel = inv.title === 'po' ? (inv.lang==='ar'?'المورّد':(inv.lang==='ur'?'فروخت کنندہ':'Vendor / Supplier')) :
+                               (inv.title === 'receipt' ? (inv.lang==='ar'?'المستلم منه':(inv.lang==='ur'?'وصول کنندہ':'Received From')) :
+                               (inv.title === 'claim' ? (inv.lang==='ar'?'الجهة المقدم إليها':(inv.lang==='ur'?'پیش خدمت':'Submitted To')) : lbl('billTo')));
+    const dueDateLabel = inv.title === 'quote' ? (inv.lang==='ar'?'صالح حتى':(inv.lang==='ur'?'قابل عمل تا':'Valid Until')) :
+                          (inv.title === 'po' ? (inv.lang==='ar'?'تاريخ التوريد':(inv.lang==='ur'?'تاریخ ترسیل':'Delivery Expected')) :
+                          (inv.title === 'receipt' ? (inv.lang==='ar'?'تاريخ السداد':(inv.lang==='ur'?'تاریخ ادائیگی':'Payment Date')) : lbl('due')));
+    const totalGrandLabel = inv.title === 'receipt' ? 'Amount Received & Settled' :
+                            (inv.title === 'quote' ? 'Estimated Total' :
+                            (inv.title === 'po' ? 'Total Order Value' : (es === 'paid' ? L.total : L.amountDue)));
+
+    return `<div class="paper tpl-${esc(tpl)}" lang="${inv.lang}" dir="${L.dir}" style="--ink:${esc(curAccent)};${fontStyleAttr}">
+      ${tpl === 'claim' || inv.title === 'claim' ? '<div class="claim-badge">Institutional Timesheet &amp; Reimbursement Matrix</div>' : ''}
       <div class="p-top">
         <div class="p-biz">${b.logo?`<img class="p-logo" src="${b.logo}" alt="">`:''}<div class="n">${biz}</div><div class="s">${esc(bizLines)}</div></div>
-        <div class="p-title"><h2>${esc(title)}</h2><div class="no"><span class="num">${esc(D(inv.number))}</span></div>${es==='paid'?`<div class="stamp">${esc(L.paid)}</div>`:''}</div>
+        <div class="p-title"><h2>${esc(title)}</h2><div class="no"><span class="num">${esc(D(inv.number))}</span></div>${stampHTML}</div>
       </div>
       <div class="p-meta">
-        <div><h3>${esc(lbl('billTo'))}</h3><div class="cn">${cl.name?esc(cl.name):(opts.preview?'<span class="ph">Client name</span>':'')}</div><div class="cs">${esc(clLines)}</div></div>
-        <dl class="p-dates" style="margin:0"><dt>${esc(lbl('issued'))}</dt><dd>${esc(D(fmtDate(inv.issue,inv.lang)))}</dd><dt>${esc(lbl('due'))}</dt><dd>${esc(D(fmtDate(inv.due,inv.lang)))}</dd></dl>
+        <div><h3>${esc(clientHeadingLabel)}</h3><div class="cn">${cl.name?esc(cl.name):(opts.preview?'<span class="ph">Client name</span>':'')}</div><div class="cs">${esc(clLines)}</div></div>
+        <dl class="p-dates" style="margin:0"><dt>${esc(lbl('issued'))}</dt><dd>${esc(D(fmtDate(inv.issue,inv.lang)))}</dd><dt>${esc(dueDateLabel)}</dt><dd>${esc(D(fmtDate(inv.due,inv.lang)))}</dd></dl>
       </div>
       <table class="p-tbl"><thead><tr><th>${esc(lbl('desc'))}</th><th class="n">${esc(lbl('qty'))}</th><th class="n">${esc(lbl('rate'))}</th><th class="n">${esc(lbl('amount'))}</th></tr></thead><tbody>${rows||`<tr><td class="d ph" colspan="4">&nbsp;</td></tr>`}</tbody></table>
       <div class="p-tot">
@@ -8799,8 +9142,8 @@ dialog.zf-closing::backdrop {
         ${inv.taxMode==='inclusive'&&c.tax>0?`<div><span>Taxable value</span>${M(c.taxable)}</div>`:''}
         ${taxRowsHTML}
         ${c.roundingDelta!==0?`<div><span>Rounding</span><span class="num">${c.roundingDelta>0?'+':'−'}${esc(fmtMoney(Math.abs(c.roundingDelta),inv.currency))}</span></div>`:''}
-        <div class="g"><span>${esc(es==='paid'?L.total:L.amountDue)}</span>${M(es==='paid'?c.total:c.balanceMinor)}</div>
-        ${c.netPaidMinor>0&&c.balanceMinor>0?`<div><span>${esc(L.paid)}</span>${M(c.netPaidMinor)}</div><div><span><strong>Balance due</strong></span>${M(c.balanceMinor)}</div>`:''}
+        <div class="g"><span>${esc(totalGrandLabel)}</span>${M(es==='paid'||inv.title==='receipt'?c.total:c.balanceMinor)}</div>
+        ${c.netPaidMinor>0&&c.balanceMinor>0&&inv.title!=='receipt'?`<div><span>${esc(L.paid)}</span>${M(c.netPaidMinor)}</div><div><span><strong>Balance due</strong></span>${M(c.balanceMinor)}</div>`:''}
         ${c.overpaidMinor>0?`<div><span>Overpaid credit</span>${M(c.overpaidMinor)}</div>`:''}
       </div>
       <div class="p-words" style="margin-top:10px;padding:8px 12px;background:#f8fafc;border-left:3px solid var(--ink);font-size:11px;color:#334155"><strong>Amount in Words:</strong> ${esc(amountInWords(t.grand, inv.currency))}</div>
@@ -8810,13 +9153,22 @@ dialog.zf-closing::backdrop {
           ${inv.payment?`<div><h3>${esc(L.payment)}</h3><p>${esc(inv.payment)}</p></div>`:''}
           ${inv.notes?`<div style="margin-top:8px"><h3>${esc(L.notes)}</h3><p>${esc(inv.notes)}</p></div>`:''}
         </div>
-        ${signBlockHTML}
+        ${tpl === 'corporate' ? `
+          <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end">
+            <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">For ${esc(sellerName||'Authorised Business')}</div>
+            <div style="display:flex;gap:24px">
+              <div style="border-top:1px solid #cbd5e1;padding-top:4px;font-size:10px;color:#64748b;min-width:110px;text-align:center">Prepared By</div>
+              <div style="border-top:1px solid #cbd5e1;padding-top:4px;font-size:10px;color:#64748b;min-width:130px;text-align:center">Authorized Signatory</div>
+            </div>
+          </div>
+        ` : signBlockHTML}
       </div>
       ${inv.showSignature&&st.signature?`<div class="p-sig"><img src="${st.signature}" alt=""><div class="ln">${esc(L.signature)}</div></div>`:''}
       <div class="p-sp"></div>
       ${st.showCredit?'<div class="p-credit">Made with ZestFlow · Engineered by Mohammed Ali Quadri · CodeWithAli</div>':''}
     </div>`;
   }
+
 
   /* ---------- state-driven navigation (works on file:// without relying on hashchange) ---------- */
   var ui={
@@ -10443,56 +10795,131 @@ dialog.zf-closing::backdrop {
           /* Templates Selection Card */
           '<div class="invo-card">' +
             '<div class="invo-card-h">' +
-              '<h3>Invoices Template</h3>' +
-              '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices">↗</button>' +
-            '</div>' +
-            '<div class="invo-tpl-item" style="margin-bottom:14px">' +
-              '<div class="invo-tpl-meta">' +
-                '<strong>Simple Invoices</strong>' +
-                '<span>used by 1000 user</span>' +
-              '</div>' +
-              '<div class="invo-tpl-thumb">' +
-                '<div class="invo-mini-paper">' +
-                  '<div class="invo-mini-line w-40"></div>' +
-                  '<div class="invo-mini-line w-70"></div>' +
-                  '<div class="invo-mini-line w-90"></div>' +
-                  '<div class="invo-mini-line w-60"></div>' +
-                '</div>' +
-              '</div>' +
-              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="simple">+</button>' +
+              '<div><h3 style="margin:0">Document &amp; Invoice Templates</h3><span style="font-size:12px;color:var(--muted)">6 Production Blueprints &amp; Studio</span></div>' +
+              '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents">↗</button>' +
             '</div>' +
 
-            '<div class="invo-tpl-item" style="margin-bottom:14px">' +
-              '<div class="invo-tpl-meta">' +
-                '<strong>Creative Invoices</strong>' +
-                '<span>used by 800 user</span>' +
-              '</div>' +
+            /* 1. Modern SaaS Invoice */
+            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
               '<div class="invo-tpl-thumb" style="border-left:3px solid #ff5733">' +
-                '<div class="invo-mini-paper">' +
-                  '<div class="invo-mini-line orange w-50"></div>' +
-                  '<div class="invo-mini-line w-80"></div>' +
-                  '<div class="invo-mini-line w-70"></div>' +
-                  '<div class="invo-mini-line w-90"></div>' +
-                '</div>' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="12" height="4" rx="2" fill="#FF5733"/>' +
+                  '<rect x="22" y="5" width="8" height="4" rx="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="14" width="26" height="2" fill="#CBD5E1"/>' +
+                  '<rect x="4" y="20" width="18" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="26" width="14" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="18" y="32" width="12" height="6" rx="2" fill="#FF5733"/>' +
+                '</svg>' +
               '</div>' +
-              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="creative">+</button>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Modern SaaS Invoice</strong>' +
+                '<span>Tech, Startups &amp; Retainers</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="modern" data-title="invoice" title="Create Modern SaaS Invoice">+</button>' +
             '</div>' +
 
-            '<div class="invo-tpl-item">' +
+            /* 2. Corporate Tax Invoice */
+            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #0f2e5c">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect width="34" height="10" rx="4" fill="#0F2E5C"/>' +
+                  '<rect x="4" y="14" width="12" height="2" fill="#94A3B8"/>' +
+                  '<rect x="18" y="14" width="12" height="2" fill="#94A3B8"/>' +
+                  '<rect x="4" y="20" width="26" height="2" fill="#CBD5E1"/>' +
+                  '<rect x="4" y="25" width="26" height="2" fill="#CBD5E1"/>' +
+                  '<rect x="16" y="33" width="14" height="4" rx="1" fill="#0F2E5C"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Corporate Tax Invoice</strong>' +
+                '<span>GST, Tax &amp; Enterprise Ledger</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="corporate" data-title="tax" title="Create Corporate Tax Invoice">+</button>' +
+            '</div>' +
+
+            /* 3. Official Payment Receipt */
+            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #059669">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="16" height="4" rx="2" fill="#059669"/>' +
+                  '<circle cx="26" cy="7" r="3" fill="#10B981"/>' +
+                  '<rect x="4" y="14" width="26" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="20" width="20" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="6" y="28" width="22" height="8" rx="3" fill="#ECFDF5" stroke="#059669" stroke-width="1"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Official Payment Receipt</strong>' +
+                '<span>Settlement, Proof &amp; Zero Balance</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="compact" data-title="receipt" title="Create Official Payment Receipt">+</button>' +
+            '</div>' +
+
+            /* 4. Purchase Order (PO) */
+            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #7c3aed">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="14" height="4" rx="2" fill="#7C3AED"/>' +
+                  '<rect x="4" y="13" width="26" height="2" fill="#CBD5E1"/>' +
+                  '<rect x="4" y="19" width="16" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="25" width="22" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="32" width="12" height="5" rx="2" fill="#7C3AED"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Purchase Order (PO)</strong>' +
+                '<span>Procurement, Vendors &amp; Orders</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="corporate" data-title="po" title="Create Purchase Order">+</button>' +
+            '</div>' +
+
+            /* 5. Creative Studio Quotation */
+            '<div class="invo-tpl-item" style="margin-bottom:12px">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #e11d48">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="2" y="2" width="3" height="38" fill="#E11D48"/>' +
+                  '<rect x="8" y="6" width="14" height="3" fill="#0F172A"/>' +
+                  '<rect x="8" y="14" width="22" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="8" y="20" width="18" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="8" y="30" width="20" height="2" fill="#E11D48"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Creative Studio Quote</strong>' +
+                '<span>Design, Media &amp; Proposals</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="creative" data-title="quote" title="Create Creative Quotation">+</button>' +
+            '</div>' +
+
+            /* 6. Consultant Claim & Timesheet */
+            '<div class="invo-tpl-item" style="margin-bottom:14px">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #0284c7">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="26" height="3" fill="#0284C7"/>' +
+                  '<rect x="4" y="12" width="26" height="2" fill="#BAE6FD"/>' +
+                  '<rect x="4" y="18" width="26" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="24" width="26" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="32" width="10" height="4" rx="1" fill="#0284C7"/>' +
+                  '<rect x="20" y="32" width="10" height="4" rx="1" fill="#0284C7"/>' +
+                '</svg>' +
+              '</div>' +
               '<div class="invo-tpl-meta">' +
                 '<strong>Consultant Claim</strong>' +
                 '<span>Timesheet, Cab &amp; Jamia</span>' +
               '</div>' +
-              '<div class="invo-tpl-thumb" style="border-left:3px solid #0284c7">' +
-                '<div class="invo-mini-paper">' +
-                  '<div class="invo-mini-line w-50" style="background:#0284c7"></div>' +
-                  '<div class="invo-mini-line w-80"></div>' +
-                  '<div class="invo-mini-line w-70"></div>' +
-                  '<div class="invo-mini-line w-90"></div>' +
-                '</div>' +
-              '</div>' +
               '<button type="button" class="invo-tpl-add" data-act="open-consultant-claim" title="Open Consultant Timesheet &amp; Expense Claim">+</button>' +
             '</div>' +
+
+            /* Custom Studio Action */
+            '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:600;background:rgba(255,87,51,0.08);color:#ff5733;border:1px dashed rgba(255,87,51,0.35);padding:10px 14px;border-radius:12px">' +
+              '🎨 Open Custom Design Studio' +
+            '</button>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -10635,8 +11062,9 @@ dialog.zf-closing::backdrop {
       <button type="button" class="btn sm danger" data-act="del" data-id="${esc(inv.id)}">${icon('trash')}<span>Delete</span></button>
     </div>
     <div class="insp-acts">
-      ${inv.title==='quote'||inv.title==='proforma'?`<button type="button" class="btn sm" data-act="convert-to-inv" data-id="${esc(inv.id)}">Convert to Invoice</button>`:''}
-      ${inv.title==='invoice'||inv.title==='tax'?`<button type="button" class="btn sm" data-act="make-credit-note" data-id="${esc(inv.id)}">Create Credit Note</button>`:''}
+      ${inv.title==='quote'||inv.title==='proforma'?`<button type="button" class="btn sm primary" data-act="convert-to-inv" data-id="${esc(inv.id)}">🚀 Convert to Invoice</button>`:''}
+      ${(es==='paid'&&inv.title!=='receipt')?`<button type="button" class="btn sm" data-act="make-receipt" data-id="${esc(inv.id)}" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.25)">🧾 Official Receipt</button>`:''}
+      ${inv.title==='invoice'||inv.title==='tax'?`<button type="button" class="btn sm" data-act="make-credit-note" data-id="${esc(inv.id)}">↩️ Create Credit Note</button>`:''}
     </div>
     <div class="paper-frame" id="inspPreviewHost"><div id="inspPaperWrap">${renderPaper(inv,{})}</div></div>
     ${(inv.history&&inv.history.length)?`<div style="font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px"><b>Local activity log (editable browser storage)</b><ul class="pay-list">${inv.history.slice(0,5).map(h=>`<li class="pay-item"><span>${esc(h.action)}</span><span style="color:var(--faint)">${esc(new Date(h.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}))}</span></li>`).join('')}</ul></div>`:''}`;
@@ -10679,8 +11107,16 @@ dialog.zf-closing::backdrop {
       <button class="btn ghost icon it-x" type="button" data-act="rm-item" data-i="${i}" aria-label="Remove item ${i+1}" title="Remove">${icon('trash')}</button>
     </div>`;
   }
-  function editorHTML(){
+    function editorHTML(){
     const inv=ed.inv;
+    const docType = inv.title || 'invoice';
+    const clientHeading = docType === 'po' ? 'Vendor / Supplier' : (docType === 'receipt' ? 'Payer / Received From' : (docType === 'claim' ? 'Sponsor / Organization' : 'Client'));
+    const clientNameLabel = docType === 'po' ? 'Vendor / Supplier name' : (docType === 'receipt' ? 'Payer name' : 'Client name');
+    const numberLabel = docType === 'po' ? 'PO number' : (docType === 'receipt' ? 'Receipt number' : (docType === 'quote' ? 'Quotation number' : (docType === 'claim' ? 'Claim number' : (docType === 'credit' ? 'Credit Note number' : 'Invoice number'))));
+    const dueLabel = docType === 'quote' ? 'Valid until date' : (docType === 'po' ? 'Expected delivery' : (docType === 'receipt' ? 'Settlement date' : 'Due date'));
+    const curAccent = (inv.design && inv.design.accentColor) || S.settings.paperColor || '#14171f';
+    const curFont = (inv.design && inv.design.fontFamily) || '';
+
     return `<div class="page-h">
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <button class="btn ghost icon" type="button" data-act="nav" data-page="invoices" aria-label="Back to invoices" title="Back">${icon('back')}</button>
@@ -10688,12 +11124,68 @@ dialog.zf-closing::backdrop {
           <span id="edBadge"></span>
         </div>
         <div class="page-h-acts">
+          <button class="btn" type="button" data-act="toggle-design-studio" id="btnDesignStudio" style="border-color:rgba(255,87,51,0.3);color:#ff5733;background:rgba(255,87,51,0.06)">🎨 <span>Design Studio</span></button>
+          ${(inv.title==='quote'||inv.title==='proforma')?`<button class="btn primary" type="button" data-act="convert-to-inv" data-id="${esc(inv.id)}">🚀 <span>Convert to Invoice</span></button>`:''}
+          ${(effStatus(inv)==='paid'&&inv.title!=='receipt')?`<button class="btn" type="button" data-act="make-receipt" data-id="${esc(inv.id)}" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.25)">🧾 <span>Receipt</span></button>`:''}
           <button class="btn" type="button" data-act="ai-open-prompt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg><span>AI Generate</span></button>
           <button class="btn" type="button" data-act="share-whatsapp">💬 <span>WhatsApp</span></button>
           <button class="btn" type="button" data-act="print">${icon('print')}<span>Print / Save PDF</span></button>
-          <button class="btn primary" type="button" data-act="save">${icon('check')}<span>Save invoice</span></button>
+          <button class="btn primary" type="button" data-act="save">${icon('check')}<span>Save document</span></button>
         </div>
       </div>
+
+      <!-- Universal Invoice & Document Design Studio Drawer -->
+      <div id="designStudioDrawer" class="design-studio-drawer" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:10px">
+          <div>
+            <h3 style="margin:0;font-size:15px;display:flex;align-items:center;gap:6px">🎨 <span>Universal Invoice &amp; Document Design Studio</span></h3>
+            <span style="font-size:12px;color:var(--muted)">Customize typography, visual layout, and color accents in real time</span>
+          </div>
+          <button type="button" class="btn sm ghost" data-act="toggle-design-studio">✕ Close</button>
+        </div>
+
+        <div class="studio-section-title">1. Curated Template Archetypes (7 Market-Leading Designs)</div>
+        <div class="tpl-chips-grid">
+          <button type="button" class="tpl-chip ${(inv.template==='modern')?'active':''}" data-act="pick-tpl-archetype" data-tpl="modern">Modern SaaS</button>
+          <button type="button" class="tpl-chip ${(inv.template==='minimal')?'active':''}" data-act="pick-tpl-archetype" data-tpl="minimal">Minimal Swiss</button>
+          <button type="button" class="tpl-chip ${(inv.template==='corporate')?'active':''}" data-act="pick-tpl-archetype" data-tpl="corporate">Corporate Ledger</button>
+          <button type="button" class="tpl-chip ${(inv.template==='creative')?'active':''}" data-act="pick-tpl-archetype" data-tpl="creative">Creative Studio</button>
+          <button type="button" class="tpl-chip ${(inv.template==='claim')?'active':''}" data-act="pick-tpl-archetype" data-tpl="claim">Consultant Claim</button>
+          <button type="button" class="tpl-chip ${(inv.template==='compact')?'active':''}" data-act="pick-tpl-archetype" data-tpl="compact">Compact Retail POS</button>
+          <button type="button" class="tpl-chip ${(!inv.template||inv.template==='classic')?'active':''}" data-act="pick-tpl-archetype" data-tpl="classic">Classic Clean</button>
+        </div>
+
+        <div class="studio-section-title">2. Brand Accent Color Palette</div>
+        <div class="color-swatches-row">
+          <button type="button" class="color-swatch ${(curAccent==='#14171f')?'active':''}" data-act="pick-accent-color" data-color="#14171f" style="background:#14171f" title="Obsidian Slate"></button>
+          <button type="button" class="color-swatch ${(curAccent==='#ff5733')?'active':''}" data-act="pick-accent-color" data-color="#ff5733" style="background:#ff5733" title="Zest Amber"></button>
+          <button type="button" class="color-swatch ${(curAccent==='#0f2e5c')?'active':''}" data-act="pick-accent-color" data-color="#0f2e5c" style="background:#0f2e5c" title="Enterprise Navy"></button>
+          <button type="button" class="color-swatch ${(curAccent==='#059669')?'active':''}" data-act="pick-accent-color" data-color="#059669" style="background:#059669" title="Emerald Green"></button>
+          <button type="button" class="color-swatch ${(curAccent==='#4f46e5')?'active':''}" data-act="pick-accent-color" data-color="#4f46e5" style="background:#4f46e5" title="Royal Indigo"></button>
+          <button type="button" class="color-swatch ${(curAccent==='#e11d48')?'active':''}" data-act="pick-accent-color" data-color="#e11d48" style="background:#e11d48" title="Crimson Rose"></button>
+          <div style="display:flex;align-items:center;gap:6px;margin-left:8px">
+            <span style="font-size:11px;color:var(--muted)">Custom Hex:</span>
+            <input type="color" data-act-change="pick-custom-hex" value="${curAccent}" style="width:30px;height:30px;padding:0;border:none;border-radius:6px;cursor:pointer">
+          </div>
+        </div>
+
+        <div class="studio-section-title">3. Typography &amp; Workspace Persistence</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <label style="font-size:12px;font-weight:600">Font Family:</label>
+            <select data-act-change="pick-font-family" style="height:32px;font-size:12px;padding:4px 8px;border-radius:8px">
+              <option value="" ${(!curFont)?'selected':''}>System Default (Google Sans / Inter)</option>
+              <option value="'Inter', sans-serif" ${(curFont.includes('Inter'))?'selected':''}>Inter Modern Variable</option>
+              <option value="'Playfair Display', Georgia, serif" ${(curFont.includes('serif')||curFont.includes('Georgia'))?'selected':''}>Editorial Serif (Georgia)</option>
+              <option value="'JetBrains Mono', monospace" ${(curFont.includes('mono'))?'selected':''}>Developer Tabular Mono</option>
+            </select>
+          </div>
+          <button type="button" class="btn sm" data-act="set-default-design" style="background:var(--surface-1);border:1px solid var(--line)">
+            ★ Save as Default for All New Documents
+          </button>
+        </div>
+      </div>
+
       <div class="seg tabs" role="group" aria-label="Edit or preview">
         <button type="button" data-act="tab" data-v="edit" aria-pressed="true">Edit fields</button>
         <button type="button" data-act="tab" data-v="pv" aria-pressed="false">A4 Preview</button>
@@ -10701,15 +11193,16 @@ dialog.zf-closing::backdrop {
       <div class="ed" id="edRoot">
         <div class="ed-form">
           <div id="errBox"></div>
-          <section class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h2 style="margin:0">Client</h2>${getClientGroups().length?`<select data-act-change="pick-client" style="width:210px;height:32px;font-size:12px" aria-label="Quick fill saved client"><option value="">Quick fill saved client…</option>${getClientGroups().map((g,idx)=>`<option value="${idx}">${esc(g.name)}</option>`).join('')}</select>`:''}</div><div class="stack">
-            ${fld('Client name','client.name',{dir:1,ph:'Client or company name'})}
+          <section class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px"><h2 style="margin:0">${esc(clientHeading)}</h2>${getClientGroups().length?`<select data-act-change="pick-client" style="width:210px;height:32px;font-size:12px" aria-label="Quick fill saved client"><option value="">Quick fill saved client…</option>${getClientGroups().map((g,idx)=>`<option value="${idx}">${esc(g.name)}</option>`).join('')}</select>`:''}</div><div class="stack">
+            ${fld(clientNameLabel,'client.name',{dir:1,ph:docType==='po'?'Supplier Co.':'Client or company name'})}
             <div class="g2">${fld('Email','client.email',{type:'email',ph:'billing@client.com'})}${fld('Phone (with country code)','client.phone',{type:'tel',ph:'+971 50 123 4567'})}</div>
             ${txt('Address','client.address','Street, city, country',2)}
             <div class="g2">${fld('Client tax ID (optional)','client.taxId',{dir:1})}${fld('Place of supply / State (for GST)','placeOfSupply',{dir:1,ph:'Telangana, Maharashtra…'})}</div>
           </div></section>
-          <section class="card"><h2>Invoice details</h2><div class="stack">
-            <div class="g2">${fld('Invoice number','number',{dir:1})}${selFld('Status','status',[['draft','Draft'],['sent','Sent'],['paid','Paid'],['void','Void']])}</div>
-            <div class="g3">${fld('Issue date','issue',{type:'date'})}${fld('Due date','due',{type:'date'})}
+          <section class="card"><h2>Document details</h2><div class="stack">
+            <div class="g2">${fld(numberLabel,'number',{dir:1})}${selFld('Status','status',[['draft','Draft'],['sent','Sent'],['paid','Paid'],['void','Void']])}</div>
+            <div class="g3">${fld('Issue date','issue',{type:'date'})}${fld(dueLabel,'due',{type:'date'})}
+
               <label class="f"><span>Payment terms</span><select data-act-change="terms"><option value="">Choose…</option><option value="0">Due on receipt</option><option value="7">Net 7 days</option><option value="14">Net 14 days</option><option value="30">Net 30 days</option><option value="45">Net 45 days</option><option value="60">Net 60 days</option></select></label></div>
             <div class="g3">${selFld('Language','lang',Object.keys(T).map(k=>[k,LANG_NAMES[k]]))}${selFld('Currency','currency',CURRENCIES.map(c=>[c,c]))}${selFld('Document type','title',DOC_TYPES)}</div>
             <div style="border-top:1px solid var(--line-2);padding-top:12px;margin-top:4px">
@@ -10772,7 +11265,9 @@ dialog.zf-closing::backdrop {
     if(host&&'ResizeObserver' in window){ro=new ResizeObserver(fitPreview);ro.observe(host)}
   }
   function updateHead(){
-    const t=$('#edTitle');if(t)t.textContent=ed.isNew?'New invoice':ed.inv.number||'Invoice';
+    const t=$('#edTitle');
+    const docName = (DOC_TYPES.find(d=>d[0]===ed.inv.title)?.[1] || 'Invoice');
+    if(t)t.textContent=ed.isNew ? ('New ' + docName) : (ed.inv.number||docName);
     const es=effStatus(ed.inv),b=$('#edBadge');if(b)b.innerHTML=`<span class="badge ${es}">${STATUS_LABEL[es]}</span>`;
   }
   function updateSigPrev(){
@@ -12413,6 +12908,18 @@ dialog.zf-closing::backdrop {
     if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
     if(t.id==='sortSel'){ui.sort=t.value;renderInvoicesSplit();return}
+    if(t.dataset.actChange==='pick-custom-hex'&&ed){
+      ed.inv.design = ed.inv.design || {};
+      ed.inv.design.accentColor = t.value;
+      ed.dirty = true;
+      schedulePreview();
+    }
+    if(t.dataset.actChange==='pick-font-family'&&ed){
+      ed.inv.design = ed.inv.design || {};
+      ed.inv.design.fontFamily = t.value;
+      ed.dirty = true;
+      schedulePreview();
+    }
     if(t.dataset.actChange==='terms'&&ed&&t.value!==''){
       ed.inv.due=addDays(ed.inv.issue,+t.value);
       const d=$('[data-f="due"]');if(d)d.value=ed.inv.due;
@@ -13127,12 +13634,114 @@ dialog.zf-closing::backdrop {
         break;
       }
       case 'add-template':{
-        const tpl = b.dataset.tpl;
-        const tplInv = newInvoice({ name: tpl==='simple'?'Acme Corporation':'Vanguard Digital Studio', email: tpl==='simple'?'billing@acme.com':'finance@vanguard.studio' });
-        tplInv.items = tpl === 'simple' ? [{ desc: 'Professional Software Architecture & Development', qty: '1', rate: '2500' }] : [{ desc: 'Monthly Dedicated Creative Retainer (Design & Branding)', qty: '1', rate: '4000' }];
+        const tpl = b.dataset.tpl || 'modern';
+        const docTitle = b.dataset.title || 'invoice';
+        let tplInv;
+        if(docTitle === 'receipt') {
+          tplInv = newInvoice({ name: 'Acme Technologies Ltd', email: 'billing@acme.com' }, { title: 'receipt', template: tpl });
+          tplInv.items = [{ desc: 'Full Settlement: Enterprise Cloud Platform License (Annual)', qty: '1', rate: '4800' }];
+          tplInv.status = 'paid';
+          tplInv.paidDate = todayISO();
+          tplInv.notes = 'Payment received in full via Bank Wire / UPI. Received with thanks.';
+        } else if(docTitle === 'po') {
+          tplInv = newInvoice({ name: 'Vanguard Industrial Supplies', email: 'orders@vanguard.com' }, { title: 'po', template: tpl });
+          tplInv.items = [{ desc: 'High-Performance Workstation Clusters & Network Hardware', qty: '4', rate: '2250' }];
+          tplInv.status = 'sent';
+          tplInv.notes = 'Delivery expected within 14 business days. Payment on 30-day net terms upon delivery inspection.';
+        } else if(docTitle === 'quote') {
+          tplInv = newInvoice({ name: 'Horizon Media & Design Studio', email: 'proposals@horizon.media' }, { title: 'quote', template: tpl });
+          tplInv.items = [{ desc: 'Brand Identity System, UI/UX Guidelines & Component Library', qty: '1', rate: '3500' }];
+          tplInv.status = 'draft';
+          tplInv.notes = 'Quotation valid for 30 calendar days from issue date. 50% advance required upon project kickoff.';
+        } else if(tpl === 'corporate' || docTitle === 'tax') {
+          tplInv = newInvoice({ name: 'Global Logistics & Supply Chain Corp', email: 'accounts@globallogistics.com' }, { title: 'tax', template: 'corporate' });
+          tplInv.items = [{ desc: 'End-to-End Enterprise Freight Management & Cross-Border Logistics', hsn: '996511', qty: '1', rate: '6500' }];
+          tplInv.status = 'draft';
+          tplInv.taxRate = '18';
+          tplInv.taxLabel = 'GST';
+        } else {
+          tplInv = newInvoice({ name: 'Apex Digital Systems', email: 'finance@apexdigital.io' }, { title: 'invoice', template: tpl });
+          tplInv.items = [{ desc: 'Dedicated Full-Stack Software Engineering & DevOps Retainer', qty: '1', rate: '4000' }];
+          tplInv.status = 'draft';
+        }
         ed = { inv: tplInv, isNew: true, dirty: true };
         navigate('editor', { force: true });
-        toast('Loaded ' + (tpl==='simple'?'Simple Invoice':'Creative Retainer') + ' template! Ready to customize.','ok');
+        toast('Loaded ' + (DOC_TYPES.find(d=>d[0]===tplInv.title)?.[1] || 'Document') + ' (' + (tpl.charAt(0).toUpperCase() + tpl.slice(1)) + ') blueprint!', 'ok');
+        break;
+      }
+      case 'open-design-studio-new':{
+        const newInv = newInvoice(null, { template: S.settings.defaultTemplate || 'modern' });
+        ed = { inv: newInv, isNew: true, dirty: true };
+        navigate('editor', { force: true });
+        setTimeout(() => {
+          const drawer = $('#designStudioDrawer');
+          if(drawer) drawer.style.display = 'block';
+        }, 80);
+        toast('Opened Custom Design Studio!', 'ok');
+        break;
+      }
+      case 'toggle-design-studio':{
+        const drawer = $('#designStudioDrawer');
+        if(!drawer) break;
+        const isShown = drawer.style.display !== 'none';
+        drawer.style.display = isShown ? 'none' : 'block';
+        const btn = $('#btnDesignStudio');
+        if(btn) btn.classList.toggle('active', !isShown);
+        break;
+      }
+      case 'pick-tpl-archetype':{
+        const tpl = b.dataset.tpl;
+        if(ed && ed.inv) {
+          ed.inv.template = tpl;
+          ed.dirty = true;
+          $('.tpl-chip').forEach(c => c.classList.toggle('active', c.dataset.tpl === tpl));
+          updatePreview();
+          toast('Applied ' + (tpl.charAt(0).toUpperCase() + tpl.slice(1)) + ' template layout!', 'ok');
+        }
+        break;
+      }
+      case 'pick-accent-color':{
+        const hex = b.dataset.color;
+        if(ed && ed.inv) {
+          ed.inv.design = ed.inv.design || {};
+          ed.inv.design.accentColor = hex;
+          ed.dirty = true;
+          $('.color-swatch').forEach(s => s.classList.toggle('active', s.dataset.color === hex));
+          updatePreview();
+        }
+        break;
+      }
+      case 'set-default-design':{
+        if(ed && ed.inv) {
+          S.settings.defaultTemplate = ed.inv.template || 'classic';
+          if(ed.inv.design && ed.inv.design.accentColor) S.settings.paperColor = ed.inv.design.accentColor;
+          persist();
+          toast('Saved as default document style for future invoices!', 'ok');
+        }
+        break;
+      }
+      case 'make-receipt':{
+        const src = (id && S.invoices.find(x => x.id === id)) || (ed && ed.inv) || null;
+        if(!src) break;
+        const rcpt = normInvoice(clone(src));
+        rcpt.id = uid();
+        rcpt.title = 'receipt';
+        rcpt.number = 'RCPT-' + (src.number ? src.number.replace(/^[A-Za-z]+-?/, '') : Math.floor(1000 + Math.random() * 9000));
+        rcpt.status = 'paid';
+        rcpt.paidDate = todayISO();
+        rcpt.notes = (rcpt.notes ? rcpt.notes + '\n' : '') + 'Official Payment Receipt issued for settlement of ' + src.number + '. Received with thanks.';
+        logHistory(rcpt, 'Generated Official Payment Receipt for ' + src.number);
+        S.invoices.unshift(rcpt);
+        ui.selectedId = rcpt.id;
+        persist();
+        updateNavCounts();
+        if(ui.currentPage === 'editor') {
+          ed = { inv: rcpt, isNew: false, dirty: false };
+          render();
+        } else {
+          renderInvoicesSplit();
+        }
+        toast('Generated Official Payment Receipt ' + rcpt.number + '!', 'ok');
         break;
       }
       case 'goto-step-layout':{
