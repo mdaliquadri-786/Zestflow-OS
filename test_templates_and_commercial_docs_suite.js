@@ -293,14 +293,30 @@ test('Design Studio Drawer: Interactive controls exist in DOM and handlers are c
   assert.ok(html.includes('data-act="pick-tpl-archetype" data-tpl="corporate"'), 'Must have Corporate archetype chip');
   assert.ok(html.includes('data-act="pick-accent-color" data-color="#ff5733"'), 'Must have Zest Amber color swatch');
   assert.ok(html.includes('data-act="set-default-design"'), 'Must have Save as Default button');
-  // Check active color swatch scaling and outline
+  // Check active color swatch flat industrial outline (zero oversized swelling!)
   assert.ok(html.includes('.color-swatch.active'), 'Must have .color-swatch.active style');
-  assert.ok(html.includes('transform: scale(1.28)'), 'Active swatch must pop to scale(1.28)');
+  assert.ok(html.includes('transform: none !important'), 'Active swatch must remain flat with no ballooning scale');
   // Strict check that $$ is used for multiple elements (no single $ querySelector)
   assert.ok(!/[^$]\$\('\.tpl-chip'\)\.forEach/.test(rawScript), 'Must NOT call forEach on single $ querySelector for .tpl-chip');
   assert.ok(!/[^$]\$\('\.color-swatch'\)\.forEach/.test(rawScript), 'Must NOT call forEach on single $ querySelector for .color-swatch');
   assert.ok(rawScript.includes("$$('.tpl-chip').forEach"), 'Must use $$ querySelectorAll for .tpl-chip');
   assert.ok(rawScript.includes("$$('.color-swatch').forEach"), 'Must use $$ querySelectorAll for .color-swatch');
+});
+
+// 12. Commercial Watermark Engine Verification
+test('Watermark Engine: Supports PAID, DRAFT, ORIGINAL with diagonal print styles', () => {
+  const invPaid = zf.normInvoice({ number: 'WM-001', watermark: 'PAID', lang: 'en' });
+  const paperPaid = zf.renderPaper(invPaid, {});
+  assert.ok(paperPaid.includes('class="paper-watermark paid"'), 'Must render paper-watermark paid class');
+  assert.ok(paperPaid.includes('PAID</div>'), 'Must render text PAID inside watermark');
+
+  const invDraft = zf.normInvoice({ number: 'WM-002', watermark: 'DRAFT', lang: 'en' });
+  const paperDraft = zf.renderPaper(invDraft, {});
+  assert.ok(paperDraft.includes('class="paper-watermark draft"'), 'Must render paper-watermark draft class');
+
+  assert.ok(html.includes('data-act-change="pick-watermark"'), 'Must have watermark dropdown in editor drawer');
+  assert.ok(html.includes('.paper-watermark'), 'Must include .paper-watermark CSS styles');
+  assert.ok(html.includes('grid-template-columns: repeat(3, 1fr)'), 'Hero metrics row must use balanced 3-column grid (no void gap)');
 });
 
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
