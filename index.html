@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Cwm1HVA52VMwXTQH3766ZNo533VqnNlMnV7xafzParM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-raQBpCQ2YmPEzXppCa3F3ZPqzZKDACu3SYPNioBu47M='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -5436,7 +5436,8 @@ dialog.zf-closing::backdrop {
         }
       });
     }
-    const grossTotal=taxMode==='inclusive'?afterDisc:(taxable+tax);
+    const shippingMinor=Math.max(0, toMinor(inv.shipping||0));
+    const grossTotal=(taxMode==='inclusive'?afterDisc:(taxable+tax)) + shippingMinor;
     let roundingDelta=0,total=grossTotal;
     if(inv.roundingMode==='nearest_unit'&&grossTotal>0){
       const rounded=Math.round(grossTotal/100)*100;
@@ -5475,7 +5476,7 @@ dialog.zf-closing::backdrop {
     const netPaidMinor=Math.max(0,paidMinor-refundedMinor);
     const balanceMinor=Math.max(0,total-netPaidMinor);
     const overpaidMinor=Math.max(0,netPaidMinor-total);
-    return {sub,disc,taxable,tax,cgst,sgst,igst,gstMode,roundingDelta,total,grand:total,paidMinor,refundedMinor,netPaidMinor,balanceMinor,overpaidMinor};
+    return {sub,disc,taxable,tax,shipping:shippingMinor,cgst,sgst,igst,gstMode,roundingDelta,total,grand:total,paidMinor,refundedMinor,netPaidMinor,balanceMinor,overpaidMinor};
   }
   const isPartial=inv=>{
     if(!inv||inv.status==='void'||inv.status==='draft')return false;
@@ -5501,10 +5502,10 @@ dialog.zf-closing::backdrop {
 
   /* ---------- translations & languages ---------- */
   const T={
-  en:{dir:'ltr',invoice:'Invoice',taxInvoice:'Tax Invoice',quote:'Quotation / Estimate',proforma:'Pro Forma Invoice',credit:'Credit Note',receipt:'Official Receipt',voucher:'Payment Voucher',po:'Purchase Order',statement:'Statement of Account',claim:'Consultant Claim & Timesheet',debit:'Debit Note',bill:'Vendor Bill',challan:'Delivery Challan',number:'Document no.',issued:'Issue date',due:'Due date',billTo:'Bill to',from:'From',desc:'Description',qty:'Qty',rate:'Rate',amount:'Amount',subtotal:'Subtotal',discount:'Discount',tax:'Tax',total:'Total',amountDue:'Amount due',paid:'Paid',notes:'Notes',payment:'Payment details',signature:'Authorised signature',taxId:'Tax ID'},
-  ar:{dir:'rtl',invoice:'فاتورة',taxInvoice:'فاتورة ضريبية',quote:'عرض سعر',proforma:'فاتورة مبدئية',credit:'إشعار دائن',receipt:'إيصال رسمي',voucher:'سند صرف',po:'أمر شراء',statement:'كشف حساب',claim:'مطالبة استشاري وسجل ساعات',debit:'إشعار مدين',bill:'فاتورة مورد',challan:'سند تسليم',number:'رقم المستند',issued:'تاريخ الإصدار',due:'تاريخ الاستحقاق',billTo:'فاتورة إلى',from:'من',desc:'الوصف',qty:'الكمية',rate:'السعر',amount:'المبلغ',subtotal:'المجموع الفرعي',discount:'الخصم',tax:'الضريبة',total:'الإجمالي',amountDue:'المبلغ المستحق',paid:'مدفوعة',notes:'ملاحظات',payment:'تفاصيل الدفع',signature:'التوقيع المعتمد',taxId:'الرقم الضريبي'},
-  ur:{dir:'rtl',invoice:'انوائس',taxInvoice:'ٹیکس انوائس',quote:'تخمینہ / کوٹیشن',proforma:'پروفارما انوائس',credit:'کریڈٹ نوٹ',receipt:'سرکاری رسید',voucher:'ادائیگی واؤچر',po:'پرچیز آرڈر',statement:'اسٹیٹمنٹ آف اکاؤنٹ',claim:'کنسلٹنٹ کلیم و ٹائم شیٹ',debit:'ڈیبٹ نوٹ',bill:'وینڈر بل',challan:'ڈلیوری چالان',number:'دستاویز نمبر',issued:'جاری ہونے کی تاریخ',due:'آخری تاریخِ ادائیگی',billTo:'بنام',from:'از جانب',desc:'تفصیل',qty:'مقدار',rate:'نرخ',amount:'رقم',subtotal:'ذیلی میزان',discount:'رعایت',tax:'ٹیکس',total:'کل میزان',amountDue:'واجب الادا رقم',paid:'ادا شدہ',notes:'نوٹس',payment:'ادائیگی کی تفصیلات',signature:'مجاز دستخط',taxId:'ٹیکس نمبر'},
-  te:{dir:'ltr',invoice:'ఇన్‌వాయిస్',taxInvoice:'పన్ను ఇన్‌వాయిస్',quote:'కొటేషన్ / అంచనా',proforma:'ప్రోఫార్మా ఇన్‌వాయిస్',credit:'క్రెడిట్ నోట్',receipt:'అధికారిక రశీదు',voucher:'చెల్లింపు వోచర్',po:'కొనుగోలు ఆర్డర్',statement:'ఖాతా వివరాల నివేదిక',claim:'కన్సల్టెంట్ క్లెయిమ్ మరియు టైమ్‌షీట్',debit:'డెబిట్ నోట్',bill:'వెండర్ బిల్లు',challan:'డెలివరీ చలాన్',number:'పత్రం సంఖ్య',issued:'జారీ తేదీ',due:'చెల్లింపు గడువు',billTo:'బిల్ చేయవలసినవారు',from:'పంపినవారు',desc:'వివరణ',qty:'పరిమాణం',rate:'ధర',amount:'మొత్తం',subtotal:'ఉప మొత్తం',discount:'తగ్గింపు',tax:'పన్ను',total:'మొత్తం',amountDue:'చెల్లించాల్సిన మొత్తం',paid:'చెల్లించబడింది',notes:'గమనికలు',payment:'చెల్లింపు వివరాలు',signature:'అధికారిక సంతకం',taxId:'పన్ను సంఖ్య'}
+  en:{dir:'ltr',invoice:'Invoice',taxInvoice:'Tax Invoice',quote:'Quotation / Estimate',proforma:'Pro Forma Invoice',credit:'Credit Note',receipt:'Official Receipt',voucher:'Payment Voucher',po:'Purchase Order',statement:'Statement of Account',claim:'Consultant Claim & Timesheet',debit:'Debit Note',bill:'Vendor Bill',challan:'Delivery Challan',number:'Document no.',issued:'Issue date',due:'Due date',billTo:'Bill to',from:'From',desc:'Description',qty:'Qty',rate:'Rate',amount:'Amount',subtotal:'Subtotal',discount:'Discount',tax:'Tax',total:'Total',amountDue:'Amount due',paid:'Paid',notes:'Notes',payment:'Payment details',signature:'Authorised signature',shipping:'Shipping / Freight',taxId:'Tax ID'},
+  ar:{dir:'rtl',invoice:'فاتورة',taxInvoice:'فاتورة ضريبية',quote:'عرض سعر',proforma:'فاتورة مبدئية',credit:'إشعار دائن',receipt:'إيصال رسمي',voucher:'سند صرف',po:'أمر شراء',statement:'كشف حساب',claim:'مطالبة استشاري وسجل ساعات',debit:'إشعار مدين',bill:'فاتورة مورد',challan:'سند تسليم',number:'رقم المستند',issued:'تاريخ الإصدار',due:'تاريخ الاستحقاق',billTo:'فاتورة إلى',from:'من',desc:'الوصف',qty:'الكمية',rate:'السعر',amount:'المبلغ',subtotal:'المجموع الفرعي',discount:'الخصم',tax:'الضريبة',total:'الإجمالي',amountDue:'المبلغ المستحق',paid:'مدفوعة',notes:'ملاحظات',payment:'تفاصيل الدفع',signature:'التوقيع المعتمد',shipping:'الشحن والتسليم',taxId:'الرقم الضريبي'},
+  ur:{dir:'rtl',invoice:'انوائس',taxInvoice:'ٹیکس انوائس',quote:'تخمینہ / کوٹیشن',proforma:'پروفارما انوائس',credit:'کریڈٹ نوٹ',receipt:'سرکاری رسید',voucher:'ادائیگی واؤچر',po:'پرچیز آرڈر',statement:'اسٹیٹمنٹ آف اکاؤنٹ',claim:'کنسلٹنٹ کلیم و ٹائم شیٹ',debit:'ڈیبٹ نوٹ',bill:'وینڈر بل',challan:'ڈلیوری چالان',number:'دستاویز نمبر',issued:'جاری ہونے کی تاریخ',due:'آخری تاریخِ ادائیگی',billTo:'بنام',from:'از جانب',desc:'تفصیل',qty:'مقدار',rate:'نرخ',amount:'رقم',subtotal:'ذیلی میزان',discount:'رعایت',tax:'ٹیکس',total:'کل میزان',amountDue:'واجب الادا رقم',paid:'ادا شدہ',notes:'نوٹس',payment:'ادائیگی کی تفصیلات',signature:'مجاز دستخط',shipping:'شپنگ و ترسیل',taxId:'ٹیکس نمبر'},
+  te:{dir:'ltr',invoice:'ఇన్‌వాయిస్',taxInvoice:'పన్ను ఇన్‌వాయిస్',quote:'కొటేషన్ / అంచనా',proforma:'ప్రోఫార్మా ఇన్‌వాయిస్',credit:'క్రెడిట్ నోట్',receipt:'అధికారిక రశీదు',voucher:'చెల్లింపు వోచర్',po:'కొనుగోలు ఆర్డర్',statement:'ఖాతా వివరాల నివేదిక',claim:'కన్సల్టెంట్ క్లెయిమ్ మరియు టైమ్‌షీట్',debit:'డెబిట్ నోట్',bill:'వెండర్ బిల్లు',challan:'డెలివరీ చలాన్',number:'పత్రం సంఖ్య',issued:'జారీ తేదీ',due:'చెల్లింపు గడువు',billTo:'బిల్ చేయవలసినవారు',from:'పంపినవారు',desc:'వివరణ',qty:'పరిమాణం',rate:'ధర',amount:'మొత్తం',subtotal:'ఉప మొత్తం',discount:'తగ్గింపు',tax:'పన్ను',total:'మొత్తం',amountDue:'చెల్లించాల్సిన మొత్తం',paid:'చెల్లించబడింది',notes:'గమనికలు',payment:'చెల్లింపు వివరాలు',signature:'అధికారిక సంతకం',shipping:'రవాణా ఛార్జీలు',taxId:'పన్ను సంఖ్య'}
   };
   const DOC_TYPES=[
     ['invoice','Invoice'],
@@ -6544,6 +6545,9 @@ dialog.zf-closing::backdrop {
       discountType:x.discountType==='fixed'?'fixed':'percent',
       discount:str(x.discount==null?0:x.discount,20),
       roundingMode:x.roundingMode==='nearest_unit'?'nearest_unit':'none',
+      shipping:str(x.shipping==null?0:x.shipping,20),
+      secondaryCurrency:str(x.secondaryCurrency||'',10),
+      exchangeRate:str(x.exchangeRate||'',20),
       items:items.length?items:[{desc:'',hsn:'',qty:'1',rate:'0',taxRate:'',taxExempt:false}],
       payments:Array.isArray(x.payments)?x.payments.slice(0,200).map(normPayment):[],
       history:(Array.isArray(x.history)?x.history:[]).slice(0,100).map(h=>({at:num(h&&h.at)||Date.now(),action:str(h&&h.action,200)})),
@@ -9294,12 +9298,14 @@ dialog.zf-closing::backdrop {
         ${c.disc>0?`<div><span>${esc(discLabel)}</span><span class="num">−${esc(fmtMoney(c.disc,inv.currency))}</span></div>`:''}
         ${inv.taxMode==='inclusive'&&c.tax>0?`<div><span>Taxable value</span>${M(c.taxable)}</div>`:''}
         ${taxRowsHTML}
+        ${c.shipping>0?`<div><span>${esc(L.shipping||'Shipping / Freight')}</span>${M(c.shipping)}</div>`:''}
         ${c.roundingDelta!==0?`<div><span>Rounding</span><span class="num">${c.roundingDelta>0?'+':'−'}${esc(fmtMoney(Math.abs(c.roundingDelta),inv.currency))}</span></div>`:''}
         <div class="g"><span>${esc(totalGrandLabel)}</span>${M(es==='paid'||inv.title==='receipt'?c.total:c.balanceMinor)}</div>
         ${c.netPaidMinor>0&&c.balanceMinor>0&&inv.title!=='receipt'?`<div><span>${esc(L.paid)}</span>${M(c.netPaidMinor)}</div><div><span><strong>Balance due</strong></span>${M(c.balanceMinor)}</div>`:''}
         ${c.overpaidMinor>0?`<div><span>Overpaid credit</span>${M(c.overpaidMinor)}</div>`:''}
       </div>
       <div class="p-words" style="margin-top:10px;padding:8px 12px;background:#f8fafc;border-left:3px solid var(--ink);font-size:11px;color:#334155"><strong>Amount in Words:</strong> ${esc(amountInWords(t.grand, inv.currency))}</div>
+      ${(inv.secondaryCurrency&&num(inv.exchangeRate)>0)?`<div class="p-fx" style="margin-top:6px;font-size:11px;color:#475569;background:#f1f5f9;padding:4px 10px;border-radius:4px;border:1px solid #e2e8f0;display:inline-block">FX Equivalent: 1 ${esc(inv.currency)} = ${esc(inv.exchangeRate)} ${esc(inv.secondaryCurrency)} · Approx: <strong>${esc(inv.secondaryCurrency)} ${esc(((c.total/100)*num(inv.exchangeRate)).toFixed(2))}</strong></div>`:''}
       ${qrHTML}${payLinkHTML}
       <div class="p-foot">
         <div>
@@ -11434,6 +11440,20 @@ dialog.zf-closing::backdrop {
         </div>
       </div>
 
+      <!-- Fast Document Type Switcher Bar -->
+      <div class="doc-type-switcher-bar" style="margin-bottom:14px;background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;display:flex;align-items:center;gap:4px">
+          📄 <span>Document:</span>
+        </span>
+        <div style="display:flex;gap:6px;flex-wrap:nowrap">
+          ${DOC_TYPES.map(d => `
+            <button type="button" class="btn sm ${inv.title===d[0]?'primary':''}" data-act="switch-doc-type" data-type="${d[0]}" style="font-size:11.5px;padding:3px 10px;height:28px;border-radius:99px;white-space:nowrap;${inv.title===d[0]?'':'border:1px solid var(--line);background:var(--surface-2);color:var(--sub)'}">
+              ${esc(d[1])}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
       <div class="seg tabs" role="group" aria-label="Edit or preview">
         <button type="button" data-act="tab" data-v="edit" aria-pressed="true">Edit fields</button>
         <button type="button" data-act="tab" data-v="pv" aria-pressed="false">A4 Preview</button>
@@ -11453,6 +11473,10 @@ dialog.zf-closing::backdrop {
 
               <label class="f"><span>Payment terms</span><select data-act-change="terms"><option value="">Choose…</option><option value="0">Due on receipt</option><option value="7">Net 7 days</option><option value="14">Net 14 days</option><option value="30">Net 30 days</option><option value="45">Net 45 days</option><option value="60">Net 60 days</option></select></label></div>
             <div class="g3">${selFld('Language','lang',Object.keys(T).map(k=>[k,LANG_NAMES[k]]))}${selFld('Currency','currency',CURRENCIES.map(c=>[c,c]))}${selFld('Document type','title',DOC_TYPES)}</div>
+            <div class="g2" style="margin-top:10px">
+              ${selFld('Secondary currency (FX display)','secondaryCurrency',[['','None (Single currency)'],...CURRENCIES.map(c=>[c,c])])}
+              ${fld('Exchange rate (1 '+inv.currency+' = X)','exchangeRate',{attrs:'step="any" inputmode="decimal"',ph:'e.g. 3.75 for SAR'})}
+            </div>
             <div style="border-top:1px solid var(--line-2);padding-top:12px;margin-top:4px">
               <label class="chk" style="font-weight:600"><input type="checkbox" data-f="recurring.enabled"${(inv.recurring&&inv.recurring.enabled)?' checked':''}>Enable Recurring Billing / Retainer</label>
               <div class="g2" style="margin-top:8px;${(inv.recurring&&inv.recurring.enabled)?'':'display:none'}" id="recurringFieldsRow">
@@ -11479,7 +11503,8 @@ dialog.zf-closing::backdrop {
               ${fld('Tax name','taxLabel',{dir:1,ph:'VAT, GST…'})}
               ${selFld('Tax regime','taxRegime',[['simple','Standard (Single tax)'],['gst_in','India GST (CGST/SGST/IGST)']])}
             </div>
-            <div class="g2" style="margin-top:14px">
+            <div class="g3" style="margin-top:14px">
+              ${fld('Shipping / Freight','shipping',{attrs:'min="0" step="any" inputmode="decimal"',ph:'0.00'})}
               ${fld('Supplier state (for GST)','supplierState',{dir:1,ph:'Telangana'})}
               ${selFld('Total rounding','roundingMode',[['none','Exact minor units'],['nearest_unit','Round to nearest unit']])}
             </div>
@@ -11563,7 +11588,7 @@ dialog.zf-closing::backdrop {
     }else if(c.tax>0||num(inv.taxRate)>0){
       taxLine=`<div><span>${esc(inv.taxLabel||'Tax')} ${+num(inv.taxRate).toFixed(2)}%${inv.taxMode==='inclusive'?' (incl.)':''}</span><span>${M(c.tax)}</span></div>`;
     }
-    t.innerHTML=`<div><span>Subtotal</span><span>${M(c.sub)}</span></div>${c.disc?`<div><span>Discount</span><span>−${M(c.disc)}</span></div>`:''}${taxLine}${c.roundingDelta!==0?`<div><span>Rounding</span><span>${c.roundingDelta>0?'+':'−'}${M(Math.abs(c.roundingDelta))}</span></div>`:''}<div class="grand"><span>Total</span><span>${M(c.total)}</span></div>${c.netPaidMinor>0?`<div><span>Paid</span><span>${M(c.netPaidMinor)}</span></div><div><span>Balance due</span><span>${M(c.balanceMinor)}</span></div>`:''}`;
+    t.innerHTML=`<div><span>Subtotal</span><span>${M(c.sub)}</span></div>${c.disc?`<div><span>Discount</span><span>−${M(c.disc)}</span></div>`:''}${taxLine}${c.shipping>0?`<div><span>Shipping / Freight</span><span>${M(c.shipping)}</span></div>`:''}${c.roundingDelta!==0?`<div><span>Rounding</span><span>${c.roundingDelta>0?'+':'−'}${M(Math.abs(c.roundingDelta))}</span></div>`:''}<div class="grand"><span>Total</span><span>${M(c.total)}</span></div>${c.netPaidMinor>0?`<div><span>Paid</span><span>${M(c.netPaidMinor)}</span></div><div><span>Balance due</span><span>${M(c.balanceMinor)}</span></div>`:''}`;
   }
   function reminderText(inv){
     const L=inv.lang,f=REMIND[L]||REMIND.en,c=calc(inv);
@@ -13140,6 +13165,16 @@ dialog.zf-closing::backdrop {
         }
       }
       if(path==='status'){ed.inv.paidDate=v==='paid'?(ed.inv.paidDate||todayISO()):''}
+      if(path==='title'){
+        updateHead();
+        $$('[data-act="switch-doc-type"]').forEach(btn => {
+          const isAct = btn.dataset.type === v;
+          btn.className = 'btn sm ' + (isAct ? 'primary' : '');
+          btn.style.background = isAct ? '' : 'var(--surface-2)';
+          btn.style.color = isAct ? '' : 'var(--sub)';
+          btn.style.border = isAct ? '' : '1px solid var(--line)';
+        });
+      }
       if(path==='recurring.enabled'){
         const rRow=$('#recurringFieldsRow');
         if(rRow)rRow.style.display=v?'':'none';
@@ -13562,6 +13597,24 @@ dialog.zf-closing::backdrop {
           renderInvoicesSplit();
         }
         toast('Created Debit Note '+dn.number+'!','ok');
+        break;
+      }
+      case 'switch-doc-type':{
+        const dt = b.dataset.type;
+        if(!ed || !dt) break;
+        ed.inv.title = dt;
+        const sel = $('[data-f="title"]'); if(sel) sel.value = dt;
+        ed.dirty = true;
+        updateHead();
+        updatePreview();
+        $$('[data-act="switch-doc-type"]').forEach(btn => {
+          const isAct = btn.dataset.type === dt;
+          btn.className = 'btn sm ' + (isAct ? 'primary' : '');
+          btn.style.background = isAct ? '' : 'var(--surface-2)';
+          btn.style.color = isAct ? '' : 'var(--sub)';
+          btn.style.border = isAct ? '' : '1px solid var(--line)';
+        });
+        toast('Switched to ' + (DOC_TYPES.find(d => d[0] === dt)?.[1] || dt) + '!', 'ok');
         break;
       }
       case 'make-delivery-challan':{

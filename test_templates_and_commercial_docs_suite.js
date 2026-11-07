@@ -429,6 +429,47 @@ test('Phase 3 Conversions & Blueprints: Debit Note and Delivery Challan actions 
   assert.ok(html.includes('Delivery Challan'), 'Dashboard widget must list Delivery Challan blueprint');
 });
 
+// 20. Phase 4: Fast Document Type Switcher Bar
+test('Fast Document Type Switcher Bar: Prominent pills bar exists in editor and handles instant switching', () => {
+  assert.ok(html.includes('class="doc-type-switcher-bar"'), 'Must render .doc-type-switcher-bar');
+  assert.ok(html.includes('data-act="switch-doc-type" data-type="${d[0]}"'), 'Must render switcher buttons mapped from DOC_TYPES');
+  assert.ok(rawScript.includes("case 'switch-doc-type':"), 'Must have switch-doc-type action handler');
+  assert.ok(rawScript.includes("$$('[data-act=\"switch-doc-type\"]').forEach"), 'Must sync active state on switcher buttons with querySelectorAll');
+});
+
+// 21. Phase 4: Shipping / Freight Minor-Unit Calculations
+test('Shipping & Freight Charges: Exact minor unit calculations and paper display', () => {
+  const invWithShipping = zf.normInvoice({
+    currency: 'USD',
+    items: [{ desc: 'Enterprise Server Rack', qty: '1', rate: '2000' }],
+    shipping: '150.50'
+  });
+  const c = zf.calc(invWithShipping);
+  assert.strictEqual(c.sub, 200000, 'Subtotal must be 2000.00 minor units ($200000)');
+  assert.strictEqual(c.shipping, 15050, 'Shipping must be 150.50 minor units ($15050)');
+  assert.strictEqual(c.total, 215050, 'Total must equal Subtotal + Shipping ($2150.50)');
+
+  const paperShipping = zf.renderPaper(invWithShipping, {});
+  assert.ok(paperShipping.includes('Shipping / Freight'), 'Paper must render Shipping / Freight row');
+  assert.ok(html.includes("'shipping'"), 'Must provide shipping field in editor form');
+});
+
+// 22. Phase 4: Dual Currency / FX Real-Time Note
+test('Dual Currency & FX Note: Displays secondary currency conversion estimate', () => {
+  const invFX = zf.normInvoice({
+    currency: 'USD',
+    secondaryCurrency: 'SAR',
+    exchangeRate: '3.75',
+    items: [{ desc: 'Consulting Retainer', qty: '1', rate: '1000' }]
+  });
+  const paperFX = zf.renderPaper(invFX, {});
+  assert.ok(paperFX.includes('FX Equivalent'), 'Paper must render FX Equivalent block');
+  assert.ok(paperFX.includes('SAR'), 'Paper must display secondary currency SAR');
+  assert.ok(paperFX.includes('3.75'), 'Paper must display exchange rate 3.75');
+  assert.ok(html.includes("'secondaryCurrency'"), 'Must provide secondaryCurrency field in editor');
+  assert.ok(html.includes("'exchangeRate'"), 'Must provide exchangeRate field in editor');
+});
+
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
 if (passCount === totalCount) {
   console.log('🎉 ALL 7-ARCHETYPE & COMMERCIAL DOCUMENT SUITE TESTS PASSED!\n');
