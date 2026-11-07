@@ -373,6 +373,62 @@ test('Document Lifecycle Conversions: 1-click Convert to Invoice, Credit Note & 
   assert.ok(rawScript.includes("case 'make-receipt':"), 'Must have make-receipt action handler');
 });
 
+// 17. Phase 3: Expanded Commercial Document Schema (13 Document Types)
+test('Phase 3 Commercial Schema: 13 Document Types supported across DOC_TYPES & normInvoice', () => {
+  const supported = ['invoice','tax','quote','proforma','credit','debit','receipt','voucher','po','bill','challan','statement','claim'];
+  supported.forEach(title => {
+    const inv = zf.normInvoice({ number: 'DOC-101', title, lang: 'en' });
+    assert.strictEqual(inv.title, title, `normInvoice must preserve document title '${title}'`);
+  });
+  assert.ok(html.includes("['debit','Debit Note (Purchase Return)']"), 'DOC_TYPES must contain Debit Note');
+  assert.ok(html.includes("['bill','Vendor Bill / Purchase Bill']"), 'DOC_TYPES must contain Vendor Bill');
+  assert.ok(html.includes("['challan','Delivery Challan / Packing Slip']"), 'DOC_TYPES must contain Delivery Challan');
+});
+
+// 18. Phase 3: Adaptive Typography & Stamps for Debit Note, Delivery Challan, Vendor Bill, and Statement
+test('Phase 3 Document Typography: Specialized stamps and context labels on paper', () => {
+  // Debit Note
+  const debitInv = zf.normInvoice({ number: 'DN-101', title: 'debit', lang: 'en' });
+  const debitPaper = zf.renderPaper(debitInv, {});
+  assert.ok(debitPaper.includes('DEBIT NOTE'), 'Debit Note must render DEBIT NOTE stamp');
+  assert.ok(debitPaper.includes('Vendor / Supplier'), 'Debit Note must adapt counterparty to Vendor / Supplier');
+  assert.ok(debitPaper.includes('Total Debit Adjustment'), 'Debit Note must adapt total label to Total Debit Adjustment');
+
+  // Delivery Challan
+  const challanInv = zf.normInvoice({ number: 'DC-201', title: 'challan', lang: 'en' });
+  const challanPaper = zf.renderPaper(challanInv, {});
+  assert.ok(challanPaper.includes('DELIVERY CHALLAN'), 'Delivery Challan must render DELIVERY CHALLAN stamp');
+  assert.ok(challanPaper.includes('Consignee / Deliver To'), 'Delivery Challan must adapt counterparty to Consignee / Deliver To');
+  assert.ok(challanPaper.includes('Dispatch Date'), 'Delivery Challan must adapt date label to Dispatch Date');
+  assert.ok(challanPaper.includes('Total Declared Value'), 'Delivery Challan must adapt total label to Total Declared Value');
+
+  // Vendor Bill
+  const billInv = zf.normInvoice({ number: 'VB-301', title: 'bill', lang: 'en' });
+  const billPaper = zf.renderPaper(billInv, {});
+  assert.ok(billPaper.includes('VENDOR BILL'), 'Vendor Bill must render VENDOR BILL stamp');
+  assert.ok(billPaper.includes('Total Bill Payable'), 'Vendor Bill must adapt total label to Total Bill Payable');
+
+  // Statement of Account
+  const stmtInv = zf.normInvoice({ number: 'SOA-401', title: 'statement', lang: 'en' });
+  const stmtPaper = zf.renderPaper(stmtInv, {});
+  assert.ok(stmtPaper.includes('STATEMENT'), 'Statement must render STATEMENT stamp');
+  assert.ok(stmtPaper.includes('Account Statement For'), 'Statement must adapt counterparty to Account Statement For');
+  assert.ok(stmtPaper.includes('Statement Period'), 'Statement must adapt date label to Statement Period');
+  assert.ok(stmtPaper.includes('Closing Outstanding Balance'), 'Statement must adapt total label to Closing Outstanding Balance');
+});
+
+// 19. Phase 3: 1-Click Conversions for Debit Notes & Delivery Challans
+test('Phase 3 Conversions & Blueprints: Debit Note and Delivery Challan actions & dashboard blueprints', () => {
+  assert.ok(html.includes('data-act="make-debit-note"'), 'Must provide Debit Note conversion button');
+  assert.ok(html.includes('data-act="make-delivery-challan"'), 'Must provide Delivery Challan conversion button');
+  assert.ok(rawScript.includes("case 'make-debit-note':"), 'Must implement make-debit-note action handler');
+  assert.ok(rawScript.includes("case 'make-delivery-challan':"), 'Must implement make-delivery-challan action handler');
+
+  assert.ok(html.includes('8 Blueprints'), 'Dashboard widget must reflect 8 blueprints');
+  assert.ok(html.includes('Debit Note &amp; Return'), 'Dashboard widget must list Debit Note blueprint');
+  assert.ok(html.includes('Delivery Challan'), 'Dashboard widget must list Delivery Challan blueprint');
+});
+
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
 if (passCount === totalCount) {
   console.log('🎉 ALL 7-ARCHETYPE & COMMERCIAL DOCUMENT SUITE TESTS PASSED!\n');

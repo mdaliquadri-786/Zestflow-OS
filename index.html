@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-a541bn3jV++hGqo/RBOh4YslhGv7ZiXZfKLtAzsKLeA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Cwm1HVA52VMwXTQH3766ZNo533VqnNlMnV7xafzParM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -694,6 +694,10 @@
   .stamp.stamp-po { border-color: #7c3aed; color: #7c3aed; background: #f5f3ff; }
   .stamp.stamp-proforma { border-color: #d97706; color: #d97706; background: #fffbeb; }
   .stamp.stamp-credit { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+  .stamp.stamp-debit { border-color: #ea580c; color: #ea580c; background: #fff7ed; }
+  .stamp.stamp-challan { border-color: #0891b2; color: #0891b2; background: #ecfeff; }
+  .stamp.stamp-bill { border-color: #4f46e5; color: #4f46e5; background: #eef2ff; }
+  .stamp.stamp-statement { border-color: #0d9488; color: #0d9488; background: #f0fdfa; }
   .stamp.stamp-claim { border-color: #0284c7; color: #0284c7; background: #f0f9ff; }
   .stamp.stamp-sent { border-color: #64748b; color: #475569; background: #f8fafc; }
   .stamp.stamp-void { border-color: #94a3b8; color: #94a3b8; background: #f1f5f9; text-decoration: line-through; }
@@ -5497,12 +5501,26 @@ dialog.zf-closing::backdrop {
 
   /* ---------- translations & languages ---------- */
   const T={
-  en:{dir:'ltr',invoice:'Invoice',taxInvoice:'Tax Invoice',quote:'Quotation / Estimate',proforma:'Pro Forma Invoice',credit:'Credit Note',receipt:'Official Receipt',voucher:'Payment Voucher',po:'Purchase Order',statement:'Statement of Account',claim:'Consultant Claim & Timesheet',number:'Document no.',issued:'Issue date',due:'Due date',billTo:'Bill to',from:'From',desc:'Description',qty:'Qty',rate:'Rate',amount:'Amount',subtotal:'Subtotal',discount:'Discount',tax:'Tax',total:'Total',amountDue:'Amount due',paid:'Paid',notes:'Notes',payment:'Payment details',signature:'Authorised signature',taxId:'Tax ID'},
-  ar:{dir:'rtl',invoice:'فاتورة',taxInvoice:'فاتورة ضريبية',quote:'عرض سعر',proforma:'فاتورة مبدئية',credit:'إشعار دائن',receipt:'إيصال رسمي',voucher:'سند صرف',po:'أمر شراء',statement:'كشف حساب',claim:'مطالبة استشاري وسجل ساعات',number:'رقم المستند',issued:'تاريخ الإصدار',due:'تاريخ الاستحقاق',billTo:'فاتورة إلى',from:'من',desc:'الوصف',qty:'الكمية',rate:'السعر',amount:'المبلغ',subtotal:'المجموع الفرعي',discount:'الخصم',tax:'الضريبة',total:'الإجمالي',amountDue:'المبلغ المستحق',paid:'مدفوعة',notes:'ملاحظات',payment:'تفاصيل الدفع',signature:'التوقيع المعتمد',taxId:'الرقم الضريبي'},
-  ur:{dir:'rtl',invoice:'انوائس',taxInvoice:'ٹیکس انوائس',quote:'تخمینہ / کوٹیشن',proforma:'پروفارما انوائس',credit:'کریڈٹ نوٹ',receipt:'سرکاری رسید',voucher:'ادائیگی واؤچر',po:'پرچیز آرڈر',statement:'اسٹیٹمنٹ آف اکاؤنٹ',claim:'کنسلٹنٹ کلیم و ٹائم شیٹ',number:'دستاویز نمبر',issued:'جاری ہونے کی تاریخ',due:'آخری تاریخِ ادائیگی',billTo:'بنام',from:'از جانب',desc:'تفصیل',qty:'مقدار',rate:'نرخ',amount:'رقم',subtotal:'ذیلی میزان',discount:'رعایت',tax:'ٹیکس',total:'کل میزان',amountDue:'واجب الادا رقم',paid:'ادا شدہ',notes:'نوٹس',payment:'ادائیگی کی تفصیلات',signature:'مجاز دستخط',taxId:'ٹیکس نمبر'},
-  te:{dir:'ltr',invoice:'ఇన్‌వాయిస్',taxInvoice:'పన్ను ఇన్‌వాయిస్',quote:'కొటేషన్ / అంచనా',proforma:'ప్రోఫార్మా ఇన్‌వాయిస్',credit:'క్రెడిట్ నోట్',receipt:'అధికారిక రశీదు',voucher:'చెల్లింపు వోచర్',po:'కొనుగోలు ఆర్డర్',statement:'ఖాతా వివరాల నివేదిక',claim:'కన్సల్టెంట్ క్లెయిమ్ మరియు టైమ్‌షీట్',number:'పత్రం సంఖ్య',issued:'జారీ తేదీ',due:'చెల్లింపు గడువు',billTo:'బిల్ చేయవలసినవారు',from:'పంపినవారు',desc:'వివరణ',qty:'పరిమాణం',rate:'ధర',amount:'మొత్తం',subtotal:'ఉప మొత్తం',discount:'తగ్గింపు',tax:'పన్ను',total:'మొత్తం',amountDue:'చెల్లించాల్సిన మొత్తం',paid:'చెల్లించబడింది',notes:'గమనికలు',payment:'చెల్లింపు వివరాలు',signature:'అధికారిక సంతకం',taxId:'పన్ను సంఖ్య'}
+  en:{dir:'ltr',invoice:'Invoice',taxInvoice:'Tax Invoice',quote:'Quotation / Estimate',proforma:'Pro Forma Invoice',credit:'Credit Note',receipt:'Official Receipt',voucher:'Payment Voucher',po:'Purchase Order',statement:'Statement of Account',claim:'Consultant Claim & Timesheet',debit:'Debit Note',bill:'Vendor Bill',challan:'Delivery Challan',number:'Document no.',issued:'Issue date',due:'Due date',billTo:'Bill to',from:'From',desc:'Description',qty:'Qty',rate:'Rate',amount:'Amount',subtotal:'Subtotal',discount:'Discount',tax:'Tax',total:'Total',amountDue:'Amount due',paid:'Paid',notes:'Notes',payment:'Payment details',signature:'Authorised signature',taxId:'Tax ID'},
+  ar:{dir:'rtl',invoice:'فاتورة',taxInvoice:'فاتورة ضريبية',quote:'عرض سعر',proforma:'فاتورة مبدئية',credit:'إشعار دائن',receipt:'إيصال رسمي',voucher:'سند صرف',po:'أمر شراء',statement:'كشف حساب',claim:'مطالبة استشاري وسجل ساعات',debit:'إشعار مدين',bill:'فاتورة مورد',challan:'سند تسليم',number:'رقم المستند',issued:'تاريخ الإصدار',due:'تاريخ الاستحقاق',billTo:'فاتورة إلى',from:'من',desc:'الوصف',qty:'الكمية',rate:'السعر',amount:'المبلغ',subtotal:'المجموع الفرعي',discount:'الخصم',tax:'الضريبة',total:'الإجمالي',amountDue:'المبلغ المستحق',paid:'مدفوعة',notes:'ملاحظات',payment:'تفاصيل الدفع',signature:'التوقيع المعتمد',taxId:'الرقم الضريبي'},
+  ur:{dir:'rtl',invoice:'انوائس',taxInvoice:'ٹیکس انوائس',quote:'تخمینہ / کوٹیشن',proforma:'پروفارما انوائس',credit:'کریڈٹ نوٹ',receipt:'سرکاری رسید',voucher:'ادائیگی واؤچر',po:'پرچیز آرڈر',statement:'اسٹیٹمنٹ آف اکاؤنٹ',claim:'کنسلٹنٹ کلیم و ٹائم شیٹ',debit:'ڈیبٹ نوٹ',bill:'وینڈر بل',challan:'ڈلیوری چالان',number:'دستاویز نمبر',issued:'جاری ہونے کی تاریخ',due:'آخری تاریخِ ادائیگی',billTo:'بنام',from:'از جانب',desc:'تفصیل',qty:'مقدار',rate:'نرخ',amount:'رقم',subtotal:'ذیلی میزان',discount:'رعایت',tax:'ٹیکس',total:'کل میزان',amountDue:'واجب الادا رقم',paid:'ادا شدہ',notes:'نوٹس',payment:'ادائیگی کی تفصیلات',signature:'مجاز دستخط',taxId:'ٹیکس نمبر'},
+  te:{dir:'ltr',invoice:'ఇన్‌వాయిస్',taxInvoice:'పన్ను ఇన్‌వాయిస్',quote:'కొటేషన్ / అంచనా',proforma:'ప్రోఫార్మా ఇన్‌వాయిస్',credit:'క్రెడిట్ నోట్',receipt:'అధికారిక రశీదు',voucher:'చెల్లింపు వోచర్',po:'కొనుగోలు ఆర్డర్',statement:'ఖాతా వివరాల నివేదిక',claim:'కన్సల్టెంట్ క్లెయిమ్ మరియు టైమ్‌షీట్',debit:'డెబిట్ నోట్',bill:'వెండర్ బిల్లు',challan:'డెలివరీ చలాన్',number:'పత్రం సంఖ్య',issued:'జారీ తేదీ',due:'చెల్లింపు గడువు',billTo:'బిల్ చేయవలసినవారు',from:'పంపినవారు',desc:'వివరణ',qty:'పరిమాణం',rate:'ధర',amount:'మొత్తం',subtotal:'ఉప మొత్తం',discount:'తగ్గింపు',tax:'పన్ను',total:'మొత్తం',amountDue:'చెల్లించాల్సిన మొత్తం',paid:'చెల్లించబడింది',notes:'గమనికలు',payment:'చెల్లింపు వివరాలు',signature:'అధికారిక సంతకం',taxId:'పన్ను సంఖ్య'}
   };
-  const DOC_TYPES=[['invoice','Invoice'],['tax','Tax Invoice'],['quote','Quotation / Estimate'],['proforma','Pro Forma Invoice'],['credit','Credit Note'],['receipt','Official Receipt'],['voucher','Payment Voucher'],['po','Purchase Order'],['statement','Statement of Account'],['claim','Consultant Claim & Timesheet']];
+  const DOC_TYPES=[
+    ['invoice','Invoice'],
+    ['tax','Tax Invoice'],
+    ['quote','Quotation / Estimate'],
+    ['proforma','Pro Forma Invoice'],
+    ['credit','Credit Note'],
+    ['debit','Debit Note (Purchase Return)'],
+    ['receipt','Official Receipt'],
+    ['voucher','Payment Voucher'],
+    ['po','Purchase Order'],
+    ['bill','Vendor Bill / Purchase Bill'],
+    ['challan','Delivery Challan / Packing Slip'],
+    ['statement','Statement of Account'],
+    ['claim','Consultant Claim & Timesheet']
+  ];
   const ARABIC_DIGITS=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
   function fmtDigits(strVal,numeralsMode){
     const s=String(strVal==null?'':strVal);
@@ -6499,7 +6517,7 @@ dialog.zf-closing::backdrop {
       paidDate:parseISO(x.paidDate)?x.paidDate:'',
       currency:CURRENCIES.includes(x.currency)?x.currency:'USD',
       lang:T[x.lang]?x.lang:'en',
-      title:['invoice','tax','quote','proforma','credit','receipt','voucher','po','statement','claim'].includes(x.title)?x.title:'invoice',
+      title:['invoice','tax','quote','proforma','credit','debit','receipt','voucher','po','bill','challan','statement','claim'].includes(x.title)?x.title:'invoice',
       template:['modern','minimal','corporate','creative','claim','compact','classic'].includes(x.template)?x.template:'classic',
       watermark:str(x.watermark||'',40),
       showSeal:Boolean(x.showSeal),
@@ -9165,8 +9183,8 @@ dialog.zf-closing::backdrop {
     const numMode=(inv.lang==='ar'||inv.lang==='ur')?st.numerals:'western';
     const D=v=>fmtDigits(v,numMode);
     const M=n=>`<span class="num">${esc(D(fmtMoney(n,inv.currency)))}</span>`;
-    const titleMap={invoice:L.invoice,tax:L.taxInvoice,quote:L.quote,proforma:L.proforma,credit:L.credit,receipt:L.receipt,voucher:L.voucher,po:L.po,statement:L.statement,claim:L.claim};
-    const enTitleMap={invoice:T.en.invoice,tax:T.en.taxInvoice,quote:T.en.quote,proforma:T.en.proforma,credit:T.en.credit,receipt:T.en.receipt,voucher:T.en.voucher,po:T.en.po,statement:T.en.statement,claim:T.en.claim};
+    const titleMap={invoice:L.invoice,tax:L.taxInvoice,quote:L.quote,proforma:L.proforma,credit:L.credit,debit:L.debit||'Debit Note',receipt:L.receipt,voucher:L.voucher,po:L.po,bill:L.bill||'Vendor Bill',challan:L.challan||'Delivery Challan',statement:L.statement,claim:L.claim};
+    const enTitleMap={invoice:T.en.invoice,tax:T.en.taxInvoice,quote:T.en.quote,proforma:T.en.proforma,credit:T.en.credit,debit:T.en.debit||'Debit Note',receipt:T.en.receipt,voucher:T.en.voucher,po:T.en.po,bill:T.en.bill||'Vendor Bill',challan:T.en.challan||'Delivery Challan',statement:T.en.statement,claim:T.en.claim};
     const baseTitle=titleMap[inv.title]||L.invoice;
     const title=(st.bilingualPrint&&inv.lang!=='en')?`${baseTitle} / ${enTitleMap[inv.title]||T.en.invoice}`:baseTitle;
     const lbl=k=>(st.bilingualPrint&&inv.lang!=='en'&&L[k]!==T.en[k])?`${L[k]} / ${T.en[k]}`:L[k];
@@ -9223,6 +9241,14 @@ dialog.zf-closing::backdrop {
       stampHTML = `<div class="stamp stamp-proforma">PRO FORMA</div>`;
     } else if (inv.title === 'credit') {
       stampHTML = `<div class="stamp stamp-credit">CREDIT NOTE</div>`;
+    } else if (inv.title === 'debit') {
+      stampHTML = `<div class="stamp stamp-debit">DEBIT NOTE</div>`;
+    } else if (inv.title === 'challan') {
+      stampHTML = `<div class="stamp stamp-challan">DELIVERY CHALLAN</div>`;
+    } else if (inv.title === 'bill') {
+      stampHTML = `<div class="stamp stamp-bill">VENDOR BILL</div>`;
+    } else if (inv.title === 'statement') {
+      stampHTML = `<div class="stamp stamp-statement">STATEMENT</div>`;
     } else if (inv.title === 'claim') {
       stampHTML = `<div class="stamp stamp-claim">OFFICIAL CLAIM</div>`;
     } else if (es === 'sent') {
@@ -9232,15 +9258,24 @@ dialog.zf-closing::backdrop {
     }
 
     // Context-sensitive counterparty and date labels
-    const clientHeadingLabel = inv.title === 'po' ? (inv.lang==='ar'?'المورّد':(inv.lang==='ur'?'فروخت کنندہ':'Vendor / Supplier')) :
+    const clientHeadingLabel = (inv.title === 'po' || inv.title === 'bill' || inv.title === 'debit') ?
+                               (inv.lang==='ar'?'المورّد':(inv.lang==='ur'?'فروخت کنندہ':'Vendor / Supplier')) :
                                (inv.title === 'receipt' ? (inv.lang==='ar'?'المستلم منه':(inv.lang==='ur'?'وصول کنندہ':'Received From')) :
-                               (inv.title === 'claim' ? (inv.lang==='ar'?'الجهة المقدم إليها':(inv.lang==='ur'?'پیش خدمت':'Submitted To')) : lbl('billTo')));
+                               (inv.title === 'challan' ? (inv.lang==='ar'?'المرسل إليه':(inv.lang==='ur'?'ترسیل بنام':'Consignee / Deliver To')) :
+                               (inv.title === 'statement' ? (inv.lang==='ar'?'كشف حساب العميل':(inv.lang==='ur'?'اکاؤنٹ برائے':'Account Statement For')) :
+                               (inv.title === 'claim' ? (inv.lang==='ar'?'الجهة المقدم إليها':(inv.lang==='ur'?'پیش خدمت':'Submitted To')) : lbl('billTo')))));
     const dueDateLabel = inv.title === 'quote' ? (inv.lang==='ar'?'صالح حتى':(inv.lang==='ur'?'قابل عمل تا':'Valid Until')) :
                           (inv.title === 'po' ? (inv.lang==='ar'?'تاريخ التوريد':(inv.lang==='ur'?'تاریخ ترسیل':'Delivery Expected')) :
-                          (inv.title === 'receipt' ? (inv.lang==='ar'?'تاريخ السداد':(inv.lang==='ur'?'تاریخ ادائیگی':'Payment Date')) : lbl('due')));
+                          (inv.title === 'challan' ? (inv.lang==='ar'?'تاريخ الإرسال':(inv.lang==='ur'?'تاریخ ترسیل':'Dispatch Date')) :
+                          (inv.title === 'statement' ? (inv.lang==='ar'?'فترة الكشف':(inv.lang==='ur'?'مدتِ گوشوارہ':'Statement Period')) :
+                          (inv.title === 'receipt' ? (inv.lang==='ar'?'تاريخ السداد':(inv.lang==='ur'?'تاریخ ادائیگی':'Payment Date')) : lbl('due')))));
     const totalGrandLabel = inv.title === 'receipt' ? 'Amount Received & Settled' :
                             (inv.title === 'quote' ? 'Estimated Total' :
-                            (inv.title === 'po' ? 'Total Order Value' : (es === 'paid' ? L.total : L.amountDue)));
+                            (inv.title === 'po' ? 'Total Order Value' :
+                            (inv.title === 'challan' ? 'Total Declared Value' :
+                            (inv.title === 'debit' ? 'Total Debit Adjustment' :
+                            (inv.title === 'statement' ? 'Closing Outstanding Balance' :
+                            (inv.title === 'bill' ? 'Total Bill Payable' : (es === 'paid' ? L.total : L.amountDue)))))));
 
     return `<div class="paper tpl-${esc(tpl)}" lang="${inv.lang}" dir="${L.dir}" style="--ink:${esc(curAccent)};${fontStyleAttr}">
       ${inv.watermark ? `<div class="paper-watermark ${esc(inv.watermark.toLowerCase().replace(/[^a-z]/g, ''))}">${esc(inv.watermark)}</div>` : ''}
@@ -10933,7 +10968,7 @@ dialog.zf-closing::backdrop {
                 '<div>' +
                   '<div style="display:flex;align-items:center;gap:8px">' +
                     '<h3 style="margin:0">Document &amp; Invoice Templates</h3>' +
-                    '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:rgba(255,87,51,0.08);color:#ff5733;letter-spacing:0.02em">6 Blueprints</span>' +
+                    '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:rgba(255,87,51,0.08);color:#ff5733;letter-spacing:0.02em">8 Blueprints</span>' +
                   '</div>' +
                   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">' +
                     '<span style="font-size:11px;color:var(--muted)">Curated Studio Archetypes</span>' +
@@ -11060,6 +11095,44 @@ dialog.zf-closing::backdrop {
                 '<span>Timesheet, Cab &amp; Jamia</span>' +
               '</div>' +
               '<button type="button" class="invo-tpl-add" data-act="open-consultant-claim" title="Open Consultant Timesheet &amp; Expense Claim">+</button>' +
+            '</div>' +
+
+            /* 7. Debit Note & Return */
+            '<div class="invo-tpl-item" style="margin-bottom:10px;cursor:pointer" data-act="add-template" data-tpl="minimal" data-title="debit">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #ea580c">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="16" height="4" rx="2" fill="#EA580C"/>' +
+                  '<rect x="4" y="13" width="26" height="2" fill="#FED7AA"/>' +
+                  '<rect x="4" y="19" width="18" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="25" width="14" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="18" y="32" width="12" height="5" rx="2" fill="#EA580C"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Debit Note &amp; Return</strong>' +
+                '<span>Vendor Adjustment &amp; RMA</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="minimal" data-title="debit" title="Create Debit Note">+</button>' +
+            '</div>' +
+
+            /* 8. Delivery Challan / Slip */
+            '<div class="invo-tpl-item" style="margin-bottom:4px;cursor:pointer" data-act="add-template" data-tpl="compact" data-title="challan">' +
+              '<div class="invo-tpl-thumb" style="border-left:3px solid #0891b2">' +
+                '<svg width="34" height="42" viewBox="0 0 34 42" fill="none" style="display:block;margin:auto">' +
+                  '<rect width="34" height="42" rx="4" fill="#F8FAFC"/>' +
+                  '<rect x="4" y="5" width="20" height="4" rx="2" fill="#0891B2"/>' +
+                  '<rect x="4" y="13" width="26" height="2" fill="#CFFAFE"/>' +
+                  '<rect x="4" y="19" width="22" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="4" y="25" width="16" height="2" fill="#E2E8F0"/>' +
+                  '<rect x="16" y="32" width="14" height="5" rx="2" fill="#0891B2"/>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="invo-tpl-meta">' +
+                '<strong>Delivery Challan</strong>' +
+                '<span>Logistics Transit &amp; Waybill</span>' +
+              '</div>' +
+              '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="compact" data-title="challan" title="Create Delivery Challan">+</button>' +
             '</div>' +
               '</div>' + // Close .invo-tpl-scroll-list
             '</div>' + // Close upper div
@@ -11210,9 +11283,13 @@ dialog.zf-closing::backdrop {
       <button type="button" class="btn sm danger" data-act="del" data-id="${esc(inv.id)}">${icon('trash')}<span>Delete</span></button>
     </div>
     <div class="insp-acts">
-      ${inv.title==='quote'||inv.title==='proforma'?`<button type="button" class="btn sm primary" data-act="convert-to-inv" data-id="${esc(inv.id)}">🚀 Convert to Invoice</button>`:''}
+      ${(inv.title==='quote'||inv.title==='proforma'||inv.title==='po')?`<button type="button" class="btn sm primary" data-act="convert-to-inv" data-id="${esc(inv.id)}">🚀 ${inv.title==='po'?'Convert to Bill':'Convert to Invoice'}</button>`:''}
+      ${inv.title==='bill'?`<button type="button" class="btn sm" data-act="make-debit-note" data-id="${esc(inv.id)}">↩️ Debit Note</button>`:''}
+      ${inv.title==='invoice'||inv.title==='tax'?`
+        <button type="button" class="btn sm" data-act="make-credit-note" data-id="${esc(inv.id)}">↩️ Credit Note</button>
+        <button type="button" class="btn sm" data-act="make-delivery-challan" data-id="${esc(inv.id)}">📦 Delivery Challan</button>
+      `:''}
       ${(es==='paid'&&inv.title!=='receipt')?`<button type="button" class="btn sm" data-act="make-receipt" data-id="${esc(inv.id)}" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.25)">🧾 Official Receipt</button>`:''}
-      ${inv.title==='invoice'||inv.title==='tax'?`<button type="button" class="btn sm" data-act="make-credit-note" data-id="${esc(inv.id)}">↩️ Create Credit Note</button>`:''}
     </div>
     <div class="paper-frame" id="inspPreviewHost"><div id="inspPaperWrap">${renderPaper(inv,{})}</div></div>
     ${(inv.history&&inv.history.length)?`<div style="font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px"><b>Local activity log (editable browser storage)</b><ul class="pay-list">${inv.history.slice(0,5).map(h=>`<li class="pay-item"><span>${esc(h.action)}</span><span style="color:var(--faint)">${esc(new Date(h.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}))}</span></li>`).join('')}</ul></div>`:''}`;
@@ -11274,7 +11351,11 @@ dialog.zf-closing::backdrop {
         <div class="page-h-acts">
           <button class="btn" type="button" data-act="toggle-design-studio" id="btnDesignStudio" style="border-color:rgba(255,87,51,0.3);color:#ff5733;background:rgba(255,87,51,0.06)">🎨 <span>Design Studio</span></button>
           ${(inv.title==='quote'||inv.title==='proforma'||inv.title==='po')?`<button class="btn primary" type="button" data-act="convert-to-inv" data-id="${esc(inv.id)}">🚀 <span>${inv.title==='po'?'Convert to Bill':'Convert to Invoice'}</span></button>`:''}
-          ${(inv.title==='invoice'||inv.title==='tax')?`<button class="btn" type="button" data-act="make-credit-note" data-id="${esc(inv.id)}" style="border-color:var(--line);background:var(--surface-2);font-weight:600">↩️ <span>Credit Note</span></button>`:''}
+          ${(inv.title==='bill')?`<button class="btn sm" type="button" data-act="make-debit-note" data-id="${esc(inv.id)}" style="border-color:var(--line);background:var(--surface-2);font-weight:600">↩️ <span>Debit Note</span></button>`:''}
+          ${(inv.title==='invoice'||inv.title==='tax')?`
+            <button class="btn sm" type="button" data-act="make-credit-note" data-id="${esc(inv.id)}" style="border-color:var(--line);background:var(--surface-2);font-weight:600">↩️ <span>Credit Note</span></button>
+            <button class="btn sm" type="button" data-act="make-delivery-challan" data-id="${esc(inv.id)}" style="border-color:var(--line);background:var(--surface-2);font-weight:600">📦 <span>Delivery Challan</span></button>
+          `:''}
           ${(inv.title!=='receipt')?`<button class="btn" type="button" data-act="make-receipt" data-id="${esc(inv.id)}" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.25);font-weight:600">🧾 <span>Issue Receipt</span></button>`:''}
           <button class="btn" type="button" data-act="ai-open-prompt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg><span>AI Generate</span></button>
           <button class="btn" type="button" data-act="share-whatsapp">💬 <span>WhatsApp</span></button>
@@ -13466,6 +13547,40 @@ dialog.zf-closing::backdrop {
         toast('Created Credit Note '+cn.number,'ok');
         break;
       }
+      case 'make-debit-note':{
+        const src=(id&&S.invoices.find(x=>x.id===id))||(ed&&ed.inv)||null;if(!src)break;
+        const dn=normInvoice(clone(src));dn.id=uid();dn.title='debit';dn.number='DN-'+(src.number?src.number.replace(/^[A-Za-z]+-?/,''):Math.floor(1000+Math.random()*9000));
+        dn.status='paid';dn.watermark='CANCELLED';dn.payments=[];
+        dn.notes=(dn.notes?dn.notes+'\n':'')+'Debit Note issued against vendor bill '+src.number+' for return / adjustment.';
+        logHistory(dn,'Created Debit Note for '+src.number);
+        S.invoices.unshift(dn);ui.selectedId=dn.id;
+        persist();updateNavCounts();
+        if(ui.currentPage==='editor'){
+          ed={inv:dn,isNew:false,dirty:false};
+          render();
+        } else {
+          renderInvoicesSplit();
+        }
+        toast('Created Debit Note '+dn.number+'!','ok');
+        break;
+      }
+      case 'make-delivery-challan':{
+        const src=(id&&S.invoices.find(x=>x.id===id))||(ed&&ed.inv)||null;if(!src)break;
+        const dc=normInvoice(clone(src));dc.id=uid();dc.title='challan';dc.number='DC-'+(src.number?src.number.replace(/^[A-Za-z]+-?/,''):Math.floor(1000+Math.random()*9000));
+        dc.status='sent';dc.watermark='ORIGINAL';
+        dc.notes=(dc.notes?dc.notes+'\n':'')+'Delivery Challan for goods transit under invoice '+src.number+'. Not a bill of sale.';
+        logHistory(dc,'Created Delivery Challan for '+src.number);
+        S.invoices.unshift(dc);ui.selectedId=dc.id;
+        persist();updateNavCounts();
+        if(ui.currentPage==='editor'){
+          ed={inv:dc,isNew:false,dirty:false};
+          render();
+        } else {
+          renderInvoicesSplit();
+        }
+        toast('Created Delivery Challan '+dc.number+'!','ok');
+        break;
+      }
       case 'add-catalog-direct':{
         const desc = ($('#catDescInput')&&$('#catDescInput').value||'').trim();
         const rate = ($('#catRateInput')&&$('#catRateInput').value||'0').trim();
@@ -13903,6 +14018,16 @@ dialog.zf-closing::backdrop {
           tplInv.items = [{ desc: 'Brand Identity System, UI/UX Guidelines & Component Library', qty: '1', rate: '3500' }];
           tplInv.status = 'draft';
           tplInv.notes = 'Quotation valid for 30 calendar days from issue date. 50% advance required upon project kickoff.';
+        } else if(docTitle === 'debit') {
+          tplInv = newInvoice({ name: 'Reliant Hardware Distributors', email: 'returns@relianthardware.com' }, { title: 'debit', template: tpl });
+          tplInv.items = [{ desc: 'Return of Defective Components & RMA Adjustment', qty: '2', rate: '750' }];
+          tplInv.status = 'paid';
+          tplInv.notes = 'Debit adjustment issued against Vendor Bill VB-4091 for returned merchandise.';
+        } else if(docTitle === 'challan') {
+          tplInv = newInvoice({ name: 'Nexus Distribution Centers Ltd', email: 'dispatch@nexusdist.com' }, { title: 'challan', template: tpl });
+          tplInv.items = [{ desc: 'Industrial Electronic Enclosures & Cable Harnesses (5 Crates)', qty: '5', rate: '0' }];
+          tplInv.status = 'sent';
+          tplInv.notes = 'Official Delivery Challan for transit only. Not an invoice for sale. Goods delivered in good condition.';
         } else if(tpl === 'corporate' || docTitle === 'tax') {
           tplInv = newInvoice({ name: 'Global Logistics & Supply Chain Corp', email: 'accounts@globallogistics.com' }, { title: 'tax', template: 'corporate' });
           tplInv.items = [{ desc: 'End-to-End Enterprise Freight Management & Cross-Border Logistics', hsn: '996511', qty: '1', rate: '6500' }];
