@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-raQBpCQ2YmPEzXppCa3F3ZPqzZKDACu3SYPNioBu47M='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-We5EDGBpYug2Db/M5yBOeoEnS/37sHlnPdUBoecVmKA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -1665,6 +1665,8 @@ dialog.zf-closing::backdrop {
     #printRoot{display:block!important}
     #appleCursorDot,#appleCursorRing,#onboardOverlay,#invoTopNavHost,#appFooterHost{display:none!important}
     .paper{width:auto!important;min-height:0!important;padding:0!important;box-shadow:none;transform:none!important}
+    .batch-page{page-break-after:always;break-after:page;min-height:260mm}
+    .batch-page:last-child{page-break-after:avoid;break-after:avoid}
     .ph{display:none}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
@@ -9349,6 +9351,7 @@ dialog.zf-closing::backdrop {
   var ui={
     currentPage:'dashboard',
     filter:'all',
+    docFilter:'all',
     q:'',
     sort:'newest',
     selectedId:'',
@@ -11181,8 +11184,9 @@ dialog.zf-closing::backdrop {
       </div>`;
     }
     return `<div class="page-h">
-      <div class="page-h-title"><h1>Invoices</h1><p>Select any invoice on the left to inspect, print or update its status on the right.</p></div>
+      <div class="page-h-title"><h1>Invoices &amp; Commercial Documents</h1><p>Manage, inspect, batch print, and track Invoices, Vendor Bills, POs, Quotations, Challans &amp; Receipts.</p></div>
       <div class="page-h-acts">
+        <button type="button" class="btn sm" data-act="batch-print" style="border:1px solid var(--line);background:var(--surface-2);font-weight:600">🖨️ <span>Batch Print</span></button>
         <button type="button" class="btn sm" data-act="open-consultant-claim" style="background:rgba(2,132,199,0.1);color:#0284c7;border:1px solid rgba(2,132,199,0.25);font-weight:700">🎓 Consultant Claim</button>
         <button type="button" class="btn sm" data-act="ai-open-prompt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg><span>AI Generate</span></button>
         <button type="button" class="btn sm ghost" data-act="export-csv">${icon('down')}<span>Export CSV</span></button>
@@ -11190,6 +11194,20 @@ dialog.zf-closing::backdrop {
       </div>
     </div>
     ${hasSample?`<div class="note"><span>You are viewing sample invoices.</span><button type="button" class="btn sm" data-act="clear-sample">Remove samples</button></div>`:''}
+    <div class="doc-directory-tabs" style="display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px;border-bottom:1px solid var(--line);scrollbar-width:thin">
+      ${[
+        ['all', 'All Documents'],
+        ['invoice', 'Invoices'],
+        ['bill', 'Vendor Bills'],
+        ['quote', 'Quotations'],
+        ['po', 'Purchase Orders'],
+        ['challan', 'Delivery Challans'],
+        ['credit', 'Credit Notes'],
+        ['debit', 'Debit Notes'],
+        ['receipt', 'Receipts'],
+        ['statement', 'Statements']
+      ].map(([tKey, tLabel]) => `<button type="button" class="doc-filter-tab ${(!ui.docFilter||ui.docFilter==='all')?(tKey==='all'?'active':'') : (ui.docFilter===tKey?'active':'')}" data-act="filter-doc-type" data-type="${tKey}" style="white-space:nowrap;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid ${((!ui.docFilter&&tKey==='all')||ui.docFilter===tKey)?'var(--accent)':'var(--line)'};background:${((!ui.docFilter&&tKey==='all')||ui.docFilter===tKey)?'var(--accent)':'var(--surface)'};color:${((!ui.docFilter&&tKey==='all')||ui.docFilter===tKey)?'#fff':'var(--text)'};cursor:pointer;transition:all 0.15s ease">${tLabel}</button>`).join('')}
+    </div>
     <div class="toolbar">
       <label class="search">
         <span class="sr">Search invoices</span>
@@ -11225,7 +11243,18 @@ dialog.zf-closing::backdrop {
     }
 
     const q=ui.q.trim().toLowerCase();
-    const rows=S.invoices.filter(i=>(ui.filter==='all'||effStatus(i)===ui.filter)&&(!q||(i.client.name+' '+i.number+' '+i.client.email).toLowerCase().includes(q)));
+    const docTypeMatch=(inv)=>{
+      if(!ui.docFilter||ui.docFilter==='all')return true;
+      const t=inv.title||'invoice';
+      if(ui.docFilter==='invoice')return t==='invoice'||t==='tax';
+      if(ui.docFilter==='quote')return t==='quote'||t==='proforma';
+      return t===ui.docFilter;
+    };
+    const rows=S.invoices.filter(i=>
+      (ui.filter==='all'||effStatus(i)===ui.filter)&&
+      docTypeMatch(i)&&
+      (!q||(i.client.name+' '+i.number+' '+i.client.email).toLowerCase().includes(q))
+    );
 
     rows.sort((a,b)=>{
       if(ui.sort==='oldest')return (a.issue.localeCompare(b.issue))||(a.created-b.created);
@@ -11702,6 +11731,7 @@ dialog.zf-closing::backdrop {
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button type="button" class="btn sm" data-act="client-filter" data-client="${esc(g.name)}">View invoices</button>
+          <button type="button" class="btn sm" data-act="client-soa" data-idx="${idx}" style="background:rgba(13,148,136,0.1);color:#0d9488;border:1px solid rgba(13,148,136,0.25);font-weight:600">📊 <span>Statement (SOA)</span></button>
           <button type="button" class="btn sm ghost" data-act="client-new-inv" data-idx="${idx}">${icon('plus')}<span>New invoice</span></button>
         </div>
       </article>`).join('')}
@@ -12790,18 +12820,44 @@ dialog.zf-closing::backdrop {
     if (typeof updateWsLivePreview === 'function') updateWsLivePreview();
   }
 
-  /* ---------- print ---------- */
+  /* ---------- print & batch print ---------- */
+  let batchPrintTargets=null;
   async function doPrint(inv){
     printTarget=inv;
+    batchPrintTargets=null;
     try{if(document.fonts&&document.fonts.ready)await document.fonts.ready}catch(e){}
     setTimeout(()=>window.print(),30);
   }
+  async function doBatchPrint(invs){
+    if(!invs||!invs.length){
+      toast('No documents found to batch print.','err');
+      return;
+    }
+    batchPrintTargets=invs;
+    printTarget=null;
+    try{if(document.fonts&&document.fonts.ready)await document.fonts.ready}catch(e){}
+    setTimeout(()=>window.print(),50);
+  }
   window.addEventListener('beforeprint',()=>{
+    if(batchPrintTargets&&batchPrintTargets.length){
+      $('#printRoot').innerHTML=batchPrintTargets.map(inv=>`
+        <div class="batch-page" style="page-break-after:always;break-after:page;min-height:260mm;padding:0;margin:0">
+          ${renderPaper(inv,{})}
+        </div>
+      `).join('');
+      document.title=`Batch_Export_${batchPrintTargets.length}_Documents`;
+      return;
+    }
     const inv=printTarget||(ed&&ed.inv)||S.invoices.find(x=>x.id===ui.selectedId);if(!inv)return;
     $('#printRoot').innerHTML=renderPaper(inv,{});
     document.title=(inv.number+' - '+(inv.client.name||'invoice')).replace(/[\\/:*?"<>|]+/g,'');
   });
-  window.addEventListener('afterprint',()=>{$('#printRoot').innerHTML='';printTarget=null;document.title=origTitle});
+  window.addEventListener('afterprint',()=>{
+    $('#printRoot').innerHTML='';
+    printTarget=null;
+    batchPrintTargets=null;
+    document.title=origTitle;
+  });
 
   /* ---------- signature pad ---------- */
   const sig={drawing:false,drawn:false,ctx:null,last:null};
@@ -13440,6 +13496,39 @@ dialog.zf-closing::backdrop {
         ui.filter=b.dataset.v;
         renderInvoicesSplit();
         break;
+      case 'filter-doc-type':
+        ui.docFilter=b.dataset.type||'all';
+        $('.doc-filter-tab').forEach(el=>{
+          const match=el.dataset.type===ui.docFilter;
+          el.classList.toggle('active',match);
+          el.style.background=match?'var(--accent)':'var(--surface)';
+          el.style.color=match?'#fff':'var(--text)';
+          el.style.borderColor=match?'var(--accent)':'var(--line)';
+        });
+        renderInvoicesSplit();
+        break;
+      case 'batch-print':{
+        const q=ui.q.trim().toLowerCase();
+        const docTypeMatch=(inv)=>{
+          if(!ui.docFilter||ui.docFilter==='all')return true;
+          const t=inv.title||'invoice';
+          if(ui.docFilter==='invoice')return t==='invoice'||t==='tax';
+          if(ui.docFilter==='quote')return t==='quote'||t==='proforma';
+          return t===ui.docFilter;
+        };
+        const rows=S.invoices.filter(i=>
+          (ui.filter==='all'||effStatus(i)===ui.filter)&&
+          docTypeMatch(i)&&
+          (!q||(i.client.name+' '+i.number+' '+i.client.email).toLowerCase().includes(q))
+        );
+        if(!rows.length){
+          toast('No documents found in current filter to batch print.','err');
+          break;
+        }
+        await doBatchPrint(rows);
+        toast(`Printing ${rows.length} document${rows.length===1?'':'s'} batch...`,'ok');
+        break;
+      }
       case 'select-inv':
         ui.selectedId=id;
         renderInvoicesSplit();
@@ -13682,6 +13771,42 @@ dialog.zf-closing::backdrop {
       case 'client-filter':
         await navigate('invoices',{filter:'all',q:b.dataset.client||''});
         break;
+      case 'client-soa':{
+        const g=getClientGroups()[+b.dataset.idx];
+        if(!g) break;
+        const clientInvs=S.invoices.filter(i=>(i.client.name||'').trim().toLowerCase()===g.name.toLowerCase()&&i.status!=='void');
+        const items=clientInvs.map(inv=>{
+          const c=calc(inv);
+          const st=effStatus(inv).toUpperCase();
+          return {
+            id:uid(),
+            description:`${normDocTitle(inv.title||'invoice').toUpperCase()} #${inv.number} (Date: ${inv.issue}, Status: ${st})`,
+            qty:1,
+            rate:Math.round(c.total)/100,
+            amount:Math.round(c.total)/100,
+            taxRate:0
+          };
+        });
+        if(!items.length){
+          items.push({id:uid(),description:'Periodic Statement of Account Ledger Balance',qty:1,rate:0,amount:0,taxRate:0});
+        }
+        const curr=clientInvs[0]?.currency||S.settings.defaults.currency||'USD';
+        const docNum='SOA-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
+        const soaDoc=normInvoice({
+          title:'statement',
+          number:docNum,
+          client:{name:g.name,email:g.email,phone:g.phone,address:g.address,state:g.state,taxId:g.taxId},
+          currency:curr,
+          items:items,
+          notes:`Official Statement of Account for ${g.name}. All debits, credits, and unsettled transactions as of ${todayISO()}.`,
+          issue:todayISO(),
+          due:todayISO()
+        });
+        ed=soaDoc;
+        await navigate('editor');
+        toast(`Generated Official Statement of Account for ${g.name}`,'ok');
+        break;
+      }
       case 'client-new-inv':{
         const g=getClientGroups()[+b.dataset.idx];
         ed=null;
@@ -14566,7 +14691,7 @@ dialog.zf-closing::backdrop {
       {name:'XSS escaping in invoice paper',pass:!renderPaper(normInvoice({client:{name:'<scr'+'ipt>xss</scr'+'ipt>'}}),{}).includes('<scr'+'ipt>')},
       {name:'CSV formula injection guard (=, +, -, @)',pass:csvCell('=SUM(A1)').startsWith("'")&&csvCell('@cmd').startsWith("'")},
       {name:'UPI & ZATCA TLV QR SVG generator',pass:QRCodeEngine.toSVG('upi://pay?pa=test@upi', 96).includes('<svg') && generateZatcaTLV('شركة', '300000000000003', '2026-10-29T12:00:00Z', '115.00', '15.00').length > 20},
-      {name:'10 Document Types & Jamia Claim preservation',pass:normInvoice({title:'claim'}).title === 'claim' && normInvoice({title:'voucher'}).title === 'voucher'},
+      {name:'13 Commercial Document Types & Directory preservation',pass:normInvoice({title:'claim'}).title === 'claim' && normInvoice({title:'statement'}).title === 'statement' && normInvoice({title:'challan'}).title === 'challan' && typeof doBatchPrint === 'function'},
       {name:'Recurring invoice date progression',pass:addRecurringDate('2026-01-15', 'monthly') === '2026-02-15'},
       {name:'Payment ledger balance & partial status',pass:(()=>{ const i = normInvoice({status:'sent', items:[{desc:'X',qty:'1',rate:'100'}]}); recordPaymentOnInvoice(i, {type:'payment', amount:'40', date:'2026-10-01'}); return effStatus(i)==='partial' && calc(i).balanceMinor===6000; })()}
     ];

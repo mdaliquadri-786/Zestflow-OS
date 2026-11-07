@@ -454,7 +454,7 @@ test('Shipping & Freight Charges: Exact minor unit calculations and paper displa
   assert.ok(html.includes("'shipping'"), 'Must provide shipping field in editor form');
 });
 
-// 22. Phase 4: Dual Currency / FX Real-Time Note
+// 21. Phase 4: Dual Currency / FX Real-Time Note
 test('Dual Currency & FX Note: Displays secondary currency conversion estimate', () => {
   const invFX = zf.normInvoice({
     currency: 'USD',
@@ -468,6 +468,43 @@ test('Dual Currency & FX Note: Displays secondary currency conversion estimate',
   assert.ok(paperFX.includes('3.75'), 'Paper must display exchange rate 3.75');
   assert.ok(html.includes("'secondaryCurrency'"), 'Must provide secondaryCurrency field in editor');
   assert.ok(html.includes("'exchangeRate'"), 'Must provide exchangeRate field in editor');
+});
+
+// 22. Phase 5/6: Multi-Document Directory Filter Tabs
+test('Multi-Document Directory Tabs: Renders tabs and filters document list accurately', () => {
+  assert.ok(html.includes('doc-directory-tabs'), 'Must render .doc-directory-tabs container in invoices page');
+  assert.ok(html.includes('data-act="filter-doc-type"'), 'Must have filter-doc-type buttons');
+  assert.ok(html.includes("case 'filter-doc-type':"), 'Must have click handler for filter-doc-type');
+  assert.ok(html.includes('docTypeMatch'), 'Must filter rows by docTypeMatch in renderInvoicesSplit');
+  assert.ok(html.includes("docFilter:'all'"), 'ui state must initialize docFilter');
+});
+
+// 23. Phase 5/6: Batch Print / PDF Multi-Page Export
+test('Batch Print Suite: Supports multi-page print breaks and batch export action', () => {
+  assert.ok(html.includes('data-act="batch-print"'), 'Must render batch-print button in invoices page header');
+  assert.ok(html.includes("case 'batch-print':"), 'Must wire batch-print click case');
+  assert.ok(html.includes('async function doBatchPrint'), 'Must provide doBatchPrint function');
+  assert.ok(html.includes('.batch-page{page-break-after:always;break-after:page;min-height:260mm}'), 'Must define A4 page-break print styles');
+  assert.ok(html.includes('batchPrintTargets'), 'Must populate batchPrintTargets on beforeprint');
+});
+
+// 24. Phase 5/6: Customer Statement of Account (SOA) Generator in CRM
+test('Customer Statement of Account (SOA): Generates consolidated periodic ledger in 1-click', () => {
+  assert.ok(html.includes('data-act="client-soa"'), 'Must render Statement (SOA) button in client CRM cards');
+  assert.ok(html.includes("case 'client-soa':"), 'Must handle client-soa click action');
+  const soaSample = zf.normInvoice({
+    title: 'statement',
+    client: { name: 'Acme Global Corp' },
+    items: [
+      { desc: 'TAX INVOICE #INV-001 (Date: 2026-10-01, Status: PAID)', qty: 1, rate: 5000 },
+      { desc: 'TAX INVOICE #INV-002 (Date: 2026-11-01, Status: SENT)', qty: 1, rate: 3200 }
+    ]
+  });
+  assert.strictEqual(soaSample.title, 'statement', 'NormInvoice must maintain statement document type');
+  const soaPaper = zf.renderPaper(soaSample, {});
+  assert.ok(soaPaper.toUpperCase().includes('STATEMENT OF ACCOUNT'), 'Statement of account must render statement header');
+  assert.ok(soaPaper.includes('Acme Global Corp'), 'Statement of account must render client name');
+  assert.ok(soaPaper.includes('INV-001'), 'Statement of account must include invoice item history');
 });
 
 console.log(`\nResults: ${passCount}/${totalCount} tests passed.`);
