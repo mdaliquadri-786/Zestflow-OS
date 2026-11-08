@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2FNFm1Z2YqapROHQN73iT1za8VlwZZgYVl5fDJ8/uWI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-CBBQeQTcgi5WtY02+OkOIhc1f41lV8lseYhXU2qMKqA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -648,10 +648,10 @@
   .p-meta .cs{color:var(--sub);white-space:pre-line;font-size:13px;margin-top:2px}
   .p-dates{display:grid;grid-template-columns:auto auto;justify-content:end;gap:6px 18px}
   .p-dates dt{color:var(--sub)}.p-dates dd{margin:0;font-weight:600;text-align:end}
-  .p-tbl{width:100%;border-collapse:collapse;margin-top:4px}
-  .p-tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--sub);font-weight:600;padding:10px 8px;border-bottom:1px solid var(--ink);text-align:start;background:#f5f7fa}
+  .p-tbl{width:100%;border-collapse:collapse;margin-top:8px}
+  .p-tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:700;padding:11px 10px;border-top:1px solid #e2e8f0;border-bottom:1.5px solid #cbd5e1;text-align:start;background:#f8fafc}
   .paper[lang=ar] .p-tbl th,.paper[lang=ur] .p-tbl th,.paper[lang=te] .p-tbl th{text-transform:none;letter-spacing:0;font-size:13px}
-  .p-tbl td{padding:11px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+  .p-tbl td{padding:12px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:13px}
   .p-tbl .d{white-space:pre-line;word-break:break-word;width:50%}
   .p-tbl th.n,.p-tbl td.n{text-align:end;white-space:nowrap}
   .p-tbl thead{display:table-header-group}
@@ -664,7 +664,9 @@
   .num{direction:ltr;unicode-bidi:isolate;display:inline-block}
   .p-tot{margin-top:18px;margin-inline-start:auto;width:300px;break-inside:avoid}
   .p-tot div{display:flex;justify-content:space-between;gap:16px;padding:5px 8px;color:var(--sub)}
-  .p-tot .g{background:var(--ink);color:#fff;font-weight:700;font-size:16px;border-radius:6px;padding:10px 12px;margin-top:8px}
+  .p-tot .g{background:#0f172a;color:#fff;font-weight:800;font-size:15px;border-radius:8px;padding:10px 14px;margin-top:10px;box-shadow:0 4px 12px rgba(15,23,42,0.12)}
+  .p-tot .g span{color:#fff !important}
+  .p-tot .g .num{color:#fff !important;font-size:16px;font-weight:800}
 
   .p-qr-wrap{display:flex;align-items:center;gap:14px;margin-top:18px;padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;break-inside:avoid}
   .p-qr-box{background:#fff;padding:6px;border-radius:6px;border:1px solid #cbd5e1;display:inline-flex;flex-shrink:0}
@@ -927,31 +929,39 @@
   .tpl-chips-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 18px;
   }
   .tpl-chip {
     padding: 10px 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1.5px solid var(--line, rgba(15, 23, 42, 0.12));
     background: var(--surface-1, #f8fafc);
     color: var(--ink, #0f172a);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-align: center;
     cursor: pointer;
-    transition: all 0.18s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   }
   .tpl-chip:hover {
     border-color: #ff5733;
-    background: rgba(255, 87, 51, 0.04);
+    background: rgba(255, 87, 51, 0.06);
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(255, 87, 51, 0.15);
   }
   .tpl-chip.active {
     border-color: #ff5733;
     background: #ff5733;
     color: #ffffff;
-    box-shadow: 0 3px 10px rgba(255, 87, 51, 0.35);
+    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.4);
+    transform: translateY(-1.5px);
   }
   .color-swatches-row {
     display: flex;
@@ -3546,9 +3556,9 @@ dialog.zf-closing::backdrop {
   /* Invoices Template Card */
   .invo-tpl-item {
     border: 1px solid var(--line, rgba(15, 23, 42, 0.08));
-    border-radius: 14px;
-    padding: 10px 12px;
-    background: var(--surface-2, #f8fafc);
+    border-radius: 12px;
+    padding: 8px 12px;
+    background: var(--surface-1, #ffffff);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3558,11 +3568,12 @@ dialog.zf-closing::backdrop {
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     box-sizing: border-box;
+    min-height: 50px;
   }
   .invo-tpl-item:hover {
     transform: translateY(-1.5px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-    border-color: rgba(255, 87, 51, 0.35);
+    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.15);
+    border-color: rgba(255, 87, 51, 0.45);
     background: var(--surface, #ffffff);
   }
   html[data-theme="dark"] .invo-tpl-item {
@@ -3580,13 +3591,14 @@ dialog.zf-closing::backdrop {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2.5px;
+    gap: 2px;
   }
   .invo-tpl-meta strong {
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text, #0f172a);
-    line-height: 1.25;
+    line-height: 1.35;
+    margin-bottom: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3594,24 +3606,73 @@ dialog.zf-closing::backdrop {
   }
   html[data-theme="dark"] .invo-tpl-meta strong { color: #f8fafc; }
   .invo-tpl-meta span {
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--muted, #64748b);
-    line-height: 1.35;
+    line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
   }
   html[data-theme="dark"] .invo-tpl-meta span { color: #94a3b8; }
+  .invo-cat-pill {
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--line, rgba(15, 23, 42, 0.12));
+    background: var(--surface-2, #f8fafc);
+    color: var(--sub, #64748b);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.16s ease;
+    user-select: none;
+  }
+  .invo-cat-pill:hover {
+    border-color: #ff5733;
+    color: #ff5733;
+  }
+  .invo-cat-pill.active {
+    background: #ff5733 !important;
+    border-color: #ff5733 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.35);
+  }
+  .invo-showcase-card {
+    background: var(--surface-2, #f8fafc);
+    border: 1.5px solid var(--line, rgba(15, 23, 42, 0.08));
+    border-radius: 14px;
+    padding: 10px 12px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .invo-showcase-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 87, 51, 0.45);
+    box-shadow: 0 6px 18px rgba(255, 87, 51, 0.12);
+  }
+  html[data-theme="dark"] .invo-showcase-card {
+    background: #171b26;
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  html[data-theme="dark"] .invo-showcase-card:hover {
+    border-color: rgba(255, 87, 51, 0.45);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
   .invo-tpl-add {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #ff5733;
     color: #ffffff;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -11045,7 +11106,7 @@ dialog.zf-closing::backdrop {
           /* Templates Selection Card */
           '<div class="invo-card" style="display:flex;flex-direction:column;justify-content:space-between">' +
             '<div>' +
-              '<div class="invo-card-h" style="margin-bottom:8px">' +
+              '<div class="invo-card-h" style="margin-bottom:6px">' +
                 '<div>' +
                   '<div>' +
                     '<div style="display:flex;align-items:center;gap:8px">' +
@@ -11061,10 +11122,63 @@ dialog.zf-closing::backdrop {
                 '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents">↗</button>' +
               '</div>' +
 
+              /* Category Filter Tabs */
+              '<div class="invo-tpl-categories" style="display:flex;gap:6px;margin:8px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px">' +
+                '<button type="button" class="invo-cat-pill active" data-act="filter-tpl-cat" data-cat="all">All (8)</button>' +
+                '<button type="button" class="invo-cat-pill" data-act="filter-tpl-cat" data-cat="invoices">Invoices</button>' +
+                '<button type="button" class="invo-cat-pill" data-act="filter-tpl-cat" data-cat="commercial">Commercial</button>' +
+                '<button type="button" class="invo-cat-pill" data-act="filter-tpl-cat" data-cat="receipts">Receipts</button>' +
+              '</div>' +
+
+              /* Featured Dual Showcase Mockup Cards (Dribbble Benchmark) */
+              '<div class="invo-featured-showcase" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">' +
+                '<div class="invo-showcase-card" data-act="add-template" data-tpl="modern" data-title="invoice" title="Click to create Modern SaaS Invoice">' +
+                  '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+                    '<span style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#ff5733;background:rgba(255,87,51,0.08);padding:2px 7px;border-radius:6px">Simple Invoices</span>' +
+                    '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="modern" data-title="invoice" title="Create Modern SaaS Invoice" style="width:24px;height:24px;font-size:14px">+</button>' +
+                  '</div>' +
+                  '<div style="margin:8px 0 6px">' +
+                    '<svg width="100%" height="28" viewBox="0 0 120 28" fill="none">' +
+                      '<rect width="120" height="28" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.08)" stroke-width="1"/>' +
+                      '<rect x="8" y="5" width="28" height="3" rx="1.5" fill="#ff5733"/>' +
+                      '<rect x="8" y="11" width="70" height="2" rx="1" fill="#e2e8f0"/>' +
+                      '<rect x="8" y="16" width="50" height="2" rx="1" fill="#e2e8f0"/>' +
+                      '<rect x="8" y="21" width="40" height="2" rx="1" fill="#e2e8f0"/>' +
+                      '<rect x="90" y="16" width="22" height="6" rx="2" fill="rgba(255,87,51,0.2)"/>' +
+                    '</svg>' +
+                  '</div>' +
+                  '<div>' +
+                    '<div style="font-size:12px;font-weight:700;color:var(--text);line-height:1.25">Modern SaaS</div>' +
+                    '<div style="font-size:10.5px;color:var(--muted);line-height:1.2">Tech &amp; Retainers</div>' +
+                  '</div>' +
+                '</div>' +
+
+                '<div class="invo-showcase-card" data-act="add-template" data-tpl="creative" data-title="quote" title="Click to create Creative Studio Quote">' +
+                  '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+                    '<span style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0f2e5c;background:rgba(15,46,92,0.08);padding:2px 7px;border-radius:6px">Creative Invoices</span>' +
+                    '<button type="button" class="invo-tpl-add" data-act="add-template" data-tpl="creative" data-title="quote" title="Create Creative Quotation" style="width:24px;height:24px;font-size:14px">+</button>' +
+                  '</div>' +
+                  '<div style="margin:8px 0 6px">' +
+                    '<svg width="100%" height="28" viewBox="0 0 120 28" fill="none">' +
+                      '<rect width="120" height="28" rx="4" fill="#ffffff" stroke="rgba(15,23,42,0.08)" stroke-width="1"/>' +
+                      '<rect width="120" height="3" fill="#0f2e5c"/>' +
+                      '<rect x="8" y="8" width="32" height="3" rx="1.5" fill="#0f2e5c"/>' +
+                      '<rect x="8" y="14" width="75" height="2" rx="1" fill="#e2e8f0"/>' +
+                      '<rect x="8" y="19" width="55" height="2" rx="1" fill="#e2e8f0"/>' +
+                      '<rect x="90" y="16" width="22" height="6" rx="2" fill="#ff5733"/>' +
+                    '</svg>' +
+                  '</div>' +
+                  '<div>' +
+                    '<div style="font-size:12px;font-weight:700;color:var(--text);line-height:1.25">Creative Studio</div>' +
+                    '<div style="font-size:10.5px;color:var(--muted);line-height:1.2">Design &amp; Proposals</div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+
               '<div class="invo-tpl-scroll-list" tabindex="0" role="region" aria-label="Curated Invoice Templates">' +
 
             /* 1. Modern SaaS Invoice */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="modern" data-title="invoice" title="Click to load Modern SaaS Invoice">' +
+            '<div class="invo-tpl-item" data-category="invoices" data-act="add-template" data-tpl="modern" data-title="invoice" title="Click to load Modern SaaS Invoice">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11085,7 +11199,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 2. Corporate Tax Invoice */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="corporate" data-title="tax" title="Click to load Corporate Tax Invoice">' +
+            '<div class="invo-tpl-item" data-category="invoices" data-act="add-template" data-tpl="corporate" data-title="tax" title="Click to load Corporate Tax Invoice">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11106,7 +11220,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 3. Official Payment Receipt */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="compact" data-title="receipt" title="Click to load Payment Receipt">' +
+            '<div class="invo-tpl-item" data-category="receipts" data-act="add-template" data-tpl="compact" data-title="receipt" title="Click to load Payment Receipt">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11126,7 +11240,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 4. Purchase Order (PO) */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="minimal" data-title="po" title="Click to load Purchase Order">' +
+            '<div class="invo-tpl-item" data-category="commercial" data-act="add-template" data-tpl="minimal" data-title="po" title="Click to load Purchase Order">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11146,7 +11260,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 5. Creative Studio Quote */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="creative" data-title="quote" title="Click to load Creative Quote">' +
+            '<div class="invo-tpl-item" data-category="commercial" data-act="add-template" data-tpl="creative" data-title="quote" title="Click to load Creative Quote">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11166,7 +11280,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 6. Consultant Claim & Timesheet */
-            '<div class="invo-tpl-item" data-act="open-consultant-claim" title="Click to load Consultant Claim">' +
+            '<div class="invo-tpl-item" data-category="commercial" data-act="open-consultant-claim" title="Click to load Consultant Claim">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11187,7 +11301,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 7. Debit Note & Return */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="minimal" data-title="debit" title="Click to load Debit Note">' +
+            '<div class="invo-tpl-item" data-category="commercial" data-act="add-template" data-tpl="minimal" data-title="debit" title="Click to load Debit Note">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11207,7 +11321,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* 8. Delivery Challan / Slip */
-            '<div class="invo-tpl-item" data-act="add-template" data-tpl="compact" data-title="challan" title="Click to load Delivery Challan">' +
+            '<div class="invo-tpl-item" data-category="commercial" data-act="add-template" data-tpl="compact" data-title="challan" title="Click to load Delivery Challan">' +
               '<div class="invo-tpl-thumb">' +
                 '<svg width="38" height="46" viewBox="0 0 38 46" fill="none">' +
                   '<rect width="38" height="46" rx="6" fill="#F8FAFC"/>' +
@@ -11229,7 +11343,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
 
             /* Custom Studio Action */
-            '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:700;font-size:12.5px;background:rgba(255,87,51,0.08);color:#ff5733;border:1px solid rgba(255,87,51,0.25);padding:10px 16px;border-radius:12px;margin-top:12px;display:flex;align-items:center;gap:7px;transition:all 0.18s ease;cursor:pointer">' +
+            '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:700;font-size:12.5px;background:rgba(255,87,51,0.08);color:#ff5733;border:1.5px solid rgba(255,87,51,0.25);padding:10px 16px;border-radius:12px;margin-top:10px;display:flex;align-items:center;gap:7px;transition:all 0.18s ease;cursor:pointer">' +
               '🎨 Open Custom Design Studio' +
             '</button>' +
           '</div>' +
@@ -11493,13 +11607,13 @@ dialog.zf-closing::backdrop {
 
         <div class="studio-section-title">1. Curated Template Archetypes (7 Market-Leading Designs)</div>
         <div class="tpl-chips-grid">
-          <button type="button" class="tpl-chip ${(inv.template==='modern')?'active':''}" data-act="pick-tpl-archetype" data-tpl="modern">Modern SaaS</button>
-          <button type="button" class="tpl-chip ${(inv.template==='minimal')?'active':''}" data-act="pick-tpl-archetype" data-tpl="minimal">Minimal Swiss</button>
-          <button type="button" class="tpl-chip ${(inv.template==='corporate')?'active':''}" data-act="pick-tpl-archetype" data-tpl="corporate">Corporate Ledger</button>
-          <button type="button" class="tpl-chip ${(inv.template==='creative')?'active':''}" data-act="pick-tpl-archetype" data-tpl="creative">Creative Studio</button>
-          <button type="button" class="tpl-chip ${(inv.template==='claim')?'active':''}" data-act="pick-tpl-archetype" data-tpl="claim">Consultant Claim</button>
-          <button type="button" class="tpl-chip ${(inv.template==='compact')?'active':''}" data-act="pick-tpl-archetype" data-tpl="compact">Compact Retail POS</button>
-          <button type="button" class="tpl-chip ${(!inv.template||inv.template==='classic')?'active':''}" data-act="pick-tpl-archetype" data-tpl="classic">Classic Clean</button>
+          <button type="button" class="tpl-chip ${(inv.template==='modern')?'active':''}" data-act="pick-tpl-archetype" data-tpl="modern">⚡ Modern SaaS</button>
+          <button type="button" class="tpl-chip ${(inv.template==='minimal')?'active':''}" data-act="pick-tpl-archetype" data-tpl="minimal">📐 Minimal Swiss</button>
+          <button type="button" class="tpl-chip ${(inv.template==='corporate')?'active':''}" data-act="pick-tpl-archetype" data-tpl="corporate">🏛️ Corporate Ledger</button>
+          <button type="button" class="tpl-chip ${(inv.template==='creative')?'active':''}" data-act="pick-tpl-archetype" data-tpl="creative">🎨 Creative Studio</button>
+          <button type="button" class="tpl-chip ${(inv.template==='claim')?'active':''}" data-act="pick-tpl-archetype" data-tpl="claim">💼 Consultant Claim</button>
+          <button type="button" class="tpl-chip ${(inv.template==='compact')?'active':''}" data-act="pick-tpl-archetype" data-tpl="compact">🧾 Compact Retail POS</button>
+          <button type="button" class="tpl-chip ${(!inv.template||inv.template==='classic')?'active':''}" data-act="pick-tpl-archetype" data-tpl="classic">📄 Classic Clean</button>
         </div>
 
         <div class="studio-section-title">2. Brand Accent Color Palette</div>
@@ -14308,6 +14422,21 @@ dialog.zf-closing::backdrop {
       case 'cash-more-options':{
         const title = b.dataset.title || 'Invoices';
         await navigate('invoices', { filter: 'all', q: '' });
+        break;
+      }
+      case 'filter-tpl-cat':{
+        const cat = b.dataset.cat || 'all';
+        $$('.invo-cat-pill').forEach(p => {
+          const isActive = p.dataset.cat === cat;
+          p.classList.toggle('active', isActive);
+          p.style.background = isActive ? '#ff5733' : 'var(--surface-2)';
+          p.style.color = isActive ? '#ffffff' : 'var(--sub)';
+          p.style.borderColor = isActive ? '#ff5733' : 'var(--line)';
+        });
+        $$('.invo-tpl-item').forEach(item => {
+          const itemCat = item.dataset.category || 'all';
+          item.style.display = (cat === 'all' || itemCat === cat) ? 'flex' : 'none';
+        });
         break;
       }
       case 'add-template':{
