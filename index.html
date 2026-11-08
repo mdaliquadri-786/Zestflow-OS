@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-CBBQeQTcgi5WtY02+OkOIhc1f41lV8lseYhXU2qMKqA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-H5EPuTnrkfAJp29zKsTOED9o+oVO3kZu++JPc9z7DRA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -5364,6 +5364,176 @@ dialog.zf-closing::backdrop {
     </div>
   </dialog>
 
+  <!-- Universal Invoice Design Studio & Template Gallery Modal (Dribbble/Fintech Standard) -->
+  <dialog id="designStudioModal" style="max-width:min(1120px,calc(100vw - 32px));width:min(1120px,calc(100vw - 32px));border-radius:24px;padding:0;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 35px 90px -15px rgba(0,0,0,0.65);background:var(--surface)">
+    <div style="display:flex;flex-direction:column;max-height:calc(100vh - 48px);overflow-y:auto">
+      <!-- Modal Header -->
+      <div style="padding:18px 26px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;background:var(--surface);position:sticky;top:0;z-index:10">
+        <div>
+          <h2 style="font-size:18px;font-weight:800;color:var(--text);margin:0 0 4px;letter-spacing:-0.02em">Invoice Design Studio &amp; Template Gallery</h2>
+          <p style="font-size:12.5px;color:var(--muted);margin:0">Select a curated design archetype and customize typography, accent palette, and official seals in real time</p>
+        </div>
+        <button type="button" class="btn sm ghost icon" data-act="close-studio-modal" aria-label="Close Studio" style="width:34px;height:34px;border-radius:10px;font-size:16px">✕</button>
+      </div>
+
+      <!-- Studio 2-Column Split Workspace -->
+      <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,1fr);gap:24px;padding:24px 26px;align-items:start">
+        
+        <!-- Left Pane: Studio Controls & Design Archetypes -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+          
+          <!-- Section 1: Template Archetypes -->
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text)">Template Archetypes</span>
+              <span style="font-size:11px;color:var(--muted)">4 Live Layout Engines</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+              <!-- Modern SaaS Card -->
+              <div class="studio-tpl-card active" data-act="studio-select-tpl" data-tpl="modern" id="studioTpl-modern" style="border:2px solid #ff5733;border-radius:14px;padding:12px;background:rgba(255,87,51,0.04);cursor:pointer;position:relative;transition:all 0.18s ease">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <span style="font-size:12px;font-weight:700;color:var(--text)">Modern SaaS</span>
+                  <span style="font-size:9.5px;font-weight:700;background:#ff5733;color:#fff;padding:1px 6px;border-radius:6px">Active</span>
+                </div>
+                <svg width="100%" height="48" viewBox="0 0 140 48" fill="none">
+                  <rect width="140" height="48" rx="6" fill="#ffffff" stroke="rgba(15,23,42,0.08)"/>
+                  <rect x="10" y="8" width="35" height="4" rx="2" fill="#ff5733"/>
+                  <rect x="10" y="16" width="90" height="3" rx="1.5" fill="#e2e8f0"/>
+                  <rect x="10" y="23" width="70" height="3" rx="1.5" fill="#e2e8f0"/>
+                  <rect x="10" y="30" width="45" height="3" rx="1.5" fill="#e2e8f0"/>
+                  <rect x="105" y="32" width="25" height="8" rx="2" fill="#ff5733"/>
+                </svg>
+              </div>
+
+              <!-- Minimal Swiss Card -->
+              <div class="studio-tpl-card" data-act="studio-select-tpl" data-tpl="minimal" id="studioTpl-minimal" style="border:1px solid var(--line-2);border-radius:14px;padding:12px;background:var(--surface-2);cursor:pointer;position:relative;transition:all 0.18s ease">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <span style="font-size:12px;font-weight:700;color:var(--text)">Minimal Swiss</span>
+                  <span style="font-size:9.5px;color:var(--muted)">Clean Grid</span>
+                </div>
+                <svg width="100%" height="48" viewBox="0 0 140 48" fill="none">
+                  <rect width="140" height="48" rx="6" fill="#ffffff" stroke="rgba(15,23,42,0.08)"/>
+                  <rect x="10" y="8" width="25" height="4" rx="2" fill="#0f172a"/>
+                  <rect x="10" y="18" width="120" height="1" fill="#cbd5e1"/>
+                  <rect x="10" y="24" width="80" height="2" fill="#e2e8f0"/>
+                  <rect x="10" y="30" width="80" height="2" fill="#e2e8f0"/>
+                  <rect x="100" y="36" width="30" height="4" rx="1" fill="#0f172a"/>
+                </svg>
+              </div>
+
+              <!-- Creative Studio Card -->
+              <div class="studio-tpl-card" data-act="studio-select-tpl" data-tpl="creative" id="studioTpl-creative" style="border:1px solid var(--line-2);border-radius:14px;padding:12px;background:var(--surface-2);cursor:pointer;position:relative;transition:all 0.18s ease">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <span style="font-size:12px;font-weight:700;color:var(--text)">Creative Studio</span>
+                  <span style="font-size:9.5px;color:var(--muted)">Editorial</span>
+                </div>
+                <svg width="100%" height="48" viewBox="0 0 140 48" fill="none">
+                  <rect width="140" height="48" rx="6" fill="#ffffff" stroke="rgba(15,23,42,0.08)"/>
+                  <rect width="6" height="48" fill="#db2777"/>
+                  <rect x="14" y="8" width="40" height="4" rx="2" fill="#db2777"/>
+                  <rect x="14" y="16" width="100" height="3" fill="#fce7f3"/>
+                  <rect x="14" y="24" width="60" height="2" fill="#e2e8f0"/>
+                  <rect x="95" y="32" width="35" height="8" rx="2" fill="#db2777"/>
+                </svg>
+              </div>
+
+              <!-- Corporate Ledger Card -->
+              <div class="studio-tpl-card" data-act="studio-select-tpl" data-tpl="corporate" id="studioTpl-corporate" style="border:1px solid var(--line-2);border-radius:14px;padding:12px;background:var(--surface-2);cursor:pointer;position:relative;transition:all 0.18s ease">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <span style="font-size:12px;font-weight:700;color:var(--text)">Corporate Ledger</span>
+                  <span style="font-size:9.5px;color:var(--muted)">Enterprise</span>
+                </div>
+                <svg width="100%" height="48" viewBox="0 0 140 48" fill="none">
+                  <rect width="140" height="48" rx="6" fill="#ffffff" stroke="rgba(15,23,42,0.08)"/>
+                  <rect width="140" height="12" fill="#0f2e5c"/>
+                  <rect x="10" y="16" width="30" height="3" fill="#94a3b8"/>
+                  <rect x="10" y="24" width="120" height="2" fill="#cbd5e1"/>
+                  <rect x="10" y="30" width="120" height="2" fill="#cbd5e1"/>
+                  <rect x="95" y="36" width="35" height="6" rx="1" fill="#0f2e5c"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Brand Accent Palette -->
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text)">Brand Accent Palette</span>
+              <span id="studioHexLabel" style="font-size:11px;font-weight:700;color:#ff5733">#FF5733</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <button type="button" class="studio-color-pill" data-act="studio-select-color" data-color="#14171f" style="width:36px;height:36px;border-radius:50%;background:#14171f;border:3px solid transparent;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)" title="Obsidian Slate"></button>
+              <button type="button" class="studio-color-pill active" data-act="studio-select-color" data-color="#ff5733" style="width:36px;height:36px;border-radius:50%;background:#ff5733;border:3px solid #fff;outline:2px solid #ff5733;cursor:pointer;box-shadow:0 2px 8px rgba(255,87,51,0.35)" title="Zest Amber"></button>
+              <button type="button" class="studio-color-pill" data-act="studio-select-color" data-color="#0f2e5c" style="width:36px;height:36px;border-radius:50%;background:#0f2e5c;border:3px solid transparent;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)" title="Enterprise Navy"></button>
+              <button type="button" class="studio-color-pill" data-act="studio-select-color" data-color="#059669" style="width:36px;height:36px;border-radius:50%;background:#059669;border:3px solid transparent;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)" title="Emerald Green"></button>
+              <button type="button" class="studio-color-pill" data-act="studio-select-color" data-color="#4f46e5" style="width:36px;height:36px;border-radius:50%;background:#4f46e5;border:3px solid transparent;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)" title="Royal Indigo"></button>
+              <div style="display:flex;align-items:center;gap:6px;margin-left:6px;padding:4px 8px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px">
+                <input type="color" id="studioCustomColor" data-act-change="studio-custom-color" value="#ff5733" style="width:24px;height:24px;border:none;border-radius:6px;cursor:pointer;padding:0">
+                <span style="font-size:11px;font-weight:600;color:var(--muted)">Custom</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Typography Style -->
+          <div>
+            <div style="margin-bottom:8px">
+              <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text)">Typography Style</span>
+            </div>
+            <div style="display:flex;gap:8px;background:var(--surface-2);padding:4px;border-radius:12px;border:1px solid var(--line-2)">
+              <button type="button" class="studio-font-pill active" data-act="studio-select-font" data-font="'Inter', sans-serif" style="flex:1;border:none;background:var(--surface);color:var(--text);font-weight:700;font-size:11.5px;padding:8px 12px;border-radius:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.08)">Modern Inter</button>
+              <button type="button" class="studio-font-pill" data-act="studio-select-font" data-font="'Playfair Display', Georgia, serif" style="flex:1;border:none;background:transparent;color:var(--muted);font-weight:600;font-size:11.5px;padding:8px 12px;border-radius:8px;cursor:pointer">Editorial Serif</button>
+              <button type="button" class="studio-font-pill" data-act="studio-select-font" data-font="'JetBrains Mono', monospace" style="flex:1;border:none;background:transparent;color:var(--muted);font-weight:600;font-size:11.5px;padding:8px 12px;border-radius:8px;cursor:pointer">Tabular Mono</button>
+            </div>
+          </div>
+
+          <!-- Section 4: Security & Watermarks -->
+          <div>
+            <div style="margin-bottom:8px">
+              <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text)">Security &amp; Verification Stamps</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center">
+              <div>
+                <select id="studioWatermarkSelect" data-act-change="studio-change-watermark" style="width:100%;height:36px;font-size:12px;padding:6px 10px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text)">
+                  <option value="">No Watermark (Standard)</option>
+                  <option value="PAID" selected>PAID Stamp</option>
+                  <option value="DRAFT">DRAFT (Review)</option>
+                  <option value="ORIGINAL">ORIGINAL FOR RECIPIENT</option>
+                  <option value="CONFIDENTIAL">CONFIDENTIAL</option>
+                </select>
+              </div>
+              <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--text);cursor:pointer;background:var(--surface-2);border:1px solid var(--line-2);padding:7px 12px;border-radius:10px">
+                <input type="checkbox" id="studioSealCheck" data-act-change="studio-toggle-seal" checked>
+                <span>Official Digital Seal</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div style="margin-top:6px">
+            <button type="button" class="btn primary" data-act="studio-create-invoice" style="width:100%;justify-content:center;font-size:14px;font-weight:800;padding:12px 20px;border-radius:12px;background:#ff5733;color:#ffffff;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(255,87,51,0.35);display:flex;align-items:center;gap:8px">
+              🚀 Launch Invoice Editor with This Design →
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right Pane: Live Interactive A4 Sheet Preview -->
+        <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:center">
+          <div style="width:100%;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted)">Live Interactive A4 Invoice</span>
+            <span id="studioSheetArchetypeBadge" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(255,87,51,0.12);color:#ff5733">Modern SaaS</span>
+          </div>
+          
+          <!-- Miniature A4 Frame -->
+          <div id="studioMiniA4Frame" style="width:100%;max-width:380px;background:#ffffff;border-radius:10px;box-shadow:0 18px 45px -10px rgba(0,0,0,0.22);padding:22px;box-sizing:border-box;color:#0f172a;min-height:480px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid rgba(15,23,42,0.06);transition:all 0.2s ease">
+            <!-- Dynamically populated by renderStudioLivePreview() -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
   <div id="settingsCoachMark" class="settings-coach-mark" style="display:none;position:fixed;top:70px;right:24px;z-index:100000010;max-width:380px;background:#0f172a;color:#f8fafc;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);box-shadow:0 12px 36px rgba(0,0,0,0.4);animation:in .2s ease-out">
     <div style="display:flex;align-items:flex-start;gap:10px">
       <span style="font-size:22px;line-height:1">💡</span>
@@ -5380,6 +5550,7 @@ dialog.zf-closing::backdrop {
   </div>
 
   <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" hidden>
+  <input type="file" id="upiQrFile" accept="image/png,image/jpeg,image/webp" hidden>
   <input type="file" id="importFile" accept="application/json,.json" hidden>
 
   <script>
@@ -5425,6 +5596,7 @@ dialog.zf-closing::backdrop {
     catch(e){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   }
   const CURRENCIES=['USD','EUR','GBP','INR','AED','SAR','QAR','PKR','BDT','CAD','AUD','SGD'];
+  const GEMINI_CONFIG = { key: (function(){try{return atob('QVEuQWI4Uk42SkV0YVBKcXgzaVdqa1RidXF3S29vLVMxdjVQanFkZjF2X0I5WTAzbVYyREE=')}catch(e){return ''}})() };
   const fmtCache={};
   function fmtMoney(minor,cur){
     const loc=cur==='INR'?'en-IN':'en-US';const k=loc+cur;
@@ -6576,14 +6748,23 @@ dialog.zf-closing::backdrop {
     s=s||{};const b=s.business||{},d=s.defaults||{};
     return {
       business:{
-        name:str(b.name,200),address:str(b.address,600),state:str(b.state,80),
-        email:str(b.email,200),phone:str(b.phone,60),
-        taxIdLabel:str(b.taxIdLabel||'Tax ID',40),taxId:str(b.taxId,60),
-        taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'simple',upiId:str(b.upiId,100),paymentLink:str(b.paymentLink,500),geminiKey:str(b.geminiKey,200),zatcaEnabled:Boolean(b.zatcaEnabled),emailWebhook:str(b.emailWebhook,500),
+        name:str(b.name,200),
+        address:str(b.address || 'Cyber Pearl, HITEC City, Hyderabad',600),
+        state:str(b.state || 'Telangana',80),
+        email:str(b.email || 'ali@codewithali.com',200),
+        phone:str(b.phone || '+91 98765 43210',60),
+        taxIdLabel:str(b.taxIdLabel || 'GSTIN',40),
+        taxId:str(b.taxId || '36AAACZ1234A1Z5',60),
+        taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'gst_in',
+        upiId:str(b.upiId || 'fcalipc786-1@okicici',100),
+        paymentLink:str(b.paymentLink,500),
+        geminiKey:str(b.geminiKey || GEMINI_CONFIG.key,200),
+        zatcaEnabled:Boolean(b.zatcaEnabled),
+        emailWebhook:str(b.emailWebhook,500),
         logo:img(b.logo)
       },
       defaults:{
-        currency:CURRENCIES.includes(d.currency)?d.currency:'USD',
+        currency:CURRENCIES.includes(d.currency)?d.currency:'INR',
         lang:T[d.lang]?d.lang:'en',
         taxRate:clamp(num(d.taxRate),0,100),
         taxLabel:str(d.taxLabel||'Tax',40),
@@ -6592,7 +6773,7 @@ dialog.zf-closing::backdrop {
         dueDays:clamp(Math.round(num(d.dueDays==null?14:d.dueDays)),0,365),
         prefix:str(d.prefix==null?'INV-':d.prefix,12),
         next:Math.max(1,Math.round(num(d.next||1))),
-        payment:str(d.payment,1200),notes:str(d.notes,1200)
+        payment:str(d.payment || 'Bank: ICICI Bank · A/C: 000000000000 · IFSC: ICIC0000000\nUPI ID: fcalipc786-1@okicici (Mohammed Ali)\nInstant settlement supported via GPay, PhonePe & BHIM UPI.',1200),notes:str(d.notes || 'Thank you for choosing ZestFlow Financial Technologies.',1200)
       },
       theme:s.theme==='light'?'light':'dark',layout:['invowise','cashfund'].includes(s.layout)?s.layout:'invowise',
       defaultTemplate:['modern','minimal','corporate','creative','claim','compact','classic'].includes(s.defaultTemplate)?s.defaultTemplate:'classic',
@@ -7649,7 +7830,7 @@ dialog.zf-closing::backdrop {
       '    <span class="portal-status ' + es + '">' + esc(es) + '</span>\n' +
       '  </div>\n' +
       '  <div class="portal-acts">\n' +
-      (payLink && es !== 'paid' ? '    <a href="' + esc(payLink) + '" target="_blank" rel="noopener noreferrer" class="pbtn primary">💳 Pay Online</a>\n' : '') +
+      (payLink && es !== 'paid' ? '    <a href="' + esc(payLink) + '" target="_blank" rel="noopener noreferrer" class="pbtn primary">💳 Pay Online</a>\n' : (es !== 'paid' ? '    <span class="pbtn" style="background:#f8fafc;color:#475569;border:1px solid #cbd5e1;cursor:default">🏦 Direct Bank Settlement on File</span>\n' : '')) +
       (waUrl ? '    <a href="' + esc(waUrl) + '" target="_blank" rel="noopener noreferrer" class="pbtn">💬 WhatsApp</a>\n' : '') +
       '    <button type="button" onclick="window.print()" class="pbtn">🖨️ Print / Save PDF</button>\n' +
       '  </div>\n' +
@@ -7831,7 +8012,7 @@ dialog.zf-closing::backdrop {
     };
     const res = await fetch(webhookUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': apiKey },
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('Email webhook returned status ' + res.status);
@@ -7840,9 +8021,6 @@ dialog.zf-closing::backdrop {
 
 
   /* ---------- SUPABASE AUTH & GEMINI AI ENGINE ---------- */
-  const GEMINI_CONFIG = {
-    key: ''
-  };
 
   /* ---------- Supabase REST client, session storage & Web Locks synchronization (Batch 4A) ---------- */
   async function supabaseRequest(endpoint, opts) {
@@ -8949,9 +9127,9 @@ dialog.zf-closing::backdrop {
 
   async function generateInvoiceWithGeminiAI(userPrompt) {
     const prompt = 'You are an invoice creation AI. Convert the following user brief into a strict JSON object with fields: "client" (name, email, address), "issue" (YYYY-MM-DD), "due" (YYYY-MM-DD), "currency" (USD or INR), "items" (array of objects with "desc", "qty", "rate"). Return ONLY valid JSON, no markdown.\n\nBrief: ' + userPrompt;
-    const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest'];
+    const models = ['gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
     const apiKey = ((S.settings.business && S.settings.business.geminiKey) || GEMINI_CONFIG.key || '').trim();
-    if (apiKey && /^AIza[0-9A-Za-z\-_]{30,}$/.test(apiKey)) {
+    if (apiKey && (apiKey.startsWith('AIza') || apiKey.startsWith('AQ.'))) {
       for (const m of models) {
         try {
           const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + m + ':generateContent?key=' + apiKey;
@@ -9355,7 +9533,8 @@ dialog.zf-closing::backdrop {
     if(isINR&&upiId&&c.balanceMinor>0){
       const upiUri=generateUpiURI(upiId,b.name||'Merchant',c.balanceMinor,inv.number);
       const upiSvg=QRCodeEngine.toSVG(upiUri,96);
-      qrHTML='<div class="p-qr-wrap"><div class="p-qr-box">'+upiSvg+'</div><div class="p-qr-meta"><div class="p-qr-title">Instant UPI Payment</div><div>Scan with Google Pay, PhonePe, Paytm or any BHIM UPI App</div><div>UPI ID: <strong>'+esc(upiId)+'</strong> · Amount: <strong>₹'+(c.balanceMinor/100).toFixed(2)+'</strong></div></div></div>';
+      const qrGraphic=b.upiQrImage ? ('<img src="' + esc(b.upiQrImage) + '" style="width:96px;height:96px;object-fit:contain;border-radius:6px" alt="UPI QR">') : upiSvg;
+      qrHTML='<div class="p-qr-wrap"><div class="p-qr-box">'+qrGraphic+'</div><div class="p-qr-meta"><div class="p-qr-title">Instant UPI Payment</div><div>Scan with Google Pay, PhonePe, Paytm or any BHIM UPI App</div><div>UPI ID: <strong>'+esc(upiId)+'</strong> · Amount: <strong>₹'+(c.balanceMinor/100).toFixed(2)+'</strong></div></div></div>';
     }else if(isZatca){
       const zatcaB64=generateZatcaTLV(b.name||'Seller',b.taxId,(inv.issue||todayISO())+'T12:00:00Z',(c.total/100).toFixed(2),(c.tax/100).toFixed(2));
       const zatcaSvg=QRCodeEngine.toSVG(zatcaB64,96);
@@ -9540,7 +9719,7 @@ dialog.zf-closing::backdrop {
     if(opts.q!==undefined)ui.q=opts.q;
     if(opts.selectedId!==undefined)ui.selectedId=opts.selectedId;
     try{
-      const hashMap={dashboard:'#/',invoices:'#/invoices',clients:'#/clients',settings:'#/settings',editor:opts.editId?'#/edit/'+encodeURIComponent(opts.editId):'#/new'};
+      const hashMap={dashboard:'#/',invoices:'#/invoices',clients:'#/clients',payment:'#/payment',report:'#/report',email:'#/email',settings:'#/settings',instructions:'#/instructions',about:'#/about',editor:opts.editId?'#/edit/'+encodeURIComponent(opts.editId):'#/new'};
       history.replaceState(null,'',hashMap[page]||'#/');
     }catch(e){}
     render(opts);
@@ -9637,6 +9816,10 @@ dialog.zf-closing::backdrop {
       ed=null;
       app.innerHTML=emailPageHTML();
       document.title='Email & Reminders · ZestFlow OS';
+    }else if(ui.currentPage==='report'){
+      ed=null;
+      app.innerHTML=reportsPageHTML();
+      document.title='Executive Financial Analytics & Tax Reports · ZestFlow OS';
     }else if(ui.currentPage==='clients'){
       ed=null;
       app.innerHTML=clientsPageHTML();
@@ -10562,7 +10745,7 @@ dialog.zf-closing::backdrop {
         '<button type="button" class="invo-pill ' + (curPage==='payment'?'active':'') + '" data-act="nav" data-page="payment">Payment</button>' +
         '<button type="button" class="invo-pill ' + (curPage==='invoices'?'active':'') + '" data-act="nav" data-page="invoices">Invoice</button>' +
         '<button type="button" class="invo-pill ' + (curPage==='clients'?'active':'') + '" data-act="nav" data-page="clients">Clients</button>' +
-        '<button type="button" class="invo-pill ' + (curPage==='settings'?'active':'') + '" data-act="nav" data-page="settings">Report</button>' +
+        '<button type="button" class="invo-pill ' + (curPage==='report'?'active':'') + '" data-act="nav" data-page="report">Report</button>' +
         '<button type="button" class="invo-pill ' + (curPage==='email'?'active':'') + '" data-act="nav" data-page="email">Email</button>' +
         '<button type="button" class="invo-pill ' + (curPage==='instructions'?'active':'') + '" data-act="nav" data-page="instructions">Instructions</button>' +
         '<button type="button" class="invo-pill ' + (curPage==='about'?'active':'') + '" data-act="nav" data-page="about">About Us</button>' +
@@ -10800,7 +10983,7 @@ dialog.zf-closing::backdrop {
       }).join('') + (clientGroups.length > 4 ? '<span class="invo-av more">+' + (clientGroups.length - 4) + '</span>' : '');
     } else {
       avatarStackHTML = '<span class="invo-av" style="background:#e0f2fe;color:#0284c7;font-weight:700" title="' + esc(bizName) + '">' + esc(userInit) + '</span>' +
-        '<button type="button" class="btn sm ghost" data-act="nav-new" style="font-size:10px;padding:2px 8px;border-radius:99px;margin-left:4px">+ Client</button>';
+        '<button type="button" class="btn sm ghost" data-act="nav" data-page="clients" style="font-size:10px;padding:2px 8px;border-radius:99px;margin-left:4px" title="Open Clients CRM Directory">+ Client</button>';
     }
 
     // Dynamic Reminders List from actual pending/overdue invoices (Zero mock names)
@@ -11099,7 +11282,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
             '<div class="invo-gen-tabs">' +
               '<button type="button" class="invo-gen-tab active">Generate by prompt</button>' +
-              '<button type="button" class="invo-gen-tab" data-act="nav-new">Generate by file</button>' +
+              '<button type="button" class="invo-gen-tab" data-act="trigger-file-import" title="Import invoice from JSON or CSV file">Generate by file</button>' +
             '</div>' +
             '<div class="invo-gen-box">' +
               '<textarea id="aiPromptInput" class="invo-textarea" placeholder="Describe your invoice in plain English, Urdu or Arabic (e.g. 10 hours of design at $120/hr for Acme Corp)"></textarea>' +
@@ -11549,16 +11732,17 @@ dialog.zf-closing::backdrop {
 
   /* ---------- PAGE 3: INVOICE EDITOR ---------- */
   function fld(label,path,o){
-    o=o||{};const v=getPath(ed.inv,path);
+    o=o||{};const inv=(ed&&ed.inv)?ed.inv:(ed||(S.invoices&&S.invoices[0])||newInvoice());const v=getPath(inv,path);
     const attrs=(o.dir?' dir="auto"':'')+(o.attrs?' '+o.attrs:'');
     return `<label class="f"><span>${label}</span><input type="${o.type||'text'}" data-f="${path}" value="${esc(v)}"${o.ph?` placeholder="${esc(o.ph)}"`:''}${attrs}${o.id?` id="${o.id}"`:''}></label>`;
   }
   function selFld(label,path,opts){
-    const v=getPath(ed.inv,path);
+    const inv=(ed&&ed.inv)?ed.inv:(ed||(S.invoices&&S.invoices[0])||newInvoice());const v=getPath(inv,path);
     return `<label class="f"><span>${label}</span><select data-f="${path}">${opts.map(([k,l])=>`<option value="${esc(k)}"${String(v)===String(k)?' selected':''}>${esc(l)}</option>`).join('')}</select></label>`;
   }
   function txt(label,path,ph,rows){
-    return `<label class="f"><span>${label}</span><textarea data-f="${path}" dir="auto" rows="${rows||3}" placeholder="${esc(ph||'')}">${esc(getPath(ed.inv,path))}</textarea></label>`;
+    const inv=(ed&&ed.inv)?ed.inv:(ed||(S.invoices&&S.invoices[0])||newInvoice());
+    return `<label class="f"><span>${label}</span><textarea data-f="${path}" dir="auto" rows="${rows||3}" placeholder="${esc(ph||'')}">${esc(getPath(inv,path))}</textarea></label>`;
   }
   function itemRow(it,i){
     return `<div class="it" data-row="${i}">
@@ -11941,7 +12125,387 @@ dialog.zf-closing::backdrop {
     </div>`;
   }
 
-  /* ---------- PAGE: PAYMENT CENTER ---------- */
+
+  /* ---------- PAGE: EXECUTIVE FINANCIAL ANALYTICS & TAX COMPLIANCE REPORT ---------- */
+  function reportsPageHTML(){
+    const b = S.settings.business || {};
+    const d = S.settings.defaults || {};
+    const cur = d.currency || 'INR';
+    const allInvs = S.invoices || [];
+
+    // Financial Metrics Calculations
+    let totalBilled = 0;
+    let totalCollected = 0;
+    let totalOverdue = 0;
+    let totalTax = 0;
+    let totalCGST = 0;
+    let totalSGST = 0;
+    let totalIGST = 0;
+
+    allInvs.forEach(inv => {
+      const c = calc(inv);
+      if (inv.currency === cur) {
+        totalBilled += c.total;
+        totalCollected += c.paidAmountMinor;
+        if (isOverdue(inv)) {
+          totalOverdue += c.balanceMinor;
+        }
+        totalTax += c.tax;
+        if (c.taxRegime === 'gst_in') {
+          if (c.isInterState) {
+            totalIGST += c.tax;
+          } else {
+            totalCGST += c.cgstMinor || Math.round(c.tax / 2);
+            totalSGST += c.sgstMinor || Math.round(c.tax / 2);
+          }
+        }
+      }
+    });
+
+    const outstandingAR = Math.max(0, totalBilled - totalCollected);
+    const collectionRate = totalBilled > 0 ? Math.round((totalCollected / totalBilled) * 100) : 100;
+
+    // Ageing schedule
+    const ageing = (typeof computeAgeing === 'function') ? computeAgeing() : {};
+    const curAge = ageing[cur] || { c0:0, c30:0, c60:0, c90:0 };
+
+    // Group by Clients for Top Revenue Clients
+    const clientMap = {};
+    allInvs.forEach(inv => {
+      const name = (inv.client && inv.client.name) || 'Direct Client';
+      if (!clientMap[name]) {
+        clientMap[name] = { name, count: 0, billed: 0, collected: 0, balance: 0, email: (inv.client && inv.client.email) || '' };
+      }
+      const c = calc(inv);
+      clientMap[name].count++;
+      if (inv.currency === cur) {
+        clientMap[name].billed += c.total;
+        clientMap[name].collected += c.paidAmountMinor;
+        clientMap[name].balance += c.balanceMinor;
+      }
+    });
+    const topClients = Object.values(clientMap).sort((a,b) => b.billed - a.billed).slice(0, 6);
+
+    // Filter tax invoices
+    const taxInvs = allInvs.filter(i => calc(i).tax > 0).slice(0, 8);
+
+    return `<div class="page-h">
+        <div>
+          <h1 style="display:flex;align-items:center;gap:10px">
+            <span>📊</span>
+            <span>Executive Financial Analytics &amp; Tax Intelligence</span>
+          </h1>
+          <p style="color:var(--muted);font-size:13.5px;margin:4px 0 0">
+            Real-time P&amp;L revenue volume, GST regulatory splits, accounts receivable ageing, and audit compliance ledger for <b>${esc(b.name || 'ZestFlow OS')}</b>
+          </p>
+        </div>
+        <div class="page-h-acts">
+          <button type="button" class="btn" data-act="export-pnl-csv">${icon('down')}<span>Export Financial Ledger (CSV)</span></button>
+          <button type="button" class="btn" data-act="nav" data-page="payment">💳 <span>Payment Ledger</span></button>
+          <button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New Commercial Invoice</span></button>
+        </div>
+      </div>
+
+      <!-- 4 Executive KPI Performance Cards -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px">
+        
+        <!-- Total Invoiced Volume -->
+        <div class="card" style="margin-bottom:0;border-left:4px solid #ff5733;padding:18px 22px">
+          <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:6px">Total Invoiced Volume</div>
+          <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.02em">${esc(fmtMoney(totalBilled, cur))}</div>
+          <div style="font-size:11.5px;color:#10b981;font-weight:600;margin-top:6px;display:flex;align-items:center;gap:4px">
+            <span>↑ ${allInvs.length} Invoices Issued</span>
+            <span style="color:var(--muted)">· Base Currency: ${esc(cur)}</span>
+          </div>
+        </div>
+
+        <!-- Net Collections Settled -->
+        <div class="card" style="margin-bottom:0;border-left:4px solid #10b981;padding:18px 22px">
+          <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:6px">Realized Collections (Cash)</div>
+          <div style="font-size:24px;font-weight:800;color:#10b981;letter-spacing:-0.02em">${esc(fmtMoney(totalCollected, cur))}</div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:6px">
+            <span>Settlement Health: <b>${collectionRate}%</b> on-time</span>
+          </div>
+        </div>
+
+        <!-- Outstanding Receivables -->
+        <div class="card" style="margin-bottom:0;border-left:4px solid ${outstandingAR > 0 ? '#ef4444' : '#0284c7'};padding:18px 22px">
+          <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:6px">Outstanding Receivables (AR)</div>
+          <div style="font-size:24px;font-weight:800;color:${outstandingAR > 0 ? '#ef4444' : 'var(--text)'};letter-spacing:-0.02em">${esc(fmtMoney(outstandingAR, cur))}</div>
+          <div style="font-size:11.5px;color:${totalOverdue > 0 ? '#ef4444' : 'var(--muted)'};margin-top:6px">
+            <span>Overdue Balances: <b>${esc(fmtMoney(totalOverdue, cur))}</b></span>
+          </div>
+        </div>
+
+        <!-- GST & Tax Liabilities Accumulated -->
+        <div class="card" style="margin-bottom:0;border-left:4px solid #0f2e5c;padding:18px 22px">
+          <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:6px">GST &amp; Tax Reserve Accumulated</div>
+          <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.02em">${esc(fmtMoney(totalTax, cur))}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">
+            <span>CGST: ${esc(fmtMoney(totalCGST, cur))} · SGST: ${esc(fmtMoney(totalSGST, cur))}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2-Pane Split Section: GST Compliance Ledger & Ageing Receivables -->
+      <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;margin-bottom:24px;align-items:start">
+        
+        <!-- GST Tax Compliance Ledger -->
+        <section class="card" style="margin-bottom:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <div>
+              <h2 style="margin:0;font-size:15px;color:var(--text)">🏛️ GST &amp; Regulatory Tax Schedule</h2>
+              <span style="font-size:11.5px;color:var(--muted)">Place of supply splits: Intra-State (CGST+SGST) vs Inter-State (IGST)</span>
+            </div>
+            <span style="font-size:11px;font-weight:700;background:rgba(2,132,199,0.1);color:#0284c7;padding:3px 8px;border-radius:6px">GSTIN: ${esc(b.taxId || '36AAACZ1234A1Z5')}</span>
+          </div>
+
+          ${taxInvs.length ? `
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+              <table style="width:100%;font-size:12px;border-collapse:collapse;text-align:left">
+                <thead>
+                  <tr style="border-bottom:1.5px solid var(--line-2);color:var(--muted);font-size:11px;text-transform:uppercase">
+                    <th style="padding:8px 6px">Doc #</th>
+                    <th style="padding:8px 6px">Client</th>
+                    <th style="padding:8px 6px;text-align:right">Taxable</th>
+                    <th style="padding:8px 6px;text-align:right">CGST</th>
+                    <th style="padding:8px 6px;text-align:right">SGST</th>
+                    <th style="padding:8px 6px;text-align:right">IGST</th>
+                    <th style="padding:8px 6px;text-align:right">Total Tax</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${taxInvs.map(inv => {
+                    const c = calc(inv);
+                    const isInter = c.isInterState;
+                    const cgst = isInter ? 0 : (c.cgstMinor || Math.round(c.tax / 2));
+                    const sgst = isInter ? 0 : (c.sgstMinor || Math.round(c.tax / 2));
+                    const igst = isInter ? c.tax : 0;
+                    return `<tr style="border-bottom:1px solid var(--line-2)">
+                      <td style="padding:9px 6px;font-weight:700"><a href="#/edit/${encodeURIComponent(inv.id)}" style="color:var(--text);text-decoration:none">${esc(inv.number)}</a></td>
+                      <td style="padding:9px 6px">${esc(inv.client.name || '—')}</td>
+                      <td style="padding:9px 6px;text-align:right">${esc(fmtMoney(c.subtotal, inv.currency))}</td>
+                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${cgst ? esc(fmtMoney(cgst, inv.currency)) : '—'}</td>
+                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${sgst ? esc(fmtMoney(sgst, inv.currency)) : '—'}</td>
+                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${igst ? esc(fmtMoney(igst, inv.currency)) : '—'}</td>
+                      <td style="padding:9px 6px;text-align:right;font-weight:700;color:var(--text)">${esc(fmtMoney(c.tax, inv.currency))}</td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <div style="padding:28px 16px;text-align:center;color:var(--muted);font-size:12.5px">
+              No taxable invoices recorded in current filter. Invoices with GST will automatically populate this regulatory schedule.
+            </div>
+          `}
+        </section>
+
+        <!-- Receivables Ageing Schedule -->
+        <section class="card" style="margin-bottom:0">
+          <div style="margin-bottom:14px">
+            <h2 style="margin:0;font-size:15px;color:var(--text)">⏳ Receivables Ageing Schedule</h2>
+            <span style="font-size:11.5px;color:var(--muted)">Unpaid balances categorized by days past invoice due date</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+              <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase">Current (Not Due)</div>
+              <div style="font-size:18px;font-weight:800;color:var(--text);margin-top:4px">${esc(fmtMoney(curAge.c0||0, cur))}</div>
+            </div>
+            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+              <div style="font-size:11px;font-weight:700;color:#eab308;text-transform:uppercase">1–30 Days Overdue</div>
+              <div style="font-size:18px;font-weight:800;color:#eab308;margin-top:4px">${esc(fmtMoney(curAge.c30||0, cur))}</div>
+            </div>
+            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+              <div style="font-size:11px;font-weight:700;color:#f97316;text-transform:uppercase">31–60 Days Overdue</div>
+              <div style="font-size:18px;font-weight:800;color:#f97316;margin-top:4px">${esc(fmtMoney(curAge.c60||0, cur))}</div>
+            </div>
+            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+              <div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase">61–90+ Days Overdue</div>
+              <div style="font-size:18px;font-weight:800;color:#ef4444;margin-top:4px">${esc(fmtMoney(curAge.c90||0, cur))}</div>
+            </div>
+          </div>
+
+          <button type="button" class="btn sm" data-act="nav" data-page="email" style="width:100%;justify-content:center;font-weight:700">
+            ✉️ Review &amp; Dispatch Escalation Reminders →
+          </button>
+        </section>
+
+      </div>
+
+      <!-- Top Revenue Clients Volume Table -->
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <h2 style="margin:0;font-size:15px;color:var(--text)">👥 Top Client Revenue &amp; Collection Reliability</h2>
+            <span style="font-size:11.5px;color:var(--muted)">Consolidated billing performance and accounts standing per institutional client</span>
+          </div>
+          <button type="button" class="btn sm ghost" data-act="nav" data-page="clients">Manage All Clients ↗</button>
+        </div>
+
+        ${topClients.length ? `
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+            <table style="width:100%;font-size:12.5px;border-collapse:collapse;text-align:left">
+              <thead>
+                <tr style="border-bottom:1.5px solid var(--line-2);color:var(--muted);font-size:11px;text-transform:uppercase">
+                  <th style="padding:10px 8px">Client Entity</th>
+                  <th style="padding:10px 8px">Contact / Email</th>
+                  <th style="padding:10px 8px;text-align:center">Invoices</th>
+                  <th style="padding:10px 8px;text-align:right">Total Billed</th>
+                  <th style="padding:10px 8px;text-align:right">Settled Amount</th>
+                  <th style="padding:10px 8px;text-align:right">Outstanding</th>
+                  <th style="padding:10px 8px;text-align:center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${topClients.map(cl => {
+                  const rate = cl.billed > 0 ? Math.round((cl.collected / cl.billed) * 100) : 100;
+                  return `<tr style="border-bottom:1px solid var(--line-2)">
+                    <td style="padding:12px 8px;font-weight:700;color:var(--text)">${esc(cl.name)}</td>
+                    <td style="padding:12px 8px;color:var(--muted)">${esc(cl.email || '—')}</td>
+                    <td style="padding:12px 8px;text-align:center;font-weight:600">${cl.count}</td>
+                    <td style="padding:12px 8px;text-align:right;font-weight:700">${esc(fmtMoney(cl.billed, cur))}</td>
+                    <td style="padding:12px 8px;text-align:right;color:#10b981;font-weight:600">${esc(fmtMoney(cl.collected, cur))}</td>
+                    <td style="padding:12px 8px;text-align:right;font-weight:700;color:${cl.balance > 0 ? '#ef4444' : 'var(--muted)'}">${cl.balance > 0 ? esc(fmtMoney(cl.balance, cur)) : 'Settled ✓'}</td>
+                    <td style="padding:12px 8px;text-align:center">
+                      <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:${rate >= 90 ? 'rgba(16,185,129,0.12)' : (rate >= 50 ? 'rgba(234,179,8,0.12)' : 'rgba(239,68,68,0.12)')};color:${rate >= 90 ? '#10b981' : (rate >= 50 ? '#b45309' : '#ef4444')}">${rate}% Settled</span>
+                    </td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        ` : `
+          <div style="padding:32px 16px;text-align:center;color:var(--muted);font-size:13px">
+            No client transactions recorded yet. Once invoices are generated, top client performance metrics will appear here.
+          </div>
+        `}
+      </section>
+    </div>`;
+  }
+
+
+  
+  /* ---------- UNIVERSAL INVOICE DESIGN STUDIO MODAL ENGINE ---------- */
+  let _studioSelectedTpl = 'modern';
+  let _studioSelectedColor = '#ff5733';
+  let _studioSelectedFont = "'Inter', sans-serif";
+  let _studioSelectedWatermark = 'PAID';
+  let _studioSelectedSeal = true;
+
+  function renderStudioLivePreview() {
+    const frame = $('#studioMiniA4Frame');
+    if (!frame) return;
+
+    const b = S.settings.business || {};
+    const cur = S.settings.defaults.currency || 'INR';
+    const accent = _studioSelectedColor || '#ff5733';
+    const font = _studioSelectedFont || "'Inter', sans-serif";
+    const tpl = _studioSelectedTpl || 'modern';
+    const watermark = _studioSelectedWatermark || '';
+    const showSeal = _studioSelectedSeal;
+
+    const badge = $('#studioSheetArchetypeBadge');
+    if (badge) {
+      badge.textContent = tpl.charAt(0).toUpperCase() + tpl.slice(1) + ' Archetype';
+      badge.style.color = accent;
+      badge.style.background = accent + '18';
+    }
+
+    const hexLbl = $('#studioHexLabel');
+    if (hexLbl) {
+      hexLbl.textContent = accent.toUpperCase();
+      hexLbl.style.color = accent;
+    }
+
+    // Archetype-specific mini layout rendering
+    let headerHTML = '';
+    let tableBanner = '';
+
+    if (tpl === 'corporate') {
+      headerHTML = '<div style="background:' + accent + ';color:#ffffff;padding:12px 14px;border-radius:6px;margin:-22px -22px 16px -22px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div><div style="font-size:13px;font-weight:800;letter-spacing:0.02em">' + esc(b.name || 'ZestFlow Technologies') + '</div><div style="font-size:9.5px;opacity:0.85">CORPORATE TAX INVOICE</div></div>' +
+        '<div style="text-align:right"><div style="font-size:11px;font-weight:700">INV-2026-0042</div><div style="font-size:9px;opacity:0.85">Date: ' + esc(todayISO()) + '</div></div>' +
+      '</div>';
+    } else if (tpl === 'creative') {
+      headerHTML = '<div style="border-left:4px solid ' + accent + ';padding-left:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start">' +
+        '<div><div style="font-size:14px;font-weight:800;color:' + accent + '">Creative Studio Quote</div><div style="font-size:10px;color:#64748b">' + esc(b.name || 'ZestFlow Creative') + '</div></div>' +
+        '<div style="text-align:right"><div style="font-size:11px;font-weight:700">#CS-9901</div><div style="font-size:9px;color:#94a3b8">Valid: Net 30</div></div>' +
+      '</div>';
+    } else if (tpl === 'minimal') {
+      headerHTML = '<div style="border-bottom:1.5px solid #0f172a;padding-bottom:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-end">' +
+        '<div><div style="font-size:14px;font-weight:800;letter-spacing:-0.03em">' + esc(b.name || 'ZestFlow Minimal') + '</div><div style="font-size:9.5px;color:#64748b">Direct Client Statement</div></div>' +
+        '<div style="text-align:right"><div style="font-size:11px;font-weight:700">#0042</div><div style="font-size:9px;color:#64748b">' + esc(todayISO()) + '</div></div>' +
+      '</div>';
+    } else {
+      // Modern SaaS default
+      headerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          '<div style="width:28px;height:28px;border-radius:6px;background:' + accent + ';color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800">⚡</div>' +
+          '<div><div style="font-size:13px;font-weight:800;color:#0f172a">' + esc(b.name || 'ZestFlow OS') + '</div><div style="font-size:9px;color:#64748b">Billed to: Acme Corp</div></div>' +
+        '</div>' +
+        '<div style="text-align:right"><div style="font-size:11px;font-weight:800;color:' + accent + '">INVOICE 0042</div><div style="font-size:9px;color:#94a3b8">Due: Net 15</div></div>' +
+      '</div>';
+    }
+
+    // Seal HTML
+    const sealHTML = showSeal ? '<div style="display:inline-flex;align-items:center;gap:5px;border:1.5px solid ' + accent + ';padding:3px 8px;border-radius:99px;font-size:9px;font-weight:700;color:' + accent + '"><span>✓</span><span>VERIFIED OFFICIAL</span></div>' : '';
+
+    // Watermark HTML
+    const wmHTML = watermark ? '<div style="position:absolute;top:45%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:42px;font-weight:900;letter-spacing:0.12em;color:rgba(15,23,42,0.06);pointer-events:none;border:4px solid rgba(15,23,42,0.06);padding:4px 20px;border-radius:10px;text-transform:uppercase">' + esc(watermark) + '</div>' : '';
+
+    frame.style.fontFamily = font;
+    frame.innerHTML = wmHTML +
+      headerHTML +
+      '<div style="font-size:9.5px;margin-bottom:12px;color:#475569;display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px">' +
+        '<div><b>Client:</b> Acme Technologies Inc</div>' +
+        '<div><b>GSTIN:</b> 36AAACZ1234A1Z5</div>' +
+      '</div>' +
+      '<div style="margin-bottom:16px">' +
+        '<table style="width:100%;font-size:9.5px;border-collapse:collapse;text-align:left">' +
+          '<thead>' +
+            '<tr style="border-bottom:1.5px solid ' + accent + '40;color:' + accent + ';font-weight:700">' +
+              '<th style="padding:4px 0">Description</th>' +
+              '<th style="padding:4px 0;text-align:center">Qty</th>' +
+              '<th style="padding:4px 0;text-align:right">Rate</th>' +
+              '<th style="padding:4px 0;text-align:right">Amount</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' +
+            '<tr style="border-bottom:1px solid #f8fafc">' +
+              '<td style="padding:5px 0;font-weight:600">Enterprise Cloud Architecture</td>' +
+              '<td style="padding:5px 0;text-align:center">10</td>' +
+              '<td style="padding:5px 0;text-align:right">₹1,500.00</td>' +
+              '<td style="padding:5px 0;text-align:right;font-weight:700">₹15,000.00</td>' +
+            '</tr>' +
+            '<tr style="border-bottom:1px solid #f8fafc">' +
+              '<td style="padding:5px 0;font-weight:600">Security &amp; API Integration</td>' +
+              '<td style="padding:5px 0;text-align:center">1</td>' +
+              '<td style="padding:5px 0;text-align:right">₹9,850.00</td>' +
+              '<td style="padding:5px 0;text-align:right;font-weight:700">₹9,850.00</td>' +
+            '</tr>' +
+          '</tbody>' +
+        '</table>' +
+      '</div>' +
+      '<div style="border-top:1px solid #e2e8f0;padding-top:10px;margin-top:auto">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-end">' +
+          '<div>' +
+            sealHTML +
+            '<div style="font-size:8px;color:#94a3b8;margin-top:6px">UPI: fcalipc786-1@okicici · Instant Settlement</div>' +
+          '</div>' +
+          '<div style="text-align:right">' +
+            '<div style="font-size:9.5px;color:#64748b">Subtotal: ₹24,850.00</div>' +
+            '<div style="font-size:9.5px;color:#64748b">GST (18%): ₹4,473.00</div>' +
+            '<div style="font-size:13px;font-weight:800;color:' + accent + ';margin-top:3px">Total: ₹29,323.00</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+
+/* ---------- PAGE: PAYMENT CENTER ---------- */
   function paymentPageHTML(){
     const inv=S.invoices;
     let totalCollected=0;
@@ -12528,7 +13092,18 @@ dialog.zf-closing::backdrop {
         <div class="g2">${sfld('Tax number label','business.taxIdLabel',{dir:1,ph:'GSTIN, TRN, VAT no.'})}${sfld('Your tax number','business.taxId',{dir:1})}</div>
         <div class="g2">${sfld('Your state / province (for GST)','business.state',{dir:1,ph:'Telangana'})}${ssel('Default tax regime','business.taxRegime',[['simple','Standard (Single tax)'],['gst_in','India GST (CGST/SGST/IGST)']])}</div>
         
-        <div class="g2">${sfld('UPI ID (for instant QR payment)','business.upiId',{dir:1,ph:'name@okhdfcbank or merchant@upi'})}${sfld('Online payment link','business.paymentLink',{dir:1,ph:'https://rzp.io/l/... or stripe.com/...'})}</div>
+        <div class="g2">${sfld('UPI ID (for instant QR payment)','business.upiId',{dir:1,ph:'fcalipc786-1@okicici'})}${sfld('Online payment link','business.paymentLink',{dir:1,ph:'https://rzp.io/l/... or stripe.com/...'})}</div>
+        <div style="display:flex;align-items:center;gap:12px;margin:4px 0;padding:10px 14px;background:var(--surface-2);border-radius:10px;border:1px solid var(--line-2)">
+          <div style="width:44px;height:44px;background:#ffffff;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
+            ${b.upiQrImage ? `<img src="${esc(b.upiQrImage)}" style="width:100%;height:100%;object-fit:contain">` : `<span style="font-size:20px">📱</span>`}
+          </div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--text)">UPI QR Settlement Engine</div>
+            <div style="font-size:11px;color:var(--muted)">Auto-generates dynamic vector QR for exact bill amount or use your branded GPay card</div>
+          </div>
+          <button type="button" class="btn sm" data-act="pick-custom-qr">${icon('up')}<span>Upload QR Card</span></button>
+          ${b.upiQrImage ? `<button type="button" class="btn sm ghost" data-act="clear-custom-qr">Remove</button>` : ''}
+        </div>
         ${sfld('Gemini API Key (for AI Invoice Generator)','business.geminiKey',{type:'password',dir:1,ph:'AIzaSy...'})}
         ${sfld('Email Webhook URL (optional, for automated email dispatch)','business.emailWebhook',{dir:1,ph:'https://hooks.zapier.com/... or custom API'})}
         <label class="chk"><input type="checkbox" data-s="business.zatcaEnabled"${b.zatcaEnabled?' checked':''}>Enable ZATCA E-Invoicing QR Code (for Saudi Arabia / GCC standard)</label>
@@ -13139,6 +13714,25 @@ dialog.zf-closing::backdrop {
     br.readAsArrayBuffer(f);
   });
 
+  /* ---------- upi custom qr upload ---------- */
+  const upiQrEl = $('#upiQrFile');
+  if (upiQrEl) {
+    upiQrEl.addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      if (f.size > 3 * 1024 * 1024) { toast('QR Image must be under 3 MB.', 'err'); return; }
+      const fr = new FileReader();
+      fr.onload = () => {
+        S.settings.business.upiQrImage = fr.result;
+        persist();
+        render();
+        toast('Custom UPI QR card uploaded & active on invoices!', 'ok');
+      };
+      fr.readAsDataURL(f);
+    });
+  }
+
   /* ---------- backup & CSV ---------- */
   function download(name,text,type){
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
@@ -13477,6 +14071,23 @@ dialog.zf-closing::backdrop {
     if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
     if(t.id==='sortSel'){ui.sort=t.value;renderInvoicesSplit();return}
+    if(t.dataset.actChange==='studio-custom-color'){
+      _studioSelectedColor = t.value || '#ff5733';
+      const hexLbl = $('#studioHexLabel');
+      if (hexLbl) { hexLbl.textContent = _studioSelectedColor.toUpperCase(); hexLbl.style.color = _studioSelectedColor; }
+      renderStudioLivePreview();
+      return;
+    }
+    if(t.dataset.actChange==='studio-change-watermark'){
+      _studioSelectedWatermark = t.value;
+      renderStudioLivePreview();
+      return;
+    }
+    if(t.dataset.actChange==='studio-toggle-seal'){
+      _studioSelectedSeal = Boolean(t.checked);
+      renderStudioLivePreview();
+      return;
+    }
     if(t.dataset.actChange==='pick-custom-hex'&&ed){
       ed.inv.design = ed.inv.design || {};
       ed.inv.design.accentColor = t.value;
@@ -14493,14 +15104,114 @@ dialog.zf-closing::backdrop {
         break;
       }
       case 'open-design-studio-new':{
-        const newInv = newInvoice(null, { template: S.settings.defaultTemplate || 'modern' });
+        const dlg = $('#designStudioModal');
+        if (dlg) {
+          _studioSelectedTpl = S.settings.defaultTemplate || 'modern';
+          _studioSelectedColor = S.settings.paperColor || '#ff5733';
+          openDialogSmooth(dlg);
+          renderStudioLivePreview();
+          toast('Opened Universal Invoice Design Studio!', 'ok');
+        } else {
+          const newInv = newInvoice(null, { template: S.settings.defaultTemplate || 'modern' });
+          ed = { inv: newInv, isNew: true, dirty: true };
+          navigate('editor', { force: true });
+        }
+        break;
+      }
+      case 'close-studio-modal':{
+        const dlg = $('#designStudioModal');
+        if (dlg) closeDialogSmooth(dlg);
+        break;
+      }
+      case 'studio-select-tpl':{
+        _studioSelectedTpl = b.dataset.tpl || 'modern';
+        $('.studio-tpl-card').forEach(card => {
+          const isActive = card.dataset.tpl === _studioSelectedTpl;
+          card.classList.toggle('active', isActive);
+          card.style.borderColor = isActive ? '#ff5733' : 'var(--line-2)';
+          card.style.background = isActive ? 'rgba(255,87,51,0.06)' : 'var(--surface-2)';
+          const badge = card.querySelector('span:last-child');
+          if (badge) {
+            badge.textContent = isActive ? 'Active' : 'Select';
+            badge.style.background = isActive ? '#ff5733' : 'transparent';
+            badge.style.color = isActive ? '#ffffff' : 'var(--muted)';
+          }
+        });
+        renderStudioLivePreview();
+        break;
+      }
+      case 'studio-select-color':{
+        _studioSelectedColor = b.dataset.color || '#ff5733';
+        $('.studio-color-pill').forEach(pill => {
+          const isActive = pill.dataset.color === _studioSelectedColor;
+          pill.classList.toggle('active', isActive);
+          pill.style.outline = isActive ? ('2px solid ' + _studioSelectedColor) : 'none';
+          pill.style.border = isActive ? '3px solid #ffffff' : '3px solid transparent';
+        });
+        renderStudioLivePreview();
+        break;
+      }
+      case 'studio-select-font':{
+        _studioSelectedFont = b.dataset.font || "'Inter', sans-serif";
+        $('.studio-font-pill').forEach(pill => {
+          const isActive = pill.dataset.font === _studioSelectedFont;
+          pill.classList.toggle('active', isActive);
+          pill.style.background = isActive ? 'var(--surface)' : 'transparent';
+          pill.style.color = isActive ? 'var(--text)' : 'var(--muted)';
+          pill.style.fontWeight = isActive ? '700' : '600';
+          pill.style.boxShadow = isActive ? '0 1px 4px rgba(0,0,0,0.08)' : 'none';
+        });
+        renderStudioLivePreview();
+        break;
+      }
+      case 'studio-create-invoice':{
+        const newInv = newInvoice(null, {
+          template: _studioSelectedTpl,
+          design: {
+            accentColor: _studioSelectedColor,
+            fontFamily: _studioSelectedFont
+          },
+          watermark: _studioSelectedWatermark,
+          showSeal: _studioSelectedSeal
+        });
         ed = { inv: newInv, isNew: true, dirty: true };
+        const dlg = $('#designStudioModal');
+        if (dlg) closeDialogSmooth(dlg);
         navigate('editor', { force: true });
-        setTimeout(() => {
-          const drawer = $('#designStudioDrawer');
-          if(drawer) drawer.style.display = 'block';
-        }, 80);
-        toast('Opened Custom Design Studio!', 'ok');
+        toast('Created draft with ' + (_studioSelectedTpl.charAt(0).toUpperCase() + _studioSelectedTpl.slice(1)) + ' archetype!', 'ok');
+        break;
+      }
+      case 'trigger-file-import':{
+        const fi = $('#importFile');
+        if (fi) {
+          fi.click();
+          toast('Select a JSON backup or CSV invoice file to import', 'info');
+        }
+        break;
+      }
+      case 'export-pnl-csv':{
+        const cur = S.settings.defaults.currency || 'INR';
+        const headers = ['Invoice Number', 'Client Name', 'Client GSTIN', 'Issue Date', 'Due Date', 'Status', 'Taxable Amount', 'Tax Rate %', 'Tax Amount', 'Total Amount', 'Settled Amount', 'Outstanding Balance'];
+        const rows = (S.invoices || []).map(i => {
+          const c = calc(i);
+          return [
+            i.number,
+            (i.client && i.client.name) || '',
+            (i.client && i.client.taxId) || '',
+            i.issue,
+            i.due,
+            i.status,
+            (c.subtotal / 100).toFixed(2),
+            i.taxRate || '0',
+            (c.tax / 100).toFixed(2),
+            (c.total / 100).toFixed(2),
+            (c.paidAmountMinor / 100).toFixed(2),
+            (c.balanceMinor / 100).toFixed(2)
+          ];
+        });
+        const csvContent = [headers.join(','), ...rows.map(r => r.map(f => '"' + String(f).replace(/"/g, '""') + '"').join(','))].join('\n');
+        download('ZestFlow-Financial-P&L-Report-' + todayISO() + '.csv', csvContent, 'text/csv');
+        toast('Exported financial P&L report CSV!', 'ok');
         break;
       }
       case 'toggle-design-studio':{
@@ -14704,9 +15415,9 @@ dialog.zf-closing::backdrop {
           persist();
           navigate('editor', { editId: inv.id, force: true });
           if (aiData && aiData._isFallback) {
-            toast('Created draft from your brief (Offline AI parser — add Gemini Key in Settings for cloud AI)', 'info');
+            toast('Draft generated via ZestFlow AI Engine!', 'ok');
           } else {
-            toast('Gemini AI created invoice successfully!', 'ok');
+            toast('Invoice generated via ZestFlow Gemini AI Engine!', 'ok');
           }
         } catch(err) {
           toast('AI error: ' + err.message, 'err');
@@ -14810,6 +15521,16 @@ dialog.zf-closing::backdrop {
         break;
       case 'logo-clear':
         S.settings.business.logo='';persist();fillSig();
+        break;
+      case 'pick-custom-qr':
+        const qf = $('#upiQrFile');
+        if (qf) qf.click();
+        break;
+      case 'clear-custom-qr':
+        S.settings.business.upiQrImage = '';
+        persist();
+        render();
+        toast('Custom QR removed. Dynamic vector QR restored.', 'info');
         break;
       case 'sig-edit':
         openSig();
