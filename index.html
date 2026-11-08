@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-rsDt1SGcjdAxgAIdCG1PR3PlVempZKklAJ/RWNoWExc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Msw22UcnonDI1ayIXY906Ubj3zeVGJ4MkIz8E190XmM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -555,6 +555,8 @@
   .card>h2{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:16px}
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .report-split-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;margin-bottom:24px;align-items:stretch}
+  @media (max-width:900px){.report-split-grid{grid-template-columns:1fr}}
   .stack{display:grid;gap:14px}
   .errs{background:var(--danger-soft);border:1px solid rgba(239,107,83,.45);color:#ffbdb1;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px}
   .errs ul{margin:6px 0 0;padding-inline-start:20px}
@@ -6746,6 +6748,15 @@ dialog.zf-closing::backdrop {
   const img=v=>(typeof v==='string'&&v.length<700000&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v))?v:'';
   function normSettings(s){
     s=s||{};const b=s.business||{},d=s.defaults||{};
+    const defaultPay = 'Bank: HDFC Bank · A/C: 123456789000 · IFSC: HDFC0001234\nUPI ID: business@upi\nInstant settlement supported via GPay, PhonePe & BHIM UPI.';
+    let cleanPay = str(d.payment != null ? d.payment : defaultPay, 1200);
+    if (cleanPay.includes('fcalipc786-1@okicici')) {
+      cleanPay = defaultPay;
+    }
+    let cleanUpi = str(b.upiId, 100);
+    if (cleanUpi === 'fcalipc786-1@okicici') {
+      cleanUpi = '';
+    }
     return {
       business:{
         name:str(b.name,200),
@@ -6756,7 +6767,7 @@ dialog.zf-closing::backdrop {
         taxIdLabel:str(b.taxIdLabel||'GSTIN',40),
         taxId:str(b.taxId,60),
         taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'gst_in',
-        upiId:str(b.upiId,100),
+        upiId:cleanUpi,
         paymentLink:str(b.paymentLink,500),
         geminiKey:str(b.geminiKey||GEMINI_CONFIG.key,200),
         zatcaEnabled:Boolean(b.zatcaEnabled),
@@ -6774,7 +6785,7 @@ dialog.zf-closing::backdrop {
         dueDays:clamp(Math.round(num(d.dueDays==null?14:d.dueDays)),0,365),
         prefix:str(d.prefix==null?'INV-':d.prefix,12),
         next:Math.max(1,Math.round(num(d.next||1))),
-        payment:str(d.payment != null ? d.payment : 'Bank: HDFC Bank · A/C: 123456789000 · IFSC: HDFC0001234\nUPI ID: business@upi\nInstant settlement supported via GPay, PhonePe & BHIM UPI.',1200),notes:str(d.notes != null ? d.notes : 'Thank you for your business.',1200)
+        payment:cleanPay,notes:str(d.notes != null ? d.notes : 'Thank you for your business.',1200)
       },
       theme:s.theme==='light'?'light':'dark',layout:['invowise','cashfund'].includes(s.layout)?s.layout:'invowise',
       defaultTemplate:['modern','minimal','corporate','creative','claim','compact','classic'].includes(s.defaultTemplate)?s.defaultTemplate:'classic',
@@ -6866,7 +6877,19 @@ dialog.zf-closing::backdrop {
       items:items.length?items:[{desc:'',hsn:'',qty:'1',rate:'0',taxRate:'',taxExempt:false}],
       payments:Array.isArray(x.payments)?x.payments.slice(0,200).map(normPayment):[],
       history:(Array.isArray(x.history)?x.history:[]).slice(0,100).map(h=>({at:num(h&&h.at)||Date.now(),action:str(h&&h.action,200)})),
-      payment:str(x.payment,1200),upiId:str(x.upiId,100),paymentLink:str(x.paymentLink,500),
+      payment:(function(p){
+        let val=str(p,1200);
+        if(val.includes('fcalipc786-1@okicici')){
+          val=val.replace(/fcalipc786-1@okicici(\s*\([^)]*\))?/g,'business@upi')
+                 .replace(/ICICI Bank · A\/C: 000000000000 · IFSC: ICIC0000000/g,'HDFC Bank · A/C: 123456789000 · IFSC: HDFC0001234');
+        }
+        return val;
+      })(x.payment),
+      upiId:(function(u){
+        let val=str(u,100);
+        return val==='fcalipc786-1@okicici'?'':val;
+      })(x.upiId),
+      paymentLink:str(x.paymentLink,500),
       recurring: (function(r, issueDate) {
         r = r || {};
         const enabled = Boolean(r.enabled);
@@ -12250,86 +12273,97 @@ dialog.zf-closing::backdrop {
       </div>
 
       <!-- 2-Pane Split Section: GST Compliance Ledger & Ageing Receivables -->
-      <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;margin-bottom:24px;align-items:start">
+      <div class="report-split-grid">
         
         <!-- GST Tax Compliance Ledger -->
-        <section class="card" style="margin-bottom:0">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-            <div>
-              <h2 style="margin:0;font-size:15px;color:var(--text)">🏛️ GST &amp; Regulatory Tax Schedule</h2>
-              <span style="font-size:11.5px;color:var(--muted)">Place of supply splits: Intra-State (CGST+SGST) vs Inter-State (IGST)</span>
+        <section class="card" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;height:100%">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div>
+                <h2 style="margin:0;font-size:15px;color:var(--text)">🏛️ GST &amp; Regulatory Tax Schedule</h2>
+                <span style="font-size:11.5px;color:var(--muted)">Place of supply splits: Intra-State (CGST+SGST) vs Inter-State (IGST)</span>
+              </div>
+              <span style="font-size:11px;font-weight:700;background:rgba(2,132,199,0.1);color:#0284c7;padding:3px 8px;border-radius:6px">GSTIN: ${esc(b.taxId || '36AAACZ1234A1Z5')}</span>
             </div>
-            <span style="font-size:11px;font-weight:700;background:rgba(2,132,199,0.1);color:#0284c7;padding:3px 8px;border-radius:6px">GSTIN: ${esc(b.taxId || '36AAACZ1234A1Z5')}</span>
-          </div>
 
-          ${taxInvs.length ? `
-            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-              <table style="width:100%;font-size:12px;border-collapse:collapse;text-align:left">
-                <thead>
-                  <tr style="border-bottom:1.5px solid var(--line-2);color:var(--muted);font-size:11px;text-transform:uppercase">
-                    <th style="padding:8px 6px">Doc #</th>
-                    <th style="padding:8px 6px">Client</th>
-                    <th style="padding:8px 6px;text-align:right">Taxable</th>
-                    <th style="padding:8px 6px;text-align:right">CGST</th>
-                    <th style="padding:8px 6px;text-align:right">SGST</th>
-                    <th style="padding:8px 6px;text-align:right">IGST</th>
-                    <th style="padding:8px 6px;text-align:right">Total Tax</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${taxInvs.map(inv => {
-                    const c = calc(inv);
-                    const isInter = c.isInterState;
-                    const cgst = isInter ? 0 : (c.cgstMinor || Math.round(c.tax / 2));
-                    const sgst = isInter ? 0 : (c.sgstMinor || Math.round(c.tax / 2));
-                    const igst = isInter ? c.tax : 0;
-                    return `<tr style="border-bottom:1px solid var(--line-2)">
-                      <td style="padding:9px 6px;font-weight:700"><a href="#/edit/${encodeURIComponent(inv.id)}" style="color:var(--text);text-decoration:none">${esc(inv.number)}</a></td>
-                      <td style="padding:9px 6px">${esc(inv.client.name || '—')}</td>
-                      <td style="padding:9px 6px;text-align:right">${esc(fmtMoney(c.subtotal, inv.currency))}</td>
-                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${cgst ? esc(fmtMoney(cgst, inv.currency)) : '—'}</td>
-                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${sgst ? esc(fmtMoney(sgst, inv.currency)) : '—'}</td>
-                      <td style="padding:9px 6px;text-align:right;color:var(--muted)">${igst ? esc(fmtMoney(igst, inv.currency)) : '—'}</td>
-                      <td style="padding:9px 6px;text-align:right;font-weight:700;color:var(--text)">${esc(fmtMoney(c.tax, inv.currency))}</td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
-          ` : `
-            <div style="padding:28px 16px;text-align:center;color:var(--muted);font-size:12.5px">
-              No taxable invoices recorded in current filter. Invoices with GST will automatically populate this regulatory schedule.
-            </div>
-          `}
+            ${taxInvs.length ? `
+              <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+                <table style="width:100%;font-size:12px;border-collapse:collapse;text-align:left">
+                  <thead>
+                    <tr style="border-bottom:1.5px solid var(--line-2);color:var(--muted);font-size:11px;text-transform:uppercase">
+                      <th style="padding:8px 6px">Doc #</th>
+                      <th style="padding:8px 6px">Client</th>
+                      <th style="padding:8px 6px;text-align:right">Taxable</th>
+                      <th style="padding:8px 6px;text-align:right">CGST</th>
+                      <th style="padding:8px 6px;text-align:right">SGST</th>
+                      <th style="padding:8px 6px;text-align:right">IGST</th>
+                      <th style="padding:8px 6px;text-align:right">Total Tax</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${taxInvs.map(inv => {
+                      const c = calc(inv);
+                      const isInter = c.isInterState;
+                      const cgst = isInter ? 0 : (c.cgstMinor || Math.round(c.tax / 2));
+                      const sgst = isInter ? 0 : (c.sgstMinor || Math.round(c.tax / 2));
+                      const igst = isInter ? c.tax : 0;
+                      return `<tr style="border-bottom:1px solid var(--line-2)">
+                        <td style="padding:9px 6px;font-weight:700"><a href="#/edit/${encodeURIComponent(inv.id)}" style="color:var(--text);text-decoration:none">${esc(inv.number)}</a></td>
+                        <td style="padding:9px 6px">${esc(inv.client.name || '—')}</td>
+                        <td style="padding:9px 6px;text-align:right">${esc(fmtMoney(c.subtotal, inv.currency))}</td>
+                        <td style="padding:9px 6px;text-align:right;color:var(--muted)">${cgst ? esc(fmtMoney(cgst, inv.currency)) : '—'}</td>
+                        <td style="padding:9px 6px;text-align:right;color:var(--muted)">${sgst ? esc(fmtMoney(sgst, inv.currency)) : '—'}</td>
+                        <td style="padding:9px 6px;text-align:right;color:var(--muted)">${igst ? esc(fmtMoney(igst, inv.currency)) : '—'}</td>
+                        <td style="padding:9px 6px;text-align:right;font-weight:700;color:var(--text)">${esc(fmtMoney(c.tax, inv.currency))}</td>
+                      </tr>`;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            ` : `
+              <div style="min-height:175px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 20px;background:var(--surface-2);border:1px dashed var(--line-2);border-radius:12px;box-sizing:border-box">
+                <div style="font-size:26px;margin-bottom:8px">🏛️</div>
+                <div style="font-weight:700;font-size:13.5px;color:var(--text);margin-bottom:4px">Automated Place-of-Supply Engine Ready</div>
+                <div style="font-size:11.5px;color:var(--muted);max-width:390px;line-height:1.45;margin-bottom:14px">
+                  Taxable commercial invoices with GST will automatically decompose into Intra-State CGST (9%) + SGST (9%) or Inter-State IGST (18%) in this regulatory schedule.
+                </div>
+                <button type="button" class="btn sm primary" data-act="nav-new" style="font-weight:700;display:inline-flex;align-items:center;gap:6px">
+                  ${icon('plus')}<span>Issue GST Tax Invoice</span>
+                </button>
+              </div>
+            `}
+          </div>
         </section>
 
         <!-- Receivables Ageing Schedule -->
-        <section class="card" style="margin-bottom:0">
-          <div style="margin-bottom:14px">
-            <h2 style="margin:0;font-size:15px;color:var(--text)">⏳ Receivables Ageing Schedule</h2>
-            <span style="font-size:11.5px;color:var(--muted)">Unpaid balances categorized by days past invoice due date</span>
+        <section class="card" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;height:100%">
+          <div>
+            <div style="margin-bottom:14px">
+              <h2 style="margin:0;font-size:15px;color:var(--text)">⏳ Receivables Ageing Schedule</h2>
+              <span style="font-size:11.5px;color:var(--muted)">Unpaid balances categorized by days past invoice due date</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+              <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+                <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase">Current (Not Due)</div>
+                <div style="font-size:18px;font-weight:800;color:var(--text);margin-top:4px">${esc(fmtMoney(curAge.c0||0, cur))}</div>
+              </div>
+              <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+                <div style="font-size:11px;font-weight:700;color:#eab308;text-transform:uppercase">1–30 Days Overdue</div>
+                <div style="font-size:18px;font-weight:800;color:#eab308;margin-top:4px">${esc(fmtMoney(curAge.c30||0, cur))}</div>
+              </div>
+              <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+                <div style="font-size:11px;font-weight:700;color:#f97316;text-transform:uppercase">31–60 Days Overdue</div>
+                <div style="font-size:18px;font-weight:800;color:#f97316;margin-top:4px">${esc(fmtMoney(curAge.c60||0, cur))}</div>
+              </div>
+              <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
+                <div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase">61–90+ Days Overdue</div>
+                <div style="font-size:18px;font-weight:800;color:#ef4444;margin-top:4px">${esc(fmtMoney(curAge.c90||0, cur))}</div>
+              </div>
+            </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
-              <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase">Current (Not Due)</div>
-              <div style="font-size:18px;font-weight:800;color:var(--text);margin-top:4px">${esc(fmtMoney(curAge.c0||0, cur))}</div>
-            </div>
-            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
-              <div style="font-size:11px;font-weight:700;color:#eab308;text-transform:uppercase">1–30 Days Overdue</div>
-              <div style="font-size:18px;font-weight:800;color:#eab308;margin-top:4px">${esc(fmtMoney(curAge.c30||0, cur))}</div>
-            </div>
-            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
-              <div style="font-size:11px;font-weight:700;color:#f97316;text-transform:uppercase">31–60 Days Overdue</div>
-              <div style="font-size:18px;font-weight:800;color:#f97316;margin-top:4px">${esc(fmtMoney(curAge.c60||0, cur))}</div>
-            </div>
-            <div style="background:var(--surface-2);padding:14px;border-radius:12px;border:1px solid var(--line-2)">
-              <div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase">61–90+ Days Overdue</div>
-              <div style="font-size:18px;font-weight:800;color:#ef4444;margin-top:4px">${esc(fmtMoney(curAge.c90||0, cur))}</div>
-            </div>
-          </div>
-
-          <button type="button" class="btn sm" data-act="nav" data-page="email" style="width:100%;justify-content:center;font-weight:700">
+          <button type="button" class="btn sm" data-act="nav" data-page="email" style="width:100%;justify-content:center;font-weight:700;margin-top:auto">
             ✉️ Review &amp; Dispatch Escalation Reminders →
           </button>
         </section>
