@@ -482,9 +482,14 @@
   .paper-frame{
     width:100%;
     overflow:hidden;
-    border-radius:10px;
+    border-radius:14px;
     border:1px solid var(--line);
-    background:#222630;
+    background:var(--surface-2, #f8fafc);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+  }
+  html[data-theme="dark"] .paper-frame{
+    background: #11141c;
+    border-color: rgba(255, 255, 255, 0.08);
   }
 
   /* Clients Grid */
@@ -627,6 +632,8 @@
     display:flex;
     flex-direction:column;
     box-sizing:border-box;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
   }
   .paper[lang=ar]{font-family:'Noto Sans Arabic','Inter','Noto Sans Telugu',sans-serif;line-height:1.7}
   .paper[lang=ur]{font-family:'Noto Nastaliq Urdu','Noto Sans Arabic','Inter',sans-serif;line-height:2.05}
