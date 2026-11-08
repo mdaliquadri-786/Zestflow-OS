@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-H5EPuTnrkfAJp29zKsTOED9o+oVO3kZu++JPc9z7DRA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-rsDt1SGcjdAxgAIdCG1PR3PlVempZKklAJ/RWNoWExc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <title>ZestFlow OS — Invoices in Arabic, Urdu, Telugu &amp; English</title>
   <meta name="description" content="Create clean A4 invoices in Arabic, Urdu, Telugu and English. Stored in your browser. Engineered by Mohammed Ali Quadri (CodeWithAli).">
@@ -6749,19 +6749,20 @@ dialog.zf-closing::backdrop {
     return {
       business:{
         name:str(b.name,200),
-        address:str(b.address || 'Cyber Pearl, HITEC City, Hyderabad',600),
-        state:str(b.state || 'Telangana',80),
-        email:str(b.email || 'ali@codewithali.com',200),
-        phone:str(b.phone || '+91 98765 43210',60),
-        taxIdLabel:str(b.taxIdLabel || 'GSTIN',40),
-        taxId:str(b.taxId || '36AAACZ1234A1Z5',60),
+        address:str(b.address,600),
+        state:str(b.state||'Telangana',80),
+        email:str(b.email,200),
+        phone:str(b.phone,60),
+        taxIdLabel:str(b.taxIdLabel||'GSTIN',40),
+        taxId:str(b.taxId,60),
         taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'gst_in',
-        upiId:str(b.upiId || 'fcalipc786-1@okicici',100),
+        upiId:str(b.upiId,100),
         paymentLink:str(b.paymentLink,500),
-        geminiKey:str(b.geminiKey || GEMINI_CONFIG.key,200),
+        geminiKey:str(b.geminiKey||GEMINI_CONFIG.key,200),
         zatcaEnabled:Boolean(b.zatcaEnabled),
         emailWebhook:str(b.emailWebhook,500),
-        logo:img(b.logo)
+        logo:img(b.logo),
+        upiQrImage:img(b.upiQrImage)
       },
       defaults:{
         currency:CURRENCIES.includes(d.currency)?d.currency:'INR',
@@ -6773,7 +6774,7 @@ dialog.zf-closing::backdrop {
         dueDays:clamp(Math.round(num(d.dueDays==null?14:d.dueDays)),0,365),
         prefix:str(d.prefix==null?'INV-':d.prefix,12),
         next:Math.max(1,Math.round(num(d.next||1))),
-        payment:str(d.payment || 'Bank: ICICI Bank · A/C: 000000000000 · IFSC: ICIC0000000\nUPI ID: fcalipc786-1@okicici (Mohammed Ali)\nInstant settlement supported via GPay, PhonePe & BHIM UPI.',1200),notes:str(d.notes || 'Thank you for choosing ZestFlow Financial Technologies.',1200)
+        payment:str(d.payment != null ? d.payment : 'Bank: HDFC Bank · A/C: 123456789000 · IFSC: HDFC0001234\nUPI ID: business@upi\nInstant settlement supported via GPay, PhonePe & BHIM UPI.',1200),notes:str(d.notes != null ? d.notes : 'Thank you for your business.',1200)
       },
       theme:s.theme==='light'?'light':'dark',layout:['invowise','cashfund'].includes(s.layout)?s.layout:'invowise',
       defaultTemplate:['modern','minimal','corporate','creative','claim','compact','classic'].includes(s.defaultTemplate)?s.defaultTemplate:'classic',
@@ -12493,7 +12494,7 @@ dialog.zf-closing::backdrop {
         '<div style="display:flex;justify-content:space-between;align-items:flex-end">' +
           '<div>' +
             sealHTML +
-            '<div style="font-size:8px;color:#94a3b8;margin-top:6px">UPI: fcalipc786-1@okicici · Instant Settlement</div>' +
+            '<div style="font-size:8px;color:#94a3b8;margin-top:6px">UPI: business@upi · Instant Settlement</div>' +
           '</div>' +
           '<div style="text-align:right">' +
             '<div style="font-size:9.5px;color:#64748b">Subtotal: ₹24,850.00</div>' +
@@ -13092,7 +13093,7 @@ dialog.zf-closing::backdrop {
         <div class="g2">${sfld('Tax number label','business.taxIdLabel',{dir:1,ph:'GSTIN, TRN, VAT no.'})}${sfld('Your tax number','business.taxId',{dir:1})}</div>
         <div class="g2">${sfld('Your state / province (for GST)','business.state',{dir:1,ph:'Telangana'})}${ssel('Default tax regime','business.taxRegime',[['simple','Standard (Single tax)'],['gst_in','India GST (CGST/SGST/IGST)']])}</div>
         
-        <div class="g2">${sfld('UPI ID (for instant QR payment)','business.upiId',{dir:1,ph:'fcalipc786-1@okicici'})}${sfld('Online payment link','business.paymentLink',{dir:1,ph:'https://rzp.io/l/... or stripe.com/...'})}</div>
+        <div class="g2">${sfld('UPI ID (for instant QR payment)','business.upiId',{dir:1,ph:'merchant@upi or name@okhdfcbank'})}${sfld('Online payment link','business.paymentLink',{dir:1,ph:'https://rzp.io/l/... or stripe.com/...'})}</div>
         <div style="display:flex;align-items:center;gap:12px;margin:4px 0;padding:10px 14px;background:var(--surface-2);border-radius:10px;border:1px solid var(--line-2)">
           <div style="width:44px;height:44px;background:#ffffff;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
             ${b.upiQrImage ? `<img src="${esc(b.upiQrImage)}" style="width:100%;height:100%;object-fit:contain">` : `<span style="font-size:20px">📱</span>`}
