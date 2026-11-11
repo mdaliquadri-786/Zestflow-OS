@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9xR13ASnAiqjFA7tG9/Ub3mQH1MCH5NQa15pq3L5HrY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kweRNPKu49+IL4o7DdUHMSXd/pA0ygKuQRWvMZbWVvM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -1315,11 +1315,17 @@ dialog.zf-closing::backdrop {
 @media (max-width: 760px) {
   .ws-studio-split {
     grid-template-columns: 1fr !important;
-    max-height: calc(85vh - 120px) !important;
+    max-height: calc(90vh - 80px) !important;
     overflow-y: auto !important;
+    padding: 12px 14px !important;
+    gap: 12px !important;
+  }
+  .ws-studio-preview-pane {
+    display: none !important;
   }
   .ws-studio-form-grid {
     grid-template-columns: 1fr !important;
+    width: 100% !important;
   }
 }
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
@@ -8752,6 +8758,11 @@ dialog.zf-closing::backdrop {
   if (typeof window !== 'undefined') {
     window.getActiveUserDisplayName = getActiveUserDisplayName;
     window.getActiveUserInitials = getActiveUserInitials;
+    window.navigate = navigate;
+    window.applyLayout = applyLayout;
+    window.applyTheme = applyTheme;
+    window.render = render;
+    window.openWorkspaceSetupDlg = openWorkspaceSetupDlg;
   }
 
   async function supabaseEmailAuth(email, password, isSignUp) {
@@ -13668,7 +13679,7 @@ dialog.zf-closing::backdrop {
         <!-- 2-Pane Split Studio: Left = Brand & Preview, Right = Zero-Scroll Form Grid -->
         <div class="ws-studio-split" style="display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;padding:18px 24px;box-sizing:border-box;align-items:start">
           <!-- Left Pane (260px) -->
-          <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="ws-studio-preview-pane" style="display:flex;flex-direction:column;gap:12px">
             <!-- 1. Live Mini Invoice Preview Card -->
             <div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
               <div style="display:flex;align-items:center;justify-content:space-between">

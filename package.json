@@ -10,7 +10,8 @@
     "lint": "node -e \"console.log('Lint OK: Zero syntax anomalies.')\"",
     "test": "node test-all.js && node massive_100_stress_benchmark.js && node ceo_grade_rea_and_dom_torture_audit.js",
     "test:ceo": "node ceo_grade_rea_and_dom_torture_audit.js",
-    "test:stress": "node massive_100_stress_benchmark.js"
+    "test:stress": "node massive_100_stress_benchmark.js",
+    "test:pixel": "node real_chromium_pixel_audit.js"
   },
   "keywords": [
     "invoicing",
@@ -21,5 +22,8 @@
     "telugu"
   ],
   "author": "ZestFlow Enterprise",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "playwright-core": "^1.65.0"
+  }
 }
