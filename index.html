@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-77CBcHGRhxfldfG62aLGmPje01ij1UvFIX+R5spG42k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ogEW9EJvDwIgCTNUjQe25+it0YyH+SlfZXARWgQPEpg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -2061,16 +2061,16 @@ dialog.zf-closing::backdrop {
 
   /* Staggered Entrance Animations */
   @keyframes luxuryEnter {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
   #app > * {
-    animation: luxuryEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: luxuryEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .bento-kpis > *:nth-child(1) { animation: luxuryEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both; }
-  .bento-kpis > *:nth-child(2) { animation: luxuryEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both; }
-  .bento-kpis > *:nth-child(3) { animation: luxuryEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both; }
-  .bento-kpis > *:nth-child(4) { animation: luxuryEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both; }
+  .bento-kpis > *:nth-child(1) { animation: luxuryEnter 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.03s; }
+  .bento-kpis > *:nth-child(2) { animation: luxuryEnter 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.06s; }
+  .bento-kpis > *:nth-child(3) { animation: luxuryEnter 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.09s; }
+  .bento-kpis > *:nth-child(4) { animation: luxuryEnter 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.12s; }
 
 
   /* ========================================================
@@ -2721,14 +2721,23 @@ dialog.zf-closing::backdrop {
     text-decoration: none;
     flex-shrink: 0;
   }
+  .invo-brand .invo-brand-asterisk {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .invo-brand:hover .invo-brand-asterisk {
+    transform: rotate(90deg) scale(1.15);
+  }
   .invo-brand-name {
     font-size: 20px;
     font-weight: 800;
     letter-spacing: -0.025em;
     color: #0f172a;
     white-space: nowrap;
+    transition: color 0.2s ease;
   }
+  .invo-brand:hover .invo-brand-name { color: #ff5733 !important; }
   html[data-theme="dark"] .invo-brand-name { color: #f8fafc; }
+  html[data-theme="dark"] .invo-brand:hover .invo-brand-name { color: #ff7a5c !important; }
 
   .invo-pill-menu {
     display: flex;
@@ -2818,11 +2827,28 @@ dialog.zf-closing::backdrop {
     height: 38px;
     box-sizing: border-box;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .invo-search-wrap:hover {
+    border-color: rgba(255, 87, 51, 0.35);
+    box-shadow: 0 2px 10px rgba(255, 87, 51, 0.08);
+  }
+  .invo-search-wrap:focus-within {
+    border-color: #ff5733 !important;
+    box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.18) !important;
   }
   html[data-theme="dark"] .invo-search-wrap {
     background: #11131a;
     border-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  html[data-theme="dark"] .invo-search-wrap:hover {
+    border-color: rgba(255, 87, 51, 0.45);
+    box-shadow: 0 2px 12px rgba(255, 87, 51, 0.15);
+  }
+  html[data-theme="dark"] .invo-search-wrap:focus-within {
+    border-color: #ff7a5c !important;
+    box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.25) !important;
   }
   .invo-search-wrap input {
     border: none;
@@ -3257,11 +3283,29 @@ dialog.zf-closing::backdrop {
     justify-content: center;
     cursor: pointer;
     font-weight: 700;
-    transition: all 0.2s;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
   }
-  .invo-arrow-btn:hover { background: #f1f5f9; color: #0f172a; }
-  html[data-theme="dark"] .invo-arrow-btn { border-color: rgba(255, 255, 255, 0.08); color: #94a3b8; }
-  html[data-theme="dark"] .invo-arrow-btn:hover { background: #1f232f; color: #fff; }
+  .invo-arrow-btn:hover {
+    transform: translate(2px, -2px) scale(1.08);
+    border-color: #ff5733 !important;
+    color: #ff5733 !important;
+    background: rgba(255, 87, 51, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(255, 87, 51, 0.22) !important;
+  }
+  html[data-theme="dark"] .invo-arrow-btn {
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+  }
+  html[data-theme="dark"] .invo-arrow-btn:hover {
+    background: rgba(255, 87, 51, 0.16) !important;
+    color: #ff7a5c !important;
+    border-color: #ff7a5c !important;
+    box-shadow: 0 4px 14px rgba(255, 87, 51, 0.3) !important;
+  }
 
   /* Current Balances Row */
   .invo-bal-row {
@@ -3299,22 +3343,37 @@ dialog.zf-closing::backdrop {
     background: #ffffff;
     color: #64748b;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .invo-cur-pills button:hover { background: #f8fafc; color: #0f172a; }
+  .invo-cur-pills button:hover {
+    background: #f8fafc;
+    color: #ff5733;
+    border-color: rgba(255, 87, 51, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(255, 87, 51, 0.15);
+  }
   html[data-theme="dark"] .invo-cur-pills button {
     background: #191c26;
     border-color: rgba(255, 255, 255, 0.08);
     color: #94a3b8;
   }
+  html[data-theme="dark"] .invo-cur-pills button:hover {
+    background: #252937 !important;
+    color: #ff7a5c !important;
+    border-color: rgba(255, 87, 51, 0.45) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
   .invo-cur-pills button.active {
-    background: #0f172a !important;
+    background: #ff5733 !important;
     color: #ffffff !important;
-    border-color: #0f172a !important;
+    border-color: #ff5733 !important;
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.35);
   }
   html[data-theme="dark"] .invo-cur-pills button.active {
     background: #ff5733 !important;
     border-color: #ff5733 !important;
+    color: #ffffff !important;
   }
 
   /* Striped Diagonal Bar Chart (Invowise Matrix) */
@@ -3359,6 +3418,12 @@ dialog.zf-closing::backdrop {
     color: #ff5733;
     font-weight: 600;
     transform: translateY(-50%);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    cursor: default;
+  }
+  .invo-target-tag:hover {
+    transform: translateY(-50%) scale(1.04);
+    box-shadow: 0 6px 18px rgba(255, 87, 51, 0.28);
   }
   html[data-theme="dark"] .invo-target-tag {
     background: #191c26;
@@ -3378,6 +3443,15 @@ dialog.zf-closing::backdrop {
     flex-direction: column;
     align-items: center;
     height: 100%;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .invo-bar-col:hover {
+    transform: translateY(-2px);
+  }
+  .invo-bar-col:hover .invo-bar-lbl:not(.orange-pill) {
+    color: #ff5733 !important;
+    font-weight: 700;
   }
   .invo-bar-val {
     font-size: 9px;
@@ -3393,12 +3467,13 @@ dialog.zf-closing::backdrop {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    cursor: pointer;
   }
   .invo-bar.striped {
     width: 100%;
     border-radius: 10px 10px 4px 4px;
     background: repeating-linear-gradient(45deg, #e2e8f0, #e2e8f0 6px, rgba(226, 232, 240, 0.3) 6px, rgba(226, 232, 240, 0.3) 12px);
-    transition: height 0.4s ease;
+    transition: height 0.4s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease, box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
   html[data-theme="dark"] .invo-bar.striped {
     background: repeating-linear-gradient(45deg, #2a2e3d, #2a2e3d 6px, rgba(42, 46, 61, 0.3) 6px, rgba(42, 46, 61, 0.3) 12px);
@@ -3407,11 +3482,18 @@ dialog.zf-closing::backdrop {
     background: repeating-linear-gradient(45deg, #ff5733, #ff5733 6px, #ff7a5c 6px, #ff7a5c 12px) !important;
     box-shadow: 0 4px 16px rgba(255, 87, 51, 0.35);
   }
+  .invo-bar-track:hover .invo-bar.striped,
+  .invo-bar.striped:hover {
+    transform: translateY(-4px) scaleX(1.06);
+    filter: brightness(1.15);
+    box-shadow: 0 8px 24px rgba(255, 87, 51, 0.38) !important;
+  }
   .invo-bar-lbl {
     font-size: 11px;
     font-weight: 600;
     color: #64748b;
     margin-top: 8px;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
   .invo-bar-lbl.orange-pill {
     background: #ff5733;
@@ -3420,6 +3502,7 @@ dialog.zf-closing::backdrop {
     border-radius: 99px;
     font-size: 10px;
     font-weight: 700;
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.35);
   }
 
   /* All Invoices Table Styling */
@@ -3453,16 +3536,35 @@ dialog.zf-closing::backdrop {
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .invo-filter-pill:hover {
+    border-color: #ff5733;
+    color: #ff5733;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.15);
   }
   html[data-theme="dark"] .invo-filter-pill {
     background: #191c26;
     border-color: rgba(255, 255, 255, 0.08);
     color: #94a3b8;
   }
+  html[data-theme="dark"] .invo-filter-pill:hover {
+    background: #222634;
+    color: #ff7a5c;
+    border-color: rgba(255, 87, 51, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
   .invo-filter-pill.active {
-    background: #0284c7 !important;
+    background: #ff5733 !important;
     color: #ffffff !important;
-    border-color: #0284c7 !important;
+    border-color: #ff5733 !important;
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.35) !important;
+  }
+  html[data-theme="dark"] .invo-filter-pill.active {
+    background: #ff5733 !important;
+    color: #ffffff !important;
+    border-color: #ff5733 !important;
   }
   .invo-mini-search {
     display: flex;
@@ -3472,10 +3574,26 @@ dialog.zf-closing::backdrop {
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 99px;
     padding: 4px 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .invo-mini-search:hover {
+    border-color: rgba(255, 87, 51, 0.35);
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.08);
+  }
+  .invo-mini-search:focus-within {
+    border-color: #ff5733 !important;
+    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.18) !important;
   }
   html[data-theme="dark"] .invo-mini-search {
     background: #191c26;
     border-color: rgba(255, 255, 255, 0.08);
+  }
+  html[data-theme="dark"] .invo-mini-search:hover {
+    border-color: rgba(255, 87, 51, 0.45);
+  }
+  html[data-theme="dark"] .invo-mini-search:focus-within {
+    border-color: #ff7a5c !important;
+    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.25) !important;
   }
   .invo-mini-search input {
     border: none;
@@ -3503,18 +3621,42 @@ dialog.zf-closing::backdrop {
     color: #94a3b8;
     font-weight: 600;
     border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    transition: color 0.18s ease, background 0.18s ease;
   }
   html[data-theme="dark"] .invo-tbl th { border-bottom-color: rgba(255, 255, 255, 0.06); }
+  .invo-tbl th[data-act="dash-sort"] {
+    cursor: pointer;
+    user-select: none;
+    border-radius: 6px;
+  }
+  .invo-tbl th[data-act="dash-sort"]:hover {
+    color: #ff5733 !important;
+    background: rgba(255, 87, 51, 0.08);
+  }
+  html[data-theme="dark"] .invo-tbl th[data-act="dash-sort"]:hover {
+    color: #ff7a5c !important;
+    background: rgba(255, 87, 51, 0.14);
+  }
   .invo-tbl td {
     padding: 12px 8px;
     border-bottom: 1px solid rgba(15, 23, 42, 0.04);
     color: #334155;
+    transition: background-color 0.18s ease;
   }
   html[data-theme="dark"] .invo-tbl td { border-bottom-color: rgba(255, 255, 255, 0.04); color: #cbd5e1; }
   .invo-tbl tr:hover td {
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(255, 87, 51, 0.04) !important;
   }
-  html[data-theme="dark"] .invo-tbl tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  html[data-theme="dark"] .invo-tbl tr:hover td { background: rgba(255, 87, 51, 0.07) !important; }
+
+  .invo-tbl strong[data-act="inspect-jump"] {
+    cursor: pointer;
+    transition: color 0.18s ease, text-decoration 0.18s ease;
+  }
+  .invo-tbl strong[data-act="inspect-jump"]:hover {
+    color: #ff5733 !important;
+    text-decoration: underline;
+  }
 
   .invo-client-cell {
     display: flex;
@@ -3533,6 +3675,18 @@ dialog.zf-closing::backdrop {
     border-radius: 99px;
     font-size: 11px;
     font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+  }
+  .invo-status-badge:hover {
+    transform: translateY(-1.5px) scale(1.06);
+    filter: brightness(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  .invo-status-badge:active {
+    transform: scale(0.96) translateY(0);
   }
   .invo-status-badge.paid { background: #dcfce7; color: #15803d; }
   .invo-status-badge.due { background: #fef3c7; color: #b45309; }
@@ -3548,10 +3702,10 @@ dialog.zf-closing::backdrop {
     color: #94a3b8;
     padding: 4px;
     border-radius: 6px;
-    transition: all 0.2s;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease, background-color 0.18s ease;
   }
-  .invo-action-btn:hover { color: #0f172a; background: #f1f5f9; }
-  html[data-theme="dark"] .invo-action-btn:hover { color: #fff; background: #222634; }
+  .invo-action-btn:hover { color: #0f172a; background: #f1f5f9; transform: scale(1.18); }
+  html[data-theme="dark"] .invo-action-btn:hover { color: #fff; background: #222634; transform: scale(1.18); }
 
   /* Email Reminders Accordion */
   .invo-remind-list {
@@ -3567,22 +3721,52 @@ dialog.zf-closing::backdrop {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.2s;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease;
   }
   html[data-theme="dark"] .invo-remind-item {
     background: #151821;
     border-color: rgba(255, 255, 255, 0.06);
   }
+  .invo-remind-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 87, 51, 0.38) !important;
+    box-shadow: 0 6px 20px rgba(255, 87, 51, 0.08) !important;
+  }
+  html[data-theme="dark"] .invo-remind-item:hover {
+    border-color: rgba(255, 87, 51, 0.45) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  }
   .invo-remind-item.expanded {
     flex-direction: column;
     align-items: stretch;
     background: #ffffff;
-    border-color: rgba(255, 87, 51, 0.25);
-    box-shadow: 0 4px 16px rgba(255, 87, 51, 0.06);
+    border-color: rgba(255, 87, 51, 0.35);
+    box-shadow: 0 4px 16px rgba(255, 87, 51, 0.08);
   }
   html[data-theme="dark"] .invo-remind-item.expanded {
     background: #191c26;
-    border-color: rgba(255, 87, 51, 0.4);
+    border-color: rgba(255, 87, 51, 0.45);
+  }
+
+  /* Receivables Ageing Interactive Bucket Cards */
+  .invo-ageing-box {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease;
+    cursor: pointer;
+  }
+  .invo-ageing-box:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 87, 51, 0.35) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  }
+  html[data-theme="dark"] .invo-ageing-box:hover {
+    border-color: rgba(255, 87, 51, 0.45) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   }
   .invo-remind-top {
     display: flex;
@@ -3664,16 +3848,30 @@ dialog.zf-closing::backdrop {
     background: #f1f5f9;
     color: #64748b;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .invo-gen-tab:hover {
+    border-color: rgba(255, 87, 51, 0.4);
+    color: #ff5733;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.12);
   }
   html[data-theme="dark"] .invo-gen-tab {
     background: #191c26;
     border-color: rgba(255, 255, 255, 0.08);
     color: #94a3b8;
   }
+  html[data-theme="dark"] .invo-gen-tab:hover {
+    background: #222634;
+    color: #ff7a5c;
+    border-color: rgba(255, 87, 51, 0.45);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
   .invo-gen-tab.active {
-    background: #0f172a !important;
+    background: #ff5733 !important;
     color: #ffffff !important;
-    border-color: #0f172a !important;
+    border-color: #ff5733 !important;
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.35) !important;
   }
   html[data-theme="dark"] .invo-gen-tab.active {
     background: #ff5733 !important;
@@ -4396,7 +4594,7 @@ dialog.zf-closing::backdrop {
   * {
     cursor: default;
   }
-  a, button, input[type="button"], input[type="submit"], [role="button"], [data-act], select, .invo-pill, .invo-card, .invo-metric-card, .invo-sq-btn {
+  a, button, input[type="button"], input[type="submit"], [role="button"], [data-act], select, .invo-pill, .invo-metric-card, .invo-sq-btn, .invo-create-btn, .invo-arrow-btn, .invo-status-badge, .invo-tpl-item, .invo-showcase-card, .invo-remind-item, .invo-ageing-box {
     cursor: pointer;
   }
   input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
@@ -4471,7 +4669,7 @@ dialog.zf-closing::backdrop {
   }
 
   /* Apple Smooth Button & Card Hover Transitions with Spring Physics & Depth Lift */
-  button, .btn, .invo-metric-card, .invo-card, .invo-pill, .invo-sq-btn, .invo-create-btn, .cash-kpi-card, .cash-nav-item, .kpi-card {
+  button, .btn, .invo-metric-card, .invo-sq-btn, .invo-create-btn, .cash-kpi-card, .cash-nav-item, .kpi-card {
     transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.26s cubic-bezier(0.16, 1, 0.3, 1),
                 background 0.2s ease,
@@ -4489,7 +4687,17 @@ dialog.zf-closing::backdrop {
   button:active, .btn:active, .invo-create-btn:active, .invo-sq-btn:active {
     transform: translateY(0.5px) scale(0.97) !important;
   }
-  .invo-metric-card:hover, .cash-kpi-card:hover, .kpi-card:hover {
+  body.layout-invowise .invo-metric-card:hover {
+    transform: translateY(-4px) scale(1.008) !important;
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.14), 0 0 0 1.5px rgba(255, 87, 51, 0.35) !important;
+    border-color: rgba(255, 87, 51, 0.45) !important;
+  }
+  html[data-theme="dark"] body.layout-invowise .invo-metric-card:hover {
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1.5px rgba(255, 87, 51, 0.45) !important;
+    border-color: rgba(255, 87, 51, 0.55) !important;
+  }
+  body.layout-cashfund .cash-kpi-card:hover,
+  body.layout-cashfund .kpi-card:hover {
     transform: translateY(-4px) scale(1.008) !important;
     box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(2, 132, 199, 0.18) !important;
   }
@@ -11646,9 +11854,9 @@ dialog.zf-closing::backdrop {
 
     const hasSamples = (S.invoices || []).some(i => i.sample);
     const sampleBannerHTML = hasSamples ? (
-      '<div class="demo-data-banner" style="background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.25);color:var(--text);padding:10px 16px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600">' +
+      '<div class="demo-data-banner" style="background:rgba(255,87,51,0.06);border:1px solid rgba(255,87,51,0.22);color:var(--text);padding:10px 16px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600">' +
         '<span>💡 <b>Demo Data Active:</b> Dashboard figures include sample demo invoices.</span>' +
-        '<button type="button" class="btn sm" data-act="clear-samples" style="background:#0284c7;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">Clear Demo Data</button>' +
+        '<button type="button" class="btn sm invo-clear-demo-btn" data-act="clear-samples" style="background:#ff5733;color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s">Clear Demo Data</button>' +
       '</div>'
     ) : '';
     return '<div class="invowise-container">' + sampleBannerHTML +
@@ -11705,7 +11913,7 @@ dialog.zf-closing::backdrop {
         '</div>' +
         '<div class="invo-toolbar-acts">' +
           '<div class="invo-avatar-stack">' + avatarStackHTML + '</div>' +
-          '<button type="button" class="btn sm" data-act="open-consultant-claim" style="background:rgba(2,132,199,0.1);color:#0284c7;border:1px solid rgba(2,132,199,0.25);border-radius:10px;font-weight:700;font-size:11px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer">🎓 Consultant &amp; Jamia Claim</button>' +
+          '<button type="button" class="btn sm invo-claim-btn" data-act="open-consultant-claim" style="background:rgba(255,87,51,0.08);color:#ea580c;border:1px solid rgba(255,87,51,0.25);border-radius:10px;font-weight:700;font-size:11px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer">🎓 Consultant &amp; Jamia Claim</button>' +
           '<button type="button" class="invo-sq-btn" data-act="nav" data-page="dashboard" title="Grid Layout">⊞</button>' +
           '<button type="button" class="invo-sq-btn" data-act="export-csv" title="Export CSV">↑</button>' +
           '<button type="button" class="invo-sq-btn" data-act="sync-now" title="Zero-Backend Cloud Sync">↻</button>' +
@@ -11815,19 +12023,19 @@ dialog.zf-closing::backdrop {
             '</div>' +
             '<p style="font-size:11px;color:#94a3b8;margin:-10px 0 14px">Unpaid balances grouped by days past due date (per currency)</p>' +
             '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;flex:1;align-content:stretch">' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+              '<div class="invo-ageing-box" data-act="nav" data-page="invoices" style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
                 '<span style="font-size:10.5px;color:#94a3b8;display:block">Current (Not due)</span>' +
                 '<strong style="font-size:13.5px;color:var(--text, #0f172a);margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.current) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+              '<div class="invo-ageing-box" data-act="nav" data-page="invoices" style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
                 '<span style="font-size:10.5px;color:#94a3b8;display:block">1-30 days overdue</span>' +
                 '<strong style="font-size:13.5px;color:#f59e0b;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d30) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+              '<div class="invo-ageing-box" data-act="nav" data-page="invoices" style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
                 '<span style="font-size:10.5px;color:#94a3b8;display:block">31-60 days overdue</span>' +
                 '<strong style="font-size:13.5px;color:#ef4444;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d60) + '</strong>' +
               '</div>' +
-              '<div style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
+              '<div class="invo-ageing-box" data-act="nav" data-page="invoices" style="background:var(--surface-2, #f8fafc);padding:16px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);display:flex;flex-direction:column;justify-content:space-between">' +
                 '<span style="font-size:10.5px;color:#94a3b8;display:block">61-90+ days overdue</span>' +
                 '<strong style="font-size:13.5px;color:#ef4444;margin-top:6px">' + inlineCurrencyTotals(ageingBuckets.d90) + '</strong>' +
               '</div>' +
@@ -17058,7 +17266,7 @@ dialog.zf-closing::backdrop {
     document.addEventListener('mouseover', e => {
       const t = e.target;
       if (!t || !t.closest) return;
-      const isInteractive = t.closest('button, a, input, select, textarea, [data-act], .invo-pill, .invo-card, .invo-metric-card, .invo-sq-btn, .cash-nav-item, .kpi-card');
+      const isInteractive = t.closest('button, a, input, select, textarea, [data-act], .invo-pill, .invo-metric-card, .invo-sq-btn, .invo-create-btn, .invo-arrow-btn, .invo-status-badge, .invo-bar-track, .invo-bar, .invo-remind-item, .invo-showcase-card, .invo-tpl-item, .invo-ageing-box, .cash-nav-item, .cash-kpi-card, .kpi-card');
       const isText = t.closest('input[type="text"], input[type="email"], input[type="password"], textarea');
       if (isText) {
         document.body.classList.add('cursor-text');

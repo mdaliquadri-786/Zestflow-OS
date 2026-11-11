@@ -35,3 +35,4 @@ $RECYCLE.BIN/
 # Local scratch and backups
 scratch/
 *backup*.html
+*.png
