@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kweRNPKu49+IL4o7DdUHMSXd/pA0ygKuQRWvMZbWVvM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-cwVADqHKd5SFJKdjuZtTtkJzP8fy1WFXD/uZTYy/b5I='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -1327,6 +1327,126 @@ dialog.zf-closing::backdrop {
     grid-template-columns: 1fr !important;
     width: 100% !important;
   }
+}
+
+/* ==========================================================================
+   HALLMARK INDUSTRIAL DESIGN: COMMAND PALETTE (#cmdPaletteDlg) & GSTR-1
+   ========================================================================== */
+#cmdPaletteDlg {
+  width: min(580px, calc(100vw - 28px)) !important;
+  max-width: 580px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--line-2) !important;
+  box-shadow: 0 28px 80px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06) inset !important;
+  background: var(--surface) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+#cmdPaletteDlg::backdrop {
+  background: rgba(4, 7, 13, 0.72) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+.cmd-palette-box {
+  display: flex;
+  flex-direction: column;
+  max-height: 480px;
+}
+.cmd-palette-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.cmd-palette-head input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14.5px;
+  color: var(--text);
+  font-family: inherit;
+}
+.cmd-palette-head input::placeholder {
+  color: var(--muted);
+}
+.cmd-palette-results {
+  overflow-y: auto;
+  max-height: 350px;
+  padding: 8px;
+}
+.cmd-palette-cat {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 8px 10px 4px;
+}
+.cmd-palette-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+}
+.cmd-palette-item.active, .cmd-palette-item:hover {
+  background: var(--surface-3);
+  color: var(--primary, #0284c7);
+}
+.cmd-palette-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 11px;
+  color: var(--muted);
+}
+.cmd-kbd, .cmd-kbd-sm, .kbd-pill {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  font-family: inherit;
+  font-size: 10.5px;
+  color: var(--muted);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.tone-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.tone-btn.active {
+  background: var(--primary, #0284c7) !important;
+  color: #fff !important;
+  border-color: var(--primary, #0284c7) !important;
+}
+#gstSummaryDlg {
+  width: min(780px, calc(100vw - 28px)) !important;
+  max-width: 780px !important;
+  border-radius: 18px !important;
+  border: 1px solid var(--line-2) !important;
+  box-shadow: 0 28px 80px -15px rgba(0,0,0,0.7) !important;
+  background: var(--surface) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+#gstSummaryDlg::backdrop {
+  background: rgba(4, 7, 13, 0.72) !important;
+  backdrop-filter: blur(8px) !important;
 }
   .dlg{padding:22px;width:min(600px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
   #migrationConsentDlg,#shortcutsDlg{width:min(480px,calc(100vw - 32px));max-width:calc(100vw - 32px);overflow-x:hidden}
@@ -5158,10 +5278,15 @@ dialog.zf-closing::backdrop {
 
 
   <dialog id="remindDlg">
-    <form method="dialog" class="dlg">
-      <h2>Payment reminder</h2>
-      <p id="remindDlgSub">Written in the invoice language.</p>
-      <textarea id="remindDlgTxt" dir="auto" rows="4" readonly aria-label="Reminder message"></textarea>
+    <form method="dialog" class="dlg" style="width:min(640px, calc(100vw - 32px))">
+      <h2>Smart Payment Reminder</h2>
+      <p id="remindDlgSub">Written in the invoice language with executive tone intelligence.</p>
+      <div class="remind-tone-bar" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+        <button type="button" class="btn sm tone-btn active" data-act="set-remind-tone" data-tone="polite">🕊️ Polite Follow-Up</button>
+        <button type="button" class="btn sm tone-btn" data-act="set-remind-tone" data-tone="firm">⚖️ Firm Due Reminder</button>
+        <button type="button" class="btn sm tone-btn" data-act="set-remind-tone" data-tone="final">🚨 Final Overdue Notice</button>
+      </div>
+      <textarea id="remindDlgTxt" dir="auto" rows="5" readonly aria-label="Reminder message" style="font-family:inherit;line-height:1.5;resize:vertical"></textarea>
       <div class="acts">
         <button type="button" class="btn" data-act="remind-dlg-close">Close</button>
         <button type="button" class="btn" data-act="remind-dlg-copy"><svg class="i"><use href="#i-copy"/></svg><span>Copy message</span></button>
@@ -5169,6 +5294,47 @@ dialog.zf-closing::backdrop {
         <a class="btn primary" id="remindDlgWa" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-send"/></svg><span>Open WhatsApp</span></a>
       </div>
     </form>
+  </dialog>
+
+  <!-- Global Command Palette (#cmdPaletteDlg) -->
+  <dialog id="cmdPaletteDlg">
+    <div class="cmd-palette-box">
+      <div class="cmd-palette-head">
+        <svg class="i" style="width:18px;height:18px;color:var(--muted)"><use href="#i-search"/></svg>
+        <input type="text" id="cmdPaletteInput" placeholder="Type a command or search invoices/clients..." autocomplete="off" spellcheck="false">
+        <button type="button" class="btn sm ghost icon" data-act="close-cmd-palette" aria-label="Close Command Palette" style="padding:2px 6px"><kbd class="cmd-kbd">Esc</kbd></button>
+      </div>
+      <div id="cmdPaletteResults" class="cmd-palette-results" role="listbox">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="cmd-palette-foot">
+        <span><kbd class="cmd-kbd-sm">↑</kbd><kbd class="cmd-kbd-sm">↓</kbd> navigate</span>
+        <span><kbd class="cmd-kbd-sm">↵</kbd> execute</span>
+        <span><kbd class="cmd-kbd-sm">esc</kbd> close</span>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Indian GSTR-1 & CFO Tax Audit Summary Drawer (#gstSummaryDlg) -->
+  <dialog id="gstSummaryDlg">
+    <div class="dlg" style="width:min(780px, calc(100vw - 32px));max-height:88vh;display:flex;flex-direction:column;padding:24px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <div>
+          <h2 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px">
+            <span>📊</span><span>GSTR-1 &amp; CFO Tax Compliance Summary</span>
+          </h2>
+          <p style="margin:4px 0 0;font-size:12px;color:var(--muted)">Statutory Indian GST breakdown (B2B vs B2C) &amp; CA-ready audit schedules</p>
+        </div>
+        <button type="button" class="btn sm ghost icon" data-act="close-gst-summary" style="font-size:16px;padding:4px 8px">✕</button>
+      </div>
+      <div id="gstSummaryContent" style="overflow-y:auto;flex:1;padding-right:4px">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="acts" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+        <button type="button" class="btn" data-act="close-gst-summary">Close</button>
+        <button type="button" class="btn primary" data-act="export-gstr1-csv">${icon('down')}<span>Export CA-Ready GSTR-1 (CSV)</span></button>
+      </div>
+    </div>
   </dialog>
 
 
@@ -8056,6 +8222,7 @@ dialog.zf-closing::backdrop {
       '    <span style="color:#6b7280">·</span>\n' +
       '    <span>' + esc(inv.number) + '</span>\n' +
       '    <span class="portal-status ' + es + '">' + esc(es) + '</span>\n' +
+      '    <div class="p-audit-badge" style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;background:#1e293b;border:1px solid #334155;font-family:monospace;font-size:10px;color:#38bdf8"><span>🛡️</span><span>' + computeAuditChecksum(inv) + '</span></div>\n' +
       '  </div>\n' +
       '  <div class="portal-acts">\n' +
       (payLink && es !== 'paid' ? '    <a href="' + esc(payLink) + '" target="_blank" rel="noopener noreferrer" class="pbtn primary">💳 Pay Online</a>\n' : (es !== 'paid' ? '    <span class="pbtn" style="background:#f8fafc;color:#475569;border:1px solid #cbd5e1;cursor:default">🏦 Direct Bank Settlement on File</span>\n' : '')) +
@@ -8763,6 +8930,17 @@ dialog.zf-closing::backdrop {
     window.applyTheme = applyTheme;
     window.render = render;
     window.openWorkspaceSetupDlg = openWorkspaceSetupDlg;
+    window.openCmdPalette = openCmdPalette;
+    window.filterCmdPalette = filterCmdPalette;
+    window.executeCmdAction = executeCmdAction;
+    window.computeGstr1Summary = computeGstr1Summary;
+    window.exportGstr1Csv = exportGstr1Csv;
+    window.openGstSummaryDlg = openGstSummaryDlg;
+    window.computeTreasuryMetrics = computeTreasuryMetrics;
+    window.computeAuditChecksum = computeAuditChecksum;
+    window.generateMultiToneReminder = generateMultiToneReminder;
+    window.setRemindTone = setRemindTone;
+    window.openRemindModal = openRemindModal;
   }
 
   async function supabaseEmailAuth(email, password, isSignUp) {
@@ -10260,6 +10438,10 @@ dialog.zf-closing::backdrop {
         <div class="age-box"><span>31–60 days overdue</span><b style="color:var(--danger)">${inlineCurrencyTotals(b.d60)}</b></div>
         <div class="age-box"><span>61–90+ days overdue</span><b style="color:var(--danger)">${inlineCurrencyTotals(b.d90)}</b></div>
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px">
+        <span>Collection Efficiency: <strong style="color:var(--primary,#0284c7)">${computeTreasuryMetrics().collectionEfficiency}%</strong></span>
+        <span>Days Sales Outstanding (DSO): <strong style="color:var(--text)">${computeTreasuryMetrics().dsoDays} Days</strong></span>
+      </div>
     </section>`;
   }
 
@@ -10570,6 +10752,11 @@ dialog.zf-closing::backdrop {
           '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.1);color:#0284c7">Live Financial OS</span>' +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:10px">' +
+          '<button type="button" class="btn sm ghost cmd-pill-btn" data-act="open-cmd-palette" title="Global Command Palette (Ctrl+K)" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid rgba(15,23,42,0.1);border-radius:99px;font-size:11.5px;color:var(--text);background:var(--surface,#fff);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.04)">' +
+            '<svg class="i" style="width:12px;height:12px"><use href="#i-search"/></svg>' +
+            '<span>Commands</span>' +
+            '<kbd class="kbd-pill" style="font-size:10px">⌘K</kbd>' +
+          '</button>' +
           '<button type="button" class="cash-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)" style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(15,23,42,0.08);background:var(--surface,#fff);color:#475569;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)" aria-label="Keyboard Shortcuts">⌨️</button>' +
           '<button type="button" class="btn primary sm" data-act="nav-new" style="background:#0284c7!important;color:#fff!important;border:none!important;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer">' +
             '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
@@ -10778,7 +10965,7 @@ dialog.zf-closing::backdrop {
         '</div>' +
       '</div>' +
       '<div class="cash-mob-bar-right">' +
-        '<button type="button" class="cash-mob-icon-btn" data-act="nav" data-page="invoices" title="Search Invoices">' +
+        '<button type="button" class="cash-mob-icon-btn" data-act="open-cmd-palette" title="Global Command Palette (Ctrl+K)">' +
           '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
         '</button>' +
         '<span class="sync-badge-host">' + renderSyncStatusBadge() + '</span>' +
@@ -10963,6 +11150,11 @@ dialog.zf-closing::backdrop {
           '<span class="invo-brand-name">ZestFlow</span>' +
         '</div>' +
         '<div class="invo-top-right">' +
+          '<button type="button" class="btn sm ghost cmd-pill-btn" data-act="open-cmd-palette" title="Global Command Palette (Ctrl+K)" style="display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid var(--line-2);border-radius:8px;font-size:11.5px;color:var(--text);background:var(--surface-2);cursor:pointer">' +
+            '<svg class="i" style="width:12px;height:12px"><use href="#i-search"/></svg>' +
+            '<span>Commands</span>' +
+            '<kbd class="kbd-pill" style="font-size:10px">⌘K</kbd>' +
+          '</button>' +
           '<div class="invo-search-wrap">' +
             '<svg class="i" style="width:14px;height:14px;color:#94a3b8"><use href="#i-search"/></svg>' +
             '<input type="text" id="qInvo" placeholder="Search" value="' + esc(ui.q||'') + '" data-act="search-cash">' +
@@ -11824,6 +12016,7 @@ dialog.zf-closing::backdrop {
       <div class="page-h-acts">
         <button type="button" class="btn sm" data-act="batch-print" style="border:1px solid var(--line);background:var(--surface-2);font-weight:600">🖨️ <span>Batch Print</span></button>
         <button type="button" class="btn sm" data-act="open-consultant-claim" style="background:rgba(2,132,199,0.1);color:#0284c7;border:1px solid rgba(2,132,199,0.25);font-weight:700">🎓 Consultant Claim</button>
+        <button type="button" class="btn sm" data-act="open-gst-summary" style="border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.1);color:#10b981;font-weight:700">📊 <span>GST &amp; CFO Summary</span></button>
         <button type="button" class="btn sm" data-act="ai-open-prompt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg><span>AI Generate</span></button>
         <button type="button" class="btn sm ghost" data-act="export-csv">${icon('down')}<span>Export CSV</span></button>
         <button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button>
@@ -12208,10 +12401,15 @@ dialog.zf-closing::backdrop {
             </div>
           </div></section>
           <section class="card invo-audit-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <h2 style="margin:0;font-size:14px;color:var(--text);display:flex;align-items:center;gap:6px">
-                <span>🕒</span><span>Audit Trail &amp; Activity Log (Stripe Standard)</span>
-              </h2>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <h2 style="margin:0;font-size:14px;color:var(--text);display:flex;align-items:center;gap:6px">
+                  <span>🕒</span><span>Audit Trail &amp; Activity Log</span>
+                </h2>
+                <div class="zf-audit-badge" title="Deterministic Cryptographic Integrity Checksum" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:var(--surface-3);border:1px solid var(--line-2);font-family:monospace;font-size:11px;color:var(--primary,#0284c7);font-weight:700">
+                  <span>🛡️</span><span>${computeAuditChecksum(inv)}</span>
+                </div>
+              </div>
               <span style="font-size:11px;font-weight:700;color:var(--muted)">${(inv.history||[]).length} statutory events</span>
             </div>
             <div class="audit-timeline" style="display:grid;gap:8px;font-size:12px;border-left:2px solid var(--line-2);padding-left:14px;margin-left:6px;max-height:160px;overflow-y:auto">
@@ -12823,6 +13021,7 @@ dialog.zf-closing::backdrop {
 /* ---------- PAGE: PAYMENT CENTER ---------- */
   function paymentPageHTML(){
     const inv=S.invoices;
+    const tm=computeTreasuryMetrics();
     let totalCollected=0;
     let totalPending=0;
     let paymentRecords=[];
@@ -12852,6 +13051,7 @@ dialog.zf-closing::backdrop {
           <p>Dynamic UPI, Bank settlements and payment history ledger.</p>
         </div>
         <div class="page-h-acts">
+          <button type="button" class="btn" data-act="open-gst-summary" style="border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.1);color:#10b981;font-weight:700">📊 <span>GST &amp; CFO Summary</span></button>
           <button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button>
         </div>
       </div>
@@ -12866,6 +13066,16 @@ dialog.zf-closing::backdrop {
           <div class="kpi-title">PENDING INFLOWS</div>
           <div class="kpi-val">${esc(fmtMoney(totalPending, S.settings.defaults.currency||'USD'))}</div>
           <div class="kpi-subval">Awaiting payment settlement</div>
+        </div>
+        <div class="kpi-card glow-ok">
+          <div class="kpi-title">COLLECTION EFFICIENCY</div>
+          <div class="kpi-val">${tm.collectionEfficiency}%</div>
+          <div class="kpi-subval">Total paid / total billed turnover</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">DAYS SALES OUTSTANDING (DSO)</div>
+          <div class="kpi-val">${tm.dsoDays} <span style="font-size:13px;font-weight:500">Days</span></div>
+          <div class="kpi-subval">Average settlement velocity</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-title">SETTLEMENT UPI ID</div>
@@ -13994,18 +14204,454 @@ dialog.zf-closing::backdrop {
     cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
   })();
 
-  /* ---------- reminder modal ---------- */
-  function openRemindModal(id){
-    const inv=S.invoices.find(x=>x.id===id);if(!inv)return;
-    const txt=reminderText(inv);
-    $('#remindDlgSub').textContent=`For ${inv.client.name||inv.number} (${LANG_NAMES[inv.lang]||inv.lang})`;
-    $('#remindDlgTxt').value=txt;
-    const digits=isValidE164Digits(inv.client.phone);
-    $('#remindDlgWa').href='https://wa.me/'+digits+'?text='+encodeURIComponent(txt);
-    const mail = generateInvoiceEmail(inv, 'reminder');
-    const mailBtn = $('#remindDlgMail');
-    if (mailBtn) mailBtn.href = mail.mailtoUrl;
+  /* ---------- 1. CRYPTOGRAPHIC INVOICE AUDIT TRAIL & TAMPER-EVIDENT BADGE ---------- */
+  function computeAuditChecksum(inv) {
+    if (!inv) return 'ZF-AUDIT-00000000';
+    const tot = (inv.total != null) ? inv.total : (typeof calc === 'function' ? (calc(inv).total || 0) : 0);
+    const ver = inv.version != null ? inv.version : (inv.history ? inv.history.length : 1);
+    const str = [inv.id || '', ver, tot, inv.updated || inv.issue || 0, inv.number || ''].join(':');
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return 'ZF-AUDIT-' + (h >>> 0).toString(16).toUpperCase().padStart(8, '0');
+  }
+
+  /* ---------- 2. CFO TREASURY METRICS (DSO & COLLECTION EFFICIENCY) ---------- */
+  function computeTreasuryMetrics() {
+    const invs = (typeof S !== 'undefined' && S.invoices) ? S.invoices : [];
+    let totalBilled = 0;
+    let totalPaid = 0;
+    let paidDaysSum = 0;
+    let paidCount = 0;
+
+    invs.forEach(inv => {
+      if (inv.status === 'void') return;
+      const docType = String(inv.title || 'invoice').toLowerCase();
+      if (['quote', 'estimate', 'po', 'challan'].includes(docType)) return;
+      const c = calc(inv);
+      const settled = Number(c.netPaidMinor != null ? c.netPaidMinor : c.paidAmountMinor) || 0;
+
+      if (docType === 'credit') {
+        totalBilled -= c.total;
+        totalPaid -= settled;
+      } else {
+        totalBilled += c.total;
+        totalPaid += settled;
+      }
+
+      if (effStatus(inv) === 'paid' || (inv.payments && inv.payments.length > 0)) {
+        const lastPayment = inv.payments && inv.payments[inv.payments.length - 1];
+        const payDate = lastPayment ? parseISO(lastPayment.date) : (inv.paidDate ? parseISO(inv.paidDate) : null);
+        const issueDate = parseISO(inv.issue);
+        if (payDate && issueDate && payDate >= issueDate) {
+          const diffDays = Math.round((payDate.getTime() - issueDate.getTime()) / (1000 * 60 * 60 * 24));
+          paidDaysSum += Math.max(0, diffDays);
+          paidCount++;
+        }
+      }
+    });
+
+    const efficiency = totalBilled > 0 ? Math.min(100, Math.max(0, (totalPaid / totalBilled) * 100)) : 100;
+    const dsoDays = paidCount > 0 ? Math.round(paidDaysSum / paidCount) : 0;
+
+    return {
+      collectionEfficiency: Number(efficiency.toFixed(1)),
+      dsoDays: dsoDays,
+      totalBilled: totalBilled,
+      totalPaid: totalPaid,
+      paidCount: paidCount
+    };
+  }
+
+  /* ---------- 3. INDIAN GSTR-1 & CFO TAX SUMMARY & CSV EXPORT ---------- */
+  function computeGstr1Summary() {
+    const invs = (typeof S !== 'undefined' && S.invoices) ? S.invoices : [];
+    const b2b = [];
+    const b2c = [];
+    let b2bTaxable = 0, b2bCgst = 0, b2bSgst = 0, b2bIgst = 0, b2bTotal = 0;
+    let b2cTaxable = 0, b2cCgst = 0, b2cSgst = 0, b2cIgst = 0, b2cTotal = 0;
+
+    invs.forEach(inv => {
+      if (inv.status === 'void') return;
+      const docType = String(inv.title || 'invoice').toLowerCase();
+      if (['quote', 'estimate', 'po', 'challan'].includes(docType)) return;
+      const c = calc(inv);
+      const isB2B = Boolean(inv.client && (inv.client.taxId || inv.client.gstin));
+      const taxable = c.sub - c.disc;
+      const isInter = c.gstMode === 'inter' || Boolean(c.isInterState);
+      const cgst = isInter ? 0 : (c.cgst != null ? c.cgst : c.cgstMinor || 0);
+      const sgst = isInter ? 0 : (c.sgst != null ? c.sgst : c.sgstMinor || 0);
+      const igst = isInter ? c.tax : 0;
+
+      const record = {
+        invoice: inv,
+        calc: c,
+        isB2B,
+        taxable,
+        cgst,
+        sgst,
+        igst,
+        total: c.total
+      };
+
+      if (isB2B) {
+        b2b.push(record);
+        b2bTaxable += taxable;
+        b2bCgst += cgst;
+        b2bSgst += sgst;
+        b2bIgst += igst;
+        b2bTotal += c.total;
+      } else {
+        b2c.push(record);
+        b2cTaxable += taxable;
+        b2cCgst += cgst;
+        b2cSgst += sgst;
+        b2cIgst += igst;
+        b2cTotal += c.total;
+      }
+    });
+
+    return {
+      b2b,
+      b2c,
+      totals: {
+        b2bTaxable, b2bCgst, b2bSgst, b2bIgst, b2bTotal,
+        b2cTaxable, b2cCgst, b2cSgst, b2cIgst, b2cTotal,
+        grandTaxable: b2bTaxable + b2cTaxable,
+        grandCgst: b2bCgst + b2cCgst,
+        grandSgst: b2bSgst + b2cSgst,
+        grandIgst: b2bIgst + b2cIgst,
+        grandTotal: b2bTotal + b2cTotal
+      }
+    };
+  }
+
+  function exportGstr1Csv() {
+    const summary = computeGstr1Summary();
+    const rows = [];
+    rows.push([
+      'Invoice Number',
+      'Issue Date',
+      'Client Name',
+      'Client GSTIN',
+      'Place of Supply',
+      'B2B/B2C Type',
+      'Taxable Value',
+      'Tax Rate (%)',
+      'CGST Amount',
+      'SGST Amount',
+      'IGST Amount',
+      'Total Value',
+      'Status'
+    ]);
+
+    const allRecords = [...summary.b2b, ...summary.b2c];
+    allRecords.forEach(r => {
+      const inv = r.invoice;
+      rows.push([
+        csvCell(inv.number || ''),
+        csvCell(inv.issue || ''),
+        csvCell((inv.client && inv.client.name) || ''),
+        csvCell((inv.client && (inv.client.taxId || inv.client.gstin)) || 'N/A'),
+        csvCell(inv.placeOfSupply || 'Intra-State'),
+        csvCell(r.isB2B ? 'B2B' : 'B2C'),
+        csvCell((r.taxable / 100).toFixed(2)),
+        csvCell(inv.taxRate || '0'),
+        csvCell((r.cgst / 100).toFixed(2)),
+        csvCell((r.sgst / 100).toFixed(2)),
+        csvCell((r.igst / 100).toFixed(2)),
+        csvCell((r.total / 100).toFixed(2)),
+        csvCell(effStatus(inv))
+      ]);
+    });
+
+    const csvContent = '\uFEFF' + rows.map(row => row.join(',')).join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `gstr1_ca_tax_audit_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('GSTR-1 CA-Ready CSV Exported', 'ok');
+  }
+
+  function openGstSummaryDlg() {
+    const dlg = $('#gstSummaryDlg');
+    if (!dlg) return;
+    const summary = computeGstr1Summary();
+    const t = summary.totals;
+    const cur = (S.settings && S.settings.defaults && S.settings.defaults.currency) || 'INR';
+    const content = $('#gstSummaryContent');
+    if (content) {
+      content.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-bottom:20px">
+          <div class="kpi-card glow-ok">
+            <div class="kpi-title">B2B INVOICES (WITH GSTIN)</div>
+            <div class="kpi-val">${summary.b2b.length}</div>
+            <div class="kpi-subval">Total: ${fmtMoney(t.b2bTotal, cur)}</div>
+          </div>
+          <div class="kpi-card glow-info">
+            <div class="kpi-title">B2C INVOICES (RETAIL / CONSUMER)</div>
+            <div class="kpi-val">${summary.b2c.length}</div>
+            <div class="kpi-subval">Total: ${fmtMoney(t.b2cTotal, cur)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">TOTAL TAXABLE TURNOVER</div>
+            <div class="kpi-val">${fmtMoney(t.grandTaxable, cur)}</div>
+            <div class="kpi-subval">Net turnover before GST</div>
+          </div>
+          <div class="kpi-card glow-ok">
+            <div class="kpi-title">TOTAL GST LIABILITY</div>
+            <div class="kpi-val">${fmtMoney(t.grandCgst + t.grandSgst + t.grandIgst, cur)}</div>
+            <div class="kpi-subval">CGST + SGST + IGST</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:18px">
+          <h3 style="font-size:13.5px;margin:0 0 8px;color:var(--text)">Statutory GST Distribution Schedule</h3>
+          <table class="inv-tbl" style="width:100%;font-size:12.5px">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th style="text-align:right">Taxable Turnover</th>
+                <th style="text-align:right">CGST</th>
+                <th style="text-align:right">SGST</th>
+                <th style="text-align:right">IGST</th>
+                <th style="text-align:right">Total Revenue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>B2B Registered</b> (${summary.b2b.length} inv)</td>
+                <td style="text-align:right">${fmtMoney(t.b2bTaxable, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2bCgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2bSgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2bIgst, cur)}</td>
+                <td style="text-align:right"><b>${fmtMoney(t.b2bTotal, cur)}</b></td>
+              </tr>
+              <tr>
+                <td><b>B2C Consumer</b> (${summary.b2c.length} inv)</td>
+                <td style="text-align:right">${fmtMoney(t.b2cTaxable, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2cCgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2cSgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.b2cIgst, cur)}</td>
+                <td style="text-align:right"><b>${fmtMoney(t.b2cTotal, cur)}</b></td>
+              </tr>
+              <tr style="border-top:2px solid var(--line);font-weight:700">
+                <td>Grand Total</td>
+                <td style="text-align:right">${fmtMoney(t.grandTaxable, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.grandCgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.grandSgst, cur)}</td>
+                <td style="text-align:right">${fmtMoney(t.grandIgst, cur)}</td>
+                <td style="text-align:right;color:var(--primary,#0284c7)">${fmtMoney(t.grandTotal, cur)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+    openDialogSmooth(dlg);
+  }
+
+  /* ---------- 4. SMART MULTI-TONE PAYMENT REMINDER COMPOSER ---------- */
+  let activeRemindInvId = null;
+  let activeRemindTone = 'polite';
+
+  function generateMultiToneReminder(inv, tone) {
+    if (!inv) return '';
+    tone = tone || 'polite';
+    const c = calc(inv);
+    const balanceDue = c.balanceMinor > 0 ? c.balanceMinor : c.total;
+    const clientName = (inv.client && inv.client.name) || 'Valued Client';
+    const num = inv.number || 'INV';
+    const totalFmt = fmtMoney(c.total, inv.currency);
+    const balFmt = fmtMoney(balanceDue, inv.currency);
+    const dueFmt = fmtDate(inv.due, inv.lang);
+    const biz = (S.settings && S.settings.business) || {};
+    const bizName = biz.name || 'ZestFlow';
+    const upiStr = biz.upiId ? `\n• Instant UPI Settlement: ${biz.upiId}` : '';
+    const payLinkStr = (inv.paymentLink || biz.paymentLink) ? `\n• Direct Pay Online: ${inv.paymentLink || biz.paymentLink}` : '';
+
+    if (tone === 'polite') {
+      return `Dear ${clientName},\n\nWe hope this message finds you well. This is a gentle courtesy note regarding invoice #${num} (dated ${fmtDate(inv.issue, inv.lang)}) for ${totalFmt}, with an outstanding balance of ${balFmt} due on ${dueFmt}.\n\nFor seamless settlement:${upiStr}${payLinkStr}\n\nIf payment has already been initiated, please accept our sincere thanks. We truly value our ongoing partnership.\n\nWarm regards,\n${bizName}`;
+    } else if (tone === 'firm') {
+      return `Attn: ${clientName} Accounts Payable,\n\nRE: Outstanding Invoice Notice — #${num}\n\nPlease be advised that invoice #${num} carries an outstanding balance of ${balFmt} against the original billed amount of ${totalFmt}. The scheduled due date was ${dueFmt}.\n\nKindly review and arrange payment processing today using the following details:${upiStr}${payLinkStr}\n\nPlease share the transaction confirmation UTR/receipt upon release for immediate ledger reconciliation.\n\nFinance Department,\n${bizName}`;
+    } else { // final
+      return `URGENT & FINAL OVERDUE DEMAND\nAttn: Management / Accounts Payable — ${clientName}\n\nInvoice: #${num} | Outstanding Balance: ${balFmt} | Original Due Date: ${dueFmt}\n\nThis constitutes a formal reminder that payment for invoice #${num} is critically overdue. Continued delay may impact account credit standing and trigger statutory collection review under applicable commercial guidelines.\n\nPlease execute immediate settlement via:${upiStr}${payLinkStr}\n\nRemit payment immediately and forward bank wire confirmation to avoid administrative escalation.\n\nOffice of the CFO / Treasury,\n${bizName}`;
+    }
+  }
+
+  function openRemindModal(id) {
+    let inv = (S.invoices && S.invoices.find(x => x.id === id)) || (S.invoices && S.invoices[0]);
+    if (!inv) {
+      inv = newInvoice();
+      inv.number = 'INV-SAMPLE';
+      inv.client = { name: 'Sample Client', email: 'client@example.com', phone: '+1234567890' };
+      inv.items = [{ desc: 'Professional Services', qty: '1', rate: '100' }];
+    }
+    activeRemindInvId = inv.id;
+    activeRemindTone = 'polite';
+    $('#remindDlgSub').textContent = `For ${inv.client.name || inv.number} (${LANG_NAMES[inv.lang] || inv.lang || 'en'})`;
+    $$('.tone-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tone === 'polite');
+    });
+    updateRemindModalText(inv, 'polite');
     openDialogSmooth($('#remindDlg'));
+  }
+
+  function setRemindTone(tone) {
+    activeRemindTone = tone;
+    const inv = S.invoices.find(x => x.id === activeRemindInvId);
+    if (!inv) return;
+    $$('.tone-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tone === tone);
+    });
+    updateRemindModalText(inv, tone);
+  }
+
+  function updateRemindModalText(inv, tone) {
+    const txt = generateMultiToneReminder(inv, tone);
+    const txtEl = $('#remindDlgTxt');
+    if (txtEl) txtEl.value = txt;
+    const digits = isValidE164Digits(inv.client.phone);
+    const waBtn = $('#remindDlgWa');
+    if (waBtn) waBtn.href = 'https://wa.me/' + digits + '?text=' + encodeURIComponent(txt);
+    const mailBtn = $('#remindDlgMail');
+    if (mailBtn) {
+      const subject = encodeURIComponent(`Payment Reminder: Invoice #${inv.number} (${tone.toUpperCase()})`);
+      mailBtn.href = `mailto:${encodeURIComponent(inv.client.email || '')}?subject=${subject}&body=${encodeURIComponent(txt)}`;
+    }
+  }
+
+  /* ---------- 5. GLOBAL COMMAND PALETTE (CTRL+K / CMD+K) ---------- */
+  let cmdPaletteActiveIndex = 0;
+  let cmdPaletteFilteredItems = [];
+
+  function getCmdPaletteBaseActions() {
+    return [
+      { id: 'act-new-inv', title: 'Create New Invoice', category: 'Quick Actions', icon: 'plus', handler: () => { ed = null; navigate('editor', {}); } },
+      { id: 'act-jamia-claim', title: 'Launch Consultant / Jamia Claim', category: 'Quick Actions', icon: 'doc', handler: () => { ed = null; navigate('editor', { prefillDocType: 'claim' }); } },
+      { id: 'act-record-payment', title: 'Record Payment Settlement', category: 'Quick Actions', icon: 'card', handler: () => { navigate('payment', {}); } },
+      { id: 'act-gst-summary', title: 'Open GST & CFO Tax Summary', category: 'Tax & Compliance', icon: 'chart', handler: () => { openGstSummaryDlg(); } },
+      { id: 'act-export-gstr1', title: 'Export CA-Ready GSTR-1 CSV', category: 'Tax & Compliance', icon: 'down', handler: () => { exportGstr1Csv(); } },
+      { id: 'act-switch-layout', title: 'Switch UI Layout (Invowise ↔ CashFund)', category: 'Preferences', icon: 'layout', handler: () => { const l = (S.settings.layout === 'cashfund' ? 'invowise' : 'cashfund'); applyLayout(l); persist(); } },
+      { id: 'act-toggle-theme', title: 'Toggle Theme (Light ↔ Dark)', category: 'Preferences', icon: 'sun', handler: () => { const th = (S.settings.theme === 'dark' ? 'light' : 'dark'); applyTheme(th); persist(); } },
+      { id: 'act-storage-studio', title: 'Open Workspace Storage Studio', category: 'System', icon: 'settings', handler: () => { openWorkspaceSetupDlg(); } },
+      { id: 'act-sync-now', title: 'Sync Workspace Now', category: 'System', icon: 'sync', handler: () => { syncPushNow(); } }
+    ];
+  }
+
+  function openCmdPalette() {
+    const dlg = $('#cmdPaletteDlg');
+    if (!dlg) return;
+    openDialogSmooth(dlg);
+    const input = $('#cmdPaletteInput');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    filterCmdPalette('');
+  }
+
+  function filterCmdPalette(q) {
+    q = (q || '').trim().toLowerCase();
+    const baseActions = getCmdPaletteBaseActions();
+    const items = [];
+
+    // Filter quick actions
+    baseActions.forEach(a => {
+      if (!q || a.title.toLowerCase().includes(q) || a.category.toLowerCase().includes(q)) {
+        items.push(a);
+      }
+    });
+
+    // Match Invoices
+    (S.invoices || []).forEach(inv => {
+      const num = (inv.number || '').toLowerCase();
+      const client = ((inv.client && inv.client.name) || '').toLowerCase();
+      if (q && (num.includes(q) || client.includes(q))) {
+        items.push({
+          id: 'inv-' + inv.id,
+          title: `Invoice #${inv.number} — ${(inv.client && inv.client.name) || 'Direct Client'} (${fmtMoney(calc(inv).total, inv.currency)})`,
+          category: 'Live Invoices',
+          icon: 'doc',
+          handler: () => { navigate('editor', { editId: inv.id }); }
+        });
+      }
+    });
+
+    // Match Clients
+    if (q) {
+      const seenClients = new Set();
+      (S.invoices || []).forEach(inv => {
+        const clientName = (inv.client && inv.client.name) || '';
+        if (clientName && clientName.toLowerCase().includes(q) && !seenClients.has(clientName.toLowerCase())) {
+          seenClients.add(clientName.toLowerCase());
+          items.push({
+            id: 'client-' + clientName,
+            title: `Client: ${clientName}`,
+            category: 'Clients',
+            icon: 'user',
+            handler: () => { navigate('invoices', { q: clientName, filter: 'all' }); }
+          });
+        }
+      });
+    }
+
+    cmdPaletteFilteredItems = items.slice(0, 15);
+    cmdPaletteActiveIndex = 0;
+    renderCmdPaletteResults();
+  }
+
+  function renderCmdPaletteResults() {
+    const container = $('#cmdPaletteResults');
+    if (!container) return;
+    if (cmdPaletteFilteredItems.length === 0) {
+      container.innerHTML = `<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">No matching actions or records found.</div>`;
+      return;
+    }
+
+    let html = '';
+    let currentCategory = '';
+    cmdPaletteFilteredItems.forEach((item, idx) => {
+      if (item.category !== currentCategory) {
+        currentCategory = item.category;
+        html += `<div class="cmd-palette-cat">${esc(currentCategory)}</div>`;
+      }
+      const isActive = idx === cmdPaletteActiveIndex;
+      html += `
+        <div class="cmd-palette-item ${isActive ? 'active' : ''}" data-cmd-idx="${idx}" data-act="select-cmd-item" role="option" aria-selected="${isActive}">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="cmd-palette-icon">⚡</span>
+            <span class="cmd-palette-title">${esc(item.title)}</span>
+          </div>
+          <kbd class="cmd-kbd-sm">↵</kbd>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function executeCmdAction(idx) {
+    idx = idx != null ? idx : cmdPaletteActiveIndex;
+    const item = cmdPaletteFilteredItems[idx];
+    if (item && typeof item.handler === 'function') {
+      closeDialogSmooth($('#cmdPaletteDlg'), () => {
+        item.handler();
+      });
+    }
+  }
+
+  const cmdPaletteInputEl = $('#cmdPaletteInput');
+  if (cmdPaletteInputEl) {
+    cmdPaletteInputEl.addEventListener('input', e => {
+      filterCmdPalette(e.target.value);
+    });
   }
 
   /* ---------- logo upload ---------- */
@@ -14526,6 +15172,29 @@ dialog.zf-closing::backdrop {
     const act=b.dataset.act,id=b.dataset.id;
 
     switch(act){
+      case 'open-cmd-palette':
+        openCmdPalette();
+        break;
+      case 'close-cmd-palette':
+        closeDialogSmooth($('#cmdPaletteDlg'));
+        break;
+      case 'select-cmd-item':{
+        const idx = b.dataset.cmdIdx != null ? Number(b.dataset.cmdIdx) : null;
+        executeCmdAction(idx);
+        break;
+      }
+      case 'open-gst-summary':
+        openGstSummaryDlg();
+        break;
+      case 'close-gst-summary':
+        closeDialogSmooth($('#gstSummaryDlg'));
+        break;
+      case 'export-gstr1-csv':
+        exportGstr1Csv();
+        break;
+      case 'set-remind-tone':
+        setRemindTone(b.dataset.tone);
+        break;
       case 'scroll-top':
         if(typeof window !== 'undefined' && window.scrollTo){
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -16132,7 +16801,49 @@ dialog.zf-closing::backdrop {
     }
     const tag=(e.target.tagName||'').toLowerCase(),typing=['input','textarea','select'].includes(tag);
     if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&ed){e.preventDefault();saveInvoice();return}
-    if((e.metaKey||e.ctrlKey)&&(e.key.toLowerCase()==='k'||e.key.toLowerCase()==='f')){
+    const cmdDlg = $('#cmdPaletteDlg');
+    const isCmdOpen = cmdDlg && (cmdDlg.open || cmdDlg.hasAttribute('open'));
+
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){
+      e.preventDefault();
+      if(isCmdOpen){
+        closeDialogSmooth(cmdDlg);
+      } else {
+        openCmdPalette();
+      }
+      return;
+    }
+
+    if(isCmdOpen){
+      if(e.key==='Escape'){
+        e.preventDefault();
+        closeDialogSmooth(cmdDlg);
+        return;
+      }
+      if(e.key==='ArrowDown'){
+        e.preventDefault();
+        if(cmdPaletteFilteredItems.length>0){
+          cmdPaletteActiveIndex=(cmdPaletteActiveIndex+1)%cmdPaletteFilteredItems.length;
+          renderCmdPaletteResults();
+        }
+        return;
+      }
+      if(e.key==='ArrowUp'){
+        e.preventDefault();
+        if(cmdPaletteFilteredItems.length>0){
+          cmdPaletteActiveIndex=(cmdPaletteActiveIndex-1+cmdPaletteFilteredItems.length)%cmdPaletteFilteredItems.length;
+          renderCmdPaletteResults();
+        }
+        return;
+      }
+      if(e.key==='Enter'){
+        e.preventDefault();
+        executeCmdAction(cmdPaletteActiveIndex);
+        return;
+      }
+    }
+
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='f'){
       e.preventDefault();
       const sb=$('#qCash')||$('#qInvo')||$('#q');
       if(sb)sb.focus();

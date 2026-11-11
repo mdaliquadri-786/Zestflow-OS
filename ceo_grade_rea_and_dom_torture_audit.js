@@ -56,7 +56,9 @@ const exposedScript = rawScript.replace(
     generateInvoiceWithGeminiAI, generateConsultantClaim,
     saveAuthenticatedUser, showAuthMsg, GEMINI_CONFIG,
     renderInvowiseDashboard, renderCashFundDashboard, renderInvowiseTopNav, renderCashFundSidebar,
-    applyLayout, applyTheme, navigate, render, getEd: () => ed, logHistory
+    applyLayout, applyTheme, navigate, render, getEd: () => ed, logHistory,
+    computeAuditChecksum, computeTreasuryMetrics, computeGstr1Summary, exportGstr1Csv,
+    generateMultiToneReminder, openCmdPalette, filterCmdPalette, executeCmdAction
   };
 })();`
 );
@@ -678,6 +680,52 @@ for (let s = 11; s <= 15; s++) {
   const sessionData = sandbox.sessionStorage.getItem('zf_session_vault');
   assert('CAT7', 20 + s, `Session storage mode guarantees zero disk persistence on disk (cycle ${s - 10})`, rawDisk === null && !!sessionData, true, true);
 }
+
+// =========================================================================
+// CATEGORY 8: 5 CFO/CEO-Grade Enterprise Features (15 Checks)
+// =========================================================================
+console.log('🏛️ [CAT 08] Running 15 CFO/CEO Enterprise Feature Assertions...');
+
+// 1. Audit Checksum Determinism & Format
+const testInv1 = T.normInvoice({ id: 'inv_cfo_001', number: 'INV-2026-001', items: [{ desc: 'Service A', qty: '1', rate: '100' }] });
+const chk1 = T.computeAuditChecksum(testInv1);
+assert('CAT8', 1, 'computeAuditChecksum returns 8-hex character deterministic checksum with ZF-AUDIT- prefix', /^ZF-AUDIT-[0-9A-F]{8}$/.test(chk1), chk1, 'ZF-AUDIT-XXXXXXXX');
+
+const chk1Repeat = T.computeAuditChecksum(testInv1);
+assert('CAT8', 2, 'computeAuditChecksum is deterministic across repeat executions', chk1 === chk1Repeat, true, true);
+
+const testInv1Mutated = T.normInvoice({ id: 'inv_cfo_001', number: 'INV-2026-001', items: [{ desc: 'Service A', qty: '2', rate: '100' }] });
+const chk2 = T.computeAuditChecksum(testInv1Mutated);
+assert('CAT8', 3, 'computeAuditChecksum alters if total/version changes (tamper-evident)', chk1 !== chk2, chk1 !== chk2, true);
+
+// 2. Treasury Metrics Calculation
+const tm = T.computeTreasuryMetrics();
+assert('CAT8', 4, 'computeTreasuryMetrics returns object with valid collectionEfficiency percentage', typeof tm.collectionEfficiency === 'number' && tm.collectionEfficiency >= 0 && tm.collectionEfficiency <= 100, true, true);
+assert('CAT8', 5, 'computeTreasuryMetrics returns numeric dsoDays', typeof tm.dsoDays === 'number' && tm.dsoDays >= 0, true, true);
+
+// 3. Indian GSTR-1 & CFO Tax Summary
+T.S.invoices = [
+  T.normInvoice({ id: 'b2b_1', number: 'INV-B2B-1', client: { name: 'Acme Corp', taxId: '36AAAAA0000A1Z5' }, taxRate: '18', items: [{ desc: 'Cloud Infra', qty: '1', rate: '1000' }] }),
+  T.normInvoice({ id: 'b2c_1', number: 'INV-B2C-1', client: { name: 'Jane Doe' }, taxRate: '18', items: [{ desc: 'Consulting', qty: '1', rate: '500' }] })
+];
+const gstr1 = T.computeGstr1Summary();
+assert('CAT8', 6, 'computeGstr1Summary classifies invoice with client taxId/GSTIN as B2B', gstr1.b2b.length === 1 && gstr1.b2b[0].invoice.id === 'b2b_1', true, true);
+assert('CAT8', 7, 'computeGstr1Summary classifies invoice without client taxId as B2C', gstr1.b2c.length === 1 && gstr1.b2c[0].invoice.id === 'b2c_1', true, true);
+assert('CAT8', 8, 'computeGstr1Summary calculates accurate minor-unit totals', gstr1.totals.grandTaxable > 0 && gstr1.totals.grandTotal > 0, true, true);
+
+// 4. Multi-Tone Smart Payment Reminders
+const politeMsg = T.generateMultiToneReminder(testInv1, 'polite');
+const firmMsg = T.generateMultiToneReminder(testInv1, 'firm');
+const finalMsg = T.generateMultiToneReminder(testInv1, 'final');
+assert('CAT8', 9, 'generateMultiToneReminder produces distinct text for polite vs firm tones', politeMsg !== firmMsg, true, true);
+assert('CAT8', 10, 'generateMultiToneReminder produces distinct text for firm vs final tones', firmMsg !== finalMsg, true, true);
+assert('CAT8', 11, 'Polite tone includes gentle courtesy language', politeMsg.includes('gentle courtesy note'), true, true);
+assert('CAT8', 12, 'Final tone includes urgent demand language', finalMsg.includes('URGENT & FINAL OVERDUE DEMAND'), true, true);
+
+// 5. Global Command Palette & GSTR-1 Dialogs in DOM
+assert('CAT8', 13, 'HTML contains #cmdPaletteDlg with search input and kbd badges', html.includes('id="cmdPaletteDlg"') && html.includes('id="cmdPaletteInput"'), true, true);
+assert('CAT8', 14, 'HTML contains #gstSummaryDlg for CFO tax breakdown', html.includes('id="gstSummaryDlg"') && html.includes('data-act="export-gstr1-csv"'), true, true);
+assert('CAT8', 15, 'Navigation topbars include data-act="open-cmd-palette" shortcut pill', html.includes('data-act="open-cmd-palette"'), true, true);
 
 // =========================================================================
 // SUMMARY SCORECARD

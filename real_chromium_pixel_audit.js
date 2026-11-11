@@ -83,6 +83,20 @@ server.listen(0, '127.0.0.1', async () => {
     localStorage.setItem('zf_auth_user', JSON.stringify({ email: 'ceo@enterprise.com', id: 'usr_ceo_001', name: 'Chief Executive' }));
     localStorage.setItem('zf_onboarded', 'true');
     localStorage.setItem('zf_session_active', 'true');
+    localStorage.setItem('zestflow.v2', JSON.stringify({
+      schemaVersion: 3,
+      settings: { business: { name: 'Acme Enterprise', upiId: 'acme@upi' } },
+      invoices: [{
+        id: 'inv_sample_001',
+        number: 'INV-2026-001',
+        status: 'sent',
+        client: { name: 'Alpha Tech', email: 'alpha@example.com', phone: '+15551234567', taxId: 'GSTIN123' },
+        items: [{ desc: 'Enterprise Invoicing', qty: '1', rate: '1000' }],
+        currency: 'USD',
+        issue: '2026-11-01',
+        due: '2026-11-15'
+      }]
+    }));
   });
 
   const page = await context.newPage();
@@ -351,6 +365,137 @@ server.listen(0, '127.0.0.1', async () => {
     });
     await page.waitForTimeout(100);
   }
+
+  // =========================================================================
+  // CATEGORY 6: Real Chromium CFO/CEO Feature Interaction & Geometry (10 Checks)
+  // =========================================================================
+  console.log('🏛️ [CAT 06] Auditing 10 Real Chromium CFO/CEO Feature Interactions & Geometry...');
+
+  // 1. Command Palette Trigger & Geometry
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.evaluate(() => window.openCmdPalette());
+  await page.waitForTimeout(200);
+
+  const cmdAudit = await page.evaluate(() => {
+    const dlg = document.getElementById('cmdPaletteDlg');
+    const inp = document.getElementById('cmdPaletteInput');
+    const res = document.getElementById('cmdPaletteResults');
+    const r = dlg.getBoundingClientRect();
+    return {
+      open: dlg.open || dlg.hasAttribute('open'),
+      widthValid: r.width >= 300 && r.width <= 600,
+      inputExists: !!inp,
+      hasResults: res && res.children.length > 0
+    };
+  });
+  assert('CAT6', 1, 'Command palette opens on openCmdPalette() with safe dimensions', cmdAudit.open && cmdAudit.widthValid, true, true);
+  assert('CAT6', 2, 'Command palette renders categorized quick action results', cmdAudit.hasResults, true, true);
+
+  // 2. Fuzzy search inside Command Palette
+  await page.type('#cmdPaletteInput', 'tax');
+  await page.waitForTimeout(100);
+  const searchAudit = await page.evaluate(() => {
+    const res = document.getElementById('cmdPaletteResults');
+    return res ? res.textContent.toLowerCase().includes('tax') : false;
+  });
+  assert('CAT6', 3, 'Typing in command palette filters live results dynamically', searchAudit, true, true);
+
+  // 3. Escape key closes Command Palette
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(200);
+  const cmdClosed = await page.evaluate(() => {
+    const dlg = document.getElementById('cmdPaletteDlg');
+    return !dlg.open && !dlg.hasAttribute('open');
+  });
+  assert('CAT6', 4, 'Pressing Escape dismisses Command Palette smoothly', cmdClosed, true, true);
+
+  // 4. Indian GSTR-1 & CFO Tax Summary Drawer
+  await page.evaluate(() => window.openGstSummaryDlg());
+  await page.waitForTimeout(200);
+  const gstAudit = await page.evaluate(() => {
+    const dlg = document.getElementById('gstSummaryDlg');
+    const content = document.getElementById('gstSummaryContent');
+    const r = dlg.getBoundingClientRect();
+    return {
+      open: dlg.open || dlg.hasAttribute('open'),
+      hasTable: content && content.innerHTML.includes('Statutory GST Distribution Schedule'),
+      safeWidth: r.width >= 320 && r.width <= 800
+    };
+  });
+  assert('CAT6', 5, 'GSTR-1 & CFO Tax Summary modal opens with structured schedule', gstAudit.open && gstAudit.hasTable, true, true);
+
+  await page.evaluate(() => {
+    const dlg = document.getElementById('gstSummaryDlg');
+    if (dlg) dlg.close();
+  });
+  await page.waitForTimeout(100);
+
+  // 5. Multi-Tone Payment Reminder
+  await page.evaluate(() => {
+    window.openRemindModal('inv_sample_001');
+  });
+  await page.waitForTimeout(200);
+
+  const remindAudit = await page.evaluate(() => {
+    const dlg = document.getElementById('remindDlg');
+    const txt = document.getElementById('remindDlgTxt');
+    const toneBtns = document.querySelectorAll('.tone-btn');
+    return {
+      open: dlg.open || dlg.hasAttribute('open'),
+      hasTones: toneBtns.length === 3,
+      hasText: txt && txt.value.length > 10
+    };
+  });
+  assert('CAT6', 6, 'Smart Payment Reminder opens with 3 executive tone controls', remindAudit.open && remindAudit.hasTones, true, true);
+
+  // Switch tone to firm
+  await page.click('.tone-btn[data-tone="firm"]');
+  await page.waitForTimeout(100);
+  const toneSwitchAudit = await page.evaluate(() => {
+    const txt = document.getElementById('remindDlgTxt');
+    return txt ? txt.value.includes('Outstanding Invoice Notice') : false;
+  });
+  assert('CAT6', 7, 'Clicking tone button dynamically switches reminder text to Firm tone', toneSwitchAudit, true, true);
+
+  await page.evaluate(() => {
+    const dlg = document.getElementById('remindDlg');
+    if (dlg) dlg.close();
+  });
+  await page.waitForTimeout(100);
+
+  // 6. Editor Cryptographic Audit Trail Checksum Badge
+  await page.evaluate(() => window.navigate('editor', {}));
+  await page.waitForTimeout(200);
+  const auditBadgeExists = await page.evaluate(() => {
+    const b = document.querySelector('.zf-audit-badge');
+    return b && b.textContent.includes('ZF-AUDIT-');
+  });
+  assert('CAT6', 8, 'Editor displays cryptographic tamper-evident badge with ZF-AUDIT- checksum', !!auditBadgeExists, true, true);
+
+  // 7. Payment Ledger CFO Treasury KPIs
+  await page.evaluate(() => window.navigate('payment', {}));
+  await page.waitForTimeout(200);
+  const kpiAudit = await page.evaluate(() => {
+    const html = document.getElementById('app').innerHTML;
+    return html.includes('COLLECTION EFFICIENCY') && html.includes('DAYS SALES OUTSTANDING');
+  });
+  assert('CAT6', 9, 'Payment center displays Collection Efficiency and Days Sales Outstanding KPIs', kpiAudit, true, true);
+
+  // 8. Mobile 375px command palette safety
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.evaluate(() => window.openCmdPalette());
+  await page.waitForTimeout(200);
+  const mobileCmdAudit = await page.evaluate(() => {
+    const dlg = document.getElementById('cmdPaletteDlg');
+    const r = dlg.getBoundingClientRect();
+    return r.left >= 0 && r.right <= 375;
+  });
+  assert('CAT6', 10, 'Command Palette maintains zero horizontal clipping on 375px mobile', mobileCmdAudit, true, true);
+  await page.evaluate(() => {
+    const dlg = document.getElementById('cmdPaletteDlg');
+    if (dlg) dlg.close();
+  });
+  await page.waitForTimeout(100);
 
   // =========================================================================
   // CATEGORY 5: Zero Console Errors & Page Exceptions (5 Checks)
