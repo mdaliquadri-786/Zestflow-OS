@@ -1,4 +1,4 @@
-# ⚡ ZestFlow OS — Industrial Multi-Currency Invoicing & Financial Operations Platform
+# ⚡ ZestFlow OS — Multi-Currency Invoicing & Financial Operations Platform
 
 > **Live Production Deployment:** [https://zestflow-seven.vercel.app/](https://zestflow-seven.vercel.app/)  
 > **Engineered by:** Mohammed Ali Quadri ([CodeWithAli](https://codewithali.com))
@@ -7,7 +7,7 @@
 
 ## 🏛️ Executive Summary
 
-**ZestFlow OS** is an industrial-grade, zero-backend commercial invoicing and billing platform engineered for high-velocity global businesses, freelancers, and enterprises. 
+**ZestFlow OS** is a local-first commercial invoicing and financial operations platform engineered for modern businesses, freelancers, and cross-border teams. 
 
 Designed with mathematical precision, native bidirectional typography (Arabic, Urdu Nastaliq, Telugu, and English), automated tax computation engines (India GST Place-of-Supply, Saudi ZATCA Phase-2), and instant vector UPI payment settlements.
 
@@ -45,9 +45,12 @@ Designed with mathematical precision, native bidirectional typography (Arabic, U
 * 4-tier receivables ageing schedule (`Current`, `1–30 Days`, `31–60 Days`, `61–90+ Days Overdue`).
 * Automated place-of-supply tax accumulation schedule.
 
-### 6. 🔒 Zero-Backend Architecture & Privacy
-* Client records, transaction ledgers, and invoice drafts remain strictly isolated in your browser (`LocalStorage`) or optional user-authenticated Supabase encrypted cloud sync.
-* Zero central tracking, zero ads, zero privacy leaks.
+### 6. 🔒 Storage Architecture, Cloud Sync & Security
+* **Local-First Reliability:** Invoices, business profiles, and ledgers are stored directly in browser local storage (`LocalStorage` / `IndexedDB`), functioning fully offline without server dependency.
+* **Authenticated Cloud Sync:** Optional multi-device synchronization powered by Supabase PostgreSQL with strict Row-Level Security (RLS) policies and OAuth / Magic Link authentication.
+* **Direct AI Generation:** Optional user-provided Gemini API key for natural language invoice generation, executed directly from the client without intermediate tracking.
+* **Data Sovereignty:** Full one-click JSON vault export and CSV ledger backups ensure 100% data portability.
+* **Strict CSP:** Content-Security-Policy with sha256 hash-locked script execution and zero `unsafe-inline` script evaluation.
 
 ---
 

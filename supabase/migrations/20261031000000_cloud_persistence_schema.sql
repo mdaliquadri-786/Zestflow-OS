@@ -1,7 +1,7 @@
 -- ============================================================================
 -- ZESTFLOW OS: PHASE 1 STAGING CLOUD PERSISTENCE DDL
--- Target Staging Project: mlxyegiwdzmcybvhtgwy
--- Author: Mohammed Ali Quadri (CodeWithAli)
+-- Target Staging Project: lsfwzuzbbfjeujtrtgen
+-- Author: ZestFlow OS Engineering Team
 -- ============================================================================
 
 -- Ensure pgcrypto is available for SHA-256 payload digest calculation
@@ -185,6 +185,7 @@ CREATE POLICY "conflict_archive_select" ON public.conflict_archive
 GRANT SELECT ON TABLE public.account_sync_state TO authenticated;
 GRANT SELECT ON TABLE public.user_profiles TO authenticated;
 GRANT SELECT ON TABLE public.invoices TO authenticated;
+GRANT SELECT ON TABLE public.invoice_tombstones TO authenticated;
 GRANT SELECT ON TABLE public.conflict_archive TO authenticated;
 
 REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON TABLE public.account_sync_state FROM authenticated, anon;

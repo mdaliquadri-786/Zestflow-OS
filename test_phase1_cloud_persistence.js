@@ -231,6 +231,7 @@ test('Storage Mode Normalization: normSettings preserves storageMode (session, o
     CURRENCIES: ['USD', 'INR', 'AED', 'SAR', 'EUR', 'GBP'],
     T: { en: {}, ar: {}, ur: {} },
     img: (v) => v || '',
+    GEMINI_CONFIG: { key: '' },
     localStorage: { setItem: ()=>{}, removeItem: ()=>{} }
   };
   const start = indexContent.indexOf('function normSettings(s){');

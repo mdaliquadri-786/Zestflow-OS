@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Msw22UcnonDI1ayIXY906Ubj3zeVGJ4MkIz8E190XmM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9xR13ASnAiqjFA7tG9/Ub3mQH1MCH5NQa15pq3L5HrY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -45,7 +45,7 @@
   <meta name="twitter:image:alt" content="ZestFlow OS Platform Logo">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   <style>
   :root{
     --bg:#090a0d;
@@ -149,6 +149,8 @@
     position:sticky;
     top:0;
     height:100vh;
+    overflow-y:auto;
+    scrollbar-width:thin;
   }
   .brand{
     display:flex;
@@ -568,13 +570,17 @@
   input[aria-invalid="true"]{border-color:var(--danger)}
   input::placeholder,textarea::placeholder{color:var(--faint)}
   input[type=checkbox]{width:17px;height:17px;accent-color:var(--gold)}
-  input[type=date]{color-scheme:dark}
+  input[type=date]{color-scheme:light dark}
   label.f{display:block;min-width:0}
   label.f>span{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:500}
   .chk{display:flex;align-items:center;gap:10px;color:var(--text);cursor:pointer}
 
   /* Editor Layout */
   .ed{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:start}
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    .ed{grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);gap:18px}
+    .paper-frame{overflow:hidden;max-width:100%}
+  }
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
   .card>h2{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:16px}
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -582,7 +588,7 @@
   .report-split-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;margin-bottom:24px;align-items:stretch}
   @media (max-width:900px){.report-split-grid{grid-template-columns:1fr}}
   .stack{display:grid;gap:14px}
-  .errs{background:var(--danger-soft);border:1px solid rgba(239,107,83,.45);color:#ffbdb1;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px}
+  .errs{background:var(--danger-soft);border:1px solid rgba(239,107,83,.45);color:var(--danger);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px}
   .errs ul{margin:6px 0 0;padding-inline-start:20px}
   .items{display:grid;gap:10px}
   .it{display:grid;grid-template-columns:minmax(0,1fr) 84px 72px 104px 98px 34px;gap:8px;align-items:start}
@@ -1018,6 +1024,10 @@
   }
   .color-swatch:hover {
     transform: scale(1.08);
+  }
+  .color-swatch:focus-visible {
+    outline: 2px solid var(--primary) !important;
+    outline-offset: 3px !important;
   }
   .color-swatch.active {
     transform: none !important;
@@ -2625,10 +2635,12 @@ dialog.zf-closing::backdrop {
     transform: none !important;
     outline: none !important;
   }
-  .invo-pill:focus,
-  .invo-pill:focus-visible {
+  .invo-pill:focus {
     outline: none !important;
-    box-shadow: none !important;
+  }
+  .invo-pill:focus-visible {
+    outline: 2px solid var(--primary) !important;
+    outline-offset: 2px !important;
   }
   html[data-theme="dark"] .invo-pill { color: #94a3b8; }
   html[data-theme="dark"] .invo-pill:hover { color: #ffffff !important; background: rgba(255, 255, 255, 0.06) !important; }
@@ -4964,6 +4976,45 @@ dialog.zf-closing::backdrop {
   }
   html[data-theme="dark"] .cash-cat-amt { color: #f8fafc; }
 
+  /* --- Industrial Enterprise Stylesheet Extensions --- */
+  @font-face {
+    font-family: 'Google Sans Flex';
+    src: url('assets/fonts/google-sans-flex-latin-wght-normal.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  .kpi-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
+  .sync-badge-host { display: inline-flex; align-items: center; gap: 6px; }
+  .sync-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: rgba(16,185,129,0.12); color: #10b981; }
+  .sync-badge.syncing { background: rgba(2,132,199,0.12); color: #0284c7; }
+  .sync-badge.offline { background: rgba(245,158,11,0.12); color: #b45309; }
+  .sync-badge.error { background: rgba(239,68,68,0.12); color: #ef4444; }
+  .recovery-banner { border: 1px solid rgba(220,38,38,0.3); }
+  .conflict-banner { border: 1px solid rgba(180,83,9,0.3); }
+  .rcm-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: rgba(245,158,11,0.15); color: #b45309; margin-left: 6px; }
+  .doc-directory-tabs { display: flex; align-items: center; gap: 6px; overflow-x: auto; padding: 4px 0 12px; border-bottom: 1px solid var(--line-2); margin-bottom: 16px; }
+  .doc-filter-tab { background: transparent; border: 1px solid transparent; color: var(--muted); padding: 6px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+  .doc-filter-tab:hover { background: var(--surface-2); color: var(--text); }
+  .doc-filter-tab.active { background: var(--surface); color: var(--text); border-color: var(--line); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .doc-type-switcher-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; padding: 6px; background: var(--surface-2); border-radius: 10px; }
+  .invo-tpl-categories { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
+  .dash-bulk-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: var(--surface-2); border-radius: 10px; margin-bottom: 12px; }
+  .dash-row-cb { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
+  .about-page, .instructions-page { max-width: 960px; margin: 0 auto; padding: 16px 0 48px; }
+  .muted { color: var(--muted); }
+  .auth-brand-text { font-size: 14px; font-weight: 700; color: var(--text); }
+  .cash-icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; background: var(--surface); color: var(--muted); cursor: pointer; }
+  .cash-user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+  .inv-tbl { width: 100%; border-collapse: collapse; }
+  .invo-brand-asterisk { color: var(--primary); font-weight: 800; }
+  .invo-card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .p-fx { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .p-qr-svg { display: block; max-width: 100%; height: auto; }
+  .p-sign { max-height: 54px; object-fit: contain; }
+  .p-words { font-size: 11.5px; font-style: italic; color: var(--muted); padding: 6px 0; }
+  .zf-footer-brand-col { max-width: 320px; }
+
   </style>
   </head>
   <body>
@@ -5651,10 +5702,16 @@ dialog.zf-closing::backdrop {
     catch(e){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   }
   const CURRENCIES=['USD','EUR','GBP','INR','AED','SAR','QAR','PKR','BDT','CAD','AUD','SGD'];
-  const GEMINI_CONFIG = { key: (function(){try{return atob('QVEuQWI4Uk42SkV0YVBKcXgzaVdqa1RidXF3S29vLVMxdjVQanFkZjF2X0I5WTAzbVYyREE=')}catch(e){return ''}})() };
+  const GEMINI_CONFIG = { key: '' };
   const fmtCache={};
+  const CURRENCY_LOCALES = {
+    'INR': 'en-IN', 'USD': 'en-US', 'EUR': 'de-DE', 'GBP': 'en-GB',
+    'AED': 'ar-AE', 'SAR': 'ar-SA', 'QAR': 'ar-QA', 'CAD': 'en-CA',
+    'AUD': 'en-AU', 'SGD': 'en-SG', 'PKR': 'ur-PK', 'BDT': 'bn-BD', 'JPY': 'ja-JP'
+  };
   function fmtMoney(minor,cur){
-    const loc=cur==='INR'?'en-IN':'en-US';const k=loc+cur;
+    const loc = CURRENCY_LOCALES[cur] || (cur === 'INR' ? 'en-IN' : 'en-US');
+    const k = loc + cur;
     if(!fmtCache[k]){
       try{fmtCache[k]=new Intl.NumberFormat(loc,{style:'currency',currency:cur})}
       catch(e){fmtCache[k]={format:v=>cur+' '+v.toFixed(2)}}
@@ -5771,11 +5828,13 @@ dialog.zf-closing::backdrop {
     const afterDisc=Math.max(0,sub-disc);
     let taxable=0,tax=0;
     if(sub>0&&afterDisc>0){
+      let lastPosIdx=-1;
+      for(let i=lineGross.length-1;i>=0;i--){if(lineGross[i]>0){lastPosIdx=i;break}}
       let remDisc=disc;
       items.forEach((it,idx)=>{
         const g=lineGross[idx];
         if(g<=0)return;
-        const share=idx===items.length-1?remDisc:Math.min(remDisc,Math.round(disc*(g/sub)));
+        const share=idx===lastPosIdx?remDisc:Math.min(remDisc,Math.round(disc*(g/sub)));
         remDisc=Math.max(0,remDisc-share);
         const lineNet=Math.max(0,g-share);
         const exempt=!!(it&&it.taxExempt);
@@ -5797,7 +5856,10 @@ dialog.zf-closing::backdrop {
       });
     }
     const shippingMinor=Math.max(0, toMinor(inv.shipping||0));
-    const grossTotal=(taxMode==='inclusive'?afterDisc:(taxable+tax)) + shippingMinor;
+    const isRcm = Boolean(inv.rcm);
+    /* Under RCM (CGST Act Sec 9(3)/9(4)), recipient pays tax directly to govt; supplier does NOT collect tax from client */
+    const payableTax = isRcm ? 0 : tax;
+    const grossTotal = (taxMode === 'inclusive' ? (isRcm ? taxable : afterDisc) : (taxable + payableTax)) + shippingMinor;
     let roundingDelta=0,total=grossTotal;
     if(inv.roundingMode==='nearest_unit'&&grossTotal>0){
       const rounded=Math.round(grossTotal/100)*100;
@@ -5807,8 +5869,10 @@ dialog.zf-closing::backdrop {
     /* GST Regime Breakdown (Intra-state CGST+SGST vs Inter-state IGST) */
     const safeS=typeof S!=='undefined'?S:null;
     const regime=inv.taxRegime||(safeS&&safeS.settings&&safeS.settings.business&&safeS.settings.business.taxRegime)||'simple';
-    const supState=String(inv.supplierState||(safeS&&safeS.settings&&safeS.settings.business&&safeS.settings.business.state)||'').trim().toLowerCase();
-    const posState=String(inv.placeOfSupply||(inv.client&&inv.client.state)||'').trim().toLowerCase();
+    const NORM_STATES = { 'ts': 'telangana', 'tg': 'telangana', 'mh': 'maharashtra', 'ka': 'karnataka', 'dl': 'delhi', 'tn': 'tamil nadu', 'ap': 'andhra pradesh', 'up': 'uttar pradesh', 'wb': 'west bengal', 'gj': 'gujarat', 'kl': 'kerala', 'rj': 'rajasthan', 'mp': 'madhya pradesh', 'hr': 'haryana', 'pb': 'punjab' };
+    const cleanState = s => { const c = String(s||'').trim().toLowerCase().replace(/state$/i, '').trim(); return NORM_STATES[c] || c; };
+    const supState = cleanState(inv.supplierState||(safeS&&safeS.settings&&safeS.settings.business&&safeS.settings.business.state));
+    const posState = cleanState(inv.placeOfSupply||(inv.client&&inv.client.state));
     let cgst=0,sgst=0,igst=0,gstMode='none';
     if(regime==='gst_in'&&tax>0){
       const isIntra=!posState||!supState||(supState===posState);
@@ -5836,7 +5900,14 @@ dialog.zf-closing::backdrop {
     const netPaidMinor=Math.max(0,paidMinor-refundedMinor);
     const balanceMinor=Math.max(0,total-netPaidMinor);
     const overpaidMinor=Math.max(0,netPaidMinor-total);
-    return {sub,disc,taxable,tax,shipping:shippingMinor,cgst,sgst,igst,gstMode,roundingDelta,total,grand:total,paidMinor,refundedMinor,netPaidMinor,balanceMinor,overpaidMinor};
+    return {
+      sub, subtotal: sub, disc, taxable, tax, shipping: shippingMinor,
+      cgst, sgst, igst, cgstMinor: cgst, sgstMinor: sgst, igstMinor: igst,
+      gstMode, taxRegime: regime, isInterState: gstMode === 'inter', rcm: isRcm,
+      roundingDelta, total, grand: total,
+      paidMinor, paidAmountMinor: netPaidMinor, refundedMinor,
+      netPaidMinor, balanceMinor, overpaidMinor
+    };
   }
   const isPartial=inv=>{
     if(!inv||inv.status==='void'||inv.status==='draft')return false;
@@ -5853,9 +5924,10 @@ dialog.zf-closing::backdrop {
     if(!inv)return 'draft';
     if(inv.status==='void')return 'void';
     const c=calc(inv);
-    if(inv.status==='paid'||(c.total>0&&c.netPaidMinor>=c.total&&inv.status!=='draft'))return 'paid';
-    if(isOverdue(inv))return 'overdue';
+    if(c.total>0&&c.balanceMinor===0&&c.netPaidMinor>=c.total)return 'paid';
+    if(inv.status==='paid'&&(!Array.isArray(inv.payments)||!inv.payments.length))return 'paid';
     if(c.netPaidMinor>0&&c.balanceMinor>0)return 'partial';
+    if(isOverdue(inv))return 'overdue';
     return inv.status||'draft';
   };
   const STATUS_LABEL={draft:'Draft',sent:'Sent',partial:'Partial',paid:'Paid',overdue:'Overdue',void:'Void'};
@@ -6139,6 +6211,7 @@ dialog.zf-closing::backdrop {
       items: Array.isArray(raw.items) ? raw.items : [],
       payments: Array.isArray(raw.payments) ? raw.payments : [],
       discountType: raw.discountType || raw.discount_type || 'pct',
+      discount: raw.discount !== undefined ? String(raw.discount) : (raw.discount_value !== undefined ? String(raw.discount_value) : (raw.discountValue !== undefined ? String(raw.discountValue) : '0')),
       discountValue: raw.discountValue !== undefined ? raw.discountValue : (raw.discount_value !== undefined ? raw.discount_value : (raw.discount !== undefined ? String(raw.discount) : '0')),
       taxMode: raw.taxMode || raw.tax_mode || 'cgst_sgst',
       taxLabel: raw.taxLabel || raw.tax_label || 'GST',
@@ -6300,8 +6373,10 @@ dialog.zf-closing::backdrop {
         this.lastSeq = 0;
       }
 
-      this.queue = await zfIdb.getAll('sync_queue');
-      this.conflicts = await zfIdb.getAll('conflict_vault');
+      const allQueue = await zfIdb.getAll('sync_queue');
+      this.queue = allQueue.filter(entry => !entry.userId || entry.userId === this.userId);
+      const allConflicts = await zfIdb.getAll('conflict_vault');
+      this.conflicts = allConflicts.filter(entry => !entry.userId || entry.userId === this.userId);
 
       if (this.conflicts.length > 0) {
         this.status = 'conflict';
@@ -6380,6 +6455,7 @@ dialog.zf-closing::backdrop {
       const cleanPayload = payload ? clone(payload) : null;
       const entry = {
         id: mutId,
+        userId: this.userId || (verifiedAuthUser && verifiedAuthUser.id) || 'local',
         idempotencyKey: idempotencyKey,
         entity: 'invoice',
         recordId: id,
@@ -6406,6 +6482,7 @@ dialog.zf-closing::backdrop {
       }
       const entry = {
         id: mutId,
+        userId: this.userId || (verifiedAuthUser && verifiedAuthUser.id) || 'local',
         idempotencyKey: idempotencyKey,
         entity: 'profile',
         recordId: 'profile',
@@ -6544,8 +6621,25 @@ dialog.zf-closing::backdrop {
               await this.executeReconciliation();
               break;
             } else {
-              await zfIdb.delete('sync_queue', item.id);
-              this.queue.shift();
+              item.retries = (item.retries || 0) + 1;
+              if (item.retries >= 5) {
+                const qEntry = {
+                  id: 'quar_' + item.id,
+                  userId: this.userId || 'local',
+                  entity: item.entity,
+                  recordId: item.recordId,
+                  localDraft: item.payload,
+                  reason: 'Unknown server response: ' + (res && res.status),
+                  timestamp: Date.now()
+                };
+                await zfIdb.put('conflict_vault', qEntry);
+                this.conflicts.push(qEntry);
+                await zfIdb.delete('sync_queue', item.id);
+                this.queue.shift();
+              } else {
+                await zfIdb.put('sync_queue', item);
+                break;
+              }
             }
           }
         }
@@ -6682,17 +6776,30 @@ dialog.zf-closing::backdrop {
 
       if (choice === 'keep_local') {
         const serverVer = (c.serverRecord && c.serverRecord.version) || 1;
-        await this.enqueueInvoiceMutation(c.recordId, 'update', serverVer, c.localDraft);
-        const localIdx = S.invoices.findIndex(x => x.id === c.recordId);
-        if (localIdx >= 0) S.invoices[localIdx] = normInvoice(c.localDraft);
-        persist();
+        if (c.entity === 'profile') {
+          await this.enqueueProfileMutation(serverVer, c.localDraft);
+          S.settings = normSettings(c.localDraft);
+          persist();
+        } else {
+          await this.enqueueInvoiceMutation(c.recordId, 'update', serverVer, c.localDraft);
+          const localIdx = S.invoices.findIndex(x => x.id === c.recordId);
+          if (localIdx >= 0) S.invoices[localIdx] = normInvoice(c.localDraft);
+          persist();
+        }
       } else if (choice === 'keep_both') {
-        const copy = clone(c.localDraft);
-        copy.id = uid();
-        copy.number = makeNumber();
-        S.invoices.unshift(normInvoice(copy));
-        await this.enqueueInvoiceMutation(copy.id, 'create', 0, copy);
-        persist();
+        if (c.entity === 'profile') {
+          const serverVer = (c.serverRecord && c.serverRecord.version) || 1;
+          await this.enqueueProfileMutation(serverVer, c.localDraft);
+          S.settings = normSettings(c.localDraft);
+          persist();
+        } else {
+          const copy = clone(c.localDraft);
+          copy.id = uid();
+          copy.number = makeNumber();
+          S.invoices.unshift(normInvoice(copy));
+          await this.enqueueInvoiceMutation(copy.id, 'create', 0, copy);
+          persist();
+        }
       }
       await zfIdb.delete('conflict_vault', conflictId);
       this.conflicts.splice(idx, 1);
@@ -6819,7 +6926,7 @@ dialog.zf-closing::backdrop {
         phone:str(b.phone,60),
         taxIdLabel:str(b.taxIdLabel||'GSTIN',40),
         taxId:str(b.taxId,60),
-        taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'gst_in',
+        taxRegime:['simple','gst_in'].includes(b.taxRegime)?b.taxRegime:'simple',
         upiId:cleanUpi,
         paymentLink:str(b.paymentLink,500),
         geminiKey:str(b.geminiKey||GEMINI_CONFIG.key,200),
@@ -6885,8 +6992,24 @@ dialog.zf-closing::backdrop {
       taxRate:it&&it.taxRate!==undefined&&String(it.taxRate).trim()!==''?str(it.taxRate,10):'',
       taxExempt:Boolean(it&&it.taxExempt)
     }));
-    const issueValid=parseISO(x.issue)?x.issue:todayISO();
-    const dueValid=parseISO(x.due)?x.due:issueValid;
+    const hasExplicitIssue = Boolean(x.issue && parseISO(x.issue));
+    const hasExplicitDue = Boolean(x.due && parseISO(x.due));
+    let issueValid = hasExplicitIssue ? x.issue : todayISO();
+    let dueValid = hasExplicitDue ? x.due : issueValid;
+    if (hasExplicitIssue && hasExplicitDue) {
+      if (dueValid < issueValid) dueValid = issueValid;
+    } else if (hasExplicitDue && !hasExplicitIssue) {
+      if (issueValid > dueValid) issueValid = dueValid;
+    }
+    const rawHist = (Array.isArray(x.history) && x.history.length > 0) ? x.history : [
+      { ts: Number(x.created) || Date.now(), at: Number(x.created) || Date.now(), action: 'created', note: 'Document created' }
+    ];
+    const hist = rawHist.slice(0, 150).map(h => ({
+      ts: num(h && (h.ts || h.at)) || Date.now(),
+      at: num(h && (h.at || h.ts)) || Date.now(),
+      action: str(h && h.action, 200),
+      note: str(h && (h.note || h.action), 300)
+    }));
     const out={
       id:str(x.id||uid(),40),
       number:str(x.number,40),
@@ -6900,6 +7023,7 @@ dialog.zf-closing::backdrop {
       title:['invoice','tax','quote','proforma','credit','debit','receipt','voucher','po','bill','challan','statement','claim'].includes(x.title)?x.title:'invoice',
       template:['modern','minimal','corporate','creative','claim','compact','classic'].includes(x.template)?x.template:'classic',
       watermark:str(x.watermark||'',40),
+      history:hist,
       showSeal:Boolean(x.showSeal),
       rcm:Boolean(x.rcm),
       design:(typeof x.design==='object'&&x.design!==null)?{
@@ -6929,7 +7053,6 @@ dialog.zf-closing::backdrop {
       exchangeRate:str(x.exchangeRate||'',20),
       items:items.length?items:[{desc:'',hsn:'',qty:'1',rate:'0',taxRate:'',taxExempt:false}],
       payments:Array.isArray(x.payments)?x.payments.slice(0,200).map(normPayment):[],
-      history:(Array.isArray(x.history)?x.history:[]).slice(0,100).map(h=>({at:num(h&&h.at)||Date.now(),action:str(h&&h.action,200)})),
       payment:(function(p){
         let val=str(p,1200);
         if(val.includes('fcalipc786-1@okicici')){
@@ -6955,7 +7078,8 @@ dialog.zf-closing::backdrop {
       showSignature:!!x.showSignature,
       sample:!!x.sample,
       created:num(x.created)||Date.now(),
-      updated:num(x.updated)||Date.now()
+      updated:num(x.updated)||Date.now(),
+      _version: Number(x._version) || 1
     };
     /* Migrate v2 paid invoice without payments[] ledger into a synthesized settlement entry */
     if(out.status==='paid'&&out.payments.length===0){
@@ -7335,8 +7459,7 @@ dialog.zf-closing::backdrop {
         '</div>' +
       '</div>');
     }
-    try { if (typeof localStorage !== 'undefined') localStorage.removeItem('zf_guide_dismissed'); } catch(e){}
-    const guideDismissed = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('zf_guide_dismissed_session') : null;
+    const guideDismissed = (typeof localStorage !== 'undefined' ? localStorage.getItem('zf_guide_dismissed') : null) || (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('zf_guide_dismissed_session') : null);
     const authUser = typeof localStorage !== 'undefined' ? localStorage.getItem('zf_auth_user') : null;
     const curPage = (ui && ui.currentPage) || 'dashboard';
 
@@ -7418,7 +7541,11 @@ dialog.zf-closing::backdrop {
 
   /* ---------- numbering & new invoice ---------- */
 
-  function applyLayout(){
+  function applyLayout(targetLay){
+    if(typeof targetLay === 'string' && (targetLay === 'invowise' || targetLay === 'cashfund')) {
+      if(!S.settings) S.settings = {};
+      S.settings.layout = targetLay;
+    }
     const lay = (S && S.settings && S.settings.layout) || 'invowise';
     if(typeof document !== 'undefined' && document.body && document.body.classList){
       document.body.classList.remove('layout-invowise', 'layout-cashfund');
@@ -7495,15 +7622,32 @@ dialog.zf-closing::backdrop {
     const th=(S&&S.settings&&S.settings.theme)==='light'?'light':'dark';
     if(document.documentElement)document.documentElement.setAttribute('data-theme',th);
   }
-  function logHistory(inv,action){
+  function logHistory(inv,action,note){
     if(!inv)return;
     inv.history=Array.isArray(inv.history)?inv.history:[];
-    inv.history.unshift({at:Date.now(),action:str(action,200)});
-    if(inv.history.length>100)inv.history.length=100;
+    const item = {
+      ts: Date.now(),
+      at: Date.now(),
+      action: str(action, 200),
+      note: str(note || action, 300)
+    };
+    inv.history.unshift(item);
+    if(inv.history.length>150)inv.history.length=150;
   }
-  function makeNumber(){
+  function makeNumber(docType){
     const d=S.settings.defaults;
-    const prefix=d.prefix==null?'INV-':String(d.prefix);
+    let prefix=d.prefix==null?'INV-':String(d.prefix);
+    const dt = String(docType || '').toLowerCase();
+    if(dt==='quote'||dt==='estimate') prefix='QT-';
+    else if(dt==='po') prefix='PO-';
+    else if(dt==='challan'||dt==='delivery') prefix='DC-';
+    else if(dt==='credit') prefix='CN-';
+    else if(dt==='debit') prefix='DN-';
+    else if(dt==='receipt') prefix='RCPT-';
+    else if(dt==='claim') prefix='CLM-';
+    else if(dt==='proforma') prefix='PI-';
+    else if(dt==='statement') prefix='SOA-';
+
     let seq=Math.max(1,Math.round(num(d.next||1)));
     const used=new Set((S.invoices||[]).map(i=>String(i.number||'').trim().toLowerCase()));
     let candidate=prefix+String(seq).padStart(4,'0');
@@ -7513,14 +7657,14 @@ dialog.zf-closing::backdrop {
       guard++;
       candidate=prefix+String(seq).padStart(4,'0');
     }
-    d.next=seq;
+    if(!docType || docType==='invoice') d.next=seq;
     return candidate;
   }
   function newInvoice(prefillClient, tplOptions){
     const d=S.settings.defaults,b=S.settings.business,t=todayISO();
     const opts=tplOptions||{};
     const inv=normInvoice({
-      id:uid(),number:makeNumber(),status:opts.status||'draft',issue:t,due:addDays(t,d.dueDays),
+      id:uid(),number:makeNumber(opts.title||'invoice'),status:opts.status||'draft',issue:t,due:addDays(t,d.dueDays),
       currency:opts.currency||d.currency,lang:opts.lang||d.lang,
       title:opts.title||'invoice',
       template:opts.template||S.settings.defaultTemplate||'classic',
@@ -7547,10 +7691,11 @@ dialog.zf-closing::backdrop {
   function generateZatcaTLV(seller, vatNo, timestamp, totalFormatted, vatFormatted) {
     function toTag(tagNum, valStr) {
       const utf8 = new TextEncoder().encode(String(valStr || ''));
-      const arr = new Uint8Array(2 + utf8.length);
+      const len = Math.min(utf8.length, 255);
+      const arr = new Uint8Array(2 + len);
       arr[0] = tagNum;
-      arr[1] = utf8.length;
-      arr.set(utf8, 2);
+      arr[1] = len;
+      arr.set(utf8.subarray(0, len), 2);
       return arr;
     }
     const tags = [
@@ -8087,9 +8232,12 @@ dialog.zf-closing::backdrop {
       currency: inv.currency,
       timestamp: Date.now()
     };
+    const headers = { 'Content-Type': 'application/json' };
+    const authToken = ((S.settings.sync && S.settings.sync.apiKey) || (S.settings.business && S.settings.business.webhookSecret) || '').trim();
+    if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
     const res = await fetch(webhookUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-goog-api-key': apiKey },
+      headers,
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('Email webhook returned status ' + res.status);
@@ -9204,7 +9352,7 @@ dialog.zf-closing::backdrop {
 
   async function generateInvoiceWithGeminiAI(userPrompt) {
     const prompt = 'You are an invoice creation AI. Convert the following user brief into a strict JSON object with fields: "client" (name, email, address), "issue" (YYYY-MM-DD), "due" (YYYY-MM-DD), "currency" (USD or INR), "items" (array of objects with "desc", "qty", "rate"). Return ONLY valid JSON, no markdown.\n\nBrief: ' + userPrompt;
-    const models = ['gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
+    const models = ['gemini-1.5-flash', 'gemini-1.5-flash-8b', 'gemini-2.0-flash'];
     const apiKey = ((S.settings.business && S.settings.business.geminiKey) || GEMINI_CONFIG.key || '').trim();
     if (apiKey && (apiKey.startsWith('AIza') || apiKey.startsWith('AQ.'))) {
       for (const m of models) {
@@ -9294,7 +9442,7 @@ dialog.zf-closing::backdrop {
       '<form id="authEmailForm">' +
         '<div id="authStatusMsg" style="display:none;margin-bottom:12px;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:600"></div>' +
         '<label style="font-size:12px;font-weight:600;color:var(--muted)">Email address</label>' +
-        '<input type="email" id="authEmailInput" class="auth-input" placeholder="ali@codewithali.com" required>' +
+        '<input type="email" id="authEmailInput" class="auth-input" placeholder="user@example.com" required>' +
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px">' +
           '<label style="font-size:12px;font-weight:600;color:var(--muted);margin:0">Password</label>' +
           '<button type="button" data-act="forgot-password" style="background:none;border:none;color:#0284c7;font-size:11px;font-weight:600;cursor:pointer;padding:0">Forgot?</button>' +
@@ -9356,7 +9504,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
             '<div style="height:48px;border-radius:8px;background:repeating-linear-gradient(45deg,rgba(249,115,22,0.15),rgba(249,115,22,0.15) 8px,rgba(249,115,22,0.04) 8px,rgba(249,115,22,0.04) 16px);border:1px dashed rgba(249,115,22,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 12px">' +
               '<span style="font-weight:700;color:#f97316;font-size:10px">Invowise Matching Matrix</span>' +
-              '<span style="background:rgba(56,199,134,0.18);color:#38c786;border:1px solid rgba(56,199,134,0.4);font-weight:800;font-size:9px;padding:2px 6px;border-radius:99px">98.4% Match</span>' +
+              '<span style="background:rgba(56,199,134,0.18);color:#38c786;border:1px solid rgba(56,199,134,0.4);font-weight:800;font-size:9px;padding:2px 6px;border-radius:99px">Recommended</span>' +
             '</div>' +
           '</div>' +
 
@@ -9613,7 +9761,8 @@ dialog.zf-closing::backdrop {
       const qrGraphic=b.upiQrImage ? ('<img src="' + esc(b.upiQrImage) + '" style="width:96px;height:96px;object-fit:contain;border-radius:6px" alt="UPI QR">') : upiSvg;
       qrHTML='<div class="p-qr-wrap"><div class="p-qr-box">'+qrGraphic+'</div><div class="p-qr-meta"><div class="p-qr-title">Instant UPI Payment</div><div>Scan with Google Pay, PhonePe, Paytm or any BHIM UPI App</div><div>UPI ID: <strong>'+esc(upiId)+'</strong> · Amount: <strong>₹'+(c.balanceMinor/100).toFixed(2)+'</strong></div></div></div>';
     }else if(isZatca){
-      const zatcaB64=generateZatcaTLV(b.name||'Seller',b.taxId,(inv.issue||todayISO())+'T12:00:00Z',(c.total/100).toFixed(2),(c.tax/100).toFixed(2));
+      const zatcaTime = inv.created ? new Date(inv.created).toISOString() : ((inv.issue||todayISO()) + 'T' + (new Date().toISOString().split('T')[1]));
+      const zatcaB64=generateZatcaTLV(b.name||'Seller',b.taxId,zatcaTime,(c.total/100).toFixed(2),(c.tax/100).toFixed(2));
       const zatcaSvg=QRCodeEngine.toSVG(zatcaB64,96);
       qrHTML='<div class="p-qr-wrap"><div class="p-qr-box">'+zatcaSvg+'</div><div class="p-qr-meta"><div class="p-qr-title">ZATCA Compliant E-Invoice</div><div>Official electronic tax invoice QR code (KSA / GCC standard)</div><div>Tax ID: <strong>'+esc(b.taxId)+'</strong> · Total: <strong>'+esc(inv.currency)+' '+(c.total/100).toFixed(2)+'</strong></div></div></div>';
     }
@@ -10065,11 +10214,26 @@ dialog.zf-closing::backdrop {
       const c=calc(inv);
       if(c.balanceMinor<=0)return;
       const late=daysBetween(inv.due,today);
-      const cur=inv.currency;
+      const cur=inv.currency||(S.settings&&S.settings.defaults&&S.settings.defaults.currency)||'INR';
       if(late<=0)buckets.current[cur]=(buckets.current[cur]||0)+c.balanceMinor;
       else if(late<=30)buckets.d30[cur]=(buckets.d30[cur]||0)+c.balanceMinor;
       else if(late<=60)buckets.d60[cur]=(buckets.d60[cur]||0)+c.balanceMinor;
       else buckets.d90[cur]=(buckets.d90[cur]||0)+c.balanceMinor;
+    });
+    // Direct currency lookup support: buckets[cur] = { c0, c30, c60, c90 }
+    const allCurs = new Set([
+      ...Object.keys(buckets.current),
+      ...Object.keys(buckets.d30),
+      ...Object.keys(buckets.d60),
+      ...Object.keys(buckets.d90)
+    ]);
+    allCurs.forEach(k => {
+      buckets[k] = {
+        c0: buckets.current[k] || 0,
+        c30: buckets.d30[k] || 0,
+        c60: buckets.d60[k] || 0,
+        c90: buckets.d90[k] || 0
+      };
     });
     return buckets;
   }
@@ -10201,7 +10365,7 @@ dialog.zf-closing::backdrop {
   function renderCashFundDashboard() {
     const inv = S.invoices;
     const currencies = Array.from(new Set(inv.map(i=>i.currency)));
-    if (!currencies.length) currencies.push('USD');
+    if (!currencies.length) currencies.push((S.settings && S.settings.defaults && S.settings.defaults.currency) || 'INR');
     if (!ui.chartCurrency || !currencies.includes(ui.chartCurrency)) ui.chartCurrency = currencies[0];
     const cur = ui.chartCurrency;
 
@@ -10210,8 +10374,9 @@ dialog.zf-closing::backdrop {
     inv.filter(i=>i.currency===cur).forEach(i => {
       const c = calc(i);
       totalBilled += c.total;
-      if (effStatus(i)==='paid') totalPaid += c.total;
-      else totalDue += c.balanceMinor;
+      const settled = c.netPaidMinor != null ? c.netPaidMinor : (c.paidMinor || 0);
+      totalPaid += settled;
+      totalDue += (c.balanceMinor != null ? c.balanceMinor : Math.max(0, c.total - settled));
     });
 
     const displayBal = fmtMoney(totalBilled, cur);
@@ -10259,8 +10424,8 @@ dialog.zf-closing::backdrop {
       if (hasYearData) {
         yVal = Math.round(145 - ((yearTotals[y] / maxYearTot) * 95));
       } else {
-        const defaultOffsets = [135, 145, 115, 140, 95, 120, 110];
-        yVal = defaultOffsets[idx % defaultOffsets.length];
+        // Flat honest baseline curve on empty workspace
+        yVal = 145;
       }
       wavePoints.push({ x, y: yVal, year: y });
     });
@@ -10331,25 +10496,11 @@ dialog.zf-closing::backdrop {
           '</div>';
         }).join('');
       }
-      const standardCats = [
-        { name: 'Vendor Payments', sub: 'Payments to suppliers for goods & raw materials', icon: '🏪' },
-        { name: 'Employee Salaries', sub: 'Monthly salary disbursements to in-house teams', icon: '👥' },
-        { name: 'Software Subscriptions', sub: 'Recurring payments for SaaS tools, cloud hosting & AI', icon: '💻' },
-        { name: 'Marketing Expenses', sub: 'Spending on digital ads, SEO campaigns & content', icon: '📢' },
-        { name: 'Operational Costs', sub: 'General expenses such as office utilities & legal fees', icon: '🏢' }
-      ];
-      return standardCats.map(c => {
-        return '<div class="cash-cat-item" data-act="nav" data-page="payment">' +
-          '<div class="cash-cat-left">' +
-            '<div class="cash-cat-icon">' + c.icon + '</div>' +
-            '<div class="cash-cat-meta">' +
-              '<strong>' + esc(c.name) + '</strong>' +
-              '<span>' + esc(c.sub) + '</span>' +
-            '</div>' +
-          '</div>' +
-          '<strong class="cash-cat-amt">' + esc(fmtMoney(0, cur)) + '</strong>' +
-        '</div>';
-      }).join('');
+      return '<div style="padding:28px 16px;text-align:center;color:var(--muted);background:var(--surface-2);border-radius:12px;border:1px dashed var(--line-2)">' +
+        '<div style="font-size:22px;margin-bottom:6px">📦</div>' +
+        '<strong style="font-size:13px;color:var(--text);display:block">No Item Allocations Recorded</strong>' +
+        '<span style="font-size:11.5px;color:var(--muted)">Line item breakdowns from client invoices will appear here automatically.</span>' +
+      '</div>';
     }
 
     function renderTableRows() {
@@ -10358,7 +10509,7 @@ dialog.zf-closing::backdrop {
           const c = calc(i);
           const st = effStatus(i);
           const badgeCls = st==='paid'?'up':(isOverdue(i)?'down':'up');
-          const badgeText = st==='paid'?'Paid':(isOverdue(i)?'Canceled':'Pending');
+          const badgeText = st==='paid'?'Paid':(isOverdue(i)?'Overdue':(st==='draft'?'Draft':(st==='sent'?'Sent':'Pending')));
           const clName = i.client.name || 'Unnamed Client';
           const clInit = clName.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() || 'CL';
           const isChecked = dashSelected.has(i.id);
@@ -10375,7 +10526,7 @@ dialog.zf-closing::backdrop {
             '</td>' +
             '<td>' + esc(fmtDate(i.issue, 'en')) + '</td>' +
             '<td><strong>' + esc(fmtMoney(c.total, i.currency)) + '</strong></td>' +
-            '<td><span class="cash-badge-pill ' + badgeCls + '" data-act="dash-cycle-status" data-id="' + esc(i.id) + '" title="Click to cycle status (Draft → Sent → Paid)" style="cursor:pointer">' + badgeText + '</span></td>' +
+            '<td><span class="cash-badge-pill ' + badgeCls + '" data-act="dash-cycle-status" data-id="' + esc(i.id) + '" role="button" tabindex="0" aria-label="Status: ' + badgeText + '. Click to cycle status" title="Click to cycle status (Draft → Sent → Paid)" style="cursor:pointer">' + badgeText + '</span></td>' +
           '</tr>';
         }).join('');
       }
@@ -10477,7 +10628,7 @@ dialog.zf-closing::backdrop {
                 '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' +
                 '<span>Cashflow</span>' +
               '</div>' +
-              '<button type="button" class="cash-more-btn" data-act="cash-more-options" data-title="Cashflow">•••</button>' +
+              '<button type="button" class="cash-more-btn" data-act="nav" data-page="reports" title="View Full Financial Analytics Report">↗</button>' +
             '</div>' +
             '<div class="cashflow-summary-header">' +
               '<span class="cashflow-big-val">' + esc(displayBal) + '</span>' +
@@ -10518,7 +10669,7 @@ dialog.zf-closing::backdrop {
                   '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
                   '<span>Create Invoice</span>' +
                 '</button>' +
-                '<button type="button" class="cash-more-btn" data-act="cash-more-options" data-title="Transactions">•••</button>' +
+                '<button type="button" class="cash-more-btn" data-act="nav" data-page="invoices" title="View All Invoices Directory">↗</button>' +
               '</div>' +
             '</div>' +
             '<div style="overflow-x:auto;flex:1">' +
@@ -10548,7 +10699,7 @@ dialog.zf-closing::backdrop {
                 '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
                 '<span>Outflows</span>' +
               '</div>' +
-              '<button type="button" class="cash-more-btn" data-act="cash-more-options" data-title="Outflows">•••</button>' +
+              '<button type="button" class="cash-more-btn" data-act="nav" data-page="payment" title="View Payment & Settlement Ledger">↗</button>' +
             '</div>' +
 
             /* Multi-Segment Donut Chart */
@@ -10591,7 +10742,7 @@ dialog.zf-closing::backdrop {
               '</div>' +
             '</div>' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)">' +
-              '<span>Collection Status: <strong style="color:' + (totalDue > 0 ? '#f59e0b' : '#10b981') + '">' + (totalDue > 0 ? fmtMoney(totalDue, cur) + ' Pending' : '100% Settled') + '</strong></span>' +
+              '<span>Collection Status: <strong style="color:' + (totalBilled === 0 ? 'var(--muted)' : (totalDue > 0 ? '#f59e0b' : '#10b981')) + '">' + (totalBilled === 0 ? 'No receivables recorded yet' : (totalDue > 0 ? fmtMoney(totalDue, cur) + ' Pending' : '100% Settled')) + '</strong></span>' +
               '<button type="button" class="invo-link-btn" data-act="nav" data-page="invoices" style="font-weight:700">Ageing Ledger ↗</button>' +
             '</div>' +
           '</div>' +
@@ -10842,9 +10993,9 @@ dialog.zf-closing::backdrop {
           '<div class="zf-footer-brand" data-act="nav" data-page="dashboard" style="cursor:pointer" title="Go to Dashboard">' +
             '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="' + accentCol + '" stroke-width="2.8" stroke-linecap="round" style="flex-shrink:0"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg>' +
             '<span class="zf-footer-brand-title">ZestFlow OS</span>' +
-            '<span class="zf-footer-badge">v2.4 Sovereign</span>' +
+            '<span class="zf-footer-badge">v2.4 Enterprise</span>' +
           '</div>' +
-          '<p class="zf-footer-desc">The Sovereign Zero-Backend Financial Operating System. Engineered with pure client-side privacy, vector QR engines, Arabic/Urdu RTL typography, and zero subscription paywalls.</p>' +
+          '<p class="zf-footer-desc">The Autonomous Financial Operating System. Engineered with local-first offline resilience, optional encrypted cloud sync, vector QR engines, multilingual typography, and zero vendor lock-in.</p>' +
           '<div class="zf-creator-box" data-act="nav" data-page="about" style="cursor:pointer" title="Learn more about the architect in About Us">' +
             '<div class="zf-creator-avatar">MA</div>' +
             '<div class="zf-creator-info">' +
@@ -10854,7 +11005,7 @@ dialog.zf-closing::backdrop {
             '</div>' +
           '</div>' +
           '<div class="zf-trust-chips">' +
-            '<span class="zf-trust-chip">🛡️ 100% Client Sovereign</span>' +
+            '<span class="zf-trust-chip">🛡️ Local-First Storage</span>' +
             '<span class="zf-trust-chip">⚡ 100/100 Stress Pass</span>' +
             '<span class="zf-trust-chip">🌐 Arabic/Urdu RTL</span>' +
             '<span class="zf-trust-chip">🇮🇳 GST &amp; 🇸🇦 ZATCA</span>' +
@@ -10887,7 +11038,7 @@ dialog.zf-closing::backdrop {
             '<li><span class="zf-footer-static-item"><strong>Precision Math:</strong> Minor-Unit Integer Engine</span></li>' +
             '<li><span class="zf-footer-static-item"><strong>Tax Logic:</strong> GST Place of Supply Matrix</span></li>' +
             '<li><span class="zf-footer-static-item"><strong>Consultant Matrix:</strong> Jamia Claim Engine</span></li>' +
-            '<li><span class="zf-footer-static-item"><strong>Data Sovereignty:</strong> JSON Vaults &amp; CSV Exports</span></li>' +
+            '<li><span class="zf-footer-static-item"><strong>Data Portability:</strong> JSON Vaults &amp; CSV Exports</span></li>' +
           '</ul>' +
         '</div>' +
 
@@ -10900,7 +11051,7 @@ dialog.zf-closing::backdrop {
             '<button type="button" class="zf-footer-act-btn" data-act="reopen-onboarding" title="Switch Theme or Layout Architecture"><span>🎨 Switch Layout</span><span style="font-size:11px;opacity:0.8">⚙️</span></button>' +
           '</div>' +
           '<div class="zf-contact-list">' +
-            '<div class="zf-contact-row"><span class="zf-contact-lbl">Direct:</span><a href="mailto:ali@codewithali.com" class="zf-contact-val">ali@codewithali.com</a></div>' +
+            '<div class="zf-contact-row"><span class="zf-contact-lbl">Support:</span><a href="mailto:support@zestflow.com" class="zf-contact-val">support@zestflow.com</a></div>' +
             '<div class="zf-contact-row"><span class="zf-contact-lbl">Brand:</span><span class="zf-contact-val" style="color:var(--text);font-weight:700">CodeWithAli</span></div>' +
             '<div class="zf-contact-row"><span class="zf-contact-lbl">Source:</span><a href="https://github.com/mdaliquadri-786/Zestflow-OS" target="_blank" rel="noopener" class="zf-contact-val">GitHub Repo ↗</a></div>' +
             '<div class="zf-contact-row"><span class="zf-contact-lbl">Deploy:</span><a href="https://zestflow-seven.vercel.app" target="_blank" rel="noopener" class="zf-contact-val">Vercel Production ↗</a></div>' +
@@ -10920,7 +11071,7 @@ dialog.zf-closing::backdrop {
         '</div>' +
         '<div class="zf-live-status">' +
           '<span class="zf-live-dot"></span>' +
-          '<span>All Systems Operational &bull; 100% Client Sovereign</span>' +
+          '<span>All Systems Operational &bull; Local-First Architecture</span>' +
         '</div>' +
         '<div>' +
           '<button type="button" class="zf-back-to-top" data-act="scroll-top" title="Scroll smoothly to the top of the page">' +
@@ -10984,7 +11135,8 @@ dialog.zf-closing::backdrop {
         isCurrent: m === 0
       });
     }
-    const maxMonthVal = Math.max(1, ...monthBuckets.map(b => b.total));
+    const hasChartData = monthBuckets.some(b => b.total > 0);
+    const maxMonthVal = hasChartData ? Math.max(...monthBuckets.map(b => b.total)) : 100000;
     const currentMonthBucket = monthBuckets[monthBuckets.length - 1];
     const firstMonthBucket = monthBuckets[0];
     const dateRangeStr = firstMonthBucket.label + ' ' + firstMonthBucket.key.split('-')[0] + ' — ' + currentMonthBucket.label + ' ' + currentMonthBucket.key.split('-')[0];
@@ -11140,7 +11292,7 @@ dialog.zf-closing::backdrop {
           '</td>' +
           '<td>' + esc(fmtDate(i.issue, 'en')) + '</td>' +
           '<td><strong>' + esc(fmtMoney(c.total, i.currency)) + '</strong></td>' +
-          '<td><span class="invo-status-badge ' + badgeCls + '" data-act="dash-cycle-status" data-id="' + esc(i.id) + '" title="Click to cycle status (Draft → Sent → Paid)" style="cursor:pointer">' + badgeLbl + '</span></td>' +
+          '<td><span class="invo-status-badge ' + badgeCls + '" data-act="dash-cycle-status" data-id="' + esc(i.id) + '" role="button" tabindex="0" aria-label="Status: ' + badgeLbl + '. Click to cycle status" title="Click to cycle status (Draft → Sent → Paid)" style="cursor:pointer">' + badgeLbl + '</span></td>' +
           '<td style="text-align:right;white-space:nowrap">' +
             '<button type="button" class="invo-action-btn" data-act="open-remind" data-id="' + esc(i.id) + '" title="Remind / WhatsApp">💬</button>' +
             '<button type="button" class="invo-action-btn" data-act="edit-inv" data-id="' + esc(i.id) + '" title="Edit">✏️</button>' +
@@ -11164,7 +11316,14 @@ dialog.zf-closing::backdrop {
       '</div>';
     }
 
-    return '<div class="invowise-container">' +
+    const hasSamples = (S.invoices || []).some(i => i.sample);
+    const sampleBannerHTML = hasSamples ? (
+      '<div class="demo-data-banner" style="background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.25);color:var(--text);padding:10px 16px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600">' +
+        '<span>💡 <b>Demo Data Active:</b> Dashboard figures include sample demo invoices.</span>' +
+        '<button type="button" class="btn sm" data-act="clear-samples" style="background:#0284c7;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">Clear Demo Data</button>' +
+      '</div>'
+    ) : '';
+    return '<div class="invowise-container">' + sampleBannerHTML +
       /* Hero Greeting & 3 Metric Cards Row */
       '<div class="invo-hero-row">' +
         '<div class="invo-hero-left">' +
@@ -11178,7 +11337,7 @@ dialog.zf-closing::backdrop {
               '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>' +
             '</div>' +
             '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Paid Invoices</span>' +
+              '<span class="invo-metric-lbl">Paid Collections</span>' +
               '<span class="invo-metric-val glow-ok">' + esc(fmtMoney(paidTotal, cur)) + '</span>' +
               paidTagHTML +
             '</div>' +
@@ -11190,7 +11349,7 @@ dialog.zf-closing::backdrop {
               '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
             '</div>' +
             '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Due Invoices</span>' +
+              '<span class="invo-metric-lbl">Outstanding Due</span>' +
               '<span class="invo-metric-val">' + esc(fmtMoney(dueTotal, cur)) + '</span>' +
               dueTagHTML +
             '</div>' +
@@ -11202,7 +11361,7 @@ dialog.zf-closing::backdrop {
               '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
             '</div>' +
             '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Overdue Invoices</span>' +
+              '<span class="invo-metric-lbl">Overdue Balance</span>' +
               '<span class="invo-metric-val glow-danger">' + esc(fmtMoney(overdueTotal, cur)) + '</span>' +
               overdueTagHTML +
             '</div>' +
@@ -11257,7 +11416,7 @@ dialog.zf-closing::backdrop {
                 '</div>' +
                 '<div class="invo-bars-row" style="flex:1">' +
                   monthBuckets.map(b => {
-                    const pct = Math.max(8, Math.round((b.total / maxMonthVal) * 90));
+                    const pct = b.total > 0 ? Math.max(8, Math.round((b.total / maxMonthVal) * 90)) : 4;
                     const isActive = b.isCurrent;
                     return '<div class="invo-bar-col ' + (isActive ? 'active' : '') + '">' +
                       '<div class="invo-bar-track" title="' + esc(b.fullLabel + ': ' + fmtMoney(b.total, cur)) + '"><div class="invo-bar striped ' + (isActive ? 'orange-active' : '') + '" style="height:' + pct + '%"></div></div>' +
@@ -11272,7 +11431,10 @@ dialog.zf-closing::backdrop {
           /* All Invoices Table Card */
           '<div class="invo-card">' +
             '<div class="invo-table-header">' +
-              '<h3>All Invoices</h3>' +
+              '<div style="display:flex;align-items:center;gap:10px">' +
+                '<h3 style="margin:0">Recent Invoices (' + dashTableList.length + ')</h3>' +
+                '<button type="button" class="btn sm ghost" data-act="nav" data-page="invoices" style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;color:var(--primary)">View All (' + inv.length + ') →</button>' +
+              '</div>' +
               '<div class="invo-table-filters">' +
                 '<button type="button" class="invo-filter-pill ' + (isClientFiltered ? 'active' : '') + '" data-act="dash-filter-client">' + curClientLbl + '</button>' +
                 '<button type="button" class="invo-filter-pill ' + (ui.dashStatusFilter && ui.dashStatusFilter !== 'all' ? 'active' : '') + '" data-act="dash-filter-status">' + curFilterLbl + '</button>' +
@@ -11280,7 +11442,7 @@ dialog.zf-closing::backdrop {
                 '<div class="invo-mini-search">' +
                   '<svg class="i" style="width:12px;height:12px;color:#94a3b8"><use href="#i-search"/></svg>' +
                   '<input type="text" id="qInvoMini" placeholder="Search" data-act="search-cash">' +
-                  '<kbd>⌘ S</kbd>' +
+                  '<kbd>⌘ K</kbd>' +
                 '</div>' +
               '</div>' +
             '</div>' +
@@ -11343,7 +11505,7 @@ dialog.zf-closing::backdrop {
               '</div>' +
             '</div>' +
             '<div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11.5px">' +
-              '<span style="color:var(--muted);font-weight:600">Collection Health: <strong style="color:' + (overdueTotal > 0 ? '#ef4444' : '#10b981') + '">' + (overdueTotal > 0 ? overdueList.length + ' Overdue' : '100% On-Time') + '</strong></span>' +
+              '<span style="color:var(--muted);font-weight:600">Collection Health: <strong style="color:' + (totalBilled === 0 ? 'var(--muted)' : (overdueTotal > 0 ? '#ef4444' : '#10b981')) + '">' + (totalBilled === 0 ? 'No active invoices' : (overdueTotal > 0 ? overdueList.length + ' Overdue' : '100% On-Time')) + '</strong></span>' +
               '<button type="button" class="invo-link-btn" data-act="nav" data-page="payment" style="font-size:11.5px">Payment Ledger ↗</button>' +
             '</div>' +
           '</div>' +
@@ -11358,7 +11520,7 @@ dialog.zf-closing::backdrop {
               '<button type="button" class="invo-arrow-btn" data-act="nav-new">↗</button>' +
             '</div>' +
             '<div class="invo-gen-tabs">' +
-              '<button type="button" class="invo-gen-tab active">Generate by prompt</button>' +
+              '<button type="button" class="invo-gen-tab active" data-act="focus-ai-prompt">Generate by prompt</button>' +
               '<button type="button" class="invo-gen-tab" data-act="trigger-file-import" title="Import invoice from JSON or CSV file">Generate by file</button>' +
             '</div>' +
             '<div class="invo-gen-box">' +
@@ -11825,8 +11987,8 @@ dialog.zf-closing::backdrop {
     return `<div class="it" data-row="${i}">
       <input class="it-d" type="text" dir="auto" data-i="${i}" data-k="desc" value="${esc(it.desc)}" placeholder="Description of work or item" aria-label="Item ${i+1} description">
       <input class="it-hsn" type="text" data-i="${i}" data-k="hsn" value="${esc(it.hsn||'')}" placeholder="HSN/SAC" aria-label="Item ${i+1} HSN/SAC">
-      <input class="it-q" type="number" min="0" step="any" inputmode="decimal" data-i="${i}" data-k="qty" value="${esc(it.qty)}" aria-label="Item ${i+1} quantity">
-      <input class="it-r" type="number" min="0" step="any" inputmode="decimal" data-i="${i}" data-k="rate" value="${esc(it.rate)}" aria-label="Item ${i+1} rate">
+      <input class="it-q" type="number" min="0" step="any" inputmode="decimal" data-i="${i}" data-k="qty" value="${esc(it.qty)}" placeholder="Qty" aria-label="Item ${i+1} quantity">
+      <input class="it-r" type="number" min="0" step="any" inputmode="decimal" data-i="${i}" data-k="rate" value="${esc(it.rate)}" placeholder="Rate" aria-label="Item ${i+1} rate">
       <div class="amt" data-amt="${i}"></div>
       <button class="btn ghost icon it-x" type="button" data-act="rm-item" data-i="${i}" aria-label="Remove item ${i+1}" title="Remove">${icon('trash')}</button>
     </div>`;
@@ -11958,7 +12120,7 @@ dialog.zf-closing::backdrop {
             ${fld(clientNameLabel,'client.name',{dir:1,ph:docType==='po'?'Supplier Co.':'Client or company name'})}
             <div class="g2">${fld('Email','client.email',{type:'email',ph:'billing@client.com'})}${fld('Phone (with country code)','client.phone',{type:'tel',ph:'+971 50 123 4567'})}</div>
             ${txt('Address','client.address','Street, city, country',2)}
-            <div class="g2">${fld('Client tax ID (optional)','client.taxId',{dir:1})}${fld('Place of supply / State (for GST)','placeOfSupply',{dir:1,ph:'Telangana, Maharashtra…'})}</div>
+            <div class="g2">${fld('Client tax ID (optional)' + (inv.client && inv.client.taxId && inv.client.taxId.trim() ? (/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(inv.client.taxId.trim().toUpperCase()) ? ' <span style="font-size:10px;font-weight:700;color:#10b981;background:rgba(16,185,129,0.1);padding:1px 6px;border-radius:4px">✓ Valid 15-Digit GSTIN</span>' : ' <span style="font-size:10px;font-weight:700;color:#f59e0b;background:rgba(245,158,11,0.1);padding:1px 6px;border-radius:4px">⚠ Check GSTIN format (15 chars)</span>') : ''),'client.taxId',{dir:1})}${fld('Place of supply / State (for GST)','placeOfSupply',{dir:1,ph:'Telangana, Maharashtra…'})}</div>
           </div></section>
           <section class="card"><h2>Document details</h2><div class="stack">
             <div class="g2">${fld(numberLabel,'number',{dir:1})}${selFld('Status','status',[['draft','Draft'],['sent','Sent'],['paid','Paid'],['void','Void']])}</div>
@@ -12034,6 +12196,23 @@ dialog.zf-closing::backdrop {
               <a class="btn sm" id="waLink" target="_blank" rel="noopener noreferrer">${icon('send')}<span>Open in WhatsApp</span></a>
             </div>
           </div></section>
+          <section class="card invo-audit-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <h2 style="margin:0;font-size:14px;color:var(--text);display:flex;align-items:center;gap:6px">
+                <span>🕒</span><span>Audit Trail &amp; Activity Log (Stripe Standard)</span>
+              </h2>
+              <span style="font-size:11px;font-weight:700;color:var(--muted)">${(inv.history||[]).length} statutory events</span>
+            </div>
+            <div class="audit-timeline" style="display:grid;gap:8px;font-size:12px;border-left:2px solid var(--line-2);padding-left:14px;margin-left:6px;max-height:160px;overflow-y:auto">
+              ${(inv.history||[]).slice(0, 6).map(h => `
+                <div class="audit-event" style="position:relative">
+                  <div style="position:absolute;left:-19px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--primary,#0284c7)"></div>
+                  <div style="font-weight:700;color:var(--text)">${esc(h.note || h.action)}</div>
+                  <div style="font-size:10.5px;color:var(--muted)">${new Date(h.ts || h.at || Date.now()).toLocaleString()}</div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
         </div>
         <aside class="pv-wrap" id="paperHost"><div class="pv-bar"><span>Live A4 preview</span><span>Ctrl+S to save</span></div><div class="paper-frame" id="previewHost"><div id="paperWrap"></div></div></aside>
       </div>
@@ -12053,7 +12232,7 @@ dialog.zf-closing::backdrop {
   }
   function updateSigPrev(){
     const el=$('#sigPrev');if(!el)return;
-    el.innerHTML=S.settings.signature?`<img src="${S.settings.signature}" alt="Your saved signature">`:'No signature yet';
+    el.innerHTML=S.settings.signature?`<img src="${esc(S.settings.signature)}" alt="Your saved signature">`:'No signature yet';
   }
   function fitPreview(){
     const host=$('#previewHost'),wrap=$('#paperWrap'),paper=wrap&&wrap.firstElementChild;
@@ -12126,6 +12305,11 @@ dialog.zf-closing::backdrop {
     if(list.length)box.scrollIntoView({behavior:'smooth',block:'center'});
   }
   function saveInvoice(){
+    if(ed && ed.inv && ed.inv.issue && ed.inv.due && ed.inv.due < ed.inv.issue){
+      ed.inv.due = ed.inv.issue;
+      const dFld = $('[data-f="due"]');
+      if(dFld) dFld.value = ed.inv.issue;
+    }
     if(recoveryPending){
       toast('Cannot save: recovery mode is active. Please restore or replace database first.','err');
       return false;
@@ -12164,7 +12348,7 @@ dialog.zf-closing::backdrop {
     if(!groups.length){
       return `<div class="page-h">
         <div class="page-h-title"><h1>Clients</h1><p>Your client directory is built automatically from saved invoices.</p></div>
-        <div class="page-h-acts"><button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button></div>
+        <div class="page-h-acts"><button type="button" class="btn" data-act="add-client-prompt" style="font-weight:700">${icon('plus')}<span>Add Client</span></button><button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button></div>
       </div>
       <div class="empty">
         <h2>No clients yet</h2>
@@ -12177,7 +12361,7 @@ dialog.zf-closing::backdrop {
     }
     return `<div class="page-h">
       <div class="page-h-title"><h1>Clients</h1><p>${groups.length} client${groups.length===1?'':'s'} across your saved invoices.</p></div>
-      <div class="page-h-acts"><button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button></div>
+      <div class="page-h-acts"><button type="button" class="btn" data-act="add-client-prompt" style="font-weight:700">${icon('plus')}<span>Add Client</span></button><button type="button" class="btn primary" data-act="nav-new">${icon('plus')}<span>New invoice</span></button></div>
     </div>
     <div class="clients-grid">
       ${groups.map((g,idx)=>`<article class="client-card">
@@ -12220,20 +12404,38 @@ dialog.zf-closing::backdrop {
     let totalIGST = 0;
 
     allInvs.forEach(inv => {
+      if (inv.status === 'void') return;
+      const docType = String(inv.title || 'invoice').toLowerCase();
+      // Exclude non-sales documents from billed sales turnover
+      if (['quote', 'estimate', 'po', 'challan'].includes(docType)) return;
+
       const c = calc(inv);
       if (inv.currency === cur) {
-        totalBilled += c.total;
-        totalCollected += c.paidAmountMinor;
-        if (isOverdue(inv)) {
-          totalOverdue += c.balanceMinor;
-        }
-        totalTax += c.tax;
-        if (c.taxRegime === 'gst_in') {
-          if (c.isInterState) {
-            totalIGST += c.tax;
-          } else {
-            totalCGST += c.cgstMinor || Math.round(c.tax / 2);
-            totalSGST += c.sgstMinor || Math.round(c.tax / 2);
+        const isInter = c.gstMode === 'inter' || Boolean(c.isInterState);
+        const settledMinor = Number(c.netPaidMinor != null ? c.netPaidMinor : c.paidAmountMinor) || 0;
+        const cgstAmt = isInter ? 0 : (c.cgst != null ? c.cgst : c.cgstMinor || 0);
+        const sgstAmt = isInter ? 0 : (c.sgst != null ? c.sgst : c.sgstMinor || 0);
+        const igstAmt = isInter ? c.tax : 0;
+        if (docType === 'credit') {
+          totalBilled -= c.total;
+          totalCollected -= settledMinor;
+          totalTax -= c.tax;
+          if (c.taxRegime === 'gst_in') {
+            totalIGST -= igstAmt;
+            totalCGST -= cgstAmt;
+            totalSGST -= sgstAmt;
+          }
+        } else {
+          totalBilled += c.total;
+          totalCollected += settledMinor;
+          if (isOverdue(inv)) {
+            totalOverdue += c.balanceMinor;
+          }
+          totalTax += c.tax;
+          if (c.taxRegime === 'gst_in') {
+            totalIGST += igstAmt;
+            totalCGST += cgstAmt;
+            totalSGST += sgstAmt;
           }
         }
       }
@@ -12244,7 +12446,12 @@ dialog.zf-closing::backdrop {
 
     // Ageing schedule
     const ageing = (typeof computeAgeing === 'function') ? computeAgeing() : {};
-    const curAge = ageing[cur] || { c0:0, c30:0, c60:0, c90:0 };
+    const curAge = (ageing && ageing[cur]) || {
+      c0: (ageing.current && ageing.current[cur]) || 0,
+      c30: (ageing.d30 && ageing.d30[cur]) || 0,
+      c60: (ageing.d60 && ageing.d60[cur]) || 0,
+      c90: (ageing.d90 && ageing.d90[cur]) || 0
+    };
 
     // Group by Clients for Top Revenue Clients
     const clientMap = {};
@@ -12254,11 +12461,19 @@ dialog.zf-closing::backdrop {
         clientMap[name] = { name, count: 0, billed: 0, collected: 0, balance: 0, email: (inv.client && inv.client.email) || '' };
       }
       const c = calc(inv);
-      clientMap[name].count++;
-      if (inv.currency === cur) {
-        clientMap[name].billed += c.total;
-        clientMap[name].collected += c.paidAmountMinor;
-        clientMap[name].balance += c.balanceMinor;
+      const dt = String(inv.title || 'invoice').toLowerCase();
+      if (inv.currency === cur && !['quote', 'estimate', 'po', 'challan'].includes(dt)) {
+        clientMap[name].count++;
+        const settledMinor = Number(c.netPaidMinor != null ? c.netPaidMinor : c.paidAmountMinor) || 0;
+        if (dt === 'credit') {
+          clientMap[name].billed -= c.total;
+          clientMap[name].collected -= settledMinor;
+          clientMap[name].balance -= c.balanceMinor;
+        } else {
+          clientMap[name].billed += c.total;
+          clientMap[name].collected += settledMinor;
+          clientMap[name].balance += c.balanceMinor;
+        }
       }
     });
     const topClients = Object.values(clientMap).sort((a,b) => b.billed - a.billed).slice(0, 6);
@@ -12301,7 +12516,7 @@ dialog.zf-closing::backdrop {
           <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:6px">Realized Collections (Cash)</div>
           <div style="font-size:24px;font-weight:800;color:#10b981;letter-spacing:-0.02em">${esc(fmtMoney(totalCollected, cur))}</div>
           <div style="font-size:11.5px;color:var(--muted);margin-top:6px">
-            <span>Settlement Health: <b>${collectionRate}%</b> on-time</span>
+            <span>Settlement Health: <b>${totalBilled > 0 ? collectionRate + '%' : '—'}</b></span>
           </div>
         </div>
 
@@ -12336,7 +12551,7 @@ dialog.zf-closing::backdrop {
                 <h2 style="margin:0;font-size:15px;color:var(--text)">🏛️ GST &amp; Regulatory Tax Schedule</h2>
                 <span style="font-size:11.5px;color:var(--muted)">Place of supply splits: Intra-State (CGST+SGST) vs Inter-State (IGST)</span>
               </div>
-              <span style="font-size:11px;font-weight:700;background:rgba(2,132,199,0.1);color:#0284c7;padding:3px 8px;border-radius:6px">GSTIN: ${esc(b.taxId || '36AAACZ1234A1Z5')}</span>
+              <span style="font-size:11px;font-weight:700;background:rgba(2,132,199,0.1);color:#0284c7;padding:3px 8px;border-radius:6px">${esc(b.taxId ? 'GSTIN: ' + b.taxId : 'GSTIN: Not configured')}</span>
             </div>
 
             ${taxInvs.length ? `
@@ -12356,14 +12571,15 @@ dialog.zf-closing::backdrop {
                   <tbody>
                     ${taxInvs.map(inv => {
                       const c = calc(inv);
-                      const isInter = c.isInterState;
-                      const cgst = isInter ? 0 : (c.cgstMinor || Math.round(c.tax / 2));
-                      const sgst = isInter ? 0 : (c.sgstMinor || Math.round(c.tax / 2));
+                      const isInter = c.gstMode === 'inter' || Boolean(c.isInterState);
+                      const cgst = isInter ? 0 : (c.cgst != null ? c.cgst : (c.cgstMinor || Math.round(c.tax / 2)));
+                      const sgst = isInter ? 0 : (c.sgst != null ? c.sgst : (c.sgstMinor || Math.round(c.tax / 2)));
                       const igst = isInter ? c.tax : 0;
+                      const taxableAmt = c.taxable != null ? c.taxable : c.sub;
                       return `<tr style="border-bottom:1px solid var(--line-2)">
                         <td style="padding:9px 6px;font-weight:700"><a href="#/edit/${encodeURIComponent(inv.id)}" style="color:var(--text);text-decoration:none">${esc(inv.number)}</a></td>
                         <td style="padding:9px 6px">${esc(inv.client.name || '—')}</td>
-                        <td style="padding:9px 6px;text-align:right">${esc(fmtMoney(c.subtotal, inv.currency))}</td>
+                        <td style="padding:9px 6px;text-align:right">${esc(fmtMoney(taxableAmt, inv.currency))}</td>
                         <td style="padding:9px 6px;text-align:right;color:var(--muted)">${cgst ? esc(fmtMoney(cgst, inv.currency)) : '—'}</td>
                         <td style="padding:9px 6px;text-align:right;color:var(--muted)">${sgst ? esc(fmtMoney(sgst, inv.currency)) : '—'}</td>
                         <td style="padding:9px 6px;text-align:right;color:var(--muted)">${igst ? esc(fmtMoney(igst, inv.currency)) : '—'}</td>
@@ -12471,7 +12687,7 @@ dialog.zf-closing::backdrop {
           </div>
         `}
       </section>
-    </div>`;
+  `;
   }
 
 
@@ -12549,7 +12765,7 @@ dialog.zf-closing::backdrop {
       headerHTML +
       '<div style="font-size:9.5px;margin-bottom:12px;color:#475569;display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px">' +
         '<div><b>Client:</b> Acme Technologies Inc</div>' +
-        '<div><b>GSTIN:</b> 36AAACZ1234A1Z5</div>' +
+        '<div><b>GSTIN:</b> ' + esc(b.taxId || 'Not configured') + '</div>' +
       '</div>' +
       '<div style="margin-bottom:16px">' +
         '<table style="width:100%;font-size:9.5px;border-collapse:collapse;text-align:left">' +
@@ -12955,7 +13171,7 @@ dialog.zf-closing::backdrop {
           </div>
           <div>
             <h2 style="font-size:24px;font-weight:800;margin:0;letter-spacing:-0.02em;color:#fff">ZestFlow OS v2</h2>
-            <span style="font-size:13px;color:#94a3b8">The Sovereign Zero-Backend Financial Operating System</span>
+            <span style="font-size:13px;color:#94a3b8">The Autonomous Financial Operating System</span>
           </div>
         </div>
         <p style="font-size:14.5px;line-height:1.65;color:#cbd5e1;margin:0 0 16px;max-width:850px">
@@ -12989,7 +13205,7 @@ dialog.zf-closing::backdrop {
             <tbody>
               <tr>
                 <td style="padding:10px 14px"><strong>Hosting &amp; Data Privacy</strong></td>
-                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ 100% Browser Local / Sovereign</td>
+                <td style="padding:10px 14px;text-align:center;background:rgba(2,132,199,0.04);color:#10b981;font-weight:700">✓ Local-First &amp; Exportable</td>
                 <td style="padding:10px 14px;text-align:center;color:#ef4444">Cloud Server Lock-in</td>
                 <td style="padding:10px 14px;text-align:center;color:#ef4444">Cloud Server Lock-in</td>
                 <td style="padding:10px 14px;text-align:center;color:#ef4444">Proprietary Cloud Lock-in</td>
@@ -13073,7 +13289,7 @@ dialog.zf-closing::backdrop {
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:1px solid var(--line)">
           <span style="font-size:12px;color:var(--muted)">Connect with Mohammed Ali Quadri / CodeWithAli:</span>
           <div style="display:flex;gap:10px">
-            <a href="mailto:ali@codewithali.com" class="btn sm" style="text-decoration:none">✉️ ali@codewithali.com</a>
+            <a href="mailto:support@zestflow.com" class="btn sm" style="text-decoration:none">✉️ support@zestflow.com</a>
             <a href="https://github.com/mdaliquadri-786" target="_blank" rel="noopener" class="btn sm" style="text-decoration:none">🐙 GitHub</a>
           </div>
         </div>
@@ -13358,7 +13574,7 @@ dialog.zf-closing::backdrop {
     }
     if (pLogo) {
       const logoUrl = S.settings.business && S.settings.business.logo;
-      pLogo.innerHTML = logoUrl ? `<img src="${logoUrl}" style="max-width:100%;max-height:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:14px;color:var(--muted)">🏢</span>`;
+      pLogo.innerHTML = logoUrl ? `<img src="${esc(logoUrl)}" style="max-width:100%;max-height:100%;object-fit:contain" alt="Logo">` : `<span style="font-size:14px;color:var(--muted)">🏢</span>`;
     }
   }
 
@@ -13673,16 +13889,16 @@ dialog.zf-closing::backdrop {
   }
 
   function fillSig(){
-    const p=$('#sigPrevS');if(p)p.innerHTML=S.settings.signature?`<img src="${S.settings.signature}" alt="Your saved signature">`:'No signature yet';
-    const l=$('#logoPrev');if(l)l.innerHTML=S.settings.business.logo?`<img src="${S.settings.business.logo}" alt="Your logo">`:'No logo yet';
+    const p=$('#sigPrevS');if(p)p.innerHTML=S.settings.signature?`<img src="${esc(S.settings.signature)}" alt="Your saved signature">`:'No signature yet';
+    const l=$('#logoPrev');if(l)l.innerHTML=S.settings.business.logo?`<img src="${esc(S.settings.business.logo)}" alt="Your logo">`:'No logo yet';
     const wsLogo = $('#wsLogoThumb');
     if (wsLogo) {
-      wsLogo.innerHTML = S.settings.business.logo ? `<img src="${S.settings.business.logo}" style="max-height:44px;max-width:100%;object-fit:contain" alt="Logo">` : '<span style="font-size:11px;color:var(--muted)">No Logo</span>';
+      wsLogo.innerHTML = S.settings.business.logo ? `<img src="${esc(S.settings.business.logo)}" style="max-height:44px;max-width:100%;object-fit:contain" alt="Logo">` : '<span style="font-size:11px;color:var(--muted)">No Logo</span>';
     }
     const wsSig = $('#wsSigThumb');
     if (wsSig) {
       const sImg = S.settings.signature || (S.settings.business && S.settings.business.signature);
-      wsSig.innerHTML = sImg ? `<img src="${sImg}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : '<span style="font-size:11px;color:var(--muted)">No Signature</span>';
+      wsSig.innerHTML = sImg ? `<img src="${esc(sImg)}" style="max-height:40px;max-width:100%;object-fit:contain" alt="Signature">` : '<span style="font-size:11px;color:var(--muted)">No Signature</span>';
     }
     if (typeof updateWsLivePreview === 'function') updateWsLivePreview();
   }
@@ -13859,24 +14075,42 @@ dialog.zf-closing::backdrop {
     if(!inv)return false;
     if(!isStrictNum(entry.amount)||num(entry.amount)<=0)return false;
     if(!parseISO(entry.date))return false;
+    const isRefund = entry.type === 'refund';
+    const amountMinor = toMinor(entry.amount);
+    if (amountMinor <= 0 || isNaN(amountMinor)) return false;
+    const curCalc = calc(inv);
+    if(isRefund && amountMinor > curCalc.netPaidMinor) {
+      return false; // Guard: Cannot refund more than net amount collected
+    }
+    if(!isRefund && entry.method && entry.method !== 'Advance' && !entry.isAdvance && !entry.allowOverpayment && amountMinor > (curCalc.balanceMinor + 100)) {
+      return false; // Guard: Cannot overpay beyond balance due unless explicitly Advance
+    }
     inv.payments=Array.isArray(inv.payments)?inv.payments:[];
     inv.payments.push(normPayment({
       id:uid(),
       date:entry.date,
-      amountMinor:toMinor(entry.amount),
-      method:entry.method||'Bank Transfer',
+      amountMinor,
+      method:entry.method||(isRefund?'Refund':'Bank Transfer'),
       note:entry.note||'',
-      type:entry.type==='refund'?'refund':'payment'
+      type:isRefund?'refund':'payment'
     }));
     const c=calc(inv);
     if(c.total>0&&c.netPaidMinor>=c.total){
       inv.status='paid';
       inv.paidDate=entry.date||todayISO();
-    }else if(c.netPaidMinor>0){
-      if(inv.status==='draft'||inv.status==='paid')inv.status='sent';
+    }else{
+      if(inv.status==='paid'||inv.status==='draft')inv.status='sent';
       inv.paidDate='';
     }
     inv.updated=Date.now();
+    try {
+      if (typeof logHistory === 'function') {
+        const actionStr = isRefund ? 'Refund recorded' : 'Payment recorded';
+        const noteStr = (isRefund ? 'Refund' : 'Payment') + ' of ' + fmtMoney(amountMinor, inv.currency || 'USD') + ' via ' + (entry.method || (isRefund ? 'Refund' : 'Default'));
+        logHistory(inv, actionStr, noteStr);
+      }
+    } catch(e) {}
+    try { if (typeof enqueueInvoiceMutation === 'function') enqueueInvoiceMutation(inv); } catch(e){}
     return true;
   }
   function applyBackupImport(rawPayload,mode){
@@ -14076,14 +14310,15 @@ dialog.zf-closing::backdrop {
     }
     if(t.id==='q'||t.id==='qInvo'||t.id==='qCash'||t.id==='qInvoMini'||(t.dataset&&t.dataset.act==='search-cash')){
       ui.q=t.value;
-      const activeId = t.id;
-      const pos = t.selectionStart != null ? t.selectionStart : t.value.length;
-      if(ui.currentPage!=='invoices'){
-        navigate('invoices',{q:t.value, force: true});
-        const el = activeId ? document.getElementById(activeId) : $('#q');
-        if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch(err){} }
-      } else {
+      if(ui.currentPage==='invoices'){
         renderInvoicesSplit();
+      } else if(ui.currentPage==='dashboard'){
+        // Filter dashboard view without disruptive scroll jump
+        clearTimeout(window._dashSearchTimer);
+        window._dashSearchTimer = setTimeout(() => {
+          ui.dashClientFilter = t.value ? t.value : 'all';
+          render();
+        }, 250);
       }
       const qMain = $('#q');
       if (qMain && qMain !== t) qMain.value = t.value;
@@ -14092,13 +14327,31 @@ dialog.zf-closing::backdrop {
     if(t.id==='aiPromptInput'){
       const wc=$('.invo-word-count');
       if(wc){
-        const w=t.value.trim()?t.value.trim().split(/\s+/).length:0;
-        wc.textContent=w+' / 200 words';
+        const words = t.value.trim() ? t.value.trim().split(/\s+/) : [];
+        if (words.length > 200) {
+          t.value = words.slice(0, 200).join(' ');
+        }
+        const w = t.value.trim() ? t.value.trim().split(/\s+/).length : 0;
+        wc.textContent = w + ' / 200 words';
       }
     }
     if(ed&&t.dataset.f){
       const path=t.dataset.f;let v=t.type==='checkbox'?t.checked:t.value;
       setPath(ed.inv,path,v);ed.dirty=true;
+      if(path==='issue'){
+        if(ed.inv.due && ed.inv.due < v){
+          ed.inv.due = v;
+          const dFld = $('[data-f="due"]');
+          if(dFld) dFld.value = v;
+        }
+      }
+      if(path==='due'){
+        if(ed.inv.issue && v < ed.inv.issue){
+          ed.inv.due = ed.inv.issue;
+          t.value = ed.inv.issue;
+          toast('Due date cannot be earlier than invoice issue date.', 'info');
+        }
+      }
       if(path==='lang'){
         const prev=ed.inv.taxLabel;
         if(!prev||Object.values(TAX_DEFAULT).includes(prev)){
@@ -14312,10 +14565,13 @@ dialog.zf-closing::backdrop {
       }
       case 'dash-check-all':{
         const isChecked=b.checked;
-        const currentList=S.invoices||[];
+        // Strictly select only visible invoices currently rendered in the table
+        const visibleList = (typeof getDashFilteredInvoices === 'function') 
+          ? getDashFilteredInvoices() 
+          : (S.invoices || []).slice(0, 8);
         ui.dashSelectedIds=ui.dashSelectedIds||new Set();
         if(isChecked){
-          currentList.forEach(i=>ui.dashSelectedIds.add(i.id));
+          visibleList.forEach(i=>ui.dashSelectedIds.add(i.id));
         }else{
           ui.dashSelectedIds.clear();
         }
@@ -14328,6 +14584,13 @@ dialog.zf-closing::backdrop {
           if(ui.dashSelectedIds.has(id))ui.dashSelectedIds.delete(id);
           else ui.dashSelectedIds.add(id);
         }
+        render();
+        break;
+      }
+            case 'clear-samples':{
+        S.invoices = (S.invoices || []).filter(i => !i.sample);
+        persist();
+        toast('Demo sample invoices removed!', 'ok');
         render();
         break;
       }
@@ -14441,7 +14704,8 @@ dialog.zf-closing::backdrop {
         break;
       case 'mark-sent':{
         const inv=S.invoices.find(x=>x.id===id);if(!inv)break;
-        inv.status='sent';inv.paidDate='';inv.payments=[];inv.updated=Date.now();
+        inv.status='sent';inv.paidDate='';inv.updated=Date.now();
+        try { if (typeof enqueueInvoiceMutation === 'function') enqueueInvoiceMutation(inv); } catch(e){}
         persist();renderInvoicesSplit();toast(inv.number+' marked as Sent','ok');
         break;
       }
@@ -14453,6 +14717,7 @@ dialog.zf-closing::backdrop {
           inv.payments.push(normPayment({id:uid(),date:todayISO(),amountMinor:c.balanceMinor,method:'Settled',note:'Marked as paid',type:'payment'}));
         }
         inv.status='paid';inv.paidDate=todayISO();inv.updated=Date.now();
+        try { if (typeof enqueueInvoiceMutation === 'function') enqueueInvoiceMutation(inv); } catch(e){}
         persist();renderInvoicesSplit();toast(inv.number+' marked as Paid','ok');
         break;
       }
@@ -14464,15 +14729,32 @@ dialog.zf-closing::backdrop {
         break;
       case 'pay-dlg-save':{
         const inv=S.invoices.find(x=>x.id===payTargetId);if(!inv)break;
+        const pType = $('#payType').value;
+        const pAmtStr = $('#payAmt').value;
+        const pMethod = $('#payMethod').value;
+        const c = calc(inv);
+        if(!isStrictNum(pAmtStr) || num(pAmtStr) <= 0){
+          toast('Please enter a valid positive payment amount.', 'err');
+          break;
+        }
+        const amtMinor = toMinor(pAmtStr);
+        if(pType === 'refund' && amtMinor > c.netPaidMinor){
+          toast('Refund amount cannot exceed net collected balance (' + fmtMoney(c.netPaidMinor, inv.currency) + ').', 'err');
+          break;
+        }
+        if(pType === 'payment' && amtMinor > (c.balanceMinor + 1) && pMethod !== 'Advance'){
+          toast('Payment cannot exceed outstanding balance (' + fmtMoney(c.balanceMinor, inv.currency) + '). Select Advance method for extra funds.', 'err');
+          break;
+        }
         const ok=recordPaymentOnInvoice(inv,{
-          type:$('#payType').value,
-          amount:$('#payAmt').value,
+          type:pType,
+          amount:pAmtStr,
           date:$('#payDate').value,
-          method:$('#payMethod').value,
+          method:pMethod,
           note:$('#payNote').value
         });
         if(!ok){toast('Enter a valid positive amount and date.','err');break}
-        persist();closeDialogSmooth($('#payDlg'));render();toast('Payment entry saved','ok');
+        persist();closeDialogSmooth($('#payDlg'));render();toast('Payment entry recorded securely','ok');
         break;
       }
       case 'pay-del':{
@@ -14545,22 +14827,32 @@ dialog.zf-closing::backdrop {
       }
       case 'convert-to-inv':{
         const src=(id&&S.invoices.find(x=>x.id===id))||(ed&&ed.inv)||null;if(!src)break;
-        src.title='invoice';src.number=makeNumber();S.settings.defaults.next++;
-        logHistory(src,'Converted to Invoice '+src.number);
+        const newInv=clone(src);
+        newInv.id=uid();
+        newInv.title='invoice';
+        newInv.number=makeNumber('invoice');
+        S.settings.defaults.next++;
+        newInv.notes=(newInv.notes?newInv.notes+'\n':'')+'Generated from Quote #'+src.number;
+        newInv.history=[];
+        logHistory(newInv,'Converted from Quote '+src.number);
+        src.status='sent';
+        logHistory(src,'Converted to Invoice '+newInv.number);
+        S.invoices.unshift(newInv);
+        ui.selectedId=newInv.id;
         persist();updateNavCounts();
         if(ui.currentPage==='editor'){
-          ed={inv:src,isNew:false,dirty:false};
+          ed={inv:newInv,isNew:false,dirty:false};
           render();
         } else {
           renderInvoicesSplit();
         }
-        toast('Converted to Invoice '+src.number,'ok');
+        toast('Generated Invoice '+newInv.number+' (Quote '+src.number+' preserved)','ok');
         break;
       }
       case 'make-credit-note':{
         const src=(id&&S.invoices.find(x=>x.id===id))||(ed&&ed.inv)||null;if(!src)break;
-        const cn=normInvoice(clone(src));cn.id=uid();cn.title='credit';cn.number='CN-'+(src.number?src.number.replace(/^[A-Za-z]+-?/,''):Math.floor(1000+Math.random()*9000));
-        cn.status='paid';cn.watermark='CANCELLED';cn.payments=[];
+        const cn=normInvoice(clone(src));cn.id=uid();cn.title='credit';cn.number=makeNumber('credit');
+        cn.status='paid';cn.watermark='CREDIT NOTE';cn.payments=[];
         cn.notes=(cn.notes?cn.notes+'\n':'')+'Credit Note issued against invoice '+src.number+' for adjustment / refund.';
         logHistory(cn,'Created Credit Note for '+src.number);
         S.invoices.unshift(cn);ui.selectedId=cn.id;
@@ -14576,8 +14868,8 @@ dialog.zf-closing::backdrop {
       }
       case 'make-debit-note':{
         const src=(id&&S.invoices.find(x=>x.id===id))||(ed&&ed.inv)||null;if(!src)break;
-        const dn=normInvoice(clone(src));dn.id=uid();dn.title='debit';dn.number='DN-'+(src.number?src.number.replace(/^[A-Za-z]+-?/,''):Math.floor(1000+Math.random()*9000));
-        dn.status='paid';dn.watermark='CANCELLED';dn.payments=[];
+        const dn=normInvoice(clone(src));dn.id=uid();dn.title='debit';dn.number=makeNumber('debit');
+        dn.status='paid';dn.watermark='DEBIT NOTE';dn.payments=[];
         dn.notes=(dn.notes?dn.notes+'\n':'')+'Debit Note issued against vendor bill '+src.number+' for return / adjustment.';
         logHistory(dn,'Created Debit Note for '+src.number);
         S.invoices.unshift(dn);ui.selectedId=dn.id;
@@ -14661,7 +14953,12 @@ dialog.zf-closing::backdrop {
       }
       case 'del':{
         const inv=S.invoices.find(x=>x.id===id);if(!inv)break;
-        if(await ask('Delete '+inv.number+'?','This cannot be undone. Export a backup first if you are not sure.','Delete',true)){
+        const isPaid = effStatus(inv) === 'paid';
+        const msg = isPaid 
+          ? 'WARNING: ' + inv.number + ' is marked as PAID (' + fmtMoney(calc(inv).netPaidMinor, inv.currency) + ' collected). In statutory accounting, deleting a paid tax invoice alters historical ledger balances.\n\nAre you sure you want to permanently delete it, or would you prefer to VOID it instead?'
+          : 'This cannot be undone. Export a backup first if you are not sure.';
+        const confirmBtn = isPaid ? 'Delete Paid Invoice' : 'Delete';
+        if(await ask('Delete '+inv.number+'?', msg, confirmBtn, true)){
           const delVer = inv._version || 1;
           S.invoices=S.invoices.filter(x=>x.id!==id);
           persist();updateNavCounts();render();toast('Deleted');
@@ -14671,19 +14968,29 @@ dialog.zf-closing::backdrop {
         }
         break;
       }
+      case 'add-client-prompt':{
+        const name = window.prompt('Enter client or company legal name:');
+        if(!name || !name.trim()) break;
+        const email = window.prompt('Enter client billing email (optional):') || '';
+        const phone = window.prompt('Enter client phone / WhatsApp number (optional):') || '';
+        await navigate('editor', { prefillClient: { name: name.trim(), email: email.trim(), phone: phone.trim(), address: '', taxId: '' } });
+        toast(`Client draft initiated for '${name.trim()}'`, 'ok');
+        break;
+      }
       case 'client-filter':
         await navigate('invoices',{filter:'all',q:b.dataset.client||''});
         break;
       case 'client-soa':{
         const g=getClientGroups()[+b.dataset.idx];
         if(!g) break;
-        const clientInvs=S.invoices.filter(i=>(i.client.name||'').trim().toLowerCase()===g.name.toLowerCase()&&i.status!=='void');
+        /* Exclude existing SOAs from recursive debt loop */
+        const clientInvs=S.invoices.filter(i=>(i.client.name||'').trim().toLowerCase()===g.name.toLowerCase()&&i.status!=='void'&&i.title!=='statement');
         const items=clientInvs.map(inv=>{
           const c=calc(inv);
           const st=effStatus(inv).toUpperCase();
           return {
             id:uid(),
-            description:`${normDocTitle(inv.title||'invoice').toUpperCase()} #${inv.number} (Date: ${inv.issue}, Status: ${st})`,
+            desc:`${normDocTitle(inv.title||'invoice').toUpperCase()} #${inv.number} (Date: ${inv.issue}, Status: ${st})`,
             qty:1,
             rate:Math.round(c.total)/100,
             amount:Math.round(c.total)/100,
@@ -14691,7 +14998,7 @@ dialog.zf-closing::backdrop {
           };
         });
         if(!items.length){
-          items.push({id:uid(),description:'Periodic Statement of Account Ledger Balance',qty:1,rate:0,amount:0,taxRate:0});
+          items.push({id:uid(),desc:'Periodic Statement of Account Ledger Balance',qty:1,rate:0,amount:0,taxRate:0});
         }
         const curr=clientInvs[0]?.currency||S.settings.defaults.currency||'USD';
         const docNum='SOA-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
@@ -14984,7 +15291,7 @@ dialog.zf-closing::backdrop {
         const em = ($('#authEmailInput') && $('#authEmailInput').value || '').trim().toLowerCase();
         const pw = ($('#authPassInput') && $('#authPassInput').value || '');
         if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-          showAuthMsg('Please enter a valid email address (e.g. ali@codewithali.com).', true);
+          showAuthMsg('Please enter a valid email address (e.g. user@example.com).', true);
           const inp = $('#authEmailInput'); if (inp) inp.focus();
           break;
         }
@@ -15057,7 +15364,7 @@ dialog.zf-closing::backdrop {
         const em = ($('#authEmailInput') && $('#authEmailInput').value || '').trim().toLowerCase();
         const pw = ($('#authPassInput') && $('#authPassInput').value || '');
         if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-          showAuthMsg('Please enter a valid email address (e.g. ali@codewithali.com).', true);
+          showAuthMsg('Please enter a valid email address (e.g. user@example.com).', true);
           const inp = $('#authEmailInput'); if (inp) inp.focus();
           break;
         }
@@ -15125,9 +15432,24 @@ dialog.zf-closing::backdrop {
         render();
         break;
       }
+      case 'search-cash':{
+        if(b && typeof b.focus === 'function') b.focus();
+        break;
+      }
       case 'cash-more-options':{
-        const title = b.dataset.title || 'Invoices';
-        await navigate('invoices', { filter: 'all', q: '' });
+        const title = (b.dataset.title || '').toLowerCase();
+        if (title.includes('cashflow')) {
+          await navigate('reports');
+        } else if (title.includes('outflow')) {
+          await navigate('payment');
+        } else {
+          await navigate('invoices', { filter: 'all', q: '' });
+        }
+        break;
+      }
+      case 'focus-ai-prompt':{
+        const inp = $('#aiPromptInput');
+        if (inp) { inp.focus(); toast('Describe your invoice details below', 'info'); }
         break;
       }
       case 'filter-tpl-cat':{
@@ -15279,26 +15601,29 @@ dialog.zf-closing::backdrop {
       }
       case 'export-pnl-csv':{
         const cur = S.settings.defaults.currency || 'INR';
-        const headers = ['Invoice Number', 'Client Name', 'Client GSTIN', 'Issue Date', 'Due Date', 'Status', 'Taxable Amount', 'Tax Rate %', 'Tax Amount', 'Total Amount', 'Settled Amount', 'Outstanding Balance'];
+        const headers = ['Invoice Number', 'Currency', 'Client Name', 'Client GSTIN', 'Issue Date', 'Due Date', 'Status', 'Taxable Amount', 'Tax Rate %', 'Tax Amount', 'Total Amount', 'Settled Amount', 'Outstanding Balance'];
         const rows = (S.invoices || []).map(i => {
           const c = calc(i);
+          const taxableAmt = c.taxable != null ? c.taxable : c.sub;
+          const settledAmt = c.netPaidMinor != null ? c.netPaidMinor : (c.paidAmountMinor || 0);
           return [
             i.number,
+            i.currency || cur,
             (i.client && i.client.name) || '',
             (i.client && i.client.taxId) || '',
             i.issue,
             i.due,
-            i.status,
-            (c.subtotal / 100).toFixed(2),
+            effStatus(i).toUpperCase(),
+            (taxableAmt / 100).toFixed(2),
             i.taxRate || '0',
             (c.tax / 100).toFixed(2),
             (c.total / 100).toFixed(2),
-            (c.paidAmountMinor / 100).toFixed(2),
+            (settledAmt / 100).toFixed(2),
             (c.balanceMinor / 100).toFixed(2)
           ];
         });
-        const csvContent = [headers.join(','), ...rows.map(r => r.map(f => '"' + String(f).replace(/"/g, '""') + '"').join(','))].join('\n');
-        download('ZestFlow-Financial-P&L-Report-' + todayISO() + '.csv', csvContent, 'text/csv');
+        const csvContent = [headers.map(csvCell).join(','), ...rows.map(r => r.map(csvCell).join(','))].join('\r\n');
+        download('ZestFlow-Financial-P&L-Report-' + todayISO() + '.csv', csvContent, 'text/csv;charset=utf-8;');
         toast('Exported financial P&L report CSV!', 'ok');
         break;
       }
@@ -15601,7 +15926,9 @@ dialog.zf-closing::backdrop {
       case 'wipe':
         if(await ask('Delete everything?','All invoices, business details and signature will be removed from this browser. A rollback snapshot will be saved first.','Delete everything',true)){
           saveSnapshot('pre-wipe');
-          S.settings=normSettings({});S.invoices=[];persist();updateNavCounts();render();toast('All data deleted (Undo available in Settings)');
+          S.settings=normSettings({});S.invoices=[];
+          try { if (typeof localStorage !== 'undefined') { localStorage.removeItem('zf_cloud_head_seq'); localStorage.removeItem('zf_cloud_last_synced_at'); } } catch(e){}
+          persist();updateNavCounts();render();toast('All local data deleted (Undo available in Settings)');
         }
         break;
       case 'logo-pick':
@@ -15670,9 +15997,10 @@ dialog.zf-closing::backdrop {
         if(upi)msg+=`• UPI ID for Instant Payment: *${upi}*\n`;
         msg+=`\nThank you for your business!`;
         const rawPhone=(targetInv.client&&targetInv.client.phone)||'';
-        const cleanPhone=rawPhone.replace(/\D/g,'');
+        let cleanPhone=rawPhone.replace(/\D/g,'');
+        if(cleanPhone.length===10) cleanPhone='91'+cleanPhone;
         const waUrl=cleanPhone?`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl,'_blank','noopener');
+        window.open(waUrl,'_blank','noopener,noreferrer');
         toast('Opening WhatsApp share...','ok');
         break;
       }
@@ -15717,11 +16045,11 @@ dialog.zf-closing::backdrop {
         }else if(nextStatus==='sent'){
           inv.status='sent';
           inv.paidDate='';
-          inv.payments=[];
+          // Preserve payment history on status cycle!
         }else{
           inv.status='draft';
           inv.paidDate='';
-          inv.payments=[];
+          // Preserve payment history on status cycle!
         }
         inv.updated=Date.now();
         persist();
@@ -15740,6 +16068,7 @@ dialog.zf-closing::backdrop {
         break;
       }
       case 'dismiss-guide-banner':{
+        if(typeof localStorage !== 'undefined') localStorage.setItem('zf_guide_dismissed','true');
         if(typeof sessionStorage !== 'undefined') sessionStorage.setItem('zf_guide_dismissed_session','true');
         showBanner();
         break;
@@ -15782,6 +16111,12 @@ dialog.zf-closing::backdrop {
       e.preventDefault();
       ui.selectedId=row.dataset.id||'';
       renderInvoicesSplit();
+      return;
+    }
+    const interactiveBtn = e.target && e.target.closest && e.target.closest('[role="button"][data-act]');
+    if(interactiveBtn && (e.key==='Enter'||e.key===' ')){
+      e.preventDefault();
+      interactiveBtn.click();
       return;
     }
     const tag=(e.target.tagName||'').toLowerCase(),typing=['input','textarea','select'].includes(tag);
@@ -15838,14 +16173,32 @@ dialog.zf-closing::backdrop {
       dot.style.opacity = '1';
       ring.style.opacity = '1';
     });
+    if (typeof window !== 'undefined' && window.matchMedia && (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(pointer: coarse)').matches)) {
+      if (dot) dot.style.display = 'none';
+      if (ring) ring.style.display = 'none';
+      return;
+    }
+    let isCursorRunning = false;
     function animateRing(){
-      ringX += (mouseX - ringX) * 0.22;
-      ringY += (mouseY - ringY) * 0.22;
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      ringX += dx * 0.22;
+      ringY += dy * 0.22;
       const scale = isMouseDown ? ' scale(0.85)' : '';
       ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)' + scale;
-      if (typeof requestAnimationFrame !== 'undefined') requestAnimationFrame(animateRing);
+      if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+        if (typeof requestAnimationFrame !== 'undefined') requestAnimationFrame(animateRing);
+      } else {
+        isCursorRunning = false;
+      }
     }
-    if (typeof requestAnimationFrame !== 'undefined') requestAnimationFrame(animateRing);
+    function wakeCursor() {
+      if (!isCursorRunning) {
+        isCursorRunning = true;
+        if (typeof requestAnimationFrame !== 'undefined') requestAnimationFrame(animateRing);
+      }
+    }
+    window.addEventListener('mousemove', () => wakeCursor());
 
     document.addEventListener('mouseover', e => {
       const t = e.target;
@@ -15863,6 +16216,20 @@ dialog.zf-closing::backdrop {
       }
     });
   })();
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('online', () => {
+      if (typeof syncEngine !== 'undefined' && syncEngine.token) {
+        toast('Network connection restored · Synchronizing...', 'ok');
+        syncEngine.scheduleDrain();
+      }
+    });
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof location !== 'undefined' && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  }
 
 showBanner();
 render();
@@ -15906,13 +16273,6 @@ render();
           "name": "ZestFlow Financial Technologies",
           "url": "https://zestflow-seven.vercel.app/",
           "logo": "https://zestflow-seven.vercel.app/assets/logo_2d.jpg"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "142",
-          "bestRating": "5",
-          "worstRating": "1"
         }
       },
       {
