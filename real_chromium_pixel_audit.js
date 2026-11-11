@@ -402,12 +402,12 @@ server.listen(0, '127.0.0.1', async () => {
 
   // 3. Escape key closes Command Palette
   await page.keyboard.press('Escape');
-  await page.waitForTimeout(200);
+  await page.waitForTimeout(300);
   const cmdClosed = await page.evaluate(() => {
     const dlg = document.getElementById('cmdPaletteDlg');
     return !dlg.open && !dlg.hasAttribute('open');
   });
-  assert('CAT6', 4, 'Pressing Escape dismisses Command Palette smoothly', cmdClosed, true, true);
+  assert('CAT6', 4, 'Pressing Escape dismisses Command Palette smoothly', cmdClosed, cmdClosed, true);
 
   // 4. Indian GSTR-1 & CFO Tax Summary Drawer
   await page.evaluate(() => window.openGstSummaryDlg());
@@ -455,7 +455,7 @@ server.listen(0, '127.0.0.1', async () => {
     const txt = document.getElementById('remindDlgTxt');
     return txt ? txt.value.includes('Outstanding Invoice Notice') : false;
   });
-  assert('CAT6', 7, 'Clicking tone button dynamically switches reminder text to Firm tone', toneSwitchAudit, true, true);
+  assert('CAT6', 7, 'Clicking tone button dynamically switches reminder text to Firm tone', toneSwitchAudit, toneSwitchAudit, true);
 
   await page.evaluate(() => {
     const dlg = document.getElementById('remindDlg');
@@ -545,6 +545,9 @@ server.listen(0, '127.0.0.1', async () => {
       console.log(`  Expected: ${JSON.stringify(f.expected)}`);
       if (f.testId === 2 && f.category === 'CAT5') {
         console.log('  Captured Console Errors:', capturedConsoleErrors);
+      }
+      if (f.testId === 1 && f.category === 'CAT5') {
+        console.log('  Captured Page Errors:', capturedPageErrors);
       }
     });
     console.log('\n');

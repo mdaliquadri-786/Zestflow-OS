@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-cwVADqHKd5SFJKdjuZtTtkJzP8fy1WFXD/uZTYy/b5I='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-77CBcHGRhxfldfG62aLGmPje01ij1UvFIX+R5spG42k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -448,7 +448,10 @@
     background:var(--surface);
     border:1px solid var(--line);
     border-radius:var(--radius);
-    overflow:hidden;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    min-width:0;
   }
   .inv-row{
     display:grid;
@@ -475,13 +478,13 @@
     background:rgba(228,181,88,.08);
     box-shadow:inset 3px 0 0 var(--gold);
   }
-  .c-no{font-weight:600;font-variant-numeric:tabular-nums;color:var(--text)}
-  .c-client{min-width:0}
+  .c-no{font-weight:600;font-variant-numeric:tabular-nums;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .c-client{min-width:0;overflow:hidden}
   .c-client b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .c-client span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .c-date{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .c-date{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
   .c-date em{display:block;font-style:normal;font-size:12px;color:var(--danger)}
-  .c-amt{text-align:end;font-weight:600;font-variant-numeric:tabular-nums}
+  .c-amt{text-align:end;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 
   /* Sticky Right Inspector */
   .inspector{
@@ -1851,6 +1854,10 @@ dialog.zf-closing::backdrop {
     .batch-page:last-child{page-break-after:avoid;break-after:avoid}
     .ph{display:none}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .p-tbl thead{display:table-header-group!important}
+    .p-tbl tfoot{display:table-footer-group!important}
+    .p-tbl tr{break-inside:avoid!important;page-break-inside:avoid!important}
+    .p-sig,.p-qr-wrap,.p-qr-box,.zf-audit-badge,.p-audit-badge,.p-tot,.p-foot,.p-meta,.invo-audit-card,.audit-timeline{break-inside:avoid!important;page-break-inside:avoid!important}
   }
 
   /* ========================================================
@@ -6221,8 +6228,27 @@ dialog.zf-closing::backdrop {
     return ['session', 'cloud', 'offline'].includes(m) ? m : 'cloud';
   }
 
+  async function zfFetchWithTimeout(url, opts, timeoutMs) {
+    timeoutMs = timeoutMs || 12000;
+    const controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => {
+      try { controller.abort(); } catch (_) {}
+    }, timeoutMs) : null;
+    try {
+      const finalOpts = Object.assign({}, opts || {});
+      if (controller && !finalOpts.signal) finalOpts.signal = controller.signal;
+      return await fetch(url, finalOpts);
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
   function openDialogSmooth(dlg) {
     if (!dlg) return;
+    if (dlg._closeTimer) {
+      clearTimeout(dlg._closeTimer);
+      dlg._closeTimer = null;
+    }
     if (dlg.classList && typeof dlg.classList.remove === 'function') dlg.classList.remove('zf-closing');
     if (!dlg.open) {
       try {
@@ -6238,12 +6264,17 @@ dialog.zf-closing::backdrop {
 
   function closeDialogSmooth(dlg, onDone) {
     if (!dlg) { if (onDone) onDone(); return; }
+    if (dlg._closeTimer) {
+      clearTimeout(dlg._closeTimer);
+      dlg._closeTimer = null;
+    }
     const isOpen = dlg.open || (typeof dlg.hasAttribute === 'function' && dlg.hasAttribute('open'));
     if (!isOpen) { if (onDone) onDone(); return; }
     const canAnimate = dlg.classList && typeof dlg.classList.add === 'function' && typeof window !== 'undefined' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     if (canAnimate) {
       dlg.classList.add('zf-closing');
-      setTimeout(() => {
+      dlg._closeTimer = setTimeout(() => {
+        dlg._closeTimer = null;
         if (dlg.classList && typeof dlg.classList.remove === 'function') dlg.classList.remove('zf-closing');
         try {
           if (typeof dlg.close === 'function') dlg.close();
@@ -6358,13 +6389,74 @@ dialog.zf-closing::backdrop {
     });
   }
 
+  function toSqlInvoicePayload(inv) {
+    if (!inv || typeof inv !== 'object') return {};
+    const n = normInvoice(inv);
+    const sqlTaxMode = n.taxMode === 'inclusive' ? 'inclusive' : 'exclusive';
+    const sqlDiscountType = (n.discountType === 'val' || n.discountType === 'fixed' || n.discountType === 'flat') ? 'fixed' : 'percent';
+    const docTitle = n.title || n.type || 'invoice';
+    const extra = Object.assign({}, n.extra || {}, {
+      taxMode: n.taxMode,
+      taxRegime: n.taxRegime || (n.supplierState ? 'gst_in' : 'simple'),
+      discountType: n.discountType,
+      discountValue: n.discountValue !== undefined ? n.discountValue : n.discount,
+      shipping: n.shipping || '0',
+      po: n.po || '',
+      signature: n.signature || '',
+      sample: !!n.sample,
+      history: Array.isArray(n.history) ? n.history : [],
+      upiId: n.upiId || '',
+      paymentLink: n.paymentLink || ''
+    });
+    return {
+      number: n.number || '',
+      title: ['invoice', 'tax', 'quote', 'proforma', 'credit', 'receipt', 'voucher', 'po', 'statement', 'claim'].includes(docTitle) ? docTitle : 'invoice',
+      status: ['draft', 'sent', 'paid', 'void'].includes(n.status) ? n.status : 'draft',
+      currency: (n.currency || 'INR').slice(0, 3).toUpperCase(),
+      lang: ['en', 'ar', 'ur', 'te'].includes(n.lang) ? n.lang : 'en',
+      issue: n.issue && /^\d{4}-\d{2}-\d{2}$/.test(n.issue) ? n.issue : todayISO(),
+      due: n.due && /^\d{4}-\d{2}-\d{2}$/.test(n.due) ? n.due : (n.issue && /^\d{4}-\d{2}-\d{2}$/.test(n.issue) ? n.issue : todayISO()),
+      paidDate: n.paidDate || null,
+      client: {
+        name: (n.client && n.client.name) || '',
+        email: (n.client && n.client.email) || '',
+        phone: (n.client && n.client.phone) || '',
+        address: (n.client && n.client.address) || '',
+        state: (n.client && n.client.state) || '',
+        taxId: (n.client && n.client.taxId) || ''
+      },
+      supplierState: n.supplierState || '',
+      placeOfSupply: n.placeOfSupply || '',
+      taxMode: sqlTaxMode,
+      taxRegime: n.taxRegime || (n.supplierState ? 'gst_in' : 'simple'),
+      taxRate: Number(n.taxRate) || 0,
+      taxLabel: n.taxLabel || 'GST',
+      discountType: sqlDiscountType,
+      discount: Number(n.discount) || 0,
+      roundingMode: n.roundingMode || 'none',
+      items: Array.isArray(n.items) ? n.items : [],
+      payments: Array.isArray(n.payments) ? n.payments : [],
+      history: Array.isArray(n.history) ? n.history : [],
+      recurring: n.recurring || { enabled: false, freq: 'monthly', nextDate: '' },
+      extra: extra,
+      notes: n.notes || '',
+      payment: n.payment || '',
+      upiId: n.upiId || '',
+      paymentLink: n.paymentLink || '',
+      showSignature: !!n.showSignature || !!n.signature,
+      sample: !!n.sample,
+      created: Number(n.created || Date.now()),
+      updated: Number(n.updated || Date.now())
+    };
+  }
+
   function fromSqlInvoicePayload(raw) {
     if (!raw || typeof raw !== 'object') return normInvoice({});
     const extra = (raw.extra && typeof raw.extra === 'object') ? raw.extra : {};
     const hasNestedClient = raw.client && typeof raw.client === 'object';
     const mapped = Object.assign({}, extra, raw, {
       id: raw.id,
-      type: raw.type || raw.title || 'invoice',
+      title: raw.title || raw.type || extra.title || 'invoice',
       number: raw.number || '',
       status: raw.status || 'draft',
       issue: raw.issue || raw.issue_date || extra.issue || todayISO(),
@@ -6382,17 +6474,23 @@ dialog.zf-closing::backdrop {
       },
       items: Array.isArray(raw.items) ? raw.items : [],
       payments: Array.isArray(raw.payments) ? raw.payments : [],
-      discountType: raw.discountType || raw.discount_type || 'pct',
+      discountType: extra.discountType || raw.discountType || (raw.discount_type === 'fixed' ? 'val' : (raw.discount_type === 'percent' ? 'pct' : 'pct')),
       discount: raw.discount !== undefined ? String(raw.discount) : (raw.discount_value !== undefined ? String(raw.discount_value) : (raw.discountValue !== undefined ? String(raw.discountValue) : '0')),
-      discountValue: raw.discountValue !== undefined ? raw.discountValue : (raw.discount_value !== undefined ? raw.discount_value : (raw.discount !== undefined ? String(raw.discount) : '0')),
-      taxMode: raw.taxMode || raw.tax_mode || 'cgst_sgst',
+      discountValue: extra.discountValue !== undefined ? extra.discountValue : (raw.discountValue !== undefined ? raw.discountValue : (raw.discount_value !== undefined ? raw.discount_value : (raw.discount !== undefined ? String(raw.discount) : '0'))),
+      taxMode: extra.taxMode || raw.taxMode || raw.tax_mode || 'exclusive',
+      taxRegime: raw.taxRegime || raw.tax_regime || extra.taxRegime || 'simple',
       taxLabel: raw.taxLabel || raw.tax_label || 'GST',
-      taxRate: raw.taxRate !== undefined ? raw.taxRate : (raw.tax_rate !== undefined ? String(raw.tax_rate) : '18'),
-      shipping: raw.shipping !== undefined ? raw.shipping : '0',
+      taxRate: raw.taxRate !== undefined ? String(raw.taxRate) : (raw.tax_rate !== undefined ? String(raw.tax_rate) : '18'),
+      shipping: extra.shipping !== undefined ? String(extra.shipping) : (raw.shipping !== undefined ? String(raw.shipping) : '0'),
       notes: raw.notes !== undefined ? raw.notes : '',
       payment: raw.payment !== undefined ? raw.payment : (raw.payment_instructions !== undefined ? raw.payment_instructions : ''),
       signature: raw.signature !== undefined ? raw.signature : (extra.signature || ''),
+      sample: extra.sample !== undefined ? !!extra.sample : (raw.is_sample !== undefined ? !!raw.is_sample : !!raw.sample),
       recurring: raw.recurring || extra.recurring || { enabled: false, freq: 'monthly', nextDate: '' },
+      history: Array.isArray(extra.history) && extra.history.length ? extra.history : (Array.isArray(raw.history) ? raw.history : []),
+      upiId: raw.upiId !== undefined ? raw.upiId : (raw.upi_id !== undefined ? raw.upi_id : (extra.upiId || '')),
+      paymentLink: raw.paymentLink !== undefined ? raw.paymentLink : (raw.payment_link !== undefined ? raw.payment_link : (extra.paymentLink || '')),
+      extra: extra,
       created: Number(raw.created || raw.created_at_ms || Date.now()),
       updated: Number(raw.updated || raw.updated_at_ms || Date.now())
     });
@@ -6624,7 +6722,7 @@ dialog.zf-closing::backdrop {
     async enqueueInvoiceMutation(id, action, baseVersion, payload) {
       const mutId = 'mut_' + uid() + '_' + Date.now();
       const idempotencyKey = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : ('idmp_' + uid() + '_' + Date.now());
-      const cleanPayload = payload ? clone(payload) : null;
+      const cleanPayload = (payload && action !== 'delete') ? toSqlInvoicePayload(payload) : (payload ? clone(payload) : null);
       const entry = {
         id: mutId,
         userId: this.userId || (verifiedAuthUser && verifiedAuthUser.id) || 'local',
@@ -6726,7 +6824,7 @@ dialog.zf-closing::backdrop {
 
           let res = null;
           try {
-            const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + endpoint, {
+            const fetchRes = await zfFetchWithTimeout(SUPABASE_PERSISTENCE_CONFIG.url + endpoint, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -6735,9 +6833,31 @@ dialog.zf-closing::backdrop {
                 'Prefer': 'return=representation'
               },
               body: JSON.stringify(body)
-            });
+            }, 12000);
             if (fetchRes.ok) {
               res = await fetchRes.json();
+            } else if (fetchRes.status === 401) {
+              const freshSession = (typeof coordinateTokenRefresh === 'function') ? await coordinateTokenRefresh() : null;
+              if (freshSession && freshSession.access_token) {
+                this.token = freshSession.access_token;
+                const retryRes = await zfFetchWithTimeout(SUPABASE_PERSISTENCE_CONFIG.url + endpoint, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_PERSISTENCE_CONFIG.anonKey,
+                    'Authorization': 'Bearer ' + this.token,
+                    'Prefer': 'return=representation'
+                  },
+                  body: JSON.stringify(body)
+                }, 12000);
+                if (retryRes.ok) {
+                  res = await retryRes.json();
+                } else {
+                  throw new Error('HTTP ' + retryRes.status);
+                }
+              } else {
+                throw new Error('HTTP 401 Unauthorized');
+              }
             } else {
               throw new Error('HTTP ' + fetchRes.status);
             }
@@ -6830,7 +6950,7 @@ dialog.zf-closing::backdrop {
         let hasChanges = false;
         while (pagesCount < 20) {
           pagesCount++;
-          const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/sync_pull_changes', {
+          const fetchRes = await zfFetchWithTimeout(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/sync_pull_changes', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -6838,7 +6958,7 @@ dialog.zf-closing::backdrop {
               'Authorization': 'Bearer ' + this.token
             },
             body: JSON.stringify({ p_since_seq: this.lastSeq, p_limit: 100 })
-          });
+          }, 12000);
           if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
           const res = await fetchRes.json();
           if (res.status === 'reconciliation_required') {
@@ -6900,7 +7020,7 @@ dialog.zf-closing::backdrop {
     async executeReconciliation() {
       if (!this.userId || !this.token) return;
       try {
-        const fetchRes = await fetch(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/export_user_workspace', {
+        const fetchRes = await zfFetchWithTimeout(SUPABASE_PERSISTENCE_CONFIG.url + '/rest/v1/rpc/export_user_workspace', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -6908,7 +7028,7 @@ dialog.zf-closing::backdrop {
             'Authorization': 'Bearer ' + this.token
           },
           body: JSON.stringify({})
-        });
+        }, 12000);
         if (!fetchRes.ok) throw new Error('HTTP ' + fetchRes.status);
         const data = await fetchRes.json();
         if (data) {
@@ -7247,8 +7367,11 @@ dialog.zf-closing::backdrop {
         return { enabled, frequency, nextIssue, status, autoSend: Boolean(r.autoSend) };
       })(x.recurring, issueValid),
       notes:str(x.notes,1200),
+      po:str(x.po||(x.extra&&x.extra.po)||'',60),
+      signature:str(x.signature||(x.extra&&x.extra.signature)||'',500000),
       showSignature:!!x.showSignature,
       sample:!!x.sample,
+      extra:(typeof x.extra==='object'&&x.extra!==null)?Object.assign({},x.extra):{},
       created:num(x.created)||Date.now(),
       updated:num(x.updated)||Date.now(),
       _version: Number(x._version) || 1
@@ -8305,11 +8428,11 @@ dialog.zf-closing::backdrop {
       headers['apikey'] = apiKey;
       headers['Authorization'] = 'Bearer ' + apiKey;
     }
-    const res = await fetch(endpoint.replace(/\/?$/, '/') + 'zestflow_sync', {
+    const res = await zfFetchWithTimeout(endpoint.replace(/\/?$/, '/') + 'zestflow_sync', {
       method: 'POST',
       headers,
       body: JSON.stringify(payload)
-    });
+    }, 12000);
     if (!res.ok) {
       throw new Error('Cloud server returned HTTP ' + res.status);
     }
@@ -8408,11 +8531,11 @@ dialog.zf-closing::backdrop {
     const headers = { 'Content-Type': 'application/json' };
     const authToken = ((S.settings.sync && S.settings.sync.apiKey) || (S.settings.business && S.settings.business.webhookSecret) || '').trim();
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
-    const res = await fetch(webhookUrl, {
+    const res = await zfFetchWithTimeout(webhookUrl, {
       method: 'POST',
       headers,
       body: JSON.stringify(payload)
-    });
+    }, 12000);
     if (!res.ok) throw new Error('Email webhook returned status ' + res.status);
     return true;
   }
@@ -8431,7 +8554,7 @@ dialog.zf-closing::backdrop {
       headers['Content-Type'] = 'application/json';
       opts.body = JSON.stringify(opts.body);
     }
-    return fetch(url, Object.assign({}, opts, { headers: headers }));
+    return zfFetchWithTimeout(url, Object.assign({}, opts, { headers: headers }), 12000);
   }
 
   function getStoredAuthSession() {
@@ -8941,6 +9064,8 @@ dialog.zf-closing::backdrop {
     window.generateMultiToneReminder = generateMultiToneReminder;
     window.setRemindTone = setRemindTone;
     window.openRemindModal = openRemindModal;
+    window.toSqlInvoicePayload = toSqlInvoicePayload;
+    window.zfFetchWithTimeout = zfFetchWithTimeout;
   }
 
   async function supabaseEmailAuth(email, password, isSignUp) {
@@ -13743,6 +13868,7 @@ dialog.zf-closing::backdrop {
           cm.style.display = 'block';
           cm.classList.remove('zf-coach-out');
           cm.classList.add('zf-coach-in');
+          clearTimeout(ui._coachDismissTimer);
           clearTimeout(ui._coachTimer);
           ui._coachTimer = setTimeout(() => {
             dismissCoachMark();
@@ -13756,12 +13882,14 @@ dialog.zf-closing::backdrop {
     const cm = $('#settingsCoachMark');
     if (!cm) return;
     clearTimeout(ui._coachTimer);
+    clearTimeout(ui._coachDismissTimer);
     if (cm.classList && typeof window !== 'undefined' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
       cm.classList.remove('zf-coach-in');
       cm.classList.add('zf-coach-out');
-      setTimeout(() => {
+      ui._coachDismissTimer = setTimeout(() => {
         cm.style.display = 'none';
         cm.classList.remove('zf-coach-out');
+        ui._coachDismissTimer = null;
       }, 210);
     } else {
       cm.style.display = 'none';
@@ -14506,8 +14634,13 @@ dialog.zf-closing::backdrop {
 
   function setRemindTone(tone) {
     activeRemindTone = tone;
-    const inv = S.invoices.find(x => x.id === activeRemindInvId);
-    if (!inv) return;
+    let inv = (S.invoices && S.invoices.find(x => x.id === activeRemindInvId)) || (S.invoices && S.invoices[0]);
+    if (!inv) {
+      inv = newInvoice();
+      inv.number = 'INV-SAMPLE';
+      inv.client = { name: 'Sample Client', email: 'client@example.com', phone: '+1234567890' };
+      inv.items = [{ desc: 'Professional Services', qty: '1', rate: '100' }];
+    }
     $$('.tone-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tone === tone);
     });
@@ -15344,7 +15477,7 @@ dialog.zf-closing::backdrop {
         break;
       case 'filter-doc-type':
         ui.docFilter=b.dataset.type||'all';
-        $('.doc-filter-tab').forEach(el=>{
+        $$('.doc-filter-tab').forEach(el=>{
           const match=el.dataset.type===ui.docFilter;
           el.classList.toggle('active',match);
           el.style.background=match?'var(--accent)':'var(--surface)';
@@ -16215,7 +16348,7 @@ dialog.zf-closing::backdrop {
       }
       case 'studio-select-tpl':{
         _studioSelectedTpl = b.dataset.tpl || 'modern';
-        $('.studio-tpl-card').forEach(card => {
+        $$('.studio-tpl-card').forEach(card => {
           const isActive = card.dataset.tpl === _studioSelectedTpl;
           card.classList.toggle('active', isActive);
           card.style.borderColor = isActive ? '#ff5733' : 'var(--line-2)';
@@ -16232,7 +16365,7 @@ dialog.zf-closing::backdrop {
       }
       case 'studio-select-color':{
         _studioSelectedColor = b.dataset.color || '#ff5733';
-        $('.studio-color-pill').forEach(pill => {
+        $$('.studio-color-pill').forEach(pill => {
           const isActive = pill.dataset.color === _studioSelectedColor;
           pill.classList.toggle('active', isActive);
           pill.style.outline = isActive ? ('2px solid ' + _studioSelectedColor) : 'none';
@@ -16243,7 +16376,7 @@ dialog.zf-closing::backdrop {
       }
       case 'studio-select-font':{
         _studioSelectedFont = b.dataset.font || "'Inter', sans-serif";
-        $('.studio-font-pill').forEach(pill => {
+        $$('.studio-font-pill').forEach(pill => {
           const isActive = pill.dataset.font === _studioSelectedFont;
           pill.classList.toggle('active', isActive);
           pill.style.background = isActive ? 'var(--surface)' : 'transparent';
