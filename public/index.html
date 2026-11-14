@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-LYgUIiTol6uzVvvzlJC2UBd5J/P29yaXoSCixOj6h6o=' 'sha256-Q7bFT+oaeCBkx+TAPk5dFlDaxf74DE/om7BEQFnu8aA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-ZHWboJUD/lRTrfw84GXOYV877OKDByggY+hrjUk44+8=' 'sha256-lL+ma5WpAZ4djwaCijcgUSvsIdMV3EKDsFYqwOEXuKs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -17758,7 +17758,9 @@ dialog.zf-closing::backdrop {
         toast('Generating invoice with Gemini AI...','info');
         try {
           const aiData = await generateInvoiceWithGeminiAI(val);
-          const clientObj = (aiData.client && typeof aiData.client === 'object') ? normClient(aiData.client) : normClient({ name: String(aiData.client || 'Client') });
+          const clientObj = (aiData.client && typeof aiData.client === 'object') ? 
+            { name: aiData.client.name || 'Client', email: aiData.client.email || '', address: aiData.client.address || '', phone: '', taxId: '', state: '' } : 
+            { name: String(aiData.client || 'Client'), email: '', address: '', phone: '', taxId: '', state: '' };
           const inv = newInvoice(clientObj);
           if (Array.isArray(aiData.items) && aiData.items.length) {
             inv.items = aiData.items.map(it => ({
