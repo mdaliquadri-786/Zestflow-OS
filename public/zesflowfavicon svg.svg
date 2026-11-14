@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="zfBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#161922"/>
+      <stop offset="100%" stop-color="#090A0D"/>
+    </linearGradient>
+    <linearGradient id="zfGold" x1="12" y1="14" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F6D58E"/>
+      <stop offset="55%" stop-color="#E4B558"/>
+      <stop offset="100%" stop-color="#B88628"/>
+    </linearGradient>
+    <linearGradient id="zfEmerald" x1="14" y1="48" x2="52" y2="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22A86B"/>
+      <stop offset="100%" stop-color="#48E59C"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#zfBg)" stroke="#E4B558" stroke-opacity="0.32" stroke-width="2"/>
+  <path d="M16 17H46L40 25H16V17Z" fill="url(#zfGold)"/>
+  <path d="M24 39H48V47H18L24 39Z" fill="url(#zfGold)"/>
+  <path d="M14 47L30 29L36 35L50 17" stroke="url(#zfEmerald)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.5" fill="#48E59C"/>
+</svg>

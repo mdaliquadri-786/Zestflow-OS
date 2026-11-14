@@ -1,0 +1,8 @@
+# robots.txt for ZestFlow OS (https://zestflow-seven.vercel.app)
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Host and Sitemap specification for Googlebot, Bingbot, and web crawlers
+Host: https://zestflow-seven.vercel.app
+Sitemap: https://zestflow-seven.vercel.app/sitemap.xml

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "node -e \"console.log('Build OK: Single-file production bundle verified.')\"",
+    "build": "node build.js",
     "lint": "node -e \"console.log('Lint OK: Zero syntax anomalies.')\"",
     "test": "node test-all.js && node massive_100_stress_benchmark.js && node ceo_grade_rea_and_dom_torture_audit.js && node test_360_zero_defect_overhaul.js",
     "test:ceo": "node ceo_grade_rea_and_dom_torture_audit.js",
