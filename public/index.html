@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-zEQlIiIpErd6TRGl0teQ2b9jhHEWlX48VvOqFtsLrT0=' 'sha256-AFeDurV5YA0l8cPO0xM+gTU5g0qFXp7XgpF77H3VGp8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-f/QzxD6RJof6bfK84yb9AFcLVZcoVTndKVF/AQR5Fb8=' 'sha256-+gZD4kLcW+N9Ak1HEiDVp654snjnDB/2CXorffwMB04='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -17783,7 +17783,7 @@ dialog.zf-closing::backdrop {
           S.invoices.unshift(inv);
           persist();
           ui.selectedId = inv.id;
-          navigate('invoices', { selectedId: inv.id, force: true });
+          await navigate('invoices', { selectedId: inv.id, force: true });
           if (aiData && aiData._isFallback) {
             toast('Created draft with 5 test items from your brief (Offline AI parser)', 'ok');
           } else {
