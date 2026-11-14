@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-eKUrM09hiBVPoCgiIoasItkfR57mc2BG8luSMEoMkos=' 'sha256-91w5ToY0vNOF3RDFxV+eLng3n9dj5K9+4SR/iERJ+vM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-gdw0pYBkrjWME9GT0M0VXsjXUOvYTq30UaW9nK3/wCs=' 'sha256-qs/YbYExYPsGBOk6zIyQbCeD0SJLAuRIabkGUuVZ7ds='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -5499,7 +5499,109 @@ dialog.zf-closing::backdrop {
   .p-words { font-size: 11.5px; font-style: italic; color: var(--muted); padding: 6px 0; }
   .zf-footer-brand-col { max-width: 320px; }
 
-  </style>
+  
+  /* ==========================================================================
+     BENTO DYNAMIC GRID & ANDROID-STYLE WIDGET CUSTOMIZATION
+     ========================================================================== */
+  .bento-dynamic-grid {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-flow: dense !important;
+    gap: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .bento-tile {
+    min-width: 0 !important;
+    position: relative !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, outline 0.2s ease !important;
+  }
+  .grid-editing-active .bento-tile {
+    outline: 2px dashed rgba(2, 132, 199, 0.5) !important;
+    outline-offset: 4px !important;
+    border-radius: 18px !important;
+    background: var(--surface) !important;
+  }
+  .grid-editing-active .bento-tile:hover {
+    outline-color: #0284c7 !important;
+    box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15) !important;
+  }
+  .tile-custom-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 7px 12px !important;
+    background: rgba(2, 132, 199, 0.08) !important;
+    border: 1px solid rgba(2, 132, 199, 0.25) !important;
+    border-radius: 12px !important;
+    margin-bottom: 12px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  .tile-drag-handle {
+    cursor: grab !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    color: #0284c7 !important;
+    font-weight: 700 !important;
+    user-select: none !important;
+  }
+  .tile-size-pills {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  .tile-size-pill {
+    padding: 3px 8px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--line-2) !important;
+    background: var(--surface) !important;
+    color: var(--muted) !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+  }
+  .tile-size-pill:hover,
+  .tile-size-pill.active {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: #0284c7 !important;
+  }
+  .tile-move-btns {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  .tile-move-btn {
+    padding: 3px 7px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--line-2) !important;
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    cursor: pointer !important;
+  }
+  .tile-move-btn:hover {
+    background: rgba(2, 132, 199, 0.15) !important;
+    color: #0284c7 !important;
+  }
+  @media (max-width: 900px) {
+    .bento-dynamic-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .bento-tile {
+      grid-column: span 12 !important;
+    }
+  }
+
+</style>
   </head>
   <body>
   <noscript>
@@ -11131,7 +11233,88 @@ dialog.zf-closing::backdrop {
     '</div>';
   }
 
+  
+  function getDashboardLayout(layoutType, storedLayout) {
+    storedLayout = storedLayout || {};
+    if (layoutType === 'cashfund') {
+      const def = {
+        order: ['cf-balance', 'cf-inflows', 'cf-outflows', 'cf-cashflow', 'cf-breakdown', 'cf-transactions', 'cf-ageing'],
+        spans: {
+          'cf-balance': 4,
+          'cf-inflows': 4,
+          'cf-outflows': 4,
+          'cf-cashflow': 8,
+          'cf-breakdown': 4,
+          'cf-transactions': 8,
+          'cf-ageing': 4
+        }
+      };
+      const saved = storedLayout.cashfund;
+      if (!saved || !Array.isArray(saved.order) || !saved.spans) return def;
+      const order = saved.order.filter(id => def.order.includes(id));
+      def.order.forEach(id => { if (!order.includes(id)) order.push(id); });
+      const spans = Object.assign({}, def.spans, saved.spans);
+      return { order, spans };
+    } else {
+      const def = {
+        order: ['invo-balances', 'invo-generator', 'invo-invoices', 'invo-reminders', 'invo-ageing', 'invo-templates'],
+        spans: {
+          'invo-balances': 8,
+          'invo-generator': 4,
+          'invo-invoices': 8,
+          'invo-reminders': 4,
+          'invo-ageing': 6,
+          'invo-templates': 6
+        }
+      };
+      const saved = storedLayout.invowise;
+      if (!saved || !Array.isArray(saved.order) || !saved.spans) return def;
+      const order = saved.order.filter(id => def.order.includes(id));
+      def.order.forEach(id => { if (!order.includes(id)) order.push(id); });
+      const spans = Object.assign({}, def.spans, saved.spans);
+      return { order, spans };
+    }
+  }
+
+  function renderTileCustomBar(tileId, currentSpan, layoutName) {
+    const tileTitles = {
+      'cf-balance': 'Available Balance',
+      'cf-inflows': 'Inflows Tracker',
+      'cf-outflows': 'Outflows Tracker',
+      'cf-cashflow': 'Cashflow Curve Chart',
+      'cf-breakdown': 'Outflows & Categories Donut',
+      'cf-transactions': 'Recent Transactions Ledger',
+      'cf-ageing': 'Receivables Ageing Schedule',
+      'invo-hero': 'Executive Greeting & KPI Banner',
+      'invo-balances': 'Current Balances & Revenue Chart',
+      'invo-reminders': 'Email Reminders & Settlement',
+      'invo-ageing': 'Receivables Ageing Matrix',
+      'invo-generator': 'AI Prompt Generator Studio',
+      'invo-templates': 'Curated Templates Showcase',
+      'invo-invoices': 'Recent Invoices Directory'
+    };
+    const title = tileTitles[tileId] || 'Widget Tile';
+    return '<div class="tile-custom-bar">' +
+      '<div style="display:flex;align-items:center;gap:6px">' +
+        '<span class="tile-drag-handle" title="Drag or Reorder Tile">⋮⋮ <b>' + esc(title) + '</b></span>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div class="tile-move-btns" title="Reorder Tile Position">' +
+          '<button type="button" class="tile-move-btn" data-act="tile-move" data-dir="-1" data-tile-id="' + esc(tileId) + '" title="Move Earlier (Left/Up)">◀</button>' +
+          '<button type="button" class="tile-move-btn" data-act="tile-move" data-dir="1" data-tile-id="' + esc(tileId) + '" title="Move Later (Right/Down)">▶</button>' +
+        '</div>' +
+        '<div class="tile-size-pills" title="Resize Tile Width">' +
+          '<button type="button" class="tile-size-pill ' + (currentSpan === 4 ? 'active' : '') + '" data-act="tile-resize" data-tile-id="' + esc(tileId) + '" data-span="4" title="1/3 Width (4 cols)">1/3</button>' +
+          '<button type="button" class="tile-size-pill ' + (currentSpan === 6 ? 'active' : '') + '" data-act="tile-resize" data-tile-id="' + esc(tileId) + '" data-span="6" title="1/2 Width (6 cols)">1/2</button>' +
+          '<button type="button" class="tile-size-pill ' + (currentSpan === 8 ? 'active' : '') + '" data-act="tile-resize" data-tile-id="' + esc(tileId) + '" data-span="8" title="2/3 Width (8 cols)">2/3</button>' +
+          '<button type="button" class="tile-size-pill ' + (currentSpan === 12 ? 'active' : '') + '" data-act="tile-resize" data-tile-id="' + esc(tileId) + '" data-span="12" title="Full Width (12 cols)">Full</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
   function renderCashFundDashboard() {
+
     const inv = S.invoices;
     const currencies = Array.from(new Set(inv.map(i=>i.currency)));
     if (!currencies.length) currencies.push((S.settings && S.settings.defaults && S.settings.defaults.currency) || 'INR');
@@ -11321,29 +11504,9 @@ dialog.zf-closing::backdrop {
       return '<button type="button" class="cash-year-pill ' + (y === activeYear ? 'active' : '') + '" data-act="cash-year" data-year="' + y + '">' + y + '</button>';
     }).join('');
 
-    return '<div class="cashfund-main-canvas">' +
-      '<div class="cashfund-top-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(15,23,42,0.06)">' +
-        '<div style="display:flex;align-items:center;gap:12px">' +
-          '<h2 style="margin:0;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.02em">CashFund Treasury</h2>' +
-          '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.1);color:#0284c7">Live Financial OS</span>' +
-        '</div>' +
-        '<div style="display:flex;align-items:center;gap:10px">' +
-          '<button type="button" class="btn sm ghost cmd-pill-btn" data-act="open-cmd-palette" title="Global Command Palette (Ctrl+K)" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid rgba(15,23,42,0.1);border-radius:99px;font-size:11.5px;color:var(--text);background:var(--surface,#fff);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.04)">' +
-            '<svg class="i" style="width:12px;height:12px"><use href="#i-search"/></svg>' +
-            '<span>Commands</span>' +
-            '<kbd class="kbd-pill" style="font-size:10px">⌘K</kbd>' +
-          '</button>' +
-          '<button type="button" class="cash-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)" style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(15,23,42,0.08);background:var(--surface,#fff);color:#475569;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)" aria-label="Keyboard Shortcuts">⌨️</button>' +
-          '<button type="button" class="btn primary sm" data-act="nav-new" style="background:#0284c7!important;color:#fff!important;border:none!important;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer">' +
-            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
-            '<span>New Invoice</span>' +
-          '</button>' +
-        '</div>' +
-      '</div>' +
-      /* Top 3 KPI Cards Row (Image 3) */
-      '<div class="cash-kpi-row bento-kpis">' +
-        /* Available Balance */
-        '<div class="cash-kpi-card" data-act="nav" data-page="payment">' +
+    
+    const cfTiles = {
+      'cf-balance': '<div class="cash-kpi-card" data-act="nav" data-page="payment">' +
           '<div class="cash-kpi-top">' +
             '<span class="cash-kpi-lbl">Available Balance</span>' +
             '<div class="cash-kpi-icon blue">' +
@@ -11356,10 +11519,8 @@ dialog.zf-closing::backdrop {
           '</div>' +
           '<span class="cash-kpi-sub">' + (totalBilled > 0 ? (inv.filter(i=>i.currency===cur).length + ' invoices active') : '0 invoices recorded') + '</span>' +
           '<span class="cash-corner-arrow">↗</span>' +
-        '</div>' +
-
-        /* Inflows */
-        '<div class="cash-kpi-card" data-act="nav" data-page="invoices">' +
+        '</div>' ,
+      'cf-inflows': '<div class="cash-kpi-card" data-act="nav" data-page="invoices">' +
           '<div class="cash-kpi-top">' +
             '<span class="cash-kpi-lbl">Inflows</span>' +
             '<div class="cash-kpi-icon teal">' +
@@ -11372,10 +11533,8 @@ dialog.zf-closing::backdrop {
           '</div>' +
           '<span class="cash-kpi-sub">' + (totalPaid > 0 ? (inv.filter(i=>i.currency===cur && effStatus(i)==='paid').length + ' settled invoices') : 'No settlements yet') + '</span>' +
           '<span class="cash-corner-arrow">↗</span>' +
-        '</div>' +
-
-        /* Outflows */
-        '<div class="cash-kpi-card" data-act="nav" data-page="payment">' +
+        '</div>' ,
+      'cf-outflows': '<div class="cash-kpi-card" data-act="nav" data-page="payment">' +
           '<div class="cash-kpi-top">' +
             '<span class="cash-kpi-lbl">Outflows</span>' +
             '<div class="cash-kpi-icon mint">' +
@@ -11389,14 +11548,8 @@ dialog.zf-closing::backdrop {
           '<span class="cash-kpi-sub">' + (totalDue > 0 ? (inv.filter(i=>i.currency===cur && effStatus(i)!=='paid').length + ' awaiting payment') : 'All accounts settled') + '</span>' +
           '<span class="cash-corner-arrow">↗</span>' +
         '</div>' +
-      '</div>' +
-
-      /* Main Grid: Left Column 65% + Right Column 35% */
-      '<div class="cash-grid-layout">' +
-        /* Left Column: Cashflow Chart + Transactions Table */
-        '<div style="display:flex;flex-direction:column;gap:22px">' +
-          /* Cashflow Wave Chart Card */
-          '<div class="cash-card">' +
+      '</div>',
+      'cf-cashflow': '<div class="cash-card">' +
             '<div class="cash-card-header">' +
               '<div class="cash-card-title">' +
                 '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' +
@@ -11429,10 +11582,38 @@ dialog.zf-closing::backdrop {
                 yearsHTML +
               '</div>' +
             '</div>' +
-          '</div>' +
+          '</div>' ,
+      'cf-breakdown': '<div style="display:flex;flex-direction:column;gap:22px">' +
+          '<div class="cash-card">' +
+            '<div class="cash-card-header">' +
+              '<div class="cash-card-title">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+                '<span>Outflows</span>' +
+              '</div>' +
+              '<button type="button" class="cash-more-btn" data-act="nav" data-page="payment" title="View Payment & Settlement Ledger">↗</button>' +
+            '</div>' +
 
-          /* Transactions Card */
-          '<div class="cash-card" style="flex:1;display:flex;flex-direction:column">' +
+            /* Multi-Segment Donut Chart */
+            '<div class="cash-donut-section">' +
+              '<div class="cash-donut-circle" style="background:' + donutBg + '">' +
+                '<div class="cash-donut-inner">' +
+                  '<span class="cash-donut-val">' + esc(displayOutflow) + '</span>' +
+                  '<span class="cash-badge-pill ' + (totalDue > 0 ? 'down' : 'up') + '" style="font-size:10px;margin-top:2px">' + (totalBilled > 0 ? Math.round((totalDue/totalBilled)*100) + '% due' : '0% due') + '</span>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+
+            /* Category List (Real dynamic allocations or clean zero-state) */
+            '<div class="cash-cat-list">' +
+              renderCashCategories() +
+            '</div>' +
+
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid rgba(15, 23, 42, 0.06);font-size:11px;color:#94a3b8">' +
+              '<span>' + (totalBilled > 0 ? (inv.length + ' active invoices') : '0 active outflows') + '</span>' +
+              '<button type="button" class="invo-link-btn" data-act="nav" data-page="payment" style="font-weight:700">See Detail ↗</button>' +
+            '</div>' +
+          '</div>' ,
+      'cf-transactions': '<div class="cash-card" style="flex:1;display:flex;flex-direction:column">' +
             '<div class="cash-card-header">' +
               '<div class="cash-card-title">' +
                 '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' +
@@ -11463,42 +11644,8 @@ dialog.zf-closing::backdrop {
               '</table>' +
             '</div>' +
           '</div>' +
-        '</div>' +
-
-        /* Right Column: Outflows Breakdown (Donut + Expense List) + Receivables Ageing */
-        '<div style="display:flex;flex-direction:column;gap:22px">' +
-          '<div class="cash-card">' +
-            '<div class="cash-card-header">' +
-              '<div class="cash-card-title">' +
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
-                '<span>Outflows</span>' +
-              '</div>' +
-              '<button type="button" class="cash-more-btn" data-act="nav" data-page="payment" title="View Payment & Settlement Ledger">↗</button>' +
-            '</div>' +
-
-            /* Multi-Segment Donut Chart */
-            '<div class="cash-donut-section">' +
-              '<div class="cash-donut-circle" style="background:' + donutBg + '">' +
-                '<div class="cash-donut-inner">' +
-                  '<span class="cash-donut-val">' + esc(displayOutflow) + '</span>' +
-                  '<span class="cash-badge-pill ' + (totalDue > 0 ? 'down' : 'up') + '" style="font-size:10px;margin-top:2px">' + (totalBilled > 0 ? Math.round((totalDue/totalBilled)*100) + '% due' : '0% due') + '</span>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-
-            /* Category List (Real dynamic allocations or clean zero-state) */
-            '<div class="cash-cat-list">' +
-              renderCashCategories() +
-            '</div>' +
-
-            '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid rgba(15, 23, 42, 0.06);font-size:11px;color:#94a3b8">' +
-              '<span>' + (totalBilled > 0 ? (inv.length + ' active invoices') : '0 active outflows') + '</span>' +
-              '<button type="button" class="invo-link-btn" data-act="nav" data-page="payment" style="font-weight:700">See Detail ↗</button>' +
-            '</div>' +
-          '</div>' +
-
-          /* Receivables Ageing Card (Clean single-layer with inlineCurrencyTotals) */
-          '<div class="cash-card" style="flex:1;display:flex;flex-direction:column;justify-content:space-between">' +
+        '</div>',
+      'cf-ageing': '<div class="cash-card" style="flex:1;display:flex;flex-direction:column;justify-content:space-between">' +
             '<div>' +
               '<div class="cash-card-header" style="margin-bottom:6px">' +
                 '<div class="cash-card-title">' +
@@ -11521,8 +11668,53 @@ dialog.zf-closing::backdrop {
             '</div>' +
           '</div>' +
         '</div>' +
+      '</div>'
+    };
+
+    const cfg = getDashboardLayout('cashfund', S.settings && S.settings.dashboardLayout);
+
+    return '<div class="cashfund-main-canvas">' +
+      '<div class="cashfund-top-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(15,23,42,0.06);flex-wrap:wrap;gap:12px">' +
+        '<div style="display:flex;align-items:center;gap:12px">' +
+          '<h2 style="margin:0;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.02em">CashFund Treasury</h2>' +
+          '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(2,132,199,0.1);color:#0284c7">Live Financial OS</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
+          '<button type="button" class="btn sm ' + (ui.isCustomizingDashboard ? 'primary' : 'ghost') + '" data-act="toggle-dash-custom" title="Customize Dashboard Tiles & Layout" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;' + (ui.isCustomizingDashboard ? 'background:#0284c7!important;color:#fff!important;' : 'border:1px solid rgba(2,132,199,0.3);color:#0284c7;background:rgba(2,132,199,0.06);') + '">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' +
+            '<span>' + (ui.isCustomizingDashboard ? '✓ Done Customizing' : '⚙️ Customize Grid') + '</span>' +
+          '</button>' +
+          (ui.isCustomizingDashboard ? '<button type="button" class="btn sm ghost" data-act="reset-dash-custom" title="Reset to Factory Layout" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:99px;font-size:11.5px;color:var(--muted);border:1px solid var(--line-2);cursor:pointer"><span>↺ Reset</span></button>' : '') +
+          '<button type="button" class="btn sm ghost cmd-pill-btn" data-act="open-cmd-palette" title="Global Command Palette (Ctrl+K)" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid rgba(15,23,42,0.1);border-radius:99px;font-size:11.5px;color:var(--text);background:var(--surface,#fff);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.04)">' +
+            '<svg class="i" style="width:12px;height:12px"><use href="#i-search"/></svg>' +
+            '<span>Commands</span>' +
+            '<kbd class="kbd-pill" style="font-size:10px">⌘K</kbd>' +
+          '</button>' +
+          '<button type="button" class="cash-icon-btn" data-act="open-shortcuts" title="Keyboard Shortcuts (?)" style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(15,23,42,0.08);background:var(--surface,#fff);color:#475569;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)" aria-label="Keyboard Shortcuts">⌨️</button>' +
+          '<button type="button" class="btn primary sm" data-act="nav-new" style="background:#0284c7!important;color:#fff!important;border:none!important;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+            '<span>New Invoice</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+      (ui.isCustomizingDashboard ? (
+        '<div class="dash-custom-active-banner" style="background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.25);border-radius:12px;padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--text);flex-wrap:wrap;gap:10px">' +
+          '<span>📱 <b>Widget Customization Active:</b> Click size pills [ 1/3 | 1/2 | 2/3 | Full ] or ◀ ▶ arrows to move tiles. Surrounding tiles reflow automatically with zero overlap.</span>' +
+          '<button type="button" class="btn sm primary" data-act="toggle-dash-custom" style="padding:4px 12px;font-size:11.5px;background:#0284c7;color:#fff;border:none;border-radius:6px;cursor:pointer">Save &amp; Finish</button>' +
+        '</div>'
+      ) : '') +
+      '<div class="bento-dynamic-grid cashfund-bento-grid ' + (ui.isCustomizingDashboard ? 'grid-editing-active' : '') + '">' +
+        cfg.order.map((id, idx) => {
+          const span = cfg.spans[id] || 4;
+          return '<div class="bento-tile bento-tile-' + id + '" style="grid-column: span ' + span + '; order: ' + idx + ';" data-tile-id="' + id + '">' +
+            (ui.isCustomizingDashboard ? renderTileCustomBar(id, span, 'cashfund') : '') +
+            (cfTiles[id] || '') +
+          '</div>';
+        }).join('') +
       '</div>' +
       (bulkBarHTML || '') +
+    '</div>';
+(bulkBarHTML || '') +
     '</div>';
   }
 
@@ -12111,78 +12303,9 @@ dialog.zf-closing::backdrop {
         '<button type="button" class="btn sm invo-clear-demo-btn" data-act="clear-samples" style="background:#ff5733;color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s">Clear Demo Data</button>' +
       '</div>'
     ) : '';
-    return '<div class="invowise-container">' + sampleBannerHTML +
-      /* Hero Greeting & 3 Metric Cards Row */
-      '<div class="invo-hero-row">' +
-        '<div class="invo-hero-left">' +
-          '<h1 class="invo-greeting">' + greet + ', ' + esc(bizName) + '!</h1>' +
-          '<p class="invo-date-sub">' + esc(dateFmt) + '</p>' +
-        '</div>' +
-        '<div class="invo-hero-metrics bento-kpis">' +
-          /* Paid Invoices */
-          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
-            '<div class="invo-metric-icon coral">' +
-              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>' +
-            '</div>' +
-            '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Paid Collections</span>' +
-              '<span class="invo-metric-val glow-ok">' + esc(fmtMoney(paidTotal, cur)) + '</span>' +
-              paidTagHTML +
-            '</div>' +
-          '</div>' +
-
-          /* Due Invoices */
-          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
-            '<div class="invo-metric-icon amber">' +
-              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
-            '</div>' +
-            '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Outstanding Due</span>' +
-              '<span class="invo-metric-val">' + esc(fmtMoney(dueTotal, cur)) + '</span>' +
-              dueTagHTML +
-            '</div>' +
-          '</div>' +
-
-          /* Overdue Invoices */
-          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
-            '<div class="invo-metric-icon red">' +
-              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
-            '</div>' +
-            '<div class="invo-metric-info">' +
-              '<span class="invo-metric-lbl">Overdue Balance</span>' +
-              '<span class="invo-metric-val glow-danger">' + esc(fmtMoney(overdueTotal, cur)) + '</span>' +
-              overdueTagHTML +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-
-      /* Secondary Controls Toolbar Row */
-      '<div class="invo-toolbar-row">' +
-        '<div class="invo-date-pill-wrap" style="display:inline-flex;align-items:center;gap:8px">' +
-          '<button type="button" class="invo-date-pill-btn ' + (isPeriodFiltered ? 'is-active' : '') + '" data-act="open-period-selector" title="Click to filter ledger by date or fiscal period" aria-haspopup="dialog">' +
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-            '<span id="activeDatePeriodLabel">' + esc(isPeriodFiltered ? ui.periodFilter.label : dateRangeStr) + '</span>' +
-            '<span style="font-size:10px;opacity:0.7">▾</span>' +
-          '</button>' +
-          (isPeriodFiltered ? '<button type="button" class="invo-clear-filter-pill" data-act="reset-period-filter" title="Reset to All Time" style="background:rgba(255,87,51,0.1);color:#ff5733;border:1px solid rgba(255,87,51,0.3);padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px">✕ Clear</button>' : '') +
-        '</div>' +
-        '<div class="invo-toolbar-acts">' +
-          '<div class="invo-avatar-stack">' + avatarStackHTML + '</div>' +
-          '<button type="button" class="btn sm invo-claim-btn" data-act="open-consultant-claim" style="background:rgba(255,87,51,0.08);color:#ea580c;border:1px solid rgba(255,87,51,0.25);border-radius:10px;font-weight:700;font-size:11px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer">🎓 Consultant &amp; Jamia Claim</button>' +
-          '<button type="button" class="invo-sq-btn" data-act="nav" data-page="dashboard" title="Grid Layout">⊞</button>' +
-          '<button type="button" class="invo-sq-btn" data-act="export-csv" title="Export CSV">↑</button>' +
-          '<button type="button" class="invo-sq-btn" data-act="sync-now" title="Zero-Backend Cloud Sync">↻</button>' +
-          '<button type="button" class="invo-create-btn" data-act="nav-new" title="New Invoice">+</button>' +
-        '</div>' +
-      '</div>' +
-
-      /* 3-Column Bento Matrix Grid */
-      '<div class="invo-bento-grid">' +
-        /* Column 1: Current Balances + All Invoices Table */
-        '<div class="invo-col-1">' +
-          /* Balances & Striped Bar Chart Card */
-          '<div class="invo-card">' +
+    const layoutCfg = getDashboardLayout('invowise', S.settings.dashboardLayout);
+    const tileMap = {
+      'invo-balances':           '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Current Balances</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="payment">↗</button>' +
@@ -12218,10 +12341,8 @@ dialog.zf-closing::backdrop {
                 '</div>' +
               '</div>' +
             '</div>' +
-          '</div>' +
-
-          /* All Invoices Table Card */
-          '<div class="invo-card">' +
+          '</div>' ,
+      'invo-invoices':           '<div class="invo-card">' +
             '<div class="invo-table-header">' +
               '<div style="display:flex;align-items:center;gap:10px">' +
                 '<h3 style="margin:0">Recent Invoices (' + dashTableList.length + ')</h3>' +
@@ -12256,12 +12377,8 @@ dialog.zf-closing::backdrop {
                 '</tbody>' +
               '</table>' +
             '</div>' +
-          '</div>' +
-        '</div>' +
-
-        /* Column 2: Email Reminders + Receivables Ageing */
-        '<div class="invo-col-2">' +
-          '<div class="invo-card">' +
+          '</div>' ,
+      'invo-reminders':           '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Email Reminders</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="email">↗</button>' +
@@ -12269,10 +12386,8 @@ dialog.zf-closing::backdrop {
             '<div class="invo-remind-list">' +
               remindersHTML +
             '</div>' +
-          '</div>' +
-
-          /* Receivables Ageing Card (Clean single card matching Dribbble style) */
-          '<div class="invo-card">' +
+          '</div>' ,
+      'invo-ageing':           '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Receivables ageing</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices">↗</button>' +
@@ -12300,13 +12415,8 @@ dialog.zf-closing::backdrop {
               '<span style="color:var(--muted);font-weight:600">Collection Health: <strong style="color:' + (totalBilled === 0 ? 'var(--muted)' : (overdueTotal > 0 ? '#ef4444' : '#10b981')) + '">' + (totalBilled === 0 ? 'No active invoices' : (overdueTotal > 0 ? overdueList.length + ' Overdue' : '100% On-Time')) + '</strong></span>' +
               '<button type="button" class="invo-link-btn" data-act="nav" data-page="payment" style="font-size:11.5px">Payment Ledger ↗</button>' +
             '</div>' +
-          '</div>' +
-        '</div>' +
-
-        /* Column 3: AI Invoice Generator + Template Previews */
-        '<div class="invo-col-3">' +
-          /* AI Generator Card */
-          '<div class="invo-card">' +
+          '</div>' ,
+      'invo-generator':           '<div class="invo-card">' +
             '<div class="invo-card-h">' +
               '<h3>Invoice Generator</h3>' +
               '<button type="button" class="invo-arrow-btn" data-act="nav-new">↗</button>' +
@@ -12322,10 +12432,8 @@ dialog.zf-closing::backdrop {
               '<span class="invo-word-count">0/200 words</span>' +
               '<button type="button" class="invo-ai-btn" data-act="ai-gen-prompt">✨ Generate Invoice</button>' +
             '</div>' +
-          '</div>' +
-
-          /* Templates Selection Card */
-          '<div class="invo-card" style="display:flex;flex-direction:column;justify-content:space-between">' +
+          '</div>' ,
+      'invo-templates':           '<div class="invo-card" style="display:flex;flex-direction:column;justify-content:space-between">' +
             '<div>' +
               '<div class="invo-card-h" style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px">' +
                 '<div style="min-width:0;flex:1">' +
@@ -12565,8 +12673,100 @@ dialog.zf-closing::backdrop {
             '<button type="button" class="btn sm" data-act="open-design-studio-new" style="width:100%;justify-content:center;font-weight:700;font-size:12.5px;background:rgba(255,87,51,0.08);color:#ff5733;border:1.5px solid rgba(255,87,51,0.25);padding:10px 16px;border-radius:12px;margin-top:10px;display:flex;align-items:center;gap:7px;transition:all 0.18s ease;cursor:pointer">' +
               '🎨 Open Custom Design Studio' +
             '</button>' +
+          '</div>' 
+    };
+    return '<div class="invowise-container">' + sampleBannerHTML +
+      /* Hero Greeting & 3 Metric Cards Row */
+      '<div class="invo-hero-row">' +
+        '<div class="invo-hero-left">' +
+          '<h1 class="invo-greeting">' + greet + ', ' + esc(bizName) + '!</h1>' +
+          '<p class="invo-date-sub">' + esc(dateFmt) + '</p>' +
+        '</div>' +
+        '<div class="invo-hero-metrics bento-kpis">' +
+          /* Paid Invoices */
+          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
+            '<div class="invo-metric-icon coral">' +
+              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>' +
+            '</div>' +
+            '<div class="invo-metric-info">' +
+              '<span class="invo-metric-lbl">Paid Collections</span>' +
+              '<span class="invo-metric-val glow-ok">' + esc(fmtMoney(paidTotal, cur)) + '</span>' +
+              paidTagHTML +
+            '</div>' +
+          '</div>' +
+
+          /* Due Invoices */
+          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
+            '<div class="invo-metric-icon amber">' +
+              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+            '</div>' +
+            '<div class="invo-metric-info">' +
+              '<span class="invo-metric-lbl">Outstanding Due</span>' +
+              '<span class="invo-metric-val">' + esc(fmtMoney(dueTotal, cur)) + '</span>' +
+              dueTagHTML +
+            '</div>' +
+          '</div>' +
+
+          /* Overdue Invoices */
+          '<div class="invo-metric-card" data-act="nav" data-page="invoices">' +
+            '<div class="invo-metric-icon red">' +
+              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+            '</div>' +
+            '<div class="invo-metric-info">' +
+              '<span class="invo-metric-lbl">Overdue Balance</span>' +
+              '<span class="invo-metric-val glow-danger">' + esc(fmtMoney(overdueTotal, cur)) + '</span>' +
+              overdueTagHTML +
+            '</div>' +
           '</div>' +
         '</div>' +
+      '</div>' +
+
+      /* Secondary Controls Toolbar Row */
+      '<div class="invo-toolbar-row">' +
+        '<div class="invo-date-pill-wrap" style="display:inline-flex;align-items:center;gap:8px">' +
+          '<button type="button" class="invo-date-pill-btn ' + (isPeriodFiltered ? 'is-active' : '') + '" data-act="open-period-selector" title="Click to filter ledger by date or fiscal period" aria-haspopup="dialog">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+            '<span id="activeDatePeriodLabel">' + esc(isPeriodFiltered ? ui.periodFilter.label : dateRangeStr) + '</span>' +
+            '<span style="font-size:10px;opacity:0.7">▾</span>' +
+          '</button>' +
+          (isPeriodFiltered ? '<button type="button" class="invo-clear-filter-pill" data-act="reset-period-filter" title="Reset to All Time" style="background:rgba(255,87,51,0.1);color:#ff5733;border:1px solid rgba(255,87,51,0.3);padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px">✕ Clear</button>' : '') +
+        '</div>' +
+        '<div class="invo-toolbar-acts">' +
+          '<div class="invo-avatar-stack">' + avatarStackHTML + '</div>' +
+          '<button type="button" class="btn sm invo-claim-btn" data-act="open-consultant-claim" style="background:rgba(255,87,51,0.08);color:#ea580c;border:1px solid rgba(255,87,51,0.25);border-radius:10px;font-weight:700;font-size:11px;padding:5px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer">🎓 Consultant &amp; Jamia Claim</button>' +
+          '<button type="button" class="invo-sq-btn" data-act="nav" data-page="dashboard" title="Grid Layout">⊞</button>' +
+          '<button type="button" class="invo-sq-btn" data-act="export-csv" title="Export CSV">↑</button>' +
+          '<button type="button" class="invo-sq-btn" data-act="sync-now" title="Zero-Backend Cloud Sync">↻</button>' +
+          '<button type="button" class="btn sm ' + (ui.isCustomizingDashboard ? 'primary' : 'ghost') + '" data-act="toggle-dash-custom" title="Customize Dashboard Tiles &amp; Layout" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:10px;font-size:11.5px;font-weight:700;cursor:pointer;' + (ui.isCustomizingDashboard ? 'background:#ff5733!important;color:#fff!important;' : 'border:1px solid rgba(255,87,51,0.25);color:#ff5733;background:rgba(255,87,51,0.08);') + '">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' +
+            (ui.isCustomizingDashboard ? '✓ Done Customizing' : '⚙️ Customize Grid') +
+          '</button>' +
+          (ui.isCustomizingDashboard ? '<button type="button" class="btn sm ghost" data-act="reset-dash-custom" title="Reset to Factory Layout" style="padding:5px 10px;font-size:11px;border-radius:8px;border:1px solid rgba(255,87,51,0.3);color:#ff5733">↺ Reset</button>' : '') +
+          '<button type="button" class="invo-create-btn" data-act="nav-new" title="New Invoice">+</button>' +
+        '</div>' +
+      '</div>' +
+      (ui.isCustomizingDashboard ? (
+        '<div style="background:rgba(255,87,51,0.08);border:1.5px dashed #ff5733;border-radius:12px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);animation:fadeIn 0.2s ease">' +
+          '<div style="display:flex;align-items:center;gap:10px">' +
+            '<span style="font-size:18px">🧩</span>' +
+            '<div>' +
+              '<div style="font-size:12.5px;font-weight:700;color:#ff5733">Android-Style Dynamic Widget Customizer Active</div>' +
+              '<div style="font-size:11.5px;color:var(--muted)">Use <b>[ 1/3 | 1/2 | 2/3 | Full ]</b> to resize tiles. Use <b>◀ ▶</b> to reorder. Tiles automatically reflow without any overlap!</div>' +
+            '</div>' +
+          '</div>' +
+          '<button type="button" class="btn sm primary" data-act="toggle-dash-custom" style="padding:5px 14px;font-size:12px;background:#ff5733;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save &amp; Finish</button>' +
+        '</div>'
+      ) : '') +
+      '<div class="bento-dynamic-grid ' + (ui.isCustomizingDashboard ? 'is-customizing' : '') + '">' +
+        layoutCfg.order.map(function(id) {
+          const cardContent = tileMap[id];
+          if (!cardContent) return '';
+          const span = layoutCfg.spans[id] || 4;
+          return '<div class="bento-tile" data-tile-id="' + id + '" style="grid-column: span ' + span + ';">' +
+            (ui.isCustomizingDashboard ? renderTileCustomBar(id, span, 'invowise') : '') +
+            cardContent +
+          '</div>';
+        }).join('') +
       '</div>' +
       (bulkBarHTML || '') +
     '</div>';
@@ -16142,7 +16342,53 @@ dialog.zf-closing::backdrop {
         render();
         break;
       }
-            case 'clear-samples':{
+            case 'toggle-dash-custom':{
+        ui.isCustomizingDashboard = !ui.isCustomizingDashboard;
+        render();
+        break;
+      }
+      case 'reset-dash-custom':{
+        if (!S.settings.dashboardLayout) S.settings.dashboardLayout = {};
+        const lay = (S && S.settings && S.settings.layout) || 'invowise';
+        S.settings.dashboardLayout[lay] = null;
+        persist();
+        render();
+        toast('Dashboard layout reset to factory defaults.', 'ok');
+        break;
+      }
+      case 'tile-resize':{
+        const tileId = b.getAttribute('data-tile-id');
+        const span = parseInt(b.getAttribute('data-span'), 10) || 4;
+        const lay = (S && S.settings && S.settings.layout) || 'invowise';
+        if (!S.settings.dashboardLayout) S.settings.dashboardLayout = {};
+        const curCfg = getDashboardLayout(lay, S.settings.dashboardLayout);
+        curCfg.spans[tileId] = span;
+        S.settings.dashboardLayout[lay] = curCfg;
+        persist();
+        render();
+        break;
+      }
+      case 'tile-move':{
+        const tileId = b.getAttribute('data-tile-id');
+        const dir = parseInt(b.getAttribute('data-dir'), 10) || 0;
+        const lay = (S && S.settings && S.settings.layout) || 'invowise';
+        if (!S.settings.dashboardLayout) S.settings.dashboardLayout = {};
+        const curCfg = getDashboardLayout(lay, S.settings.dashboardLayout);
+        const idx = curCfg.order.indexOf(tileId);
+        if (idx !== -1) {
+          const newIdx = idx + dir;
+          if (newIdx >= 0 && newIdx < curCfg.order.length) {
+            const temp = curCfg.order[idx];
+            curCfg.order[idx] = curCfg.order[newIdx];
+            curCfg.order[newIdx] = temp;
+            S.settings.dashboardLayout[lay] = curCfg;
+            persist();
+            render();
+          }
+        }
+        break;
+      }
+      case 'clear-samples':{
         S.invoices = (S.invoices || []).filter(i => !i.sample);
         persist();
         toast('Demo sample invoices removed!', 'ok');
