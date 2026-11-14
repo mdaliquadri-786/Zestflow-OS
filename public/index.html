@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XhIyBUFHM6Lv5SQqQIsLttCxIckQ/DisxtSrqSc1Ye4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-rFSsUFuLVK0B6qsSAiZJxL4RrkZx0ms7v6d+TWCGOLM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -2616,14 +2616,31 @@ dialog.zf-closing::backdrop {
     }
     .invo-brand {
       order: 1 !important;
-      margin-right: 20px !important;
+      margin-right: 14px !important;
+      flex-shrink: 0 !important;
     }
     .invo-pill-menu {
       order: 2 !important;
       margin-right: auto !important;
+      flex-shrink: 0 !important;
+      min-width: max-content !important;
+      overflow: visible !important;
     }
     .invo-top-right {
       order: 3 !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+  }
+  @media (min-width: 901px) and (max-width: 1240px) {
+    .invo-search-wrap {
+      display: none !important;
+    }
+    .invo-pill {
+      padding: 5px 10px !important;
+      font-size: 12px !important;
     }
   }
 
@@ -2742,16 +2759,16 @@ dialog.zf-closing::backdrop {
   .invo-pill-menu {
     display: flex;
     align-items: center;
-    gap: 4px;
-    flex-shrink: 1;
+    gap: 2px;
+    flex-shrink: 0;
     overflow-x: auto;
     scrollbar-width: none;
   }
   .invo-pill-menu::-webkit-scrollbar { display: none; }
   .invo-pill {
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 99px;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 600;
     color: #475569;
     border: none !important;
@@ -2760,7 +2777,7 @@ dialog.zf-closing::backdrop {
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
     flex-shrink: 0;
-    height: 38px;
+    height: 33px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2769,6 +2786,81 @@ dialog.zf-closing::backdrop {
     box-shadow: none !important;
     transform: none !important;
     outline: none !important;
+  }
+  /* Interactive Period Selector Trigger Pill */
+  .invo-date-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .invo-date-pill-btn:hover {
+    border-color: #ff5733;
+    background: rgba(255, 87, 51, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 87, 51, 0.12);
+  }
+  .invo-date-pill-btn.is-active {
+    background: rgba(255, 87, 51, 0.08);
+    border-color: #ff5733;
+    color: #ff5733;
+    font-weight: 700;
+  }
+  .period-preset-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line-2);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .period-preset-pill:hover {
+    border-color: #ff5733;
+    background: rgba(255, 87, 51, 0.04);
+  }
+  .period-preset-pill.active {
+    border-color: #ff5733 !important;
+    background: rgba(255, 87, 51, 0.08) !important;
+    color: #ff5733 !important;
+    font-weight: 700 !important;
+  }
+  .about-page .page-h {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+    margin-bottom: 24px !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+  .about-page .page-h-title {
+    flex: 1 !important;
+    min-width: 280px !important;
+  }
+  .about-page .page-h-acts {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 4px !important;
+    position: relative !important;
+    z-index: 10 !important;
   }
   .invo-pill:hover {
     color: #0f172a !important;
@@ -2822,9 +2914,9 @@ dialog.zf-closing::backdrop {
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 99px;
-    padding: 7px 16px;
-    width: 185px;
-    height: 38px;
+    padding: 5px 12px;
+    width: 140px;
+    height: 33px;
     box-sizing: border-box;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -5599,6 +5691,33 @@ dialog.zf-closing::backdrop {
       <div class="acts" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
         <button type="button" class="btn" data-act="close-gst-summary">Close</button>
         <button type="button" class="btn primary" data-act="export-gstr1-csv">${icon('down')}<span>Export CA-Ready GSTR-1 (CSV)</span></button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Financial Reporting Period & Date Range Selector Table (#invoPeriodSelectorDlg) -->
+  <dialog id="invoPeriodSelectorDlg" class="period-selector-dialog">
+    <div class="dlg" style="width:min(860px, calc(100vw - 32px));max-height:90vh;display:flex;flex-direction:column;padding:24px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <div>
+          <h2 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px">
+            <span>📅</span><span>Financial Reporting Period &amp; Date Range Filter</span>
+          </h2>
+          <p style="margin:4px 0 0;font-size:12px;color:var(--muted)">Select standard accounting periods or a custom date range to filter your cashflow metrics, ledger, and analytics</p>
+        </div>
+        <button type="button" class="btn sm ghost icon" data-act="close-period-selector" style="font-size:16px;padding:4px 8px">✕</button>
+      </div>
+
+      <div id="periodSelectorBody" style="overflow-y:auto;flex:1;padding-right:4px">
+        <!-- Rendered dynamically by renderPeriodSelectorContent() -->
+      </div>
+
+      <div class="acts" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <button type="button" class="btn sm ghost" data-act="reset-period-filter" style="color:var(--muted);font-weight:600">↺ Reset to All Time</button>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button type="button" class="btn sm" data-act="close-period-selector">Cancel</button>
+          <button type="button" class="btn sm primary" data-act="apply-custom-period" style="font-weight:700">Apply Period Filter</button>
+        </div>
       </div>
     </div>
   </dialog>
@@ -10464,7 +10583,8 @@ dialog.zf-closing::backdrop {
     q:'',
     sort:'newest',
     selectedId:'',
-    chartCurrency:''
+    chartCurrency:'',
+    periodFilter:{ preset:'all', start:null, end:null, label:'All Time' }
   };
   let ed=null,ro=null,inspRo=null,printTarget=null,origTitle=document.title,rafId=0;
 
@@ -11684,9 +11804,18 @@ dialog.zf-closing::backdrop {
     const bizName = getActiveUserDisplayName();
     const userInit = getActiveUserInitials();
 
+    // Filter by reporting period if active
+    const isPeriodFiltered = !!(ui.periodFilter && ui.periodFilter.preset !== 'all' && (ui.periodFilter.start || ui.periodFilter.end));
+    const scopedInvs = isPeriodFiltered ? inv.filter(i => {
+      if (!i.issue) return false;
+      if (ui.periodFilter.start && i.issue < ui.periodFilter.start) return false;
+      if (ui.periodFilter.end && i.issue > ui.periodFilter.end) return false;
+      return true;
+    }) : inv;
+
     // Calculate totals for selected currency
     let paidTotal = 0, dueTotal = 0, overdueTotal = 0, totalBilled = 0;
-    inv.filter(i => i.currency === cur).forEach(i => {
+    scopedInvs.filter(i => i.currency === cur).forEach(i => {
       const c = calc(i);
       totalBilled += c.total;
       if (effStatus(i) === 'paid') paidTotal += c.total;
@@ -11694,8 +11823,8 @@ dialog.zf-closing::backdrop {
       else dueTotal += c.balanceMinor;
     });
 
-    const overdueList = inv.filter(isOverdue).sort((a,b)=>a.due.localeCompare(b.due));
-    const recentList = inv.slice().sort((a,b)=>(b.issue.localeCompare(a.issue))||(b.created-a.created)).slice(0, 8);
+    const overdueList = scopedInvs.filter(isOverdue).sort((a,b)=>a.due.localeCompare(b.due));
+    const recentList = scopedInvs.slice().sort((a,b)=>(b.issue.localeCompare(a.issue))||(b.created-a.created)).slice(0, 8);
     const clientGroups = getClientGroups();
     const ageingBuckets = computeAgeing();
 
@@ -11958,9 +12087,13 @@ dialog.zf-closing::backdrop {
 
       /* Secondary Controls Toolbar Row */
       '<div class="invo-toolbar-row">' +
-        '<div class="invo-date-pill">' +
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-          '<span>' + esc(dateRangeStr) + '</span>' +
+        '<div class="invo-date-pill-wrap" style="display:inline-flex;align-items:center;gap:8px">' +
+          '<button type="button" class="invo-date-pill-btn ' + (isPeriodFiltered ? 'is-active' : '') + '" data-act="open-period-selector" title="Click to filter ledger by date or fiscal period" aria-haspopup="dialog">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+            '<span id="activeDatePeriodLabel">' + esc(isPeriodFiltered ? ui.periodFilter.label : dateRangeStr) + '</span>' +
+            '<span style="font-size:10px;opacity:0.7">▾</span>' +
+          '</button>' +
+          (isPeriodFiltered ? '<button type="button" class="invo-clear-filter-pill" data-act="reset-period-filter" title="Reset to All Time" style="background:rgba(255,87,51,0.1);color:#ff5733;border:1px solid rgba(255,87,51,0.3);padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px">✕ Clear</button>' : '') +
         '</div>' +
         '<div class="invo-toolbar-acts">' +
           '<div class="invo-avatar-stack">' + avatarStackHTML + '</div>' +
@@ -12122,20 +12255,18 @@ dialog.zf-closing::backdrop {
           /* Templates Selection Card */
           '<div class="invo-card" style="display:flex;flex-direction:column;justify-content:space-between">' +
             '<div>' +
-              '<div class="invo-card-h" style="margin-bottom:8px">' +
-                '<div>' +
-                  '<div>' +
-                    '<div style="display:flex;align-items:center;gap:8px">' +
-                      '<h3 class="invo-card-title" style="margin:0;font-size:15.5px;font-weight:800;color:var(--text)">Document &amp; Invoice Templates</h3>' +
-                      '<span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(255,87,51,0.08);color:#ff5733">8 Blueprints</span>' +
-                    '</div>' +
-                    '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px;gap:8px">' +
-                      '<span style="font-size:11.5px;color:var(--muted)">Curated studio archetypes</span>' +
-                      '<span style="font-size:10.5px;color:#94a3b8;font-weight:600">↕ Scroll for more</span>' +
-                    '</div>' +
+              '<div class="invo-card-h" style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px">' +
+                '<div style="min-width:0;flex:1">' +
+                  '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
+                    '<h3 class="invo-card-title" style="margin:0;font-size:15px;font-weight:800;color:var(--text);letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Document &amp; Templates</h3>' +
+                    '<span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(255,87,51,0.08);color:#ff5733;border:1px solid rgba(255,87,51,0.2);flex-shrink:0">8 Blueprints</span>' +
+                  '</div>' +
+                  '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;gap:6px">' +
+                    '<span style="font-size:11.5px;color:var(--muted)">Curated studio archetypes</span>' +
+                    '<span style="font-size:10px;color:var(--muted);opacity:0.85">↕ Scroll for more</span>' +
                   '</div>' +
                 '</div>' +
-                '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents">↗</button>' +
+                '<button type="button" class="invo-arrow-btn" data-act="nav" data-page="invoices" title="View all documents" style="flex-shrink:0;margin-top:1px">↗</button>' +
               '</div>' +
 
               /* Category Filter Tabs */
@@ -14767,6 +14898,245 @@ dialog.zf-closing::backdrop {
     toast('GSTR-1 CA-Ready CSV Exported', 'ok');
   }
 
+  function getPeriodPresets() {
+    const now = new Date();
+    const curYear = now.getFullYear();
+    const curMonth = now.getMonth();
+    const pad = n => String(n).padStart(2, '0');
+    const todayStr = `${curYear}-${pad(curMonth + 1)}-${pad(now.getDate())}`;
+
+    // This Month
+    const thisMonthStart = `${curYear}-${pad(curMonth + 1)}-01`;
+    const lastDayOfMonth = new Date(curYear, curMonth + 1, 0).getDate();
+    const thisMonthEnd = `${curYear}-${pad(curMonth + 1)}-${pad(lastDayOfMonth)}`;
+    const thisMonthLabel = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+    // Last Month
+    const prevMonthDate = new Date(curYear, curMonth - 1, 1);
+    const prevY = prevMonthDate.getFullYear();
+    const prevM = prevMonthDate.getMonth();
+    const prevLastDay = new Date(prevY, prevM + 1, 0).getDate();
+    const lastMonthStart = `${prevY}-${pad(prevM + 1)}-01`;
+    const lastMonthEnd = `${prevY}-${pad(prevM + 1)}-${pad(prevLastDay)}`;
+    const lastMonthLabel = prevMonthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+    // This Quarter
+    const q = Math.floor(curMonth / 3);
+    const qStartMonth = q * 3;
+    const qEndMonth = q * 3 + 2;
+    const qEndDay = new Date(curYear, qEndMonth + 1, 0).getDate();
+    const thisQuarterStart = `${curYear}-${pad(qStartMonth + 1)}-01`;
+    const thisQuarterEnd = `${curYear}-${pad(qEndMonth + 1)}-${pad(qEndDay)}`;
+    const thisQuarterLabel = `Q${q + 1} ${curYear}`;
+
+    // Last 30 Days
+    const d30 = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const last30Start = `${d30.getFullYear()}-${pad(d30.getMonth() + 1)}-${pad(d30.getDate())}`;
+
+    // Year to Date (YTD)
+    const ytdStart = `${curYear}-01-01`;
+
+    // Last 12 Months
+    const d12m = new Date(curYear - 1, curMonth, 1);
+    const last12mStart = `${d12m.getFullYear()}-${pad(d12m.getMonth() + 1)}-01`;
+
+    // Indian FY (Apr 1 - Mar 31)
+    const fyStartYear = curMonth >= 3 ? curYear : curYear - 1;
+    const fyEndYear = fyStartYear + 1;
+    const fyStart = `${fyStartYear}-04-01`;
+    const fyEnd = `${fyEndYear}-03-31`;
+    const fyLabel = `FY ${fyStartYear}-${String(fyEndYear).slice(2)}`;
+
+    return [
+      { id: 'all', title: 'All Time (Full Ledger)', desc: 'Complete historical invoices & collections', start: '', end: '' },
+      { id: 'this_month', title: `This Month (${thisMonthLabel})`, desc: `${thisMonthStart} — ${thisMonthEnd}`, start: thisMonthStart, end: thisMonthEnd },
+      { id: 'last_month', title: `Last Month (${lastMonthLabel})`, desc: `${lastMonthStart} — ${lastMonthEnd}`, start: lastMonthStart, end: lastMonthEnd },
+      { id: 'last_30', title: 'Last 30 Days', desc: `${last30Start} — ${todayStr}`, start: last30Start, end: todayStr },
+      { id: 'this_quarter', title: `This Quarter (${thisQuarterLabel})`, desc: `${thisQuarterStart} — ${thisQuarterEnd}`, start: thisQuarterStart, end: thisQuarterEnd },
+      { id: 'ytd', title: `Year to Date (YTD ${curYear})`, desc: `${ytdStart} — ${todayStr}`, start: ytdStart, end: todayStr },
+      { id: 'last_12m', title: 'Last 12 Months', desc: `${last12mStart} — ${todayStr}`, start: last12mStart, end: todayStr },
+      { id: 'indian_fy', title: `Indian Fiscal Year (${fyLabel})`, desc: `${fyStart} — ${fyEnd}`, start: fyStart, end: fyEnd }
+    ];
+  }
+
+  function openPeriodSelectorDlg() {
+    const dlg = $('#invoPeriodSelectorDlg');
+    if (!dlg) return;
+    renderPeriodSelectorContent();
+    openDialogSmooth(dlg);
+  }
+
+  function renderPeriodSelectorContent() {
+    const container = $('#periodSelectorBody');
+    if (!container) return;
+    const presets = getPeriodPresets();
+    const currentPresetId = (ui.periodFilter && ui.periodFilter.preset) || 'all';
+    const startVal = (ui.periodFilter && ui.periodFilter.start) || '';
+    const endVal = (ui.periodFilter && ui.periodFilter.end) || '';
+
+    const presetsHTML = presets.map(p => {
+      const isActive = currentPresetId === p.id;
+      return `<button type="button" class="period-preset-pill ${isActive ? 'active' : ''}" data-act="select-period-preset" data-preset-id="${p.id}" data-start="${p.start}" data-end="${p.end}" data-label="${esc(p.title)}">
+        <strong style="font-size:13px;display:block">${esc(p.title)}</strong>
+        <span style="font-size:11px;color:var(--muted);margin-top:2px;display:block">${esc(p.desc)}</span>
+      </button>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1.25fr;gap:20px;margin-bottom:16px">
+        <!-- Left: Quick Presets -->
+        <div>
+          <h3 style="margin:0 0 10px;font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em">Standard Accounting Periods</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto;padding-right:4px">
+            ${presetsHTML}
+          </div>
+        </div>
+
+        <!-- Right: Custom Date Range Table & Real-Time Intelligence -->
+        <div>
+          <h3 style="margin:0 0 10px;font-size:13px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em">Custom Range &amp; Live Summary</h3>
+          <div class="card" style="padding:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;margin-bottom:14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+              <div>
+                <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px">START DATE</label>
+                <input type="date" id="periodCustomStart" value="${startVal}" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);font-size:12.5px" onchange="renderPeriodSummary(this.value, document.getElementById('periodCustomEnd').value)">
+              </div>
+              <div>
+                <label style="display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px">END DATE</label>
+                <input type="date" id="periodCustomEnd" value="${endVal}" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);font-size:12.5px" onchange="renderPeriodSummary(document.getElementById('periodCustomStart').value, this.value)">
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn sm" style="font-size:11px;padding:4px 8px" onclick="setCustomQuickRange(7)">Last 7 Days</button>
+              <button type="button" class="btn sm" style="font-size:11px;padding:4px 8px" onclick="setCustomQuickRange(30)">Last 30 Days</button>
+              <button type="button" class="btn sm" style="font-size:11px;padding:4px 8px" onclick="setCustomQuickRange(90)">Last 90 Days</button>
+            </div>
+          </div>
+
+          <div id="periodLiveSummaryHost">
+            <!-- Rendered by renderPeriodSummary() -->
+          </div>
+        </div>
+      </div>
+    `;
+
+    renderPeriodSummary(startVal, endVal);
+  }
+
+  function setCustomQuickRange(days) {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const endStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const startD = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    const startStr = `${startD.getFullYear()}-${pad(startD.getMonth() + 1)}-${pad(startD.getDate())}`;
+    const sInput = $('#periodCustomStart');
+    const eInput = $('#periodCustomEnd');
+    if (sInput && eInput) {
+      sInput.value = startStr;
+      eInput.value = endStr;
+      renderPeriodSummary(startStr, endStr);
+    }
+  }
+
+  function renderPeriodSummary(start, end) {
+    const host = $('#periodLiveSummaryHost');
+    if (!host) return;
+    const inv = S.invoices || [];
+    const filtered = inv.filter(i => {
+      if (!start && !end) return true;
+      if (!i.issue) return false;
+      if (start && i.issue < start) return false;
+      if (end && i.issue > end) return false;
+      return true;
+    });
+
+    const cur = (S.settings && S.settings.defaults && S.settings.defaults.currency) || 'USD';
+    let billed = 0, paid = 0, due = 0;
+    filtered.forEach(i => {
+      const c = calc(i);
+      billed += c.total;
+      if (effStatus(i) === 'paid') paid += c.total;
+      else due += c.balanceMinor;
+    });
+
+    const rowsPreview = filtered.slice(0, 4).map(i => {
+      const c = calc(i);
+      const st = effStatus(i);
+      const badgeCls = st === 'paid' ? 'paid' : (isOverdue(i) ? 'overdue' : 'due');
+      return `<tr>
+        <td style="padding:6px 8px;font-weight:700">${esc(i.number)}</td>
+        <td style="padding:6px 8px;color:var(--muted)">${esc(i.issue)}</td>
+        <td style="padding:6px 8px">${esc(i.client.name || 'Unnamed')}</td>
+        <td style="padding:6px 8px;font-weight:700">${esc(fmtMoney(c.total, i.currency))}</td>
+        <td style="padding:6px 8px"><span class="invo-status-badge ${badgeCls}">${esc(st)}</span></td>
+      </tr>`;
+    }).join('');
+
+    host.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;margin-bottom:12px">
+        <div style="background:var(--surface);border:1px solid var(--line-2);padding:10px;border-radius:10px;text-align:center">
+          <span style="font-size:10px;color:var(--muted);font-weight:700;display:block">TOTAL INVOICED</span>
+          <strong style="font-size:14px;color:var(--text);margin-top:2px;display:block">${fmtMoney(billed, cur)}</strong>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--line-2);padding:10px;border-radius:10px;text-align:center">
+          <span style="font-size:10px;color:var(--muted);font-weight:700;display:block">SETTLED (PAID)</span>
+          <strong style="font-size:14px;color:#10b981;margin-top:2px;display:block">${fmtMoney(paid, cur)}</strong>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--line-2);padding:10px;border-radius:10px;text-align:center">
+          <span style="font-size:10px;color:var(--muted);font-weight:700;display:block">OUTSTANDING</span>
+          <strong style="font-size:14px;color:#f59e0b;margin-top:2px;display:block">${fmtMoney(due, cur)}</strong>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:8px;max-height:160px;overflow-y:auto">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px">
+          <span style="font-size:11.5px;font-weight:700;color:var(--text)">Matched Invoices (${filtered.length})</span>
+          <span style="font-size:10.5px;color:var(--muted)">${start && end ? `${start} to ${end}` : 'Full ledger span'}</span>
+        </div>
+        ${filtered.length ? `
+          <table style="width:100%;font-size:11px;border-collapse:collapse">
+            <thead>
+              <tr style="color:var(--muted);text-align:left;border-bottom:1px solid var(--line)">
+                <th style="padding:4px 8px">#</th>
+                <th style="padding:4px 8px">Date</th>
+                <th style="padding:4px 8px">Client</th>
+                <th style="padding:4px 8px">Amount</th>
+                <th style="padding:4px 8px">Status</th>
+              </tr>
+            </thead>
+            <tbody>${rowsPreview}</tbody>
+          </table>
+        ` : '<div style="padding:14px;text-align:center;font-size:11.5px;color:var(--muted)">No invoices match this date range.</div>'}
+      </div>
+    `;
+  }
+
+  function applyPeriodFilter(presetId, start, end, label) {
+    ui.periodFilter = {
+      preset: presetId || 'custom',
+      start: start || null,
+      end: end || null,
+      label: label || (start && end ? `${start} — ${end}` : 'All Time')
+    };
+    closeDialogSmooth($('#invoPeriodSelectorDlg'));
+    toast('Reporting period applied: ' + ui.periodFilter.label, 'ok');
+    if (ui.currentPage === 'dashboard') {
+      app.innerHTML = dashboardHTML();
+    } else {
+      render();
+    }
+  }
+
+  function resetPeriodFilter() {
+    ui.periodFilter = { preset: 'all', start: null, end: null, label: 'All Time' };
+    closeDialogSmooth($('#invoPeriodSelectorDlg'));
+    toast('Period filter reset to All Time', 'info');
+    if (ui.currentPage === 'dashboard') {
+      app.innerHTML = dashboardHTML();
+    } else {
+      render();
+    }
+  }
+
   function openGstSummaryDlg() {
     const dlg = $('#gstSummaryDlg');
     if (!dlg) return;
@@ -14929,6 +15299,7 @@ dialog.zf-closing::backdrop {
       { id: 'act-new-inv', title: 'Create New Invoice', category: 'Quick Actions', icon: 'plus', handler: () => { ed = null; navigate('editor', {}); } },
       { id: 'act-jamia-claim', title: 'Launch Consultant / Jamia Claim', category: 'Quick Actions', icon: 'doc', handler: () => { ed = null; navigate('editor', { prefillDocType: 'claim' }); } },
       { id: 'act-record-payment', title: 'Record Payment Settlement', category: 'Quick Actions', icon: 'card', handler: () => { navigate('payment', {}); } },
+      { id: 'act-filter-period', title: 'Filter Ledger by Date & Fiscal Period', category: 'Quick Actions', icon: 'clock', handler: () => { openPeriodSelectorDlg(); } },
       { id: 'act-gst-summary', title: 'Open GST & CFO Tax Summary', category: 'Tax & Compliance', icon: 'chart', handler: () => { openGstSummaryDlg(); } },
       { id: 'act-export-gstr1', title: 'Export CA-Ready GSTR-1 CSV', category: 'Tax & Compliance', icon: 'down', handler: () => { exportGstr1Csv(); } },
       { id: 'act-switch-layout', title: 'Switch UI Layout (Invowise ↔ CashFund)', category: 'Preferences', icon: 'layout', handler: () => { const l = (S.settings.layout === 'cashfund' ? 'invowise' : 'cashfund'); applyLayout(l); persist(); } },
@@ -15575,6 +15946,46 @@ dialog.zf-closing::backdrop {
         executeCmdAction(idx);
         break;
       }
+      case 'open-period-selector':
+        openPeriodSelectorDlg();
+        break;
+      case 'close-period-selector':
+        closeDialogSmooth($('#invoPeriodSelectorDlg'));
+        break;
+      case 'select-period-preset': {
+        const pid = b.dataset.presetId;
+        const st = b.dataset.start || '';
+        const en = b.dataset.end || '';
+        const lbl = b.dataset.label || 'Filtered Period';
+        const sInput = $('#periodCustomStart');
+        const eInput = $('#periodCustomEnd');
+        if (sInput && eInput) {
+          sInput.value = st;
+          eInput.value = en;
+        }
+        renderPeriodSummary(st, en);
+        document.querySelectorAll('.period-preset-pill').forEach(el => el.classList.remove('active'));
+        b.classList.add('active');
+        break;
+      }
+      case 'apply-custom-period': {
+        const sInput = $('#periodCustomStart');
+        const eInput = $('#periodCustomEnd');
+        const activePill = document.querySelector('.period-preset-pill.active');
+        const pid = activePill ? activePill.dataset.presetId : 'custom';
+        const st = sInput ? sInput.value : '';
+        const en = eInput ? eInput.value : '';
+        let lbl = activePill ? activePill.dataset.label : (st && en ? `${st} — ${en}` : 'Custom Period');
+        if (!st && !en && pid === 'all') {
+          resetPeriodFilter();
+          return;
+        }
+        applyPeriodFilter(pid, st, en, lbl);
+        break;
+      }
+      case 'reset-period-filter':
+        resetPeriodFilter();
+        break;
       case 'open-gst-summary':
         openGstSummaryDlg();
         break;
