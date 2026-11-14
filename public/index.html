@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-gdw0pYBkrjWME9GT0M0VXsjXUOvYTq30UaW9nK3/wCs=' 'sha256-qs/YbYExYPsGBOk6zIyQbCeD0SJLAuRIabkGUuVZ7ds='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-zEQlIiIpErd6TRGl0teQ2b9jhHEWlX48VvOqFtsLrT0=' 'sha256-AFeDurV5YA0l8cPO0xM+gTU5g0qFXp7XgpF77H3VGp8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -10578,6 +10578,7 @@ dialog.zf-closing::backdrop {
   /* ---------- A4 invoice paper ---------- */
   function renderPaper(inv,opts){
     opts=opts||{};const st=S.settings,b=st.business,L=T[inv.lang]||T.en,c=calc(inv),es=effStatus(inv);
+    const isEditable = opts.editable !== false && !opts.forPrint && !opts.forShare;
     const t=Object.assign({},c,{grand:c.total/100});
     const sellerName=((inv.seller&&inv.seller.name)||b.name||getActiveUserDisplayName()).trim();
     const tpl = inv.template || st.defaultTemplate || 'classic';
@@ -10596,10 +10597,23 @@ dialog.zf-closing::backdrop {
     const lbl=k=>(st.bilingualPrint&&inv.lang!=='en'&&L[k]!==T.en[k])?`${L[k]} / ${T.en[k]}`:L[k];
     const qtyF=q=>D(String(+num(q).toFixed(3)));
     const rateF=r=>{const n=num(r);const dec=(String(r).split('.')[1]||'').length;return dec>2?`<span class="num">${esc(inv.currency+' '+n.toFixed(3))}</span>`:M(toMinor(r))};
-    const rows=inv.items.filter(it=>it.desc.trim()||num(it.rate)>0).map(it=>{
+    const rows=inv.items.filter(it=>isEditable||it.desc.trim()||num(it.rate)>0).map((it,idx)=>{
       const hsnTag=it.hsn?` <span style="font-size:11px;color:var(--sub)">[HSN/SAC: ${esc(it.hsn)}]</span>`:'';
-      return `<tr><td class="d">${esc(it.desc)}${hsnTag}</td><td class="n"><span class="num">${esc(qtyF(it.qty))}</span></td><td class="n">${rateF(it.rate)}</td><td class="n">${M(lineAmt(it))}</td></tr>`;
+      if(isEditable){
+        return `<tr data-row-idx="${idx}">
+          <td class="d" style="position:relative">
+            <div data-inline-item="desc" data-row-idx="${idx}" contenteditable="true" title="Click to edit description" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px;display:inline-block;width:calc(100% - 24px)">${esc(it.desc||'Service Item')}</div>${hsnTag}
+            <button type="button" class="inline-item-del-btn" data-act="inline-del-row" data-row-idx="${idx}" title="Delete item" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);border:none;background:rgba(239,68,68,0.1);color:#ef4444;border-radius:4px;width:18px;height:18px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;line-height:1">×</button>
+          </td>
+          <td class="n"><span class="num" data-inline-item="qty" data-row-idx="${idx}" contenteditable="true" title="Click to edit quantity" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px">${esc(qtyF(it.qty))}</span></td>
+          <td class="n"><span class="num" data-inline-item="rate" data-row-idx="${idx}" contenteditable="true" title="Click to edit unit rate" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px">${esc(String(it.rate||0))}</span></td>
+          <td class="n">${M(lineAmt(it))}</td>
+        </tr>`;
+      }else{
+        return `<tr><td class="d">${esc(it.desc)}${hsnTag}</td><td class="n"><span class="num">${esc(qtyF(it.qty))}</span></td><td class="n">${rateF(it.rate)}</td><td class="n">${M(lineAmt(it))}</td></tr>`;
+      }
     }).join('');
+    const addRowTr = isEditable ? `<tr class="inline-add-row-tr"><td colspan="4" style="padding:6px 0;border:none"><button type="button" class="inline-add-item-btn" data-act="inline-add-row" title="Add item directly to table" style="background:transparent;border:1px dashed rgba(255,87,51,0.4);color:#ff5733;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:4px">+ Add Line Item</button></td></tr>` : '';
     const biz=b.name?esc(b.name):(opts.preview?'<span class="ph">Your business name</span>':'');
     const bizLines=[b.address,b.state?('State: '+b.state):'',b.email,b.phone,b.taxId?((b.taxIdLabel||L.taxId)+': '+b.taxId):''].filter(Boolean).join('\n');
     const cl=inv.client;
@@ -10693,10 +10707,10 @@ dialog.zf-closing::backdrop {
         <div class="p-title"><h2>${esc(title)}</h2><div class="no"><span class="num">${esc(D(inv.number))}</span></div>${stampHTML}</div>
       </div>
       <div class="p-meta">
-        <div><h3>${esc(clientHeadingLabel)}</h3><div class="cn">${cl.name?esc(cl.name):(opts.preview?'<span class="ph">Client name</span>':'')}</div><div class="cs">${esc(clLines)}</div></div>
-        <dl class="p-dates" style="margin:0"><dt>${esc(lbl('issued'))}</dt><dd>${esc(D(fmtDate(inv.issue,inv.lang)))}</dd><dt>${esc(dueDateLabel)}</dt><dd>${esc(D(fmtDate(inv.due,inv.lang)))}</dd></dl>
+        <div><h3>${esc(clientHeadingLabel)}</h3>${isEditable ? `<div class="cn" data-inline-field="client.name" contenteditable="true" title="Click to edit client name" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px;margin:-1px -4px">${cl.name ? esc(cl.name) : '<span class="ph">Click to enter client name</span>'}</div><div class="cs" data-inline-field="client.address" contenteditable="true" title="Click to edit address &amp; contact info" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px;margin:-1px -4px;white-space:pre-line">${esc(clLines || 'Click to enter client address / email')}</div>` : `<div class="cn">${cl.name?esc(cl.name):(opts.preview?'<span class="ph">Client name</span>':'')}</div><div class="cs">${esc(clLines)}</div>`}</div>
+        <dl class="p-dates" style="margin:0"><dt>${esc(lbl('issued'))}</dt>${isEditable ? `<dd data-inline-field="issue" contenteditable="true" title="Click to edit issue date (YYYY-MM-DD)" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px">${esc(D(fmtDate(inv.issue, inv.lang)))}</dd>` : `<dd>${esc(D(fmtDate(inv.issue,inv.lang)))}</dd>`}<dt>${esc(dueDateLabel)}</dt>${isEditable ? `<dd data-inline-field="due" contenteditable="true" title="Click to edit due date (YYYY-MM-DD)" style="cursor:text;outline:none;border-radius:4px;padding:1px 4px">${esc(D(fmtDate(inv.due, inv.lang)))}</dd>` : `<dd>${esc(D(fmtDate(inv.due,inv.lang)))}</dd>`}</dl>
       </div>
-      <table class="p-tbl"><thead><tr><th>${esc(lbl('desc'))}</th><th class="n">${esc(lbl('qty'))}</th><th class="n">${esc(lbl('rate'))}</th><th class="n">${esc(lbl('amount'))}</th></tr></thead><tbody>${rows||`<tr><td class="d ph" colspan="4">&nbsp;</td></tr>`}</tbody></table>
+      <table class="p-tbl"><thead><tr><th>${esc(lbl('desc'))}</th><th class="n">${esc(lbl('qty'))}</th><th class="n">${esc(lbl('rate'))}</th><th class="n">${esc(lbl('amount'))}</th></tr></thead><tbody>${rows||`<tr><td class="d ph" colspan="4">&nbsp;</td></tr>`}${addRowTr}</tbody></table>
       <div class="p-tot">
         <div><span>${esc(lbl('subtotal'))}</span>${M(c.sub)}</div>
         ${c.disc>0?`<div><span>${esc(discLabel)}</span><span class="num">−${esc(fmtMoney(c.disc,inv.currency))}</span></div>`:''}
@@ -12941,6 +12955,13 @@ dialog.zf-closing::backdrop {
         <button type="button" class="btn sm" data-act="make-delivery-challan" data-id="${esc(inv.id)}">📦 Delivery Challan</button>
       `:''}
       ${(es==='paid'&&inv.title!=='receipt')?`<button type="button" class="btn sm" data-act="make-receipt" data-id="${esc(inv.id)}" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.25)">🧾 Official Receipt</button>`:''}
+    </div>
+    <div class="a4-interactive-hint" style="margin-bottom:12px;background:rgba(255,87,51,0.08);border:1px dashed rgba(255,87,51,0.35);border-radius:10px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px">
+      <span style="display:flex;align-items:center;gap:6px;color:var(--text)">
+        <span style="font-size:15px">✏️</span>
+        <span><b>Interactive Live Canvas:</b> Click on any text, client name, item, rate or note directly on the invoice below to edit instantly.</span>
+      </span>
+      <span style="font-size:11px;font-weight:700;color:#ff5733;background:rgba(255,87,51,0.12);padding:2px 8px;border-radius:99px;white-space:nowrap">WYSIWYG Active</span>
     </div>
     <div class="paper-frame" id="inspPreviewHost"><div id="inspPaperWrap">${renderPaper(inv,{})}</div></div>
     ${(inv.history&&inv.history.length)?`<div style="font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px"><b>Local activity log (editable browser storage)</b><ul class="pay-list">${inv.history.slice(0,5).map(h=>`<li class="pay-item"><span>${esc(h.action)}</span><span style="color:var(--faint)">${esc(new Date(h.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}))}</span></li>`).join('')}</ul></div>`:''}`;
@@ -15689,6 +15710,24 @@ dialog.zf-closing::backdrop {
     });
   }
 
+  
+  // Inline A4 auto-save on blur
+  document.addEventListener('focusout', e => {
+    const t = e.target;
+    if (t && t.hasAttribute && (t.hasAttribute('data-inline-field') || t.hasAttribute('data-inline-item'))) {
+      persist();
+      if (ui.currentPage === 'invoices') {
+        const curInv = S.invoices.find(x => x.id === ui.selectedId);
+        if (curInv) {
+          const row = document.querySelector(`.inv-row[data-id="${esc(ui.selectedId)}"] .c-client b bdi`);
+          if (row) row.textContent = curInv.client.name || '(No client name)';
+          const amtCell = document.querySelector(`.inv-row[data-id="${esc(ui.selectedId)}"] .c-amt`);
+          if (amtCell) amtCell.textContent = fmtMoney(calc(curInv).total, curInv.currency);
+        }
+      }
+    }
+  });
+
   /* ---------- logo upload ---------- */
   $('#logoFile').addEventListener('change',e=>{
     const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
@@ -15987,6 +16026,53 @@ dialog.zf-closing::backdrop {
   /* ---------- single delegated event listeners on document ---------- */
   document.addEventListener('input',e=>{
     const t=e.target;
+    // Inline A4 WYSIWYG Editing: live input handler
+    const inlineField = t.getAttribute && (t.getAttribute('data-inline-field') || t.getAttribute('data-inline-item'));
+    if (inlineField) {
+      const activeInv = (ui.currentPage === 'editor' && ed) ? ed.inv : S.invoices.find(x => x.id === ui.selectedId);
+      if (activeInv) {
+        const val = t.innerText;
+        if (inlineField === 'client.name') {
+          activeInv.client.name = val.trim();
+        } else if (inlineField === 'client.address') {
+          activeInv.client.address = val.trim();
+        } else if (inlineField === 'issue') {
+          if (parseISO(val.trim())) activeInv.issue = val.trim();
+        } else if (inlineField === 'due') {
+          if (parseISO(val.trim())) activeInv.due = val.trim();
+        } else if (inlineField === 'notes') {
+          activeInv.notes = val;
+        } else if (inlineField === 'payment') {
+          activeInv.payment = val;
+        } else if (t.hasAttribute('data-inline-item')) {
+          const rowIdx = parseInt(t.getAttribute('data-row-idx'), 10);
+          const field = t.getAttribute('data-inline-item');
+          if (activeInv.items && activeInv.items[rowIdx]) {
+            if (field === 'desc') activeInv.items[rowIdx].desc = val.trim();
+            else if (field === 'qty') activeInv.items[rowIdx].qty = val.trim().replace(/[^\d.]/g, '') || '1';
+            else if (field === 'rate') activeInv.items[rowIdx].rate = val.trim().replace(/[^\d.]/g, '') || '0';
+            
+            // Live update line amount and totals without losing focus!
+            const rowEl = t.closest('tr');
+            if (rowEl) {
+              const amtCell = rowEl.querySelector('td:last-child');
+              if (amtCell) amtCell.innerHTML = `<span class="num">${esc(fmtMoney(lineAmt(activeInv.items[rowIdx]), activeInv.currency))}</span>`;
+            }
+            const c = calc(activeInv);
+            const totalEl = document.querySelector('.p-tot');
+            if (totalEl) {
+              const M = n => `<span class="num">${esc(fmtMoney(n, activeInv.currency))}</span>`;
+              const subtotalSpan = totalEl.querySelector('div:first-child');
+              if (subtotalSpan) subtotalSpan.innerHTML = `<span>${esc(T[activeInv.lang] ? T[activeInv.lang].subtotal : 'Subtotal')}</span>${M(c.sub)}`;
+              const grandSpan = totalEl.querySelector('.g');
+              if (grandSpan) grandSpan.innerHTML = `<span>${esc(effStatus(activeInv)==='paid'||activeInv.title==='receipt'?'Total':'Amount Due')}</span>${M(effStatus(activeInv)==='paid'||activeInv.title==='receipt'?c.total:c.balanceMinor)}`;
+            }
+          }
+        }
+        if (ed) ed.dirty = true;
+      }
+      return;
+    }
     if(t.closest && t.closest('#workspaceSetupDlg')){ if(typeof updateWsLivePreview==='function') updateWsLivePreview(); }
     if(t.closest('#consultantClaimForm')){ calcClaimLive(); return; }
     if(t.dataset && t.dataset.actChange === 'pick-custom-hex' && ed) {
@@ -16342,7 +16428,32 @@ dialog.zf-closing::backdrop {
         render();
         break;
       }
-            case 'toggle-dash-custom':{
+            case 'inline-add-row':{
+        const activeInv = (ui.currentPage === 'editor' && ed) ? ed.inv : S.invoices.find(x => x.id === ui.selectedId);
+        if (activeInv) {
+          activeInv.items.push({ desc: 'New Line Item', hsn: '', qty: '1', rate: '100.00', taxRate: '', taxExempt: false });
+          persist();
+          if (ui.currentPage === 'editor') updatePreview();
+          else renderInspector();
+          toast('Added new item row directly on A4 sheet', 'ok');
+        }
+        break;
+      }
+      case 'inline-del-row':{
+        const rowIdx = parseInt(b.getAttribute('data-row-idx'), 10);
+        const activeInv = (ui.currentPage === 'editor' && ed) ? ed.inv : S.invoices.find(x => x.id === ui.selectedId);
+        if (activeInv && activeInv.items && activeInv.items.length > 1) {
+          activeInv.items.splice(rowIdx, 1);
+          persist();
+          if (ui.currentPage === 'editor') updatePreview();
+          else renderInspector();
+          toast('Removed line item', 'info');
+        } else {
+          toast('Invoice must have at least one line item', 'err');
+        }
+        break;
+      }
+      case 'toggle-dash-custom':{
         ui.isCustomizingDashboard = !ui.isCustomizingDashboard;
         render();
         break;
@@ -17645,23 +17756,41 @@ dialog.zf-closing::backdrop {
         toast('Generating invoice with Gemini AI...','info');
         try {
           const aiData = await generateInvoiceWithGeminiAI(val);
-          const inv = newInvoice(aiData.client);
-          if(Array.isArray(aiData.items)&&aiData.items.length){
-            inv.items = aiData.items.map(it=>({ desc: it.desc||'Service', hsn:'', qty: String(it.qty||1), rate: String(it.rate||0), taxRate:'', taxExempt:false }));
+          const clientObj = (aiData.client && typeof aiData.client === 'object') ? normClient(aiData.client) : normClient({ name: String(aiData.client || 'Client') });
+          const inv = newInvoice(clientObj);
+          if (Array.isArray(aiData.items) && aiData.items.length) {
+            inv.items = aiData.items.map(it => ({
+              desc: it.desc || 'Professional Service',
+              hsn: it.hsn || '',
+              qty: String(it.qty || 1),
+              rate: String(it.rate || 0),
+              taxRate: it.taxRate || '',
+              taxExempt: false
+            }));
           }
-          if(aiData.currency&&CURRENCIES.includes(aiData.currency)) inv.currency = aiData.currency;
+          if (aiData.currency && CURRENCIES.includes(aiData.currency)) inv.currency = aiData.currency;
+          if (aiData.issue && parseISO(aiData.issue)) inv.issue = aiData.issue;
           if (aiData.due && parseISO(aiData.due)) inv.due = aiData.due;
+          if (aiData.notes) inv.notes = String(aiData.notes);
+          if (aiData.taxRate) inv.taxRate = String(aiData.taxRate);
+          if (aiData.isSample || /SAMPLE|DO NOT PAY|TEST/i.test(val + ' ' + (aiData.notes || ''))) {
+            inv.watermark = 'SAMPLE - DO NOT PAY';
+            if (!inv.notes || !inv.notes.includes('SAMPLE')) {
+              inv.notes = (inv.notes ? inv.notes + '\n' : '') + 'SAMPLE - DO NOT PAY · Fictional test document for system verification';
+            }
+          }
           S.settings.defaults.next++;
           S.invoices.unshift(inv);
           persist();
-          navigate('editor', { editId: inv.id, force: true });
+          ui.selectedId = inv.id;
+          navigate('invoices', { selectedId: inv.id, force: true });
           if (aiData && aiData._isFallback) {
-            toast('Created draft from your brief (Offline AI parser — add Gemini Key in Settings for cloud AI)', 'info');
+            toast('Created draft with 5 test items from your brief (Offline AI parser)', 'ok');
           } else {
-            toast('AI invoice created! Opening editor...','ok');
+            toast('AI invoice created! Opening invoice preview...', 'ok');
           }
         } catch(err) {
-          toast('AI error: ' + err.message,'err');
+          toast('AI error: ' + err.message, 'err');
         }
         break;
       }
