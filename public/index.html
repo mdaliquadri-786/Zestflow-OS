@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-f/QzxD6RJof6bfK84yb9AFcLVZcoVTndKVF/AQR5Fb8=' 'sha256-+gZD4kLcW+N9Ak1HEiDVp654snjnDB/2CXorffwMB04='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; manifest-src 'self'; script-src 'sha256-LYgUIiTol6uzVvvzlJC2UBd5J/P29yaXoSCixOj6h6o=' 'sha256-Q7bFT+oaeCBkx+TAPk5dFlDaxf74DE/om7BEQFnu8aA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -16291,6 +16291,7 @@ dialog.zf-closing::backdrop {
     const b=e.target.closest('[data-act]');
     if(!b)return;
     const act=b.dataset.act,id=b.dataset.id;
+    console.log('[DEBUG CLICK ACT]', act);
 
     switch(act){
       case 'open-cmd-palette':
@@ -17750,6 +17751,7 @@ dialog.zf-closing::backdrop {
         break;
       }
       case 'ai-gen-prompt':{
+        console.log('[DEBUG AI GEN PROMPT CASE ENTERED]');
         const promptEl = $('#aiPromptInput');
         const val = promptEl ? promptEl.value.trim() : '';
         if(!val){ toast('Enter an invoice description for AI','err'); break; }
