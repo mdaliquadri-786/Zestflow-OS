@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-rFSsUFuLVK0B6qsSAiZJxL4RrkZx0ms7v6d+TWCGOLM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nsRs/w6KOYqELCZipNLJbxEmEWgIG/3RCguWr8n1pCo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';">
   <link rel="icon" type="image/jpeg" href="assets/logo_2d.jpg">
   <link rel="canonical" href="https://zestflow-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
@@ -10043,7 +10043,7 @@ dialog.zf-closing::backdrop {
   }
 
   async function generateInvoiceWithGeminiAI(userPrompt) {
-    const prompt = 'You are an invoice creation AI. Convert the following user brief into a strict JSON object with fields: "client" (name, email, address), "issue" (YYYY-MM-DD), "due" (YYYY-MM-DD), "currency" (USD or INR), "items" (array of objects with "desc", "qty", "rate"). Return ONLY valid JSON, no markdown.\n\nBrief: ' + userPrompt;
+    const prompt = 'You are an enterprise invoice creation AI. Convert the user brief into a strict JSON object with fields: "client" (object with "name", "email", "address"), "issue" (YYYY-MM-DD), "due" (YYYY-MM-DD), "currency" (USD, INR, EUR, GBP, SAR, AED), "items" (array of objects with "desc", "qty", "rate"), "notes" (string for terms, notes, or watermarks like SAMPLE - DO NOT PAY), "taxRate" (number or string like 10 or 18). If the brief asks for a fake, sample, or test invoice, provide professional synthetic dummy data and ensure math balances. Return ONLY valid JSON, no markdown.\n\nBrief: ' + userPrompt;
     const models = ['gemini-1.5-flash', 'gemini-1.5-flash-8b', 'gemini-2.0-flash'];
     const apiKey = ((S.settings.business && S.settings.business.geminiKey) || GEMINI_CONFIG.key || '').trim();
     if (apiKey && (apiKey.startsWith('AIza') || apiKey.startsWith('AQ.'))) {
@@ -10060,14 +10060,66 @@ dialog.zf-closing::backdrop {
           const rawText = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text;
           if (!rawText) continue;
           const cleanJSON = rawText.replace(/```json|```/g, '').trim();
-          return JSON.parse(cleanJSON);
+          const parsed = JSON.parse(cleanJSON);
+          if (parsed && typeof parsed === 'object') return parsed;
         } catch(err) {
           // try next model in fallback list
         }
       }
     }
-    // Intelligent fallback parser if offline or network failure
+
+    // High-Precision NLP Fallback Parser (Robust against conversational & test prompts)
     const text = String(userPrompt || '').trim();
+    const isSample = /fake|sample|test|mock|fictional|dummy/i.test(text);
+
+    // 1. Client Name Extraction
+    let clientName = '';
+    const likeMatch = text.match(/(?:like|named|called|company\s+name(?:\s+like|\s+as|\s+is)?)\s+['"]?([A-Z][a-zA-Z0-9\s&.,-]+?)['"]?(?=[,.\n]|\s+(?:a\s+fake|and|with|to|for|at|email))/i);
+    if (likeMatch && likeMatch[1]) {
+      clientName = likeMatch[1].trim();
+    }
+    if (!clientName) {
+      const forMatch = text.match(/(?:bill\s+to|invoice\s+for|client(?:\s+name)?(?:\s+is)?)\s+['"]?([A-Z][a-zA-Z0-9\s&.,-]+?)['"]?(?=[,.\n]|\s+(?:with|for|at|amount|due|\$|₹|€|£|\d))/i);
+      if (forMatch && forMatch[1] && !/^(?:me|an\s+app|see\s+if|testing)/i.test(forMatch[1].trim())) {
+        clientName = forMatch[1].trim();
+      }
+    }
+    if (!clientName) {
+      clientName = isSample ? 'Acme Testing Corp' : 'Client from Brief';
+    }
+
+    // 2. Client Email Extraction
+    let email = '';
+    const emailMatch = text.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+    if (emailMatch) {
+      email = emailMatch[1];
+    } else if (/@example\.com/i.test(text)) {
+      email = 'billing@example.com';
+    } else if (isSample) {
+      email = 'accounts@acmetesting.example.com';
+    }
+
+    // 3. Client Address Extraction
+    let address = '';
+    if (/fake\s+address|sample\s+address|made-up\s+address/i.test(text)) {
+      address = '100 Fictional Blvd, Suite 400, Mock City, CA 94016';
+    }
+
+    // 4. Notes / Watermark Extraction
+    let notes = '';
+    const doubleQuoteNote = text.match(/"([^"]*(?:SAMPLE|DO NOT PAY|TEST)[^"]*)"/i);
+    const singleQuoteNote = text.match(/'([^'\n]*(?:SAMPLE|DO NOT PAY|TEST)[^'\n]*)'/i);
+    if (doubleQuoteNote && doubleQuoteNote[1]) {
+      notes = doubleQuoteNote[1].trim();
+    } else if (singleQuoteNote && singleQuoteNote[1]) {
+      notes = singleQuoteNote[1].trim();
+    } else if (/\bSAMPLE\s*-\s*DO\s*NOT\s*PAY\b/i.test(text)) {
+      notes = 'SAMPLE - DO NOT PAY';
+    } else if (isSample) {
+      notes = 'SAMPLE - DO NOT PAY · Fictional test document for system verification';
+    }
+
+    // 5. Currency Extraction
     let cur = (S && S.settings && S.settings.defaults && S.settings.defaults.currency) || 'USD';
     if (/₹|\bINR\b|\brupees?\b|\brs\.?\b/i.test(text)) cur = 'INR';
     else if (/\bSAR\b|\briyals?\b|ر\.س/i.test(text)) cur = 'SAR';
@@ -10076,34 +10128,54 @@ dialog.zf-closing::backdrop {
     else if (/£|\bGBP\b/i.test(text)) cur = 'GBP';
     else if (/\$|\bUSD\b/i.test(text)) cur = 'USD';
 
-    let clientName = 'Client from Brief';
-    const forMatch = text.match(/(?:for|to|client|bill)\s+([A-Z][a-zA-Z0-9\s&.,-]+?)(?=\s+(?:for|at|with|amount|due|on|\$|₹|€|£|\d)|$)/i);
-    if (forMatch && forMatch[1]) clientName = forMatch[1].trim();
-
-    let qty = '1';
-    const qtyMatch = text.match(/\b(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|days?|shifts?|units?|items?|months?|weeks?|qty|x)\b/i);
-    if (qtyMatch && qtyMatch[1]) qty = qtyMatch[1];
-
-    let rate = '1200';
-    const explicitRateMatch = text.match(/(?:[$₹€£]|(?:\b(?:USD|INR|AED|SAR|EUR|GBP|rs\.?)\s*)|@\s*)(\d+(?:,\d{3})*(?:\.\d+)?)/i) ||
-      text.match(/\b(\d+(?:,\d{3})*(?:\.\d+)?)\s*(?:\/\s*(?:hr|hour|day|unit|mo|month|item)|each|per\s+(?:hour|hr|day|unit|month))\b/i);
-    if (explicitRateMatch && explicitRateMatch[1]) {
-      rate = explicitRateMatch[1].replace(/,/g, '');
+    // 6. Items Generation or Extraction
+    let items = [];
+    const randomItemsMatch = text.match(/(?:list\s+of\s+)?(\d+)\s*(?:or\s*(\d+))?\s*(?:random\s+)?items/i);
+    if (randomItemsMatch || (isSample && !text.match(/(\d+)\s*(?:hours?|hrs?|units?|items?)\s*(?:at|@)\s*[$₹€£]?\d+/i))) {
+      const count = randomItemsMatch ? (parseInt(randomItemsMatch[2] || randomItemsMatch[1], 10) || 5) : 5;
+      const sampleCatalogue = [
+        { desc: 'Automated QA & Unit Test Pipeline Verification', qty: '1', rate: '450.00' },
+        { desc: 'Mock API Gateway Integration Testing', qty: '2', rate: '175.00' },
+        { desc: 'Performance Stress & Calculations Benchmark', qty: '4', rate: '85.00' },
+        { desc: 'Synthetic Ledger Compliance Audit', qty: '1', rate: '320.00' },
+        { desc: 'End-to-End Regression Test Suite Validation', qty: '1', rate: '210.00' }
+      ];
+      items = sampleCatalogue.slice(0, Math.min(count, 5));
     } else {
-      const allNums = Array.from(text.matchAll(/\b(\d+(?:,\d{3})*(?:\.\d+)?)\b/g)).map(m => m[1].replace(/,/g, ''));
-      const nonQty = allNums.filter(n => n !== qty);
-      if (nonQty.length) rate = nonQty[nonQty.length - 1];
-      else if (allNums.length) rate = allNums[0];
+      const lines = text.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean);
+      lines.forEach(line => {
+        const qm = line.match(/\b(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|units?|items?|days?|x)\b/i);
+        const rm = line.match(/(?:[$₹€£]|@\s*)(\d+(?:,\d{3})*(?:\.\d+)?)/i);
+        if (qm && rm) {
+          items.push({
+            desc: line.replace(/[$₹€£]\d+(?:,\d{3})*(?:\.\d+)?/g, '').replace(/\b\d+\s*(?:hours?|hrs?|units?|items?|days?|x)\b/gi, '').replace(/^[-*•\s]+/, '').trim() || 'Professional Service',
+            qty: qm[1],
+            rate: rm[1].replace(/,/g, '')
+          });
+        }
+      });
+      if (!items.length) {
+        items.push({ desc: 'Custom Professional Services', qty: '1', rate: '1200.00' });
+      }
+    }
+
+    // 7. Tax Rate Extraction
+    let taxRate = '0';
+    if (/tax/i.test(text)) {
+      const taxMatch = text.match(/(\d+(?:\.\d+)?)\s*%\s*(?:tax|gst|vat)/i) || text.match(/(?:tax|gst|vat)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*%/i);
+      taxRate = taxMatch ? taxMatch[1] : (cur === 'INR' ? '18' : '10');
     }
 
     return {
-      client: { name: clientName, email: '' },
+      client: { name: clientName, email: email, address: address },
       currency: cur,
-      items: [{ desc: text || 'Custom Professional Services', qty: String(qty), rate: String(rate) }],
+      items: items,
+      notes: notes,
+      taxRate: taxRate,
+      isSample: isSample,
       _isFallback: true
     };
   }
-
 
   /* ---------- ONBOARDING & AUTH SCREENS (PURRWEB / INVOWISE / CASHFUND) ---------- */
   function authScreenHTML() {

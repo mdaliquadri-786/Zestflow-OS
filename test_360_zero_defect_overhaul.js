@@ -147,7 +147,7 @@ function createFullSandbox(initialStorage = {}) {
 const env = createFullSandbox();
 
 const instrumentedScript = rawScript.replace(
-  'showBanner();\nrender();\n})();',
+  /showBanner\(\);\s*render\(\);\s*\}\)\(\)\;/, 
   `window.__ZF_FULL__ = {
     S, ui, calc, normInvoice, normSettings,
     toSqlProfilePayload, fromSqlProfilePayload,
@@ -161,9 +161,13 @@ const instrumentedScript = rawScript.replace(
   })();`
 );
 
-new Function('window', 'document', 'navigator', 'location', 'localStorage', 'sessionStorage', 'setTimeout', 'clearTimeout', instrumentedScript)(
-  env.win, env.doc, {}, env.win.location, env.win.localStorage, env.win.sessionStorage, setTimeout, clearTimeout
-);
+try {
+  new Function('window', 'document', 'navigator', 'location', 'localStorage', 'sessionStorage', 'setTimeout', 'clearTimeout', instrumentedScript)(
+    env.win, env.doc, {}, env.win.location, env.win.localStorage, env.win.sessionStorage, setTimeout, clearTimeout
+  );
+} catch (err) {
+  console.error("EXECUTION ERROR IN INSTRUMENTED SCRIPT:", err);
+}
 
 const zf = env.win.__ZF_FULL__;
 assert.ok(zf, 'Instrumented symbols must be exported into __ZF_FULL__');
