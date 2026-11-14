@@ -459,15 +459,17 @@ check(6, 1, 'csvCell neutralizes Excel/Sheets formula injection (=, +, -, @, \\t
   isSanitized(zf.csvCell('\rcalc')),
   true, true);
 
-const computedScriptHash = 'sha256-' + crypto.createHash('sha256').update(rawScript, 'utf8').digest('base64');
+const rawLf = rawScript.replace(/\r\n/g, '\n');
+const rawCrlf = rawScript.replace(/\r?\n/g, '\r\n');
+const hashLf = 'sha256-' + crypto.createHash('sha256').update(rawLf, 'utf8').digest('base64');
+const hashCrlf = 'sha256-' + crypto.createHash('sha256').update(rawCrlf, 'utf8').digest('base64');
+
 const cspMatch = html.match(/<meta[^>]*http-equiv="Content-Security-Policy"[^>]*content="([^"]*)"/i);
 const declaredCsp = cspMatch ? cspMatch[1] : '';
-const declaredHashMatch = declaredCsp.match(/'(sha256-[^']+)'/);
-const declaredScriptHash = declaredHashMatch ? declaredHashMatch[1] : '';
 
-check(6, 2, 'Strict CSP meta tag matches byte-for-byte SHA-256 digest of inline <script>',
-  computedScriptHash === declaredScriptHash,
-  computedScriptHash, declaredScriptHash);
+check(6, 2, 'Strict CSP meta tag matches byte-for-byte SHA-256 digest of inline <script> across LF and CRLF',
+  declaredCsp.includes(hashLf) && declaredCsp.includes(hashCrlf),
+  true, true);
 
 const scriptSrcMatch = declaredCsp.match(/script-src[^;]+/i);
 const scriptSrc = scriptSrcMatch ? scriptSrcMatch[0] : '';

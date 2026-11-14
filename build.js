@@ -44,13 +44,15 @@ try {
   const htmlPath = path.join(publicDir, 'index.html');
   if (fs.existsSync(htmlPath)) {
     const html = fs.readFileSync(htmlPath, 'utf8');
-    const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+    const scriptMatch = html.match(/<script(?![^>]*type=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/i);
     if (scriptMatch) {
-      const hash = crypto.createHash('sha256').update(scriptMatch[1]).digest('base64');
-      if (!html.includes(`sha256-${hash}`)) {
-        console.warn('[BUILD WARNING] CSP script hash mismatch in index.html!');
+      const raw = scriptMatch[1];
+      const lfHash = crypto.createHash('sha256').update(raw.replace(/\r\n/g, '\n')).digest('base64');
+      const crlfHash = crypto.createHash('sha256').update(raw.replace(/\r?\n/g, '\r\n')).digest('base64');
+      if (!html.includes(`sha256-${lfHash}`) || !html.includes(`sha256-${crlfHash}`)) {
+        console.warn('[BUILD WARNING] CSP script hash missing (LF or CRLF) in index.html!');
       } else {
-        console.log(`[BUILD] CSP script SHA-256 verified: sha256-${hash}`);
+        console.log(`[BUILD] Dual-platform CSP verified: LF(sha256-${lfHash}) & CRLF(sha256-${crlfHash})`);
       }
     }
   }
